@@ -1,6 +1,7 @@
 package DataAccessLayer;
 
-public class DALController
+public class
+DALController
 {
     // TODO IMPLEMENT
     public void execute()

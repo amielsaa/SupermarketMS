@@ -1,4 +1,4 @@
-package BusinessLayer.Objects;
+package BusinessLayer;
 
 public class WorkingConditions
 {
