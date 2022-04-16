@@ -1,4 +1,4 @@
-package BusinessLayer.Controllers;
+package BusinessLayer;
 
 public class ShiftController
 {
