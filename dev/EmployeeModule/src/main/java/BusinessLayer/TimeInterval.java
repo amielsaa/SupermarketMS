@@ -1,8 +1,7 @@
 package BusinessLayer;
 
 import Utilities.LegalTimeException;
-import com.sun.istack.internal.NotNull;
-
+import org.jetbrains.annotations.NotNull;
 import java.time.LocalDateTime;
 
 public class TimeInterval

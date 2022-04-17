@@ -3,7 +3,7 @@ package BusinessLayer;
 import BusinessLayer.*;
 import DataAccessLayer.DALController;
 import Utilities.Response;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class ShiftController
         // TODO: implement getting data from DAL
     }
 
-    public Response<Shift> addShift(@NotNull int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
+    public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
                                     @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime){
         if(shifts.containsKey(new ShiftId(branchId, date, shiftTime))){
             return Response.makeFailure("this shift already exists");

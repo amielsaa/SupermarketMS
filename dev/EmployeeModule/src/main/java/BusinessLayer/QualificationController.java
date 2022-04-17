@@ -4,7 +4,7 @@ import BusinessLayer.Permission;
 import BusinessLayer.Qualification;
 import DataAccessLayer.DALController;
 import Utilities.Response;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
