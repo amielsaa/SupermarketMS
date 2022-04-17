@@ -12,7 +12,7 @@ public class TimeInterval
 
     //TODO: check null inputs
 
-    public TimeInterval(@NotNull LocalDateTime start, @NotNull LocalDateTime end) throws LegalTimeException {
+    protected TimeInterval(@NotNull LocalDateTime start, @NotNull LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }

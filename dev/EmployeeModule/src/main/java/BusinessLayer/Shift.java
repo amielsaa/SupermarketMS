@@ -30,7 +30,6 @@ public class Shift
         return shiftManager;
     }
 
-    //TODO: check if needed to let other layers to mutate this object
     protected void addWorker(@NotNull Employee employee, List<Qualification> qualifications){
         workers.put(employee, qualifications);
     }

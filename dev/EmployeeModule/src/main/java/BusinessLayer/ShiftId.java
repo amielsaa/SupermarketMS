@@ -20,11 +20,19 @@ public class ShiftId
         return branchId;
     }
 
+    /**
+     *
+     * @return date of the shift
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
-    public ShiftTime getTime() {
+    /**
+     *
+     * @return time of day (DAY, NIGHT)
+     */
+    public ShiftTime getShiftTime() {
         return time;
     }
 }

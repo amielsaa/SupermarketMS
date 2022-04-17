@@ -37,8 +37,6 @@ public class Qualification
         permissions.remove(permission);
     }
 
-
-    //TODO check if compareTo is needed, for now implementing Equals; Edit the "equals" method if needed; for now the name is the ID
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

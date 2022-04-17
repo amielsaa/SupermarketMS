@@ -15,7 +15,6 @@ public class QualificationController
     private List<Qualification> qualifications;
     //general list of permissions; if a qualification gives such permission then it is in the qualification's list
     private List<Permission> permissions;
-
     public QualificationController(DALController dalController){
         //TODO make a call to DAL to restore the state
         dalController.execute();
@@ -111,4 +110,21 @@ public class QualificationController
         q.addPermission(p);
         return  Response.makeSuccess(q);
     }
+
+    public Response<Qualification> removePermissionFromQualification(String permName, String qualName){
+        Response<Qualification> res1 = getQualification(qualName);
+        if(!res1.isSuccess()){
+            return Response.makeFailure("no qualification with such name");
+        }
+        Qualification q = res1.getData();
+        Response<Permission> res2 = getPermission(permName);
+        if(!res2.isSuccess()){
+            return Response.makeFailure("no permission with such name");
+        }
+        Permission p = res2.getData();
+        q.removePermission(p);
+        return  Response.makeSuccess(q);
+    }
+
+
 }

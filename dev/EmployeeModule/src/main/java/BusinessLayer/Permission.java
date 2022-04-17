@@ -1,16 +1,18 @@
 package BusinessLayer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class Permission
 {
     private String name;
 
-    public Permission(String _name){
+    public Permission(@NotNull String _name){
         name = _name;
     }
 
-    //TODO check if compareTo is needed, for now implementing Equals; Edit the equals method if needed
+    //TODO: check if compareTo is needed, for now implementing Equals; Edit the equals method if needed
 
     public String getName() {
         return name;
