@@ -39,16 +39,9 @@ public class EmployeeController
     public Response<Employee> removeEmployee(int id) {
         // TODO database integration
         // removing first occurrence
-        Employee removedE = null;
-        Iterator<Employee> i = employees.iterator();
-        while(i.hasNext())
-        {
-            Employee e = i.next();
-            if(e.getId() == id)
-            {
-                removedE = e;
-                break;
-            }
+        Employee removedE = findEmployeeById(id);
+        if(removedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
         }
         Response<Employee> databaseResponse = DALController.removeEmployee(removedE);
         if(databaseResponse.isSuccess())
@@ -68,38 +61,127 @@ public class EmployeeController
     }
 
     public Response<String> updateEmployeeName(int id, String newName) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<String> databaseResponse = DALController.employeeUpdateName(updatedE, newName);
+        if(databaseResponse.isSuccess())
+        {
+            updatedE.setName(databaseResponse.getData());
+        }
+        return databaseResponse;
     }
 
     public Response<Double> updateEmployeeSalary(int id, double newSalary) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<Double> databaseResponse = DALController.employeeUpdateSalary(updatedE, newSalary);
+        if(databaseResponse.isSuccess())
+        {
+            updatedE.setSalary(databaseResponse.getData());
+        }
+        return databaseResponse;
     }
 
     public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, BankAccountDetails newBankAccountDetails) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<BankAccountDetails> databaseResponse = DALController.employeeUpdateBankAccountDetails(updatedE, newBankAccountDetails);
+        if(databaseResponse.isSuccess())
+        {
+            updatedE.setBankAccountDetails(databaseResponse.getData());
+        }
+        return databaseResponse;
     }
 
     public Response<TimeInterval> employeeAddWorkingHour(int id, LocalDateTime start, LocalDateTime end) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<TimeInterval> newWorkingHour = updatedE.getWorkingConditions().addWorkingHour(start, end);
+        if(!newWorkingHour.isSuccess()) {
+            return newWorkingHour;
+        }
+        Response<TimeInterval> databaseResponse = DALController.employeeAddWorkingHour(updatedE, newWorkingHour.getData());
+        return databaseResponse;
     }
 
     public Response<TimeInterval> employeeRemoveWorkingHour(int id, LocalDateTime start) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<TimeInterval> removedWorkingHour = updatedE.getWorkingConditions().removeWorkingHour(start);
+        if(!removedWorkingHour.isSuccess()) {
+            return removedWorkingHour;
+        }
+        Response<TimeInterval> databaseResponse = DALController.employeeRemoveWorkingHour(updatedE, removedWorkingHour.getData());
+        return databaseResponse;
     }
 
     public Response<Qualification> employeeAddQualification(int id, Qualification qualification) {
-        // TODO IMPLEMENT
         // from service layer call the QualificationController and fetch it by name.
         // then call this with that qualification
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<Qualification> newQualification = updatedE.getWorkingConditions().addQualification(qualification);
+        if(!newQualification.isSuccess()) {
+            return newQualification;
+        }
+        Response<Qualification> databaseResponse = DALController.employeeAddQualification(updatedE, newQualification.getData());
+        return databaseResponse;
     }
 
     public Response<Qualification> employeeRemoveQualification(int id, String name) {
-        // TODO IMPLEMENT
+        // TODO database integration
+        // update first occurrence
+        Employee updatedE = findEmployeeById(id);
+
+        if(updatedE == null) {
+            return Response.makeFailure("No employee with this id found. ");
+        }
+        Response<Qualification> removedQualification = updatedE.getWorkingConditions().removeQualification(name);
+        if(!removedQualification.isSuccess()) {
+            return removedQualification;
+        }
+        Response<Qualification> databaseResponse = DALController.employeeRemoveQualification(updatedE, removedQualification.getData());
+        return databaseResponse;
     }
 
-
-
-
-
-    // TODO IMPLEMENT
+    private Employee findEmployeeById(int id) {
+        Iterator<Employee> i = employees.iterator();
+        while(i.hasNext())
+        {
+            Employee e = i.next();
+            if(e.getId() == id)
+            {
+                return e;
+            }
+        }
+        // if not found return null
+        return null;
+    }
 }
