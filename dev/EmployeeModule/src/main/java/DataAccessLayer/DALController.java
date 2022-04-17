@@ -1,9 +1,9 @@
 package DataAccessLayer;
 
-import BusinessLayer.Objects.BankAccountDetails;
-import BusinessLayer.Objects.Employee;
-import BusinessLayer.Objects.Qualification;
-import BusinessLayer.Objects.TimeInterval;
+import BusinessLayer.BankAccountDetails;
+import BusinessLayer.Employee;
+import BusinessLayer.Qualification;
+import BusinessLayer.TimeInterval;
 import Utilities.Response;
 
 public class DALController

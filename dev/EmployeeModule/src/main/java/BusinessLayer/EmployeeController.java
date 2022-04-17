@@ -1,23 +1,22 @@
-package BusinessLayer.Controllers;
+package BusinessLayer;
 
-import BusinessLayer.Objects.*;
 import DataAccessLayer.DALController;
 import Utilities.Response;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class EmployeeController
 {
     private List<Employee> employees;
 
-    public List<Employee> getEmployees() {
-        return Collections.unmodifiableList(employees);
+    public EmployeeController(@NotNull DALController dalController) {
+        dalController.execute();
+        employees = new ArrayList<Employee>();
     }
 
-    public Response<Employee> addEmployee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, String workingConditionsDescription) {
+    public Response<Employee> addEmployee(int id, @NotNull String name, @NotNull BankAccountDetails bankAccountDetails, double salary, @NotNull LocalDateTime workStartingDate, @NotNull String workingConditionsDescription) {
         // TODO database integration
         for(Employee e : employees)
         {
@@ -60,7 +59,7 @@ public class EmployeeController
         return Response.makeFailure("No employee with this id found. ");
     }
 
-    public Response<String> updateEmployeeName(int id, String newName) {
+    public Response<String> updateEmployeeName(int id, @NotNull String newName) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -90,7 +89,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, BankAccountDetails newBankAccountDetails) {
+    public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, @NotNull BankAccountDetails newBankAccountDetails) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -105,7 +104,8 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<TimeInterval> employeeAddWorkingHour(int id, LocalDateTime start, LocalDateTime end) {
+    public Response<TimeInterval> employeeAddWorkingHour(int id, @NotNull LocalDateTime start, @NotNull LocalDateTime end)
+    {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -121,7 +121,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<TimeInterval> employeeRemoveWorkingHour(int id, LocalDateTime start) {
+    public Response<TimeInterval> employeeRemoveWorkingHour(int id, @NotNull LocalDateTime start) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -155,7 +155,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<Qualification> employeeRemoveQualification(int id, String name) {
+    public Response<Qualification> employeeRemoveQualification(int id, @NotNull String name) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);

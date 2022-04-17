@@ -1,5 +1,6 @@
-package BusinessLayer.Objects;
+package BusinessLayer;
 
+import Utilities.LegalTimeException;
 import Utilities.Response;
 
 import java.time.LocalDateTime;
@@ -38,8 +39,13 @@ public class WorkingConditions
 
         protected Response<TimeInterval> addWorkingHour(LocalDateTime start, LocalDateTime end)
         {
-            TimeInterval newWh = new TimeInterval(start, end);
-
+            TimeInterval newWh;
+            try
+            {
+                newWh = new TimeInterval(start, end);
+            } catch (LegalTimeException e) {
+                return Response.makeFailure("Start time is illegal. ");
+            }
             for(TimeInterval wh : workingHours) {
                 if(wh.isOverlapping(newWh)) {
                     return Response.makeFailure("Cannot create time overlapping with: " + wh.toString() + ". ");

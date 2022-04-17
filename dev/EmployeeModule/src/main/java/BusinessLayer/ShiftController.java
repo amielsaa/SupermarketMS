@@ -1,6 +1,6 @@
-package BusinessLayer.Controllers;
+package BusinessLayer;
 
-import BusinessLayer.Objects.*;
+import BusinessLayer.*;
 import DataAccessLayer.DALController;
 import Utilities.Response;
 import org.jetbrains.annotations.NotNull;
