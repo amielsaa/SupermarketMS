@@ -1,17 +1,19 @@
 package BusinessLayer.Objects;
 
+import Utilities.LegalTimeException;
+import org.jetbrains.annotations.NotNull;
 import java.time.LocalDateTime;
 
 public class TimeInterval
 {
-    // TODO IMPLEMENT
-
     private LocalDateTime start;
     private LocalDateTime end;
 
-    protected TimeInterval(LocalDateTime start, LocalDateTime end) {
-        if(start.isAfter(end)) {
-            throw new IllegalArgumentException("Start argument cannot be later than end argument. ");
+    //TODO: check null inputs
+
+    protected TimeInterval(@NotNull LocalDateTime start, @NotNull LocalDateTime end) throws LegalTimeException {
+        if(start.isAfter(end)){
+            throw new LegalTimeException("The start of the interval can't be after the end");
         }
         this.start = start;
         this.end = end;
@@ -21,7 +23,10 @@ public class TimeInterval
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(@NotNull LocalDateTime start) throws LegalTimeException {
+        if(start.isAfter(end)){
+            throw new LegalTimeException("The start of the interval can't be after the end");
+        }
         this.start = start;
     }
 
@@ -29,26 +34,19 @@ public class TimeInterval
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(@NotNull LocalDateTime end) throws LegalTimeException {
+        if(start.isAfter(end)){
+            throw new LegalTimeException("The start of the interval can't be after the end");
+        }
         this.end = end;
     }
 
-    public boolean isOverlapping(TimeInterval other) {
-        // TODO IMPLEMENT
-        return true;
+    public boolean isOverlapping(@NotNull TimeInterval other){
+
+        if(this.getEnd().isBefore(other.getStart()) || this.getEnd().isEqual(other.getEnd())){
+            return false;
+        }
+        else return !other.getEnd().isBefore(this.getStart()) && !other.getEnd().isEqual(this.getEnd());
     }
 
-    public boolean isOverlapping(LocalDateTime time) {
-        // TODO IMPLEMENT
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "TimeInterval{" +
-                "start=" + start +
-                ", end=" + end +
-                '}';
-    }
 }
