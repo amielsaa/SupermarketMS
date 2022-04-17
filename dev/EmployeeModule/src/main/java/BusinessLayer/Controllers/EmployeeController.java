@@ -1,6 +1,6 @@
-package BusinessLayer;
+package BusinessLayer.Controllers;
 
-import BusinessLayer.*;
+import BusinessLayer.Objects.*;
 import DataAccessLayer.DALController;
 import Utilities.Response;
 

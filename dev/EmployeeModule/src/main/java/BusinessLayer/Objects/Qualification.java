@@ -1,4 +1,4 @@
-package BusinessLayer;
+package BusinessLayer.Objects;
 
 import java.util.Collections;
 import java.util.List;

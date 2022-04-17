@@ -1,4 +1,4 @@
-package BusinessLayer;
+package BusinessLayer.Objects;
 
 public enum ShiftTime
 {
