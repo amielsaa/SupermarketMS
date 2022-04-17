@@ -1,4 +1,4 @@
-package BusinessLayer;
+package BusinessLayer.Objects;
 
 import org.jetbrains.annotations.NotNull;
 

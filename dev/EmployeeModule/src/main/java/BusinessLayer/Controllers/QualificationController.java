@@ -1,7 +1,7 @@
-package BusinessLayer;
+package BusinessLayer.Controllers;
 
-import BusinessLayer.Permission;
-import BusinessLayer.Qualification;
+import BusinessLayer.Objects.Permission;
+import BusinessLayer.Objects.Qualification;
 import DataAccessLayer.DALController;
 import Utilities.Response;
 import org.jetbrains.annotations.NotNull;

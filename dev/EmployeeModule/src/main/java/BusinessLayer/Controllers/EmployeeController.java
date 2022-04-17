@@ -1,6 +1,4 @@
-package BusinessLayer;
-
-import BusinessLayer.Employee;
+package BusinessLayer.Controllers;
 
 public class EmployeeController
 {

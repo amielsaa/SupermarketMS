@@ -1,4 +1,4 @@
-package BusinessLayer;
+package BusinessLayer.Objects;
 
 import Utilities.LegalTimeException;
 import org.jetbrains.annotations.NotNull;
