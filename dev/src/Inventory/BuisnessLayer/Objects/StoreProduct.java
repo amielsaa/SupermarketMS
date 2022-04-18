@@ -5,14 +5,14 @@ import java.util.List;
 
 public class StoreProduct {
 
-    private String storeName;
+    private int storeId;
     private int quantityInStore;
     private int quantityInWarehouse;
     private Date expDate;
     private List<Location> locations;
 
-    public StoreProduct(String storeName, int quantityInStore, int quantityInWarehouse, Date expDate, List<Location> locations) {
-        this.storeName = storeName;
+    public StoreProduct(int storeId, int quantityInStore, int quantityInWarehouse, Date expDate, List<Location> locations) {
+        this.storeId = storeId;
         this.quantityInStore = quantityInStore;
         this.quantityInWarehouse = quantityInWarehouse;
         this.expDate = expDate;

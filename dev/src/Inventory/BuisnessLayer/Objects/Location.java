@@ -2,11 +2,13 @@ package Inventory.BuisnessLayer.Objects;
 
 public class Location {
 
-    private String locationName;
+    enum Locations { STORE, WAREHOUSE}
+
+    private Locations locationName;
     private int aisle;
     private int shelfNum;
 
-    public Location(String locationName, int aisle, int shelfNum) {
+    public Location(Locations locationName, int aisle, int shelfNum) {
         this.locationName = locationName;
         this.aisle = aisle;
         this.shelfNum = shelfNum;

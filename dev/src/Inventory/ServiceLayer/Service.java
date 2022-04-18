@@ -12,8 +12,8 @@ public class Service {
     private ReportService reportService;
 
     public Service() {
-        this.reportService = new ReportService();
         this.productService = new ProductService();
+        this.reportService = new ReportService(productService.productController);
     }
 
     // product service

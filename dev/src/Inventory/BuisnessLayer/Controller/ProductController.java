@@ -1,5 +1,6 @@
 package Inventory.BuisnessLayer.Controller;
 
+import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 
@@ -12,11 +13,13 @@ public class ProductController {
     private List<Product> defectiveProducts;
     private List<Product> expiredProducts;
     private Map<Product,List<StoreProduct>> productListMap;
+    private List<Category> categories;
 
     public ProductController() {
         this.defectiveProducts = new ArrayList<>();
         this.expiredProducts = new ArrayList<>();
         this.productListMap = new HashMap<>();
+        this.categories = new ArrayList<>();
     }
 
 

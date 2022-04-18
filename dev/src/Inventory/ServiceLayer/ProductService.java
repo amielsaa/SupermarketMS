@@ -1,6 +1,5 @@
 package Inventory.ServiceLayer;
 
-import Inventory.BuisnessLayer.Controller.CategoryController;
 import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.ServiceLayer.Objects.Product;
@@ -9,12 +8,10 @@ import java.util.List;
 
 public class ProductService {
 
-    private ProductController productController;
-    private CategoryController categoryController;
+    public ProductController productController;
 
     public ProductService() {
         this.productController = new ProductController();
-        this.categoryController = new CategoryController();
     }
 
     public Response<String> AddProduct(String name, String producer, int price, List<String> categories) {
