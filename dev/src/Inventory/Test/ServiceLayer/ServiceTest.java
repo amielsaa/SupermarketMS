@@ -1,4 +1,4 @@
-package Inventory.ServiceLayer;
+package ServiceLayer;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
