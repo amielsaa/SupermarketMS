@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Product {
     private int Id;
+
     private String name;
     private String producer;
     private int buyingPrice;
@@ -15,8 +16,10 @@ public class Product {
     private List<Category> categories;
     private int minQuantity;
 
+
     public Product(int Id, String name, String producer, int sellingPrice,int buyingPrice, List<Category> categories) {
         this.Id = Id;
+
         this.name = name;
         this.producer = producer;
         this.buyingPrice = buyingPrice;
