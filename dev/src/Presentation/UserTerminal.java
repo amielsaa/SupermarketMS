@@ -1,6 +1,6 @@
 package Presentation;
 
-import Business.DeliveryService;
+import Service.DeliveryService;
 
 import java.util.Scanner;
 

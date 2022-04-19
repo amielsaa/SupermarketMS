@@ -1,6 +1,6 @@
 package Presentation;
 
-import Business.DeliveryService;
+import Service.DeliveryService;
 
 public class SiteCommandsHandler {
     private String[] COMMANDS = {"add_supplier"};
