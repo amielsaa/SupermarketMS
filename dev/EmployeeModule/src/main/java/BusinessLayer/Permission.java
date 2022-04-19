@@ -8,7 +8,7 @@ public class Permission
 {
     private String name;
 
-    public Permission(@NotNull String _name){
+    protected Permission(@NotNull String _name){
         name = _name;
     }
 

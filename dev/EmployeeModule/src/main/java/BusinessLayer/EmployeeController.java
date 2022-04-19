@@ -16,6 +16,21 @@ public class EmployeeController
         employees = new ArrayList<Employee>();
     }
 
+    public Response<Permission> checkPermission(int id, Permission permission) {
+        Employee e = findEmployeeById(id);
+        if(e == null) {
+            Response.makeFailure("No employee with this id found. ");
+        }
+        List<Qualification> qList = e.getWorkingConditions().getQualifications();
+        for (Qualification q : qList)
+        {
+            if(q.hasPermission(permission)) {
+                return Response.makeSuccess(permission);
+            }
+        }
+        return Response.makeFailure("Employee does not have the permission. ");
+    }
+
     public Response<Employee> addEmployee(int id, @NotNull String name, @NotNull BankAccountDetails bankAccountDetails, double salary, @NotNull LocalDateTime workStartingDate, @NotNull String workingConditionsDescription) {
         // TODO database integration
         for(Employee e : employees)

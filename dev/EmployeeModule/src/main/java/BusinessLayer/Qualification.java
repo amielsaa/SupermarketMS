@@ -11,7 +11,7 @@ public class Qualification
     private String name;
     private List<Permission> permissions;
     //the name would be unique for every qualification object
-    public Qualification(@NotNull String name, @NotNull List<Permission> permissions) {
+    protected Qualification(@NotNull String name, @NotNull List<Permission> permissions) {
         this.name = name;
         this.permissions = permissions;
     }
@@ -36,6 +36,9 @@ public class Qualification
     protected void removePermission(@NotNull Permission permission){
         permissions.remove(permission);
     }
+
+    // TODO check if works with equals (potential bug)
+    protected boolean hasPermission(@NotNull Permission permission) { return this.permissions.contains(permission); }
 
     @Override
     public boolean equals(Object o) {

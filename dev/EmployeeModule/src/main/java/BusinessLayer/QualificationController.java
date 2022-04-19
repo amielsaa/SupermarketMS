@@ -15,6 +15,7 @@ public class QualificationController
     private List<Qualification> qualifications;
     //general list of permissions; if a qualification gives such permission then it is in the qualification's list
     private List<Permission> permissions;
+
     public QualificationController(DALController dalController){
         //TODO make a call to DAL to restore the state
         dalController.execute();

@@ -14,7 +14,6 @@ public class ShiftController
 {
     //TODO: check if Map from shiftId to Shift is needed
     public Map<ShiftId, Shift> shifts;
-
     //TODO: decide if it is needed to check if the inputs are null
     //TODO: decide when it shouldn't be possible to change the shift
     public ShiftController(@NotNull DALController dalController) {
