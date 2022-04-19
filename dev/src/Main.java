@@ -1,4 +1,4 @@
-package Presentation;
+import Presentation.UserTerminal;
 
 public class Main {
     public static void main(String[] args)

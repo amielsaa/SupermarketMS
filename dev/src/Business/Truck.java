@@ -3,12 +3,12 @@ package Business;
 public class Truck {
     int plateNum;
     String model;
-    int maxWeigt;
+    int maxWeight;
 
-    public Truck(int plateNum, String model, int maxWeigt) {
+    public Truck(int plateNum, String model, int maxWeight) {
         this.plateNum = plateNum;
         this.model = model;
-        this.maxWeigt = maxWeigt;
+        this.maxWeight = maxWeight;
     }
 
     public int getPlateNum() {
@@ -27,11 +27,16 @@ public class Truck {
         this.model = model;
     }
 
-    public int getMaxWeigt() {
-        return maxWeigt;
+    public int getMaxWeight() {
+        return maxWeight;
     }
 
-    public void setMaxWeigt(int maxWeigt) {
-        this.maxWeigt = maxWeigt;
+    public void setMaxWeight(int maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Plate number: %d,  Model: %s,  Max Weight: %d",plateNum,model,maxWeight);
     }
 }
