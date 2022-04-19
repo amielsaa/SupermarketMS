@@ -1,5 +1,7 @@
 package BusinessLayer;
 
+import javax.print.attribute.SetOfIntegerSyntax;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -22,13 +24,16 @@ public class Supplier {
         Name = name;
         Business_Num = business_num;
         Bank_Acc_Num = bank_acc_num;
-//        Payment_Details = payment_details;
+        Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
         Contacts.add(contact);
         Delivery_By_Days = delivery_by_days;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
         Quantity_Agreement = quantity_agreement;
-//        Days_To_Deliver = days_to_deliver;
+        if(!Delivery_By_Days)
+        Days_To_Deliver = null;
+        else
+         Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
     }
 
     public void setName(String name) {
@@ -83,16 +88,45 @@ public class Supplier {
         Contacts = contacts;
     }
 
-    public void setDays_To_Deliver(Set<Integer> days_To_Deliver) {
-        //todo
+    public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
+        Set<Days> toreturn =new LinkedHashSet<Days>();
+        if(days_To_Deliver.contains(1))
+            toreturn.add(Days.sunday);
+        if(days_To_Deliver.contains(2))
+            toreturn.add(Days.monday);
+        if(days_To_Deliver.contains(3))
+            toreturn.add(Days.tuesday);
+        if(days_To_Deliver.contains(4))
+            toreturn.add(Days.wednesday);
+        if(days_To_Deliver.contains(5))
+            toreturn.add(Days.thursday);
+        if(days_To_Deliver.contains(6))
+            toreturn.add(Days.friday);
+        if(days_To_Deliver.contains(7))
+            toreturn.add(Days.saturday);
+
+        return toreturn;
     }
 
     public void setDelivery_By_Days(boolean delivery_By_Days) {
         Delivery_By_Days = delivery_By_Days;
     }
 
-    public void setPayment_Details(PaymentDetails payment_Details) {
-        Payment_Details = payment_Details;
+    public PaymentDetails setPayment_Details(String payment_Details) {
+        if(payment_Details.equals("credit"))
+            return PaymentDetails.credit;
+        else if(payment_Details.equals("cash"))
+            return PaymentDetails.cash;
+        else if(payment_Details.equals("plus30"))
+            return PaymentDetails.plus30;
+        else if(payment_Details.equals("plus60"))
+            return PaymentDetails.plus60;
+        else if(payment_Details.equals("check"))
+            return PaymentDetails.check;
+        else
+            throw new IllegalArgumentException("Payment Method isnt valid");
+
+
     }
 
     public void setQuantity_Agreement(QuantityAgreement quantity_Agreement) {
@@ -110,5 +144,6 @@ public class Supplier {
     public void removeSupplierContact(int contactPhone) {
         //todo
     }
+
 
 }
