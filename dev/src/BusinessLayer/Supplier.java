@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,21 +13,22 @@ public class Supplier {
     private int Bank_Acc_Num;
     private PaymentDetails Payment_Details;
     private List<Contact> Contacts;
-    private QuantityAgrreement Quantity_Agrreement;
+    private QuantityAgreement Quantity_Agreement;
     private boolean Delivery_By_Days; //if the supplier Delivers by days or not
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
     private Set<Days> Days_To_Deliver;
 
-    public Supplier(String name, int business_num, int bank_acc_num, PaymentDetails payment_details, List<Contact> contacts, QuantityAgrreement quantity_agrreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Days> days_to_deliver) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
         Business_Num = business_num;
         Bank_Acc_Num = bank_acc_num;
-        Payment_Details = payment_details;
-        Contacts = contacts;
-        Quantity_Agrreement = quantity_agrreement;
+//        Payment_Details = payment_details;
+        Contacts = new LinkedList<Contact>();
+        Contacts.add(contact);
         Delivery_By_Days = delivery_by_days;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
-        Days_To_Deliver = days_to_deliver;
+        Quantity_Agreement = quantity_agreement;
+//        Days_To_Deliver = days_to_deliver;
     }
 
     public void setName(String name) {
@@ -61,8 +63,8 @@ public class Supplier {
         return Payment_Details;
     }
 
-    public QuantityAgrreement getQuantity_Agrreement() {
-        return Quantity_Agrreement;
+    public QuantityAgreement getQuantity_Agreement() {
+        return Quantity_Agreement;
     }
 
     public Set<Days> getDays_To_Deliver() {
@@ -81,8 +83,8 @@ public class Supplier {
         Contacts = contacts;
     }
 
-    public void setDays_To_Deliver(Set<Days> days_To_Deliver) {
-        Days_To_Deliver = days_To_Deliver;
+    public void setDays_To_Deliver(Set<Integer> days_To_Deliver) {
+        //todo
     }
 
     public void setDelivery_By_Days(boolean delivery_By_Days) {
@@ -93,11 +95,20 @@ public class Supplier {
         Payment_Details = payment_Details;
     }
 
-    public void setQuantity_Agrreement(QuantityAgrreement quantity_Agrreement) {
-        Quantity_Agrreement = quantity_Agrreement;
+    public void setQuantity_Agreement(QuantityAgreement quantity_Agreement) {
+        Quantity_Agreement = quantity_Agreement;
     }
 
     public void setSelf_Delivery_Or_Pickup(boolean self_Delivery_Or_Pickup) {
         Self_Delivery_Or_Pickup = self_Delivery_Or_Pickup;
     }
+
+    public void addSupplierContact(String name, int contactPhone) {
+        //todo
+    }
+
+    public void removeSupplierContact(int contactPhone) {
+        //todo
+    }
+
 }
