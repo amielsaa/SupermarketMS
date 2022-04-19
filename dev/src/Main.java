@@ -1,7 +1,9 @@
+import ServiceLayer.MainFacade;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        System.out.println("Hello World");
+        MainFacade fMain = new MainFacade();
+        fMain.main();
     }
 }
