@@ -1,15 +1,16 @@
 package Business;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 class TruckControllerTest {
 
     @org.junit.jupiter.api.Test
     void addTruck() {
+
     }
 
     @org.junit.jupiter.api.Test
     void editPlateNum() {
+
     }
 
     @org.junit.jupiter.api.Test

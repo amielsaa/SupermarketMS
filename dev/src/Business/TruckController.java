@@ -27,6 +27,8 @@ public class TruckController {
             throw new Exception(String.format("A truck with plate number %d already exists..",newPlateNum));
         }
         trucks.get(oldPlateNum).setPlateNum(newPlateNum);
+        trucks.put(newPlateNum, trucks.get(oldPlateNum));
+        trucks.remove(oldPlateNum);
     }
 
     public void editModel(int plateNum, String newModel) throws Exception {
@@ -50,7 +52,8 @@ public class TruckController {
         trucks.remove(plateNum);
     }
 
-    protected boolean isAbleToDrive(LicenseType licenseType , int plateNum){
+    //change to protected before submitting
+    public boolean isAbleToDrive(LicenseType licenseType , int plateNum){
         if(trucks.containsKey(plateNum) && licenseMapper.containsKey(licenseType)){
             return trucks.get(plateNum).getMaxWeight()<=licenseMapper.get(licenseType);
         }
