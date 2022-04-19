@@ -10,7 +10,13 @@ public class DeliveryService {
         //deliveries and trucks controllers creation will be implemented here
     }
 
-    public void addSupplier(String address, String zone, String phoneNumber, String contactName) {
-        //sitesController.addSupplier(address, zone, phoneNumber, contactName);
+    public Response addSupplier(String address, int zone, String phoneNumber, String contactName) {
+        try {
+            sitesController.addSupplier(address, zone, phoneNumber, contactName);
+            return Response.makeSuccess(0);
+        }
+        catch (Exception ex){
+            return Response.makeFailure(ex.getMessage());
+        }
     }
 }

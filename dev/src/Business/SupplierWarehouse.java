@@ -9,4 +9,9 @@ public class SupplierWarehouse extends Site{
     public boolean canBeADestination() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "supplier warehouse\n" + super.toString();
+    }
 }

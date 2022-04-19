@@ -2,7 +2,7 @@ package Business;
 
 public abstract class Site {
 
-    public enum DeliveryZone{North, Center, South}
+    protected enum DeliveryZone{North, Center, South}
 
     private String address;
     private DeliveryZone deliveryZone;
@@ -21,7 +21,7 @@ public abstract class Site {
         return address;
     }
 
-    public void setAddress(String address) {
+    protected void setAddress(String address) {
         this.address = address;
     }
 
@@ -29,7 +29,7 @@ public abstract class Site {
         return deliveryZone;
     }
 
-    public void setDeliveryZone(DeliveryZone deliveryZone) {
+    protected void setDeliveryZone(DeliveryZone deliveryZone) {
         this.deliveryZone = deliveryZone;
     }
 
@@ -37,11 +37,11 @@ public abstract class Site {
         this.deliveryZone = stringToDeliveryZone(deliveryZone);
     }
 
-    public String getPhoneNumber() {
+    protected String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    protected void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -49,7 +49,7 @@ public abstract class Site {
         return contactName;
     }
 
-    public void setContactName(String contactName) {
+    protected void setContactName(String contactName) {
         this.contactName = contactName;
     }
 
@@ -57,7 +57,7 @@ public abstract class Site {
         return id;
     }
 
-    public static DeliveryZone stringToDeliveryZone(int deliveryZone) throws Exception {
+    protected static DeliveryZone stringToDeliveryZone(int deliveryZone) throws Exception {
         if (deliveryZone == 1)
             return DeliveryZone.North;
         if (deliveryZone == 2)
@@ -65,6 +65,18 @@ public abstract class Site {
         if (deliveryZone == 3)
             return DeliveryZone.South;
         throw new Exception(deliveryZone + " is an illegal delivery zone, the please enter north center or south");
+    }
+
+    public String toString(){
+        if (deliveryZone == DeliveryZone.North)
+            return "delivery zone: north\n" + getDescriptionWithoutDeliveryZone();
+        if (deliveryZone == DeliveryZone.Center)
+            return "delivery zone: center\n" + getDescriptionWithoutDeliveryZone();
+        return "delivery zone: south\n" + getDescriptionWithoutDeliveryZone();
+    }
+    public String getDescriptionWithoutDeliveryZone(){
+        return "site address: " + address +"\n" +
+               "the site contact is " + contactName + " (phone number: " + phoneNumber + ")";
     }
 
     public abstract boolean canBeADestination();

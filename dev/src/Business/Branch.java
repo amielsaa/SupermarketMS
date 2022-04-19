@@ -9,4 +9,9 @@ public class Branch extends Site{
     public boolean canBeADestination() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "branch\n" + super.toString();
+    }
 }
