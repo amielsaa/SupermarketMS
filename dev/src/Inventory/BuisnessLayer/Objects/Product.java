@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Product {
     private int Id;
-
     private String name;
     private String producer;
+    //TODO: should be floats
     private int buyingPrice;
     private int sellingPrice;
     private int discount;
@@ -38,6 +38,10 @@ public class Product {
         this.discount = discount;
         this.categories = new ArrayList<>();
         this.minQuantity = -1;
+    }
+
+    public String toString() {
+        return " %s : %s : %d : %d : %s".formatted(name,producer,sellingPrice,buyingPrice,categories.toString());
     }
 
 }

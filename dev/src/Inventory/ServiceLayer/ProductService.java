@@ -2,7 +2,7 @@ package Inventory.ServiceLayer;
 
 import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.ServiceLayer.Objects.Product;
+import Inventory.BuisnessLayer.Objects.Product;
 
 import java.util.List;
 
@@ -14,8 +14,13 @@ public class ProductService {
         this.productController = new ProductController();
     }
 
-    public Response<String> AddProduct(String name, String producer, int price, List<String> categories) {
-        return null;
+    public Response<String> AddProduct(String name, String producer, int buyingPrice,int sellingPrice, List<String> categories) {
+        try{
+            Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,categories);
+            return Response.makeSuccess(product.toString());
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Category> AddCategory(String category) {
