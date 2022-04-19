@@ -16,6 +16,10 @@ public class EmployeeController
         employees = new ArrayList<Employee>();
     }
 
+    public List<Employee> getEmployees() {
+        return Collections.unmodifiableList(employees);
+    }
+
     public Response<Permission> checkPermission(int id, Permission permission) {
         Employee e = findEmployeeById(id);
         if(e == null) {

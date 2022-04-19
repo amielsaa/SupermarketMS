@@ -23,7 +23,7 @@ public class TimeInterval
         return start;
     }
 
-    public void setStart(@NotNull LocalDateTime start) throws LegalTimeException {
+    protected void setStart(@NotNull LocalDateTime start) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }
@@ -34,7 +34,7 @@ public class TimeInterval
         return end;
     }
 
-    public void setEnd(@NotNull LocalDateTime end) throws LegalTimeException {
+    protected void setEnd(@NotNull LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }

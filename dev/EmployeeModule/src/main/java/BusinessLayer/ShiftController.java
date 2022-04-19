@@ -6,6 +6,7 @@ import Utilities.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,10 @@ public class ShiftController
         dalController.execute();
         shifts = new HashMap<>();
         // TODO: implement getting data from DAL
+    }
+
+    public Response<List<Shift>> getShifts() {
+        return Response.makeSuccess(shifts.values().stream().toList());
     }
 
     public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
@@ -59,7 +64,8 @@ public class ShiftController
         return Response.makeSuccess(shifts.get(shiftId));
     }
 
-    public Response<Employee> addWorker(ShiftId shiftId, Employee worker, List<Qualification> qualifications){
+
+    public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<Qualification> qualifications){
         Response<Shift> res = getShift(shiftId);
         if(!res.isSuccess()){
             return Response.makeFailure("no such shift");
@@ -75,7 +81,7 @@ public class ShiftController
         return Response.makeSuccess(worker);
     }
 
-    public Response<Employee> removeWorker(ShiftId shiftId, Employee worker){
+    public Response<Employee> removeWorker(@NotNull ShiftId shiftId, @NotNull Employee worker){
         Response<Shift> res = getShift(shiftId);
         if(!res.isSuccess()){
             return Response.makeFailure("no such shift");

@@ -23,6 +23,10 @@ public class QualificationController
         permissions = new ArrayList<>();
     }
 
+    public Response<List<Qualification>> getQualifications() {
+        return Response.makeSuccess(qualifications);
+    }
+
     public Response<Qualification> getQualification(@NotNull String name){
         for (Qualification q: qualifications) {
             if(q.getName().equals(name)){
