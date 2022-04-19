@@ -14,4 +14,8 @@ public class SupplierWarehouse extends Site{
     public String toString() {
         return "supplier warehouse\n" + super.toString();
     }
+
+    public String getDescriptionWithoutDeliveryZone() {
+        return "supplier warehouse\n" + super.getDescriptionWithoutDeliveryZone();
+    }
 }

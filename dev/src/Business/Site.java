@@ -75,9 +75,11 @@ public abstract class Site {
         return "delivery zone: south\n" + getDescriptionWithoutDeliveryZone();
     }
     public String getDescriptionWithoutDeliveryZone(){
-        return "site address: " + address +"\n" +
+        return "id: " + id + "\n" +
+               "site address: " + address +"\n" +
                "the site contact is " + contactName + " (phone number: " + phoneNumber + ")";
     }
+
 
     public abstract boolean canBeADestination();
 }

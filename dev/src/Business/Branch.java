@@ -14,4 +14,9 @@ public class Branch extends Site{
     public String toString() {
         return "branch\n" + super.toString();
     }
+
+    @Override
+    public String getDescriptionWithoutDeliveryZone() {
+        return "branch\n" + super.getDescriptionWithoutDeliveryZone();
+    }
 }

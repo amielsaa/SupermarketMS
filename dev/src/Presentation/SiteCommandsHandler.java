@@ -24,8 +24,8 @@ public class SiteCommandsHandler {
     }
     private void handleAddSupplier(String[] userData)
     {
-        if (userData.length == 5)
-            service.addSupplier(userData[1], Integer.parseInt(userData[2]), userData[3], userData[4]);
+        //if (userData.length == 5)
+            //service.addSupplier(userData[1], Integer.parseInt(userData[2]), userData[3], userData[4]);
 
     }
 }

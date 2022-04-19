@@ -12,12 +12,12 @@ public class SitesController {
         nextID = 1;
     }
 
-    public void addSupplier(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
+    public void addSupplierWarehouse(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
         sites.put(nextID, new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
 
-    public void addStore(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
+    public void addBranch(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
         sites.put(nextID, new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
