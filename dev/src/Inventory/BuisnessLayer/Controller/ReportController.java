@@ -2,9 +2,9 @@ package Inventory.BuisnessLayer.Controller;
 
 public class ReportController {
 
-    private ProductController productController;
+    private DataController data;
 
-    public ReportController(ProductController productController) {
-        this.productController = productController;
+    public ReportController(DataController data) {
+        this.data = data;
     }
 }

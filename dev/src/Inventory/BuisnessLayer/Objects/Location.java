@@ -2,7 +2,6 @@ package Inventory.BuisnessLayer.Objects;
 
 public class Location {
 
-    enum Locations { STORE, WAREHOUSE}
 
     private Locations locationName;
     private int aisle;
@@ -12,5 +11,17 @@ public class Location {
         this.locationName = locationName;
         this.aisle = aisle;
         this.shelfNum = shelfNum;
+    }
+
+    public Locations getLocationName() {
+        return locationName;
+    }
+
+    public int getAisle() {
+        return aisle;
+    }
+
+    public int getShelfNum() {
+        return shelfNum;
     }
 }

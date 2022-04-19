@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 
+import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.ServiceLayer.ProductService;
@@ -20,25 +21,44 @@ class ServiceTest {
 
     @BeforeAll
     static void beforeAll() {
-        productService = new ProductService();
+        productService = new ProductService(new DataController());
+        productService.SelectStore(1);
+        List<String> categoryList = Arrays.asList("Wash","Shampoo","Size");
+        productService.AddProduct("Shampoo","Kef",10.99,15.99,categoryList);
+    }
+
+    @Test
+    void selectStore() {
+        Response<Integer> res = productService.SelectStore(1);
+
+        Assertions.assertEquals(1,res.getData());
     }
 
     @Test
     void addProduct() {
         List<String> categoryList = Arrays.asList("Diary","Milk","Size");
-        Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10,15,categoryList);
+        Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,categoryList);
 
 
+        Assertions.assertEquals(" Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
+    }
 
-        Assertions.assertEquals(" Milk 3% : Tnuva : 15 : 10 : [Diary,Milk,Size]",product.getData());
+    @Test
+    void addStoreProduct() {
+        Response<String> res = productService.AddStoreProduct("Shampoo","Kef",10,12,"10/10/2020","warehouse-1-2&store-1-2");
+
+        String expected = "10 : 12 : 3/10/2020 : WAREHOUSE-1-2&STORE-1-2";
+
+        Assertions.assertEquals(expected,res.getData());
     }
 
     @Test
     void addCategory() {
-    }
+        Response<Category> res = productService.AddCategory("Bread Stuff");
 
-    @Test
-    void deleteCategory() {
+        String expected = "Bread Stuff";
+
+        Assertions.assertEquals(expected,res.getData().getCategoryName());
     }
 
     @Test

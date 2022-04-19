@@ -18,4 +18,17 @@ public class StoreProduct {
         this.expDate = expDate;
         this.locations = locations;
     }
+
+    private String getLocationsByString() {
+        String res = "";
+        for(Location loc : locations) {
+            res+= loc.getLocationName() + "-" + loc.getAisle() + "-" + loc.getShelfNum() +"&";
+        }
+        return res.substring(0,res.length()-1);
+    }
+
+    public String toString() {
+        return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDay(),expDate.getMonth(),expDate.getYear(),getLocationsByString());
+    }
+
 }

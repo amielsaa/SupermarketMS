@@ -1,6 +1,7 @@
 package Inventory.BuisnessLayer.Objects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -8,16 +9,15 @@ public class Product {
     private int Id;
     private String name;
     private String producer;
-    //TODO: should be floats
-    private int buyingPrice;
-    private int sellingPrice;
-    private int discount;
+    private double buyingPrice;
+    private double sellingPrice;
+    private double discount;
     private Date discountExpDate;
     private List<Category> categories;
     private int minQuantity;
 
 
-    public Product(int Id, String name, String producer, int sellingPrice,int buyingPrice, List<Category> categories) {
+    public Product(int Id, String name, String producer, double sellingPrice,double buyingPrice, List<Category> categories) {
         this.Id = Id;
 
         this.name = name;
@@ -30,7 +30,7 @@ public class Product {
         this.minQuantity = -1;
     }
 
-    public Product(String name, String producer, int sellingPrice,int buyingPrice, int discount) {
+    public Product(String name, String producer, double sellingPrice,double buyingPrice, double discount) {
         this.name = name;
         this.producer = producer;
         this.buyingPrice = buyingPrice;
@@ -40,8 +40,26 @@ public class Product {
         this.minQuantity = -1;
     }
 
+
+
+    public String getName() {
+        return name;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    private String categoriesToString() {
+        String toString = "";
+        for(Category cat : this.categories)
+            toString+= cat.getCategoryName() + ",";
+        toString = toString.substring(0,toString.length()-1);
+        return toString;
+    }
+
     public String toString() {
-        return " %s : %s : %d : %d : %s".formatted(name,producer,sellingPrice,buyingPrice,categories.toString());
+        return " %s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
 
 }

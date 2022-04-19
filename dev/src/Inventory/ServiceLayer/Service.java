@@ -1,5 +1,6 @@
 package Inventory.ServiceLayer;
 
+import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.ServiceLayer.Objects.Product;
 import Inventory.ServiceLayer.Objects.Report;
@@ -10,10 +11,12 @@ public class Service {
 
     private ProductService productService;
     private ReportService reportService;
+    private DataController data;
 
     public Service() {
-        this.productService = new ProductService();
-        this.reportService = new ReportService(productService.productController);
+        this.data = new DataController();
+        this.productService = new ProductService(data);
+        this.reportService = new ReportService(data);
     }
 
     // product service
