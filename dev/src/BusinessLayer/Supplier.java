@@ -1,10 +1,11 @@
 package BusinessLayer;
 
+import misc.Days;
+import misc.PaymentDetails;
+
 import javax.print.attribute.SetOfIntegerSyntax;
 import java.util.*;
 
-enum Days {sunday,monday,tuesday,wednesday,thursday,friday,saturday}
-enum PaymentDetails {credit,cash,plus30,plus60,check}
 
 public class Supplier {
     private String Name;
