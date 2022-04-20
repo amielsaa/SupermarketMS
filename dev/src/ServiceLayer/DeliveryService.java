@@ -2,12 +2,15 @@ package ServiceLayer;
 
 import BusinessLayer.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class DeliveryService {
     private SitesController sitesController;
+    private TruckController truckController;
     public DeliveryService(){
         sitesController = new SitesController();
+        truckController=new TruckController();
 
         //deliveries and trucks controllers creation will be implemented here
     }
@@ -111,4 +114,58 @@ public class DeliveryService {
             return Response.makeFailure(ex.getMessage());
         }
     }
+
+    //truck logic
+    public Response addTruck(int plateNum, String model, int maxWeight){
+        try{
+            truckController.addTruck(plateNum, model, maxWeight);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editPlateNum(int oldPlateNum, int newPlateNum){
+        try{
+            truckController.editPlateNum(oldPlateNum, newPlateNum);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editModel(int plateNum, String newModel){
+        try{
+            truckController.editModel(plateNum, newModel);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+    public Response editMaxWeight(int plateNum, int maxWeight){
+        try{
+            truckController.editMaxWeight(plateNum, maxWeight);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    //needs to check is a delivery with this truck exists!!!!!!
+    public Response deleteTruck(int plateNum){
+       /* try{
+            truckController.deleteTruck(plateNum);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+        */
+       return null;
+    }
+
+    public Response<ArrayList<Truck>> getTrucks(){
+        return Response.makeSuccess(truckController.getTrucks());
+    }
 }
+
