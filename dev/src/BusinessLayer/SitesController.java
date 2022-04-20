@@ -6,18 +6,28 @@ import java.util.Map;
 
 public class SitesController {
     private Map<Integer, Site> sites;
+    private HashMap<String,Integer> siteAddressMapper;
     private int nextID;
     public SitesController(){
         sites = new HashMap<>();
+        siteAddressMapper=new HashMap<>();
         nextID = 1;
     }
 
     public void addSupplierWarehouse(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
+        if(siteAddressMapper.containsKey(address)){
+            throw new Exception(String.format("A site with address %s already exists..",address));
+        }
+        siteAddressMapper.put(address,nextID);
         sites.put(nextID, new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
 
     public void addBranch(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
+        if(siteAddressMapper.containsKey(address)){
+            throw new Exception(String.format("A site with address %s already exists..",address));
+        }
+        siteAddressMapper.put(address,nextID);
         sites.put(nextID, new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
@@ -26,7 +36,9 @@ public class SitesController {
         Site toBeEdited = getSite(id);
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
+        siteAddressMapper.remove(toBeEdited.getAddress());
         toBeEdited.setAddress(address);
+        siteAddressMapper.put(address,id);
     }
 
     public void editSiteDeliveryZone(int id, int zone) throws Exception {
@@ -53,6 +65,9 @@ public class SitesController {
     public Site getSite(int id) {
         return sites.get(id);
     }
+    public Site getSite(String address) {
+        return sites.get(siteAddressMapper.get(address));
+    }
 
 
     public Collection<Site> getAllSites() {
@@ -69,9 +84,19 @@ public class SitesController {
         return output;
     }
 
+    public int getSiteId(String address) throws Exception{
+        if(!siteAddressMapper.containsKey(address)){
+            throw new Exception(String.format("A site with address %s does not exist",address));
+        }
+        return siteAddressMapper.get(address);
+    }
 
-    public void deleteSite(int id)
-    {
+
+    public void deleteSite(int id) throws Exception {
+        Site site=getSite(id);
+        if(site==null)
+            throw new Exception(String.format("A site with id %d does not exist",id));
+        siteAddressMapper.remove(site.getAddress());
         sites.remove(id);
     }
 }

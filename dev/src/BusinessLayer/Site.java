@@ -58,12 +58,12 @@ public abstract class Site {
     protected static DeliveryZone stringToDeliveryZone(int deliveryZone) throws Exception {
         if(deliveryZone<0 ||deliveryZone>DeliveryZone.values().length)
             throw new Exception(deliveryZone + " is not an option, enter a valid one");
-       return DeliveryZone.values()[deliveryZone-1];
+       return DeliveryZone.values()[deliveryZone];
 
     }
 
     public String toString(){
-        return String.format("%s,  delivery zone: %s  %s",getDescriptionWithoutDeliveryZone(),deliveryZone.name());
+        return String.format("%s,  delivery zone: %s",getDescriptionWithoutDeliveryZone(),deliveryZone.name());
     }
     public String getDescriptionWithoutDeliveryZone(){
         return String.format("id: %d,  address: %s,  contact name: %s (phone number: %s)",id,address,contactName,phoneNumber);

@@ -12,10 +12,10 @@ public class SupplierWarehouse extends Site{
 
     @Override
     public String toString() {
-        return "supplier warehouse\n" + super.toString();
+        return "--supplier warehouse--    " + super.toString();
     }
 
     public String getDescriptionWithoutDeliveryZone() {
-        return "supplier warehouse\n" + super.getDescriptionWithoutDeliveryZone();
+        return super.getDescriptionWithoutDeliveryZone();
     }
 }

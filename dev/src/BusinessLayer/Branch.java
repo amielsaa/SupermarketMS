@@ -12,11 +12,11 @@ public class Branch extends Site{
 
     @Override
     public String toString() {
-        return "branch\n" + super.toString();
+        return "--branch--    " + super.toString();
     }
 
     @Override
     public String getDescriptionWithoutDeliveryZone() {
-        return "branch\n" + super.getDescriptionWithoutDeliveryZone();
+        return super.getDescriptionWithoutDeliveryZone();
     }
 }
