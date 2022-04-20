@@ -1,6 +1,7 @@
 package BusinessLayer;
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Delivery {
     private int id;
@@ -9,15 +10,20 @@ public class Delivery {
     private int weight;
     private Truck truck;
     private Site origin;
-    //to be implemented, destinations
-    public Delivery(int id, LocalDateTime startTime, int durationInMinutes, int weight, Truck truck, Site origin, Collection<Branch> destinations)
+    private LinkedHashMap<Branch, HashMap<String,Integer>> destinationItems;
+    private boolean status;
+    private Driver driver;
+    public Delivery(int id, LocalDateTime startTime, int durationInMinutes, int weight, Truck truck, Site origin ,Driver driver)
     {
         this.id = id;
         this.startTime = startTime;
+        this.driver = driver;
         this.endTime = startTime.plusMinutes(durationInMinutes);
         this.weight = weight;
         this.truck = truck;
         this.origin = origin;
+        this.destinationItems=new LinkedHashMap<>();
+        status=false;
     }
 
     public int getId() {
@@ -68,8 +74,74 @@ public class Delivery {
         this.origin = origin;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     protected boolean isDeliveryTime(LocalDateTime time)
     {
         return time.compareTo(endTime) < 0 && time.compareTo(startTime) > 0;
+    }
+
+    public void addDestination(Branch branch){
+        if(!destinationItems.containsKey(branch)){
+            destinationItems.put(branch,new HashMap<>());
+        }
+    }
+    public void removeDestination(Branch branch){
+        if(destinationItems.containsKey(branch)){
+            removeDestination(branch);
+        }
+    }
+    public void addItemToDestination(Branch branch, String item, int quantity) throws Exception {
+        if(!destinationItems.containsKey(branch)){
+            throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
+        }
+        if(destinationItems.get(branch).containsKey(item)){
+            throw new Exception(String.format("'%s' is already to be delivered to %s.",item,branch.getAddress()));
+        }
+        destinationItems.get(branch).put(item,quantity);
+    }
+    public void removeItemFromDestination(Branch branch, String item, int quantity) throws Exception {
+        if(!destinationItems.containsKey(branch)){
+            throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
+        }
+        destinationItems.get(branch).remove(item);
+    }
+    public void editItemQuantity(Branch branch, String item, int quantity) throws Exception {
+        if(!destinationItems.containsKey(branch)){
+            throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
+        }
+        if(!destinationItems.get(branch).containsKey(item)){
+            throw new Exception(String.format("'%s' is not to be delivered to %s.",item,branch.getAddress()));
+        }
+        destinationItems.get(branch).replace(item,quantity);
+    }
+    public String getItemsOfDest(Branch site){
+        String output= String.format("address: %s\nitems:\n",site.getAddress());
+        HashMap<String,Integer> itemMap=destinationItems.get(site);
+        itemMap.forEach((item,quantity)->output.concat(String.format("\t\t\titem name: %s,  quantity: %d\n",item,quantity)));
+        return output;
+    }
+
+    @Override
+    public String toString(){
+        String output=String.format("id: %d\ndriver name: %s\ndriver id: %d\nstart time: %s\nend time: %s\norigin: %s\nitems:\n",
+                id,driver.getName(),driver.getId(),startTime,endTime,origin.getAddress());
+        destinationItems.keySet().forEach(site->output.concat(getItemsOfDest(site)));
+        return output;
     }
 }
