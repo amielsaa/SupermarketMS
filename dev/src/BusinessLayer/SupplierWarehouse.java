@@ -7,7 +7,7 @@ public class SupplierWarehouse extends Site{
 
     @Override
     public boolean canBeADestination() {
-        return true;
+        return false;
     }
 
     @Override

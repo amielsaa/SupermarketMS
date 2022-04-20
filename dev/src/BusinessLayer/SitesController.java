@@ -60,7 +60,7 @@ public class SitesController {
     }
 
     public Collection<Site> viewSitesPerZone(int zone) throws Exception {
-        Site.DeliveryZone deliveryZone = Site.stringToDeliveryZone(zone);
+        //DeliveryZone deliveryZone = Site.stringToDeliveryZone(zone);
         Collection<Site> output = new ArrayList<>();
         Collection<Site> site_list = sites.values();
         for (Site site: site_list)
