@@ -19,6 +19,8 @@ public class Gateway
     private QualificationController qualificationController;
     private DALController dalController;
 
+    private final int ADMIN_UID = 580083434;
+
     public Gateway() {
         this.loggedEmployeeId = -1;
 
@@ -26,20 +28,53 @@ public class Gateway
         this.employeeController = new EmployeeController(dalController);
         this.shiftController = new ShiftController(dalController);
         this.qualificationController = new QualificationController(dalController);
+    }
 
+    public void initDefaultData() {
         // TODO DAL make this run once on database init
-        // init default data
-        String[] permissions = {"ViewEmployees", "ManageEmployees", "ManageBranch1", "ManageBranch2", "ManageQualifications", "ManagePermissions" };
+
+        // INIT PERMISSIONS AND QUALIFICATIONS
+
+        String[] permissions = {"ViewEmployees", "ManageEmployees", "ManageQualifications", "ManagePermissions", "ManageBranch1", "ManageBranch2"};
         for (String p : permissions)
         {
             qualificationController.addPermission(p);
         }
 
-        // TODO init HR
+        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ManageQualifications", "ManagePermissions"};
 
+
+        Qualification qualificationHR = qualificationController.addQualification("HR").getData();
+        String[] permissionsAssistant = {"ViewEmployees"};
+        for(String p : permissionsHR) {
+            var r = qualificationController.addPermissionToQualification(p, qualificationHR.getName());
+            System.out.println(r); // TODO DEBUG REMOVE ME
+        }
+
+        Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager").getData();
+        String[] permissionsBranch1Manager = {"ManageBranch1"};
+        for(String p : permissionsBranch1Manager) {
+            var r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
+            System.out.println(r); // TODO DEBUG REMOVE ME
+
+        }
+
+        Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager").getData();
+        String[] permissionsBranch2Manager = {"ManageBranch2"};
+        for(String p : permissionsBranch2Manager) {
+            var r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
+            System.out.println(r); // TODO DEBUG REMOVE ME
+
+        }
+
+        // INIT EMPLOYEES
+        BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
+        employeeController.addEmployee(ADMIN_UID, "Admin", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.employeeAddQualification(ADMIN_UID, qualificationHR);
     }
+
     // TODO change to user-pass authentication
-    private Response<Employee> login(int id) {
+    public Response<Employee> login(int id) {
         Response<Employee> r = employeeController.getEmployee(id);
         if (!r.isSuccess()) {
             return r;
@@ -49,8 +84,13 @@ public class Gateway
 
         return r;
     }
-
-    private void logout() {
+    public Response<Employee> getLoggedUser() {
+        if(loggedEmployeeId == -1) {
+            return Response.makeFailure("No user is logged in. ");
+        }
+        return employeeController.getEmployee(loggedEmployeeId);
+    }
+    public void logout() {
         this.loggedEmployeeId = -1;
     }
 

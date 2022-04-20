@@ -12,7 +12,6 @@ public class DALController
     public static void execute()
     {
         // this is a placeholder method, call this when you need to access database.
-        System.out.println("Executing database command.  ");
         // TODO IMPLEMENT THIS
     }
     public static Response<Employee> addEmployee(Employee employee)

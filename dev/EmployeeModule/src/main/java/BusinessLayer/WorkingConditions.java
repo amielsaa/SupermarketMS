@@ -90,6 +90,7 @@ public class WorkingConditions
                 return Response.makeFailure("This qualification is already in this list. ");
             }
             else {
+                this.qualifications.add(qualification);
                 return Response.makeSuccess(qualification);
             }
         }

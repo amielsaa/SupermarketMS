@@ -42,7 +42,7 @@ public class QualificationController
         if(qualifications.contains(toAdd)){
             return Response.makeFailure("a qualification with such name already exists");
         }
-        qualifications.add(new Qualification(name, new ArrayList<>()));
+        qualifications.add(toAdd);
         return Response.makeSuccess(toAdd);
     }
 
