@@ -44,20 +44,49 @@ public class MainFacade {
     private void createSupplier(Scanner s){
         System.out.print("Enter supplier name: ");
         String supplierName = s.nextLine();
-        System.out.print("Enter supplier business number: ");
-        String businessNumber = s.nextLine();
-        System.out.print("Enter supplier bank account number: ");
-        String bankNumber = s.nextLine();
+        String businessNumberString;
+        int businessNumber = -1;
+        while(true){
+            System.out.print("Enter supplier business number: ");
+            businessNumberString = s.nextLine();
+            if(legalNumberCheck(businessNumberString)) {
+                businessNumber = Integer.parseInt(businessNumberString);
+                break;
+            }
+            else System.out.println("Invalid business number");
+        }
+
+        String bankNumberString;
+        int bankNumber = -1;
+        while(true){
+            System.out.print("Enter supplier bank account number: ");
+            bankNumberString = s.nextLine();
+            if(legalNumberCheck(bankNumberString)) {
+                bankNumber = Integer.parseInt(bankNumberString);
+                break;
+            }
+            else System.out.println("Invalid bank number");
+        }
+
+
         System.out.print("Enter supplier payment option (1 - Credit, 2 - Cash, 3 - Plus30, 4 - Plus60, 5 - Check): ");
         String paymentDetail = s.nextLine();
         paymentDetail = paymentDetailNumberToString(paymentDetail);
 
         System.out.print("We need atleast one contact person.\nEnter contact name: ");
         String contactName = s.nextLine();
-        System.out.print("Enter contact phone number: ");
-        String contactNumberString = s.nextLine();
+        String contactNumberString;
+        int contactNumber = -1;
+        while(true){
+            System.out.print("Enter contact phone number: ");
+            contactNumberString = s.nextLine();
+            if(legalNumberCheck(contactNumberString)) {
+                contactNumber = Integer.parseInt(contactNumberString);
+                break;
+            }
+            else System.out.println("Invalid phone number");
+        }
 
-        //todo: create legalNumberCheck function and apply it to every number----------------------------------------------------
 
         System.out.print("Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
         String selfDeliveryString = s.nextLine();
@@ -65,12 +94,17 @@ public class MainFacade {
         System.out.print("Is the supplier delivering by days? (1 - yes, 2 - no, default - no): ");
         String deliveryDaysString = s.nextLine();
         boolean deliveryDays = stringToBoolean(deliveryDaysString);
-
         Set<Integer> daysToDeliver = deliveryDaysLoop(s);
-        QuantityAgreement qa = createQuantityAgreement(s);
-//        Supplier newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,new Contact(contactName, contactNumber), qa, deliveryDays, selfDelivery, daysToDeliver);
 
 
+        HashMap<Integer, Integer> item_num_to_price = new HashMap<Integer, Integer>();
+        HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
+        HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
+        createQuantityAgreement(s, item_num_to_price, item_num_to_name, item_Num_To_Discount);
+        Response<Supplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price, item_num_to_name, item_Num_To_Discount, deliveryDays, selfDelivery, daysToDeliver);
+        if(newsupplier.isSuccess())
+            System.out.println("Supplier created successfully.");
+        else System.out.println(newsupplier.getMessage());
     }
 
     private String paymentDetailNumberToString(String input){
@@ -118,11 +152,8 @@ public class MainFacade {
         return days;
     }
 
-    private QuantityAgreement createQuantityAgreement(Scanner s){
+    private void createQuantityAgreement(Scanner s, HashMap<Integer, Integer> item_num_to_price, HashMap<Integer, String> item_num_to_name, HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount){
         //todo: HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name
-        HashMap<Integer, Integer> item_num_to_price = new HashMap<Integer, Integer>();
-        HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
-        HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
         System.out.println("Now we need to add the items that the supplier can supply.\nType item name and price. When you are done, type 'STOP' for the item name.");
         int itemID = 0;
         String itemName = "-1";
@@ -195,8 +226,7 @@ public class MainFacade {
                 System.out.println("Illegal item discount/price/ID, try again.");
             }
         }
-        QuantityAgreement newagreement = fSupplier.createQuantityAgreement(item_num_to_price, item_Num_To_Discount, item_num_to_name);
-        return newagreement;
+
     }
 
     private boolean legalNumberCheck(String input){

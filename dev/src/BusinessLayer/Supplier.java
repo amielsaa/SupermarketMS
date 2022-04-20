@@ -1,10 +1,7 @@
 package BusinessLayer;
 
 import javax.print.attribute.SetOfIntegerSyntax;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 enum Days {sunday,monday,tuesday,wednesday,thursday,friday,saturday}
 enum PaymentDetails {credit,cash,plus30,plus60,check}
@@ -23,20 +20,20 @@ public class Supplier {
 
     public Supplier(){}//todo: remove this constructor - just for testing!
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
         Business_Num = business_num;
         Bank_Acc_Num = bank_acc_num;
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
-        Contacts.add(contact);
+        Contacts.add(new Contact(contactName, contactPhone));
         Delivery_By_Days = delivery_by_days;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
-        Quantity_Agreement = quantity_agreement;
+        Quantity_Agreement = new QuantityAgreement(item_num_to_price, item_num_to_discount, item_num_to_name);
         if(!Delivery_By_Days)
-        Days_To_Deliver = null;
+            Days_To_Deliver = null;
         else
-         Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
+            Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
     }
 
     public void setName(String name) {
