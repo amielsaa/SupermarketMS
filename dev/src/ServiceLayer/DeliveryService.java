@@ -8,11 +8,11 @@ import java.util.Collection;
 public class DeliveryService {
     private SitesController sitesController;
     private TruckController truckController;
+    private DeliveriesController deliveriesController;
     public DeliveryService(){
         sitesController = new SitesController();
         truckController=new TruckController();
-
-        //deliveries and trucks controllers creation will be implemented here
+        deliveriesController=new DeliveriesController();
     }
 
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
@@ -77,6 +77,7 @@ public class DeliveryService {
 
     public Response deleteSite(int id){
         try {
+            deliveriesController.checkSiteHasUpcomingDelivery(id);
             sitesController.deleteSite(id);
             return Response.makeSuccess(0);
         }
@@ -151,17 +152,15 @@ public class DeliveryService {
         }
     }
 
-    //needs to check is a delivery with this truck exists!!!!!!
+
     public Response deleteTruck(int plateNum){
-       /* try{
+       try{
+           deliveriesController.checkTruckHasUpcomingDelivery(plateNum);
             truckController.deleteTruck(plateNum);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
-
-        */
-       return null;
     }
 
     public Response<ArrayList<Truck>> getTrucks(){

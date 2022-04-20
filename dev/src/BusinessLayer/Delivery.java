@@ -1,7 +1,9 @@
 package BusinessLayer;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class Delivery {
     private int id;
@@ -123,18 +125,22 @@ public class Delivery {
         }
         destinationItems.get(branch).replace(item,quantity);
     }
-    public String getItemsOfDest(Branch site){
+    public String toStringItemsOfDest(Branch site){
         String output= String.format("address: %s\nitems:\n",site.getAddress());
         HashMap<String,Integer> itemMap=destinationItems.get(site);
         itemMap.forEach((item,quantity)->output.concat(String.format("\t\t\titem name: %s,  quantity: %d\n",item,quantity)));
         return output;
     }
 
+    public Set<Branch> getDestinations(){
+        return destinationItems.keySet();
+    }
+
     @Override
     public String toString(){
         String output=String.format("id: %d\ndriver name: %s\ndriver id: %d\nstart time: %s\nend time: %s\norigin: %s\nitems:\n",
                 id,driver.getName(),driver.getId(),startTime,endTime,origin.getAddress());
-        destinationItems.keySet().forEach(site->output.concat(getItemsOfDest(site)));
+        destinationItems.keySet().forEach(site->output.concat(toStringItemsOfDest(site)));
         return output;
     }
 }
