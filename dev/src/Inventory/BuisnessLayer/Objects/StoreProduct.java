@@ -11,7 +11,6 @@ public class StoreProduct {
     private Date expDate;
     private List<Location> locations;
 
-    public Date getExpDate() {return expDate;}
 
 
     public StoreProduct(int storeId, int quantityInStore, int quantityInWarehouse, Date expDate, List<Location> locations) {
@@ -32,6 +31,22 @@ public class StoreProduct {
 
     public int getStoreId() {
         return storeId;
+    }
+
+    public int getQuantityInStore() {
+        return quantityInStore;
+    }
+
+    public int getQuantityInWarehouse() {
+        return quantityInWarehouse;
+    }
+
+    public Date getExpDate() {
+        return expDate;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
     }
 
     public String toString() {

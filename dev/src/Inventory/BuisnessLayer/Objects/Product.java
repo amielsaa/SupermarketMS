@@ -57,6 +57,34 @@ public class Product {
         return toString;
     }
 
+    public int getId() {
+        return Id;
+    }
+
+    public double getBuyingPrice() {
+        return buyingPrice;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public Date getDiscountExpDate() {
+        return discountExpDate;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public int getMinQuantity() {
+        return minQuantity;
+    }
+
     public String toString() {
         return " %s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
     }

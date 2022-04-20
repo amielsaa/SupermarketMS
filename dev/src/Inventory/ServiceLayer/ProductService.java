@@ -6,8 +6,11 @@ import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
+import Inventory.ServiceLayer.Objects.ProductSL;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProductService {
 
@@ -28,17 +31,29 @@ public class ProductService {
         }
     }
 
-    public Response<String> GetAllProducts() {
+    public Response<List<ProductSL>> GetAllProducts() {
         try {
-            String products = productController.getAllProducts();
-            return Response.makeSuccess(products);
+            Map<Product,StoreProduct> products = productController.getAllProducts();
+            List<ProductSL> slproducts = new ArrayList<>();
+            for(Map.Entry<Product,StoreProduct> entry : products.entrySet()) {
+                Product curProd = entry.getKey();
+                StoreProduct curSP = entry.getValue();
+                slproducts.add(new ProductSL(curProd.getId(),curProd.getName(),
+                        curProd.getProducer(),curProd.getBuyingPrice(),
+                        curProd.getSellingPrice(),curProd.getDiscount(),
+                        curProd.getDiscountExpDate(),curProd.getCategories(),
+                        curProd.getMinQuantity(),curSP.getQuantityInStore(),
+                        curSP.getQuantityInWarehouse(),curSP.getExpDate(),
+                        curSP.getLocations()));
+            }
+            return Response.makeSuccess(slproducts);
         } catch(Exception e) {
             return Response.makeFailure(e.getMessage());
         }
     }
 
 
-    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, List<String> categories) {
+    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
         try{
             Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,categories);
             return Response.makeSuccess(product.toString());
@@ -47,9 +62,9 @@ public class ProductService {
         }
     }
 
-    public Response<String> AddStoreProduct(String prodName, String prodProducer, int quantityInStore, int quantityInWarehouse, String expDate, String locations ) {
+    public Response<String> AddStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations ) {
         try{
-            StoreProduct sp = productController.addStoreProduct(prodName,prodProducer,quantityInStore,quantityInWarehouse,expDate,locations);
+            StoreProduct sp = productController.addStoreProduct(id,quantityInStore,quantityInWarehouse,expDate,locations);
             return Response.makeSuccess(sp.toString());
         }catch(Exception e) {
             return Response.makeFailure(e.getMessage());
