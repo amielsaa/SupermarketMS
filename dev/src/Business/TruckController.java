@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TruckController {
     private HashMap<Integer, Truck> trucks;
-    private HashMap<LicenseType, Integer> licenseMapper=new HashMap<>(){{
+    private HashMap<LicenseType,Integer> licenseMapper=new HashMap<LicenseType, Integer>(){{
         put(LicenseType.C,Integer.MAX_VALUE);
         put(LicenseType.C1,12000);
     }};
@@ -20,7 +20,7 @@ public class TruckController {
         trucks.put(plateNum,new Truck(plateNum,model,maxWeight));
     }
     public void editPlateNum(int oldPlateNum, int newPlateNum) throws Exception {
-        if(trucks.containsKey(oldPlateNum)==false){
+        if(!trucks.containsKey(oldPlateNum)){
             throw new Exception(String.format("A truck with plate number %d does not exist..",oldPlateNum));
         }
         if(trucks.containsKey(newPlateNum)){
@@ -32,21 +32,21 @@ public class TruckController {
     }
 
     public void editModel(int plateNum, String newModel) throws Exception {
-        if(trucks.containsKey(plateNum)==false){
+        if(!trucks.containsKey(plateNum)){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         trucks.get(plateNum).setModel(newModel);
     }
 
     public void editMaxWeight(int plateNum, int maxWeight) throws Exception {
-        if(trucks.containsKey(plateNum)==false){
+        if(!trucks.containsKey(plateNum)){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         trucks.get(plateNum).setMaxWeight(maxWeight);
     }
 
     public void deleteTruck(int plateNum) throws Exception{
-        if(trucks.containsKey(plateNum)==false){
+        if(!trucks.containsKey(plateNum)){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         trucks.remove(plateNum);
@@ -62,7 +62,14 @@ public class TruckController {
 
     public ArrayList<Truck> getTrucks(){
         ArrayList<Truck> list=new ArrayList<>(trucks.values());
-        Collections.sort(list, Comparator.comparingInt(Truck::getMaxWeight));
+        list.sort(Comparator.comparingInt(Truck::getMaxWeight));
         return list;
+    }
+
+    public Truck getTruck(int plateNum) throws Exception{
+        if(!trucks.containsKey(plateNum)){
+            throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
+        }
+        return trucks.get(plateNum);
     }
 }

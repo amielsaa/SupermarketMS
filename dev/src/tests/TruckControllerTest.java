@@ -1,6 +1,8 @@
-
 import Business.LicenseType;
+import Business.Truck;
 import Business.TruckController;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 class TruckControllerTest {
@@ -10,26 +12,25 @@ class TruckControllerTest {
         TruckController tc = new TruckController();
         try{
             tc.addTruck(1, "a", 10000);
-            assertTrue(true);
+            assertEquals(1, tc.getTrucks().size());
         }
         catch (Exception e) {
-            assertTrue(false);
+            fail();
         }
         try{
             tc.addTruck(2, "b", 20000);
-            assertTrue(true);
+            assertEquals(2, tc.getTrucks().size());
         }
         catch (Exception e) {
-            assertTrue(false);
+            fail();
         }
         try{
             tc.addTruck(1, "c", 30000);
-            assertTrue(false);
+            fail();
         }
         catch (Exception e) {
             assertTrue(true);
         }
-
     }
 
     @org.junit.jupiter.api.Test
@@ -39,23 +40,28 @@ class TruckControllerTest {
             tc.addTruck(1, "a", 10000);
             tc.addTruck(2, "b", 20000);
             tc.editPlateNum(1, 3);
-            assertTrue(true);
         }
         catch (Exception e){
-            assertTrue(false);
+            fail();
         }
         try{
             tc.editPlateNum(2, 3);
-            assertTrue(false);
+            fail();
         }
         catch (Exception e){
             assertTrue(true);
         }
         try{
             tc.editPlateNum(4, 5);
-            assertTrue(false);
+            fail();
         }
         catch (Exception e){
+            assertTrue(true);
+        }
+        try {
+            tc.getTruck(1);
+            fail();
+        }catch (Exception e){
             assertTrue(true);
         }
     }
@@ -70,11 +76,11 @@ class TruckControllerTest {
             assertTrue(true);
         }
         catch (Exception e){
-            assertTrue(false);
+            fail();
         }
         try{
             tc.editModel(3, "d");
-            assertTrue(false);
+            fail();
         }
         catch (Exception e){
             assertTrue(true);
@@ -88,14 +94,14 @@ class TruckControllerTest {
             tc.addTruck(1, "a", 10000);
             tc.addTruck(2, "b", 20000);
             tc.editMaxWeight(1, 15000);
-            assertTrue(true);
+            assertEquals(15000,tc.getTruck(1).getMaxWeight());
         }
         catch (Exception e){
-            assertTrue(false);
+            fail();
         }
         try{
             tc.editMaxWeight(3, 15000);
-            assertTrue(false);
+            fail();
         }
         catch (Exception e){
             assertTrue(true);
@@ -107,16 +113,18 @@ class TruckControllerTest {
         TruckController tc = new TruckController();
         try{
             tc.addTruck(1, "a", 10000);
+            assertEquals(1,tc.getTrucks().size());
             tc.deleteTruck(1);
+            assertEquals(0,tc.getTrucks().size());
             tc.addTruck(1, "a", 10000);
             assertTrue(true);
         }
         catch (Exception e){
-            assertTrue(false);
+            fail();
         }
         try{
             tc.deleteTruck(2);
-            assertTrue(false);
+            fail();
         }
         catch (Exception e){
             assertTrue(true);
@@ -144,12 +152,19 @@ class TruckControllerTest {
     void getTrucks() {
         TruckController tc = new TruckController();
         try{
-            tc.addTruck(1, "a", 10000);
-            tc.addTruck(2, "b", 20000);
-            assertEquals(2, tc.getTrucks().size());
+            tc.addTruck(1, "a", 60000);
+            tc.addTruck(2, "b", 10000);
+            tc.addTruck(3, "c", 20000);
+            tc.addTruck(4, "d", 5000);
+            ArrayList<Truck> list=tc.getTrucks();
+            assertEquals(4, list.size());
+            assertEquals(5000, list.get(0).getMaxWeight());
+            assertEquals(10000, list.get(1).getMaxWeight());
+            assertEquals(20000, list.get(2).getMaxWeight());
+            assertEquals(60000, list.get(3).getMaxWeight());
         }
         catch (Exception e){
-
+            fail();
         }
     }
 }
