@@ -14,14 +14,19 @@ public class ReportService {
     }
 
     public Response<Report> ReportByExpired() {
-        return null;
+        try {
+            Report report = new Report("Expired products report", reportController.reportByExpired());
+            return Response.makeSuccess(report);
+        } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Report> ReportByDefective() {
         return null;
     }
 
-    public Response<Report> ReportStockByCategory() {
+    public Response<Report> ReportStockByCategory(String category) {
         return null;
     }
 

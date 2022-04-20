@@ -1,9 +1,12 @@
 package Inventory.ServiceLayer.Objects;
 
-public class Report {
-    private String description;
+import Inventory.PresentationLayer.CommandLineTable;
 
-    public Report(String description) {
-        this.description = description;
+public class Report {
+    private String headline;
+    private CommandLineTable table;
+    public Report(String headline, CommandLineTable table){
+        this.headline = headline;
+        this.table=table;
     }
 }
