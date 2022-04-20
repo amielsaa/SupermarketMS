@@ -1,3 +1,5 @@
+package tests;
+
 import BusinessLayer.LicenseType;
 import BusinessLayer.Truck;
 import BusinessLayer.TruckController;
