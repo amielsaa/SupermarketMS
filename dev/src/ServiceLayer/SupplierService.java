@@ -19,7 +19,7 @@ public class SupplierService {
 //            SupplierDummy ret = new SupplierDummy();
 //            return Response.makeSuccess(ret);
             //todo: build supplierDummy and return it in response
-            return Response.makeSuccess(new Supplier());
+            return Response.makeSuccess(actualSupplier);
         }
         catch (Exception e){
             return Response.makeFailure(e.getMessage());
