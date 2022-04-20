@@ -7,23 +7,21 @@ public class Delivery {
     private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private int weight;
+    private Driver driver;
     private Truck truck;
     private Site origin;
     private LinkedHashMap<Branch, HashMap<String,Integer>> destinationItems;
-    private boolean status;
-    private Driver driver;
-    public Delivery(int id, LocalDateTime startTime, int durationInMinutes, int weight, Truck truck, Site origin ,Driver driver)
+    private int weight;
+    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime ,Driver driver,Truck truck, Site origin )
     {
         this.id = id;
         this.startTime = startTime;
         this.driver = driver;
-        this.endTime = startTime.plusMinutes(durationInMinutes);
-        this.weight = weight;
+        this.endTime = endTime;
         this.truck = truck;
         this.origin = origin;
         this.destinationItems=new LinkedHashMap<>();
-        status=false;
+        this.weight=0;
     }
 
     public int getId() {
@@ -35,8 +33,10 @@ public class Delivery {
     }
 
     protected void setStartTime(LocalDateTime startTime) throws Exception {
-        if (startTime.compareTo(endTime) > 0)
+        if (startTime.isAfter(endTime))
             throw new Exception("start time cant be later than the end time");
+        if(startTime.isBefore(LocalDateTime.now()))
+            throw new Exception("start time has passed");
         this.startTime = startTime;
     }
 
@@ -45,8 +45,10 @@ public class Delivery {
     }
 
     protected void setEndTime(LocalDateTime endTime) throws Exception {
-        if (endTime.compareTo(startTime) < 0)
+        if (endTime.isBefore(startTime))
             throw new Exception("end time cant be earlier than the start time");
+        if(endTime.isBefore(LocalDateTime.now()))
+            throw new Exception("end time has passed");
         this.endTime = endTime;
     }
 
@@ -73,15 +75,6 @@ public class Delivery {
     protected void setOrigin(Site origin) {
         this.origin = origin;
     }
-
-    public boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
 
     public Driver getDriver() {
         return driver;
@@ -115,7 +108,7 @@ public class Delivery {
         }
         destinationItems.get(branch).put(item,quantity);
     }
-    public void removeItemFromDestination(Branch branch, String item, int quantity) throws Exception {
+    public void removeItemFromDestination(Branch branch, String item) throws Exception {
         if(!destinationItems.containsKey(branch)){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
         }
