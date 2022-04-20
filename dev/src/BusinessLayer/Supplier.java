@@ -139,11 +139,21 @@ public class Supplier {
     }
 
     public void addSupplierContact(String name, int contactPhone) {
-        //todo
+        Contacts.add(new Contact(name,contactPhone));
     }
 
     public void removeSupplierContact(int contactPhone) {
-        //todo
+        int beginningSize=Contacts.size();
+        for (int i=0;i<Contacts.size();i++){
+            if(Contacts.get(i).getPhone_Num()==contactPhone)
+                Contacts.remove(i);
+        }
+        if(Contacts.size()==beginningSize)
+            throw new IllegalArgumentException("Contact could no be found");
+    }
+    public HashMap<Integer,Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
+        return Quantity_Agreement.makeOrder(order);
+
     }
 
 

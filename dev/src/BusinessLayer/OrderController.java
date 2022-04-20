@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -52,6 +53,23 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
         BN_To_Orders.put(supplierBN,new HashMap<Integer,Order>());
         throw new IllegalArgumentException("supplier already exists");
     }
+    public void removeSupplier(int supplierBN){
+        BN_To_Orders.remove(supplierBN);
+    }
+    public void MakeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer,Pair<String,Double>> fixedOrder){
 
+        Integer[] orderKeys= (Integer[]) order.keySet().toArray();// keys of the items in array
+        HashMap <Integer,OrderItem> Item_Num_To_OrderItem=new HashMap<Integer,OrderItem>();//the Parameter that will be inserted into the Order
+        double finalPrice=0;
+        for (Integer i:orderKeys) {
+            OrderItem orderItem=new OrderItem(Id_Order_Counter,fixedOrder.get(orderKeys[i]).getFirst(),orderKeys[i],fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
+            Item_Num_To_OrderItem.put(orderKeys[i],orderItem);
+            finalPrice=finalPrice+fixedOrder.get(orderKeys[i]).getSecond();
+        }
+        Date date=new Date(System.currentTimeMillis());
+        BN_To_Orders.get(supplierBN).put(Id_Order_Counter,new Order(supplierBN,Id_Order_Counter,Item_Num_To_OrderItem,finalPrice, date));
+        Id_Order_Counter++;
+
+    }
 
 }

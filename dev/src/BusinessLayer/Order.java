@@ -6,16 +6,16 @@ import java.util.HashMap;
 public class Order {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Integer,Integer> item_Num_To_Quantity;
+    private HashMap<Integer,OrderItem> item_Num_To_OrderItem;
     private double final_Price;
     private Date Order_Date;
 
 
-    public Order(int supplier_bn, int order_id, HashMap<Integer, Integer> item_num_to_orderItem, Date order_date) {
+    public Order(int supplier_bn, int order_id, HashMap<Integer, OrderItem> item_num_to_orderItem,double final_price, Date order_date) {
         Supplier_BN = supplier_bn;
         Order_Id = order_id;
-        item_Num_To_Quantity = item_num_to_orderItem;
-//        final_Price = final_price; //todo: update final price after discounts
+        item_Num_To_OrderItem = item_num_to_orderItem;
+        final_Price = final_price;
         Order_Date = order_date;
     }
 
@@ -51,12 +51,12 @@ public class Order {
         Supplier_BN = supplier_BN;
     }
 
-    public HashMap<Integer, Integer> getItem_Num_To_Quantity() {
-        return item_Num_To_Quantity;
+    public HashMap<Integer,OrderItem> getItem_Num_To_Quantity() {
+        return item_Num_To_OrderItem;
     }
 
-    public void setItem_Num_To_Quantity(HashMap<Integer, Integer> item_Num_To_Quantity) {
-        this.item_Num_To_Quantity = item_Num_To_Quantity;
+    public void setItem_Num_To_Quantity(HashMap<Integer, OrderItem> item_Num_To_Quantity) {
+        this.item_Num_To_OrderItem = item_Num_To_Quantity;
     }
 
 
