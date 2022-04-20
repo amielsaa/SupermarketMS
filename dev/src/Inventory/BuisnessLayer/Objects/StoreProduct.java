@@ -11,7 +11,6 @@ public class StoreProduct {
     private Date expDate;
     private List<Location> locations;
 
-    public Date getExpDate() {return expDate;}
 //    public int getQuantityInStore() {return quantityInStore;}
 //    public int getQuantityInWarehouse() {return quantityInWarehouse;}
 
