@@ -11,6 +11,10 @@ public class StoreProduct {
     private Date expDate;
     private List<Location> locations;
 
+    public Date getExpDate() {return expDate;}
+//    public int getQuantityInStore() {return quantityInStore;}
+//    public int getQuantityInWarehouse() {return quantityInWarehouse;}
+
     public StoreProduct(int storeId, int quantityInStore, int quantityInWarehouse, Date expDate, List<Location> locations) {
         this.storeId = storeId;
         this.quantityInStore = quantityInStore;
@@ -34,5 +38,11 @@ public class StoreProduct {
     public String toString() {
         return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDay(),expDate.getMonth(),expDate.getYear(),getLocationsByString());
     }
+    public String[] toArrayString(){
+        String[] arr = {String.valueOf(quantityInStore), String.valueOf(quantityInWarehouse),expDate.getDay()+","+expDate.getMonth()+","+expDate.getYear(),getLocationsByString()};
+        return arr ;
+    }
+
+
 
 }
