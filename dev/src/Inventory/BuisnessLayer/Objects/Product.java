@@ -88,5 +88,10 @@ public class Product {
     public String toString() {
         return " %s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
+    public String[] toArrayString(){
+        String[] arr = {name,producer, String.valueOf(sellingPrice), String.valueOf(buyingPrice), categoriesToString()};
+        return arr ;
+    }
+
 
 }
