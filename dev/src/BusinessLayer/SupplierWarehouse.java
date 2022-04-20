@@ -1,4 +1,4 @@
-package Business;
+package BusinessLayer;
 
 public class SupplierWarehouse extends Site{
     public SupplierWarehouse(int id, String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {

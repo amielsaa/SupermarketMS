@@ -1,9 +1,9 @@
-package Business;
+package BusinessLayer;
 
 public class Truck {
-    int plateNum;
-    String model;
-    int maxWeight;
+    private int plateNum;
+    private String model;
+    private int maxWeight;
 
     public Truck(int plateNum, String model, int maxWeight) {
         this.plateNum = plateNum;

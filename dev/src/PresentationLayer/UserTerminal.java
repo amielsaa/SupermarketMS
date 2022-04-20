@@ -1,6 +1,6 @@
-package Presentation;
+package PresentationLayer;
 
-import Service.DeliveryService;
+import ServiceLayer.DeliveryService;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-import Presentation.UserTerminal;
+import PresentationLayer.UserTerminal;
 
 public class Main {
     public static void main(String[] args)

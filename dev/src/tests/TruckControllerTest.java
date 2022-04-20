@@ -1,6 +1,6 @@
-import Business.LicenseType;
-import Business.Truck;
-import Business.TruckController;
+import BusinessLayer.LicenseType;
+import BusinessLayer.Truck;
+import BusinessLayer.TruckController;
 
 import java.util.ArrayList;
 

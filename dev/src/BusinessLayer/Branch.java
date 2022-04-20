@@ -1,4 +1,4 @@
-package Business;
+package BusinessLayer;
 
 public class Branch extends Site{
     public Branch(int id, String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {

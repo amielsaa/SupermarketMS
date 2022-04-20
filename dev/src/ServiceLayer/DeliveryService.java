@@ -1,6 +1,6 @@
-package Service;
+package ServiceLayer;
 
-import Business.*;
+import BusinessLayer.*;
 
 import java.util.Collection;
 

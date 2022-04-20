@@ -1,4 +1,4 @@
-package Business;
+package BusinessLayer;
 
 public abstract class Site {
 

@@ -1,4 +1,4 @@
-package Business;
+package BusinessLayer;
 
 public enum LicenseType {
     C1,

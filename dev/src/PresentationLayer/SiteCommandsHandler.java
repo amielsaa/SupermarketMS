@@ -1,6 +1,6 @@
-package Presentation;
+package PresentationLayer;
 
-import Service.DeliveryService;
+import ServiceLayer.DeliveryService;
 
 public class SiteCommandsHandler {
     private String[] COMMANDS = {"add_supplier"};
