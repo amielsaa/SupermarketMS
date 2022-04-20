@@ -1,6 +1,8 @@
 package BusinessLayer;
 
 
+import misc.Pair;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -42,7 +44,7 @@ public class QuantityAgreement {
     public void setItem_Num_To_Price(HashMap<Integer, Double> item_Num_To_Price) {
         this.item_Num_To_Price = item_Num_To_Price;
     }
-    public HashMap<Integer,Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
+    public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
         HashMap<Integer,Pair<String,Double>> fixedOrder= new HashMap<Integer, Pair<String, Double>>();// the fixed Order to return
         Integer[] orderKeys= (Integer[]) order.keySet().toArray();// array of the keys of the order
         for(int i=0;i<orderKeys.length;i++){

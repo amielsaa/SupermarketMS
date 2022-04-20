@@ -1,5 +1,7 @@
 package BusinessLayer;
 
+import misc.Pair;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -50,7 +52,7 @@ public class SupplierController {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
     }
-    private HashMap<Integer,Pair<String,Double>> makeOrder(int business_num,HashMap<Integer,Integer> order){
+    private HashMap<Integer, Pair<String,Double>> makeOrder(int business_num, HashMap<Integer,Integer> order){
         Check_If_Supplier_Exists(business_num);
         return  BN_To_Supplier.get(business_num).makeOrder(order);
     }

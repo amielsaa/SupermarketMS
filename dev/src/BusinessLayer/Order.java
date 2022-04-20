@@ -2,6 +2,7 @@ package BusinessLayer;
 
 import java.util.Date;
 import java.util.HashMap;
+import BusinessLayer.*;
 
 public class Order {
     private int Supplier_BN;

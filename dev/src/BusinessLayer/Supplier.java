@@ -1,6 +1,7 @@
 package BusinessLayer;
 
 import misc.Days;
+import misc.Pair;
 import misc.PaymentDetails;
 
 import javax.print.attribute.SetOfIntegerSyntax;
@@ -151,7 +152,7 @@ public class Supplier {
         if(Contacts.size()==beginningSize)
             throw new IllegalArgumentException("Contact could no be found");
     }
-    public HashMap<Integer,Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
+    public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
         return Quantity_Agreement.makeOrder(order);
 
     }

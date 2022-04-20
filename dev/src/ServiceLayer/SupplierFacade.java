@@ -25,6 +25,7 @@ public class SupplierFacade {
             sOrder.addSupplier(parameters)
             return toreturn;
          */
+        return Response.makeSuccess(new Supplier());
     }
 
 //    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response

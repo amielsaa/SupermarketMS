@@ -1,5 +1,7 @@
 package BusinessLayer;
 
+import misc.Pair;
+import BusinessLayer.*;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
     public void removeSupplier(int supplierBN){
         BN_To_Orders.remove(supplierBN);
     }
-    public void MakeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer,Pair<String,Double>> fixedOrder){
+    public void MakeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
 
         Integer[] orderKeys= (Integer[]) order.keySet().toArray();// keys of the items in array
         HashMap <Integer,OrderItem> Item_Num_To_OrderItem=new HashMap<Integer,OrderItem>();//the Parameter that will be inserted into the Order
