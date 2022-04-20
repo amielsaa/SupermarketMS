@@ -2,7 +2,7 @@ package Inventory.ServiceLayer;
 
 import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.ServiceLayer.Objects.Product;
+import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 
 import java.util.List;
@@ -25,12 +25,16 @@ public class Service {
         return productService.SelectStore(storeId);
     }
 
-    public Response<String> GetAllProducts() {
+    public Response<List<ProductSL>> GetAllProducts() {
         return productService.GetAllProducts();
     }
 
-    public Response<String> AddProduct(String name, String producer, int price, List<String> categories) {
-        return null;
+    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
+        return productService.AddProduct(name,producer,buyingPrice,sellingPrice,categories);
+    }
+
+    public Response<String> AddStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
+        return productService.AddStoreProduct(id,quantityInStore,quantityInWarehouse,expDate,locations);
     }
 
     public Response<Category> AddCategory(String category) {
@@ -41,11 +45,11 @@ public class Service {
         return null;
     }
 
-    public Response<Product> AddDefectiveProduct(String name, String producer) {
+    public Response<ProductSL> AddDefectiveProduct(String name, String producer) {
         return null;
     }
 
-    public Response<Product> DeleteProduct(String name, String producer) {
+    public Response<ProductSL> DeleteProduct(String name, String producer) {
         return null;
     }
 

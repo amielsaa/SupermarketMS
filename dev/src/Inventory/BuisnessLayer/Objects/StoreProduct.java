@@ -31,6 +31,22 @@ public class StoreProduct {
         return storeId;
     }
 
+    public int getQuantityInStore() {
+        return quantityInStore;
+    }
+
+    public int getQuantityInWarehouse() {
+        return quantityInWarehouse;
+    }
+
+    public Date getExpDate() {
+        return expDate;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
     public String toString() {
         return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDay(),expDate.getMonth(),expDate.getYear(),getLocationsByString());
     }

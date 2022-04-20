@@ -34,12 +34,14 @@ public class ProductController {
      * @return
      */
 
-    public String getAllProducts() {
-        String products = "";
+    public Map<Product,StoreProduct> getAllProducts() {
+        Map<Product,StoreProduct> products = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
             StoreProduct sp = getStoreProductByStoreId(entry.getValue());
             if(sp!=null)
-                products += sp.toString() +"\n";
+                products.put(entry.getKey(),sp);
+            else
+                products.put(entry.getKey(),new StoreProduct(storeId,0,0,null,null));
         }
         return products;
     }
@@ -62,17 +64,34 @@ public class ProductController {
      * @param categories
      * @return
      */
-    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, List<String> categories) {
+    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
         //check for base conditions that satisfy the requirements - else throw exception
-        boolean isCategoriesExists = categories.containsAll(categories);
-        if(!isCategoriesExists)
-            throw new IllegalArgumentException("Categories doesn't exists.");
+        List<String> categoriesList = stringToCategoryList(categories);
+        categoriesExistance(categoriesList);
         //TODO: capitalize all categories names
-        List<Category> productCategories = getCategoriesByName(categories);
+        List<Category> productCategories = getCategoriesByName(categoriesList);
         Product product = new Product(productId++,name,producer,sellingPrice,buyingPrice,productCategories);
         data.getProductListMap().put(product,new ArrayList<>());
         return product;
 
+    }
+
+    private void categoriesExistance(List<String> categories) {
+        for(String item : categories) {
+            Category curCategory = data.getCategories().stream().filter(category-> item.equals(category.getCategoryName()))
+                    .findFirst().orElse(null);
+            if(curCategory == null)
+                throw new IllegalArgumentException(item + " doesn't exisits.");
+        }
+    }
+
+    private List<String> stringToCategoryList(String categoryString) {
+        List<String> categories = new ArrayList<>();
+        String[] categoryArray = categoryString.split(",");
+        for(int i=0;i<categoryArray.length;i++)
+            categoryArray[i] = categoryArray[i].trim();
+        Collections.addAll(categories,categoryArray);
+        return categories;
     }
 
     private List<Category> getCategoriesByName(List<String> cat) {
@@ -85,16 +104,14 @@ public class ProductController {
     }
 
     /**
-     *
-     * @param prodName
-     * @param prodProducer
+     * @param id
      * @param quantityInStore
      * @param quantityInWarehouse
      * @param expDate
      * @param locations
      */
-    public StoreProduct addStoreProduct(String prodName, String prodProducer, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
-        Product currentProduct = findProductByProdName(prodName,prodProducer);
+    public StoreProduct addStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
+        Product currentProduct = findProductById(id);
         Date curExpDate = getDateByString(expDate);
         List<Location> curLocations = getLocationListByString(locations);
         StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
@@ -122,13 +139,21 @@ public class ProductController {
         throw new IllegalArgumentException("Date format isn't valid.");
     }
 
-    private Product findProductByProdName(String name, String producer) {
-        for(Map.Entry<Product, List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
-            if(entry.getKey().getName().equals(name) && entry.getKey().getProducer().equals(producer))
-                return entry.getKey();
+    private Product findProductById(int id) {
+        for(Product item : data.getProductListMap().keySet()) {
+            if(item.getId() == id)
+                return item;
         }
         throw new IllegalArgumentException("No such product exists.");
     }
+
+//    private Product findProductByProdName(String name, String producer) {
+//        for(Map.Entry<Product, List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
+//            if(entry.getKey().getName().equals(name) && entry.getKey().getProducer().equals(producer))
+//                return entry.getKey();
+//        }
+//        throw new IllegalArgumentException("No such product exists.");
+//    }
 
 
 

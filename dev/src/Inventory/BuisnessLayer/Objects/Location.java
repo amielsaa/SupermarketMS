@@ -24,4 +24,8 @@ public class Location {
     public int getShelfNum() {
         return shelfNum;
     }
+
+    public String toString() {
+        return locationName + "-" + aisle +"-"+shelfNum;
+    }
 }
