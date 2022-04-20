@@ -15,7 +15,7 @@ public class Product {
     private Date discountExpDate;
     private List<Category> categories;
     private int minQuantity;
-    public List<Category> getCategories(){return categories;}
+
 
     public Product(int Id, String name, String producer, double sellingPrice,double buyingPrice, List<Category> categories) {
         this.Id = Id;
