@@ -20,6 +20,9 @@ public class Supplier {
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
     private Set<Days> Days_To_Deliver;
 
+
+    public Supplier(){}//todo: remove this constructor - just for testing!
+
     public Supplier(String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
         Business_Num = business_num;

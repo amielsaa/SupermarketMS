@@ -17,7 +17,8 @@ public class SupplierService {
     }
 
     public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response
-        Supplier ret = cSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, contact, quantity_agreement, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
+//        Supplier ret = cSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, contact, quantity_agreement, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
+        Supplier ret = new Supplier();
         return ret;
     }
 }

@@ -13,7 +13,7 @@ public class MainFacade {
     SupplierFacade fSupplier;
 
     public MainFacade(){
-        SupplierFacade fSupplier = new SupplierFacade();
+        fSupplier = new SupplierFacade();
     }
 
     public void main() {
@@ -29,8 +29,8 @@ public class MainFacade {
                     s.close();
                 }
                 case ("1"): {
-//                    createSupplier(s); //todo: restore
-                    createQuantityAgreement(s);
+                    createSupplier(s); //todo: restore
+//                    createQuantityAgreement(s);
                 }
             }
 
@@ -42,7 +42,6 @@ public class MainFacade {
     }
 
     private void createSupplier(Scanner s){
-        //todo: String name, int business_num, int bank_acc_num, String payment_details, Contact contact, QuantityAgreement quantity_agreement, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver
         System.out.print("Enter supplier name: ");
         String supplierName = s.nextLine();
         System.out.print("Enter supplier business number: ");
@@ -69,7 +68,7 @@ public class MainFacade {
 
         Set<Integer> daysToDeliver = deliveryDaysLoop(s);
         QuantityAgreement qa = createQuantityAgreement(s);
-        Supplier newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,new Contact(contactName, contactNumber), qa, deliveryDays, selfDelivery, daysToDeliver);
+//        Supplier newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,new Contact(contactName, contactNumber), qa, deliveryDays, selfDelivery, daysToDeliver);
 
 
     }
@@ -201,6 +200,11 @@ public class MainFacade {
     }
 
     private boolean legalNumberCheck(String input){
-
+        int x = -1;
+        try{
+            x = Integer.parseInt(input);
+        }
+        catch(Exception e){}
+        return x != -1;
     }
 }
