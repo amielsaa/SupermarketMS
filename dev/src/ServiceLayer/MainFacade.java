@@ -3,6 +3,7 @@ package ServiceLayer;
 import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
 import BusinessLayer.Supplier;
+import ServiceLayer.DummyObjects.DSupplier;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,8 +30,10 @@ public class MainFacade {
                     s.close();
                 }
                 case ("1"): {
-                    createSupplier(s); //todo: restore
-//                    createQuantityAgreement(s);
+                    createSupplier(s);
+                }
+                case ("2"): {
+                    makeOrder(s);
                 }
             }
 
@@ -101,7 +104,7 @@ public class MainFacade {
         HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
         HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
         createQuantityAgreement(s, item_num_to_price, item_num_to_name, item_Num_To_Discount);
-        Response<Supplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price, item_num_to_name, item_Num_To_Discount, deliveryDays, selfDelivery, daysToDeliver);
+        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price, item_num_to_name, item_Num_To_Discount, deliveryDays, selfDelivery, daysToDeliver);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -153,7 +156,6 @@ public class MainFacade {
     }
 
     private void createQuantityAgreement(Scanner s, HashMap<Integer, Integer> item_num_to_price, HashMap<Integer, String> item_num_to_name, HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount){
-        //todo: HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name
         System.out.println("Now we need to add the items that the supplier can supply.\nType item name and price. When you are done, type 'STOP' for the item name.");
         int itemID = 0;
         String itemName = "-1";
@@ -227,6 +229,31 @@ public class MainFacade {
             }
         }
 
+    }
+
+    private void makeOrder(Scanner s){
+        //todo: collect info for func
+        String businessnumString;
+        int businessNumber = -1;
+        while(true){
+            System.out.print("Enter supplier BN: ");
+            businessnumString = s.nextLine();
+            if(legalNumberCheck(businessnumString)) {
+                businessNumber = Integer.parseInt(businessnumString);
+                break;
+            }
+            else System.out.println("Invalid business number");
+        }
+        if(businessNumber>=0) {
+            printSupplierItems(businessNumber); //todo: create func that prints supplier's stash
+            for (int x : item_num_to_name.keySet()) {
+                System.out.println("Item ID: " + x + ", Item name: " + item_num_to_name.get(x) + ", Item price: " + item_num_to_price.get(x));
+            }
+
+        }
+
+
+        Response res = fSupplier.makeOrder(businessnum, order);
     }
 
     private boolean legalNumberCheck(String input){

@@ -52,8 +52,8 @@ public class SupplierController {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
     }
-    private HashMap<Integer, Pair<String,Double>> makeOrder(int business_num, HashMap<Integer,Integer> order){
+    public HashMap<Integer, Pair<String,Double>> makeOrder(int business_num, HashMap<Integer,Integer> order){
         Check_If_Supplier_Exists(business_num);
-        return  BN_To_Supplier.get(business_num).makeOrder(order);
+        return BN_To_Supplier.get(business_num).makeOrder(order);
     }
 }

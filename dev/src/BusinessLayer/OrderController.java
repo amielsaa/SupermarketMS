@@ -45,7 +45,7 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
             throw new IllegalArgumentException("Order ID was not found");
         }
     }
-    public  double getFinalPrice(int supplierBN,int orderID){
+    public double getFinalPrice(int supplierBN,int orderID){
         Check_If_Order_Exists(supplierBN,orderID);
         return BN_To_Orders.get(supplierBN).get(orderID).getFinal_Price();
 
@@ -58,7 +58,8 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
     public void removeSupplier(int supplierBN){
         BN_To_Orders.remove(supplierBN);
     }
-    public void MakeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
+
+    public Order makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
 
         Integer[] orderKeys= (Integer[]) order.keySet().toArray();// keys of the items in array
         HashMap <Integer,OrderItem> Item_Num_To_OrderItem=new HashMap<Integer,OrderItem>();//the Parameter that will be inserted into the Order
@@ -69,8 +70,10 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
             finalPrice=finalPrice+fixedOrder.get(orderKeys[i]).getSecond();
         }
         Date date=new Date(System.currentTimeMillis());
-        BN_To_Orders.get(supplierBN).put(Id_Order_Counter,new Order(supplierBN,Id_Order_Counter,Item_Num_To_OrderItem,finalPrice, date));
+        Order newOrder = new Order(supplierBN,Id_Order_Counter,Item_Num_To_OrderItem,finalPrice, date);
+        BN_To_Orders.get(supplierBN).put(Id_Order_Counter, newOrder);
         Id_Order_Counter++;
+        return newOrder;
 
     }
 
