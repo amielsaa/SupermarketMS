@@ -19,7 +19,6 @@ public class Product {
 
     public Product(int Id, String name, String producer, double sellingPrice,double buyingPrice, List<Category> categories) {
         this.Id = Id;
-
         this.name = name;
         this.producer = producer;
         this.buyingPrice = buyingPrice;

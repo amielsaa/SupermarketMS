@@ -21,6 +21,14 @@ public class Service {
 
     // product service
 
+    public Response<Integer> SelectStore(int storeId) {
+        return productService.SelectStore(storeId);
+    }
+
+    public Response<String> GetAllProducts() {
+        return productService.GetAllProducts();
+    }
+
     public Response<String> AddProduct(String name, String producer, int price, List<String> categories) {
         return null;
     }

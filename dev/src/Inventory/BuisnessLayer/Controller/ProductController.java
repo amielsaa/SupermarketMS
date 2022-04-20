@@ -29,6 +29,29 @@ public class ProductController {
 
     }
 
+    /**
+     *
+     * @return
+     */
+
+    public String getAllProducts() {
+        String products = "";
+        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
+            StoreProduct sp = getStoreProductByStoreId(entry.getValue());
+            if(sp!=null)
+                products += sp.toString() +"\n";
+        }
+        return products;
+    }
+
+    private StoreProduct getStoreProductByStoreId(List<StoreProduct> list) {
+        for(StoreProduct item : list){
+            if(item.getStoreId() == storeId)
+                return item;
+        }
+        return null;
+    }
+
 
     /**
      *

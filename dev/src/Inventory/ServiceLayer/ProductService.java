@@ -28,6 +28,15 @@ public class ProductService {
         }
     }
 
+    public Response<String> GetAllProducts() {
+        try {
+            String products = productController.getAllProducts();
+            return Response.makeSuccess(products);
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
 
     public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, List<String> categories) {
         try{
