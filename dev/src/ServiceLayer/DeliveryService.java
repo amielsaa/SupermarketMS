@@ -138,7 +138,7 @@ public class DeliveryService {
         }
     }
 
-    public Response<Site> getAllSite(int id){
+    public Response<Site> getSite(int id){
         try {
             Site site = sitesController.getSite(id);
             return Response.makeSuccess(site);
