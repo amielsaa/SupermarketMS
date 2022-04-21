@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
+import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
@@ -32,11 +33,11 @@ public class SupplierFacade {
 
     public Response makeOrder(int business_num, HashMap<Integer,Integer> order){
         Response<HashMap<Integer, Pair<String,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
-        Response resFromOrder = Response.makeFailure("Error while making Hash with discounts.");
         if(resWithHash.isSuccess()) {
-            resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
+            Response<DOrder> resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
+            return resFromOrder;
         }
-        return resFromOrder;
+        return resWithHash;
     }
 
     public Response<DSupplier> getSupplier(int businessNumber){

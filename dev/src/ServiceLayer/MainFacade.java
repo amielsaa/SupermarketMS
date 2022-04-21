@@ -227,7 +227,7 @@ public class MainFacade {
                     //todo: add checks
                     if(!item_Num_To_Discount.containsKey(itemIdNumber))
                         item_Num_To_Discount.put(itemIdNumber, new HashMap<>());
-                    item_Num_To_Discount.get(itemIdNumber).put(itemDiscountNumber, itemAmountNumber); //todo: tell Ari about the order of nested hash - discount,amount
+                    item_Num_To_Discount.get(itemIdNumber).put(itemAmountNumber, itemDiscountNumber);
 
                 }
 
@@ -318,7 +318,7 @@ public class MainFacade {
         HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
         item_Num_To_Price.put(0, 5.0);
         HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
-        item_Num_To_Discount.put(0, new HashMap<Integer,Integer>());
+//        item_Num_To_Discount.put(0, new HashMap<Integer,Integer>());
         HashMap<Integer,String> item_Num_To_Name = new HashMap<>();
         item_Num_To_Name.put(0, "test");
         Response<DSupplier> newsupplier = fSupplier.addSupplier("1",1,1,"credit","1", 1, item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, true, true, new HashSet<Integer>());

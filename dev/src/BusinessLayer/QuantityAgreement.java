@@ -46,12 +46,20 @@ public class QuantityAgreement {
     }
     public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
         HashMap<Integer,Pair<String,Double>> fixedOrder= new HashMap<Integer, Pair<String, Double>>();// the fixed Order to return
-        Integer[] orderKeys= (Integer[]) order.keySet().toArray();// array of the keys of the order
+        Integer[] orderKeys = new Integer[order.keySet().toArray().length];// array of the keys of the order
+        for(int i=0; i<orderKeys.length;i++){
+            orderKeys[i] = (Integer)order.keySet().toArray()[i];
+        }
+
+
         for(int i=0;i<orderKeys.length;i++){
             CheckIfItemExists(orderKeys[i]);
             if(item_Num_To_Quantity_To_Discount.containsKey(orderKeys[i])){
                 int currentDiscount=0;
-                Integer[] quantities= (Integer[]) item_Num_To_Quantity_To_Discount.get(orderKeys[i]).keySet().toArray();
+                Integer[] quantities= new Integer[item_Num_To_Quantity_To_Discount.get(orderKeys[i]).keySet().toArray().length];
+                for(int j=0; j<quantities.length;j++){
+                    quantities[j] = (Integer)item_Num_To_Quantity_To_Discount.get(orderKeys[i]).keySet().toArray()[j];
+                }
                 for(int j=0;i<quantities.length;j++) {
                     if((quantities[j]<order.get(orderKeys[i]))&&(currentDiscount<item_Num_To_Quantity_To_Discount.get(orderKeys[i]).get(quantities[j])))
                         currentDiscount = item_Num_To_Quantity_To_Discount.get(orderKeys[i]).get(quantities[j]);

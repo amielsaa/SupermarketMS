@@ -1,7 +1,9 @@
 package ServiceLayer;
 
+import BusinessLayer.Order;
 import BusinessLayer.OrderController;
 import BusinessLayer.Supplier;
+import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -25,10 +27,10 @@ public class OrderService {
 
     }
 
-    public Response makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
+    public Response<DOrder> makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
         try {
-            cOrder.makeOrder(supplierBN, order, fixedOrder);
-            return Response.makeSuccess(null);
+            Order actualOrder = cOrder.makeOrder(supplierBN, order, fixedOrder);
+            return Response.makeSuccess(new DOrder(actualOrder));
         }
         catch (Exception e){
             return Response.makeFailure(e.getMessage());

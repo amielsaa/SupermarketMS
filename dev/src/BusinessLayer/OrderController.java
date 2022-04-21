@@ -61,7 +61,11 @@ private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
 
     public Order makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
 
-        Integer[] orderKeys= (Integer[]) order.keySet().toArray();// keys of the items in array
+        Integer[] orderKeys= new Integer[order.keySet().toArray().length];// keys of the items in array
+        for(int i=0; i<orderKeys.length;i++){
+            orderKeys[i] = (Integer)order.keySet().toArray()[i];
+        }
+
         HashMap <Integer,OrderItem> Item_Num_To_OrderItem=new HashMap<Integer,OrderItem>();//the Parameter that will be inserted into the Order
         double finalPrice=0;
         for (Integer i:orderKeys) {
