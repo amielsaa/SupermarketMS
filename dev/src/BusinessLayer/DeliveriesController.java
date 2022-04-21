@@ -128,6 +128,7 @@ public class DeliveriesController {
         delivery.editItemQuantity((Branch)destination,item,quantity);
     }
 
+    //why did i to this?
     public String getItemsOfDest(int deliveryId,int siteId) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);

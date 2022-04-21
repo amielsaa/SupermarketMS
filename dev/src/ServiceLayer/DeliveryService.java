@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import BusinessLayer.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -165,9 +166,159 @@ public class DeliveryService {
             return Response.makeFailure(e.getMessage());
         }
     }
-
     public Response<ArrayList<Truck>> getTrucks(){
         return Response.makeSuccess(truckController.getTrucks());
     }
-}
+
+    //****************DeliveryLogic***********************
+    public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId){
+        try{
+            deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> searchCompletedDelivery(int deliveryId){
+        try {
+            return Response.makeSuccess(deliveriesController.getCompletedDelivery(deliveryId));
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> searchUpcomingDelivery(int deliveryId){
+        try {
+            return Response.makeSuccess(deliveriesController.getUpcomingDelivery(deliveryId).toString());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<ArrayList<Delivery>> viewUpcomingDeliveries(){
+        try {
+            return Response.makeSuccess(deliveriesController.getUpcomingDeliveries());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<ArrayList<String>> viewDeliveryArchive(){
+        try {
+            return Response.makeSuccess(deliveriesController.getDeliveryArchive());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response addDestinationToDelivery(int deliveryId,int siteId){
+        try {
+            deliveriesController.addDestination(deliveryId,siteId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response removeDestinationFromDelivery(int deliveryId,int siteId){
+        try {
+            deliveriesController.removeDestination(deliveryId,siteId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response addItemToDeliveryDestination(int deliveryId,int siteId, String item, int quantity){
+        try {
+            deliveriesController.addItemToDestination(deliveryId,siteId,item,quantity);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response removeItemFromDeliveryDestination(int deliveryId,int siteId, String item){
+        try {
+            deliveriesController.removeItemFromDestination(deliveryId,siteId,item);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryItemQuantity(int deliveryId,int siteId, String item, int quantity){
+        try {
+            deliveriesController.editItemQuantity(deliveryId,siteId,item,quantity);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryStartTime(int deliveryId,LocalDateTime newStartTime){
+        try {
+            deliveriesController.editStartTime(deliveryId,newStartTime);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryEndTime(int deliveryId,LocalDateTime newEndTime){
+        try {
+            deliveriesController.editEndTime(deliveryId,newEndTime);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryDriver(int deliveryId,int newDriverId){
+        try {
+            deliveriesController.editDriver(deliveryId,newDriverId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryTruck(int deliveryId,int newDriverId){
+        try {
+            deliveriesController.editTruck(deliveryId,newDriverId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+    }
+
+    public Response editDeliveryOrigin(int deliveryId,int newOriginId){
+        try {
+            deliveriesController.setOrigin(deliveryId,newOriginId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDeliveryWeight(int deliveryId,int weight){
+        try {
+            deliveriesController.setWeight(deliveryId,weight);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response completeDelivery(int deliveryId){
+        try {
+            deliveriesController.completeDelivery(deliveryId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+    }
 
