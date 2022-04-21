@@ -14,10 +14,14 @@ public class QuantityAgreement {
     private HashMap<Integer,String> item_Num_To_Name;
 
 
-    public QuantityAgreement(HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
+    public QuantityAgreement(HashMap<Integer,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
+        PriceValidationChecker(item_num_to_price);
         item_Num_To_Price = item_num_to_price;
+        DiscountsValidationCheck(item_num_to_discount);
         item_Num_To_Quantity_To_Discount = item_num_to_discount;
         item_Num_To_Name = item_num_to_name;
+        if(item_Num_To_Quantity_To_Discount.keySet().size()!=item_num_to_name.keySet().size())
+            throw new IllegalArgumentException("The size list of Products Names should match the size of the list of Products price");
     }
 
     public HashMap<Integer, Double> getItem_Num_To_Price() {
@@ -77,8 +81,72 @@ public class QuantityAgreement {
         return fixedOrder;
     }
     private void CheckIfItemExists(int itemNum){
-        if(!item_Num_To_Name.containsKey(itemNum))
+        if(!item_Num_To_Price.containsKey(itemNum))
             throw new IllegalArgumentException("item number"+itemNum+"is not in the supplier catalog");
+    }
+    private void PriceValidationChecker(HashMap<Integer,Double> item_num_to_price){
+        Set<Integer> keys=item_num_to_price.keySet();
+        //checks if the price is negative
+        for(Integer i:keys){
+            if (item_num_to_price.get(i)<0)
+                throw new IllegalArgumentException("Negative price Detected on item "+ i);
+            //check if the price are only numbers
+            if(!CheckLegalNumberForDouble(item_num_to_price.get(i)))
+                throw new IllegalArgumentException("Price should be a legal number");
+
+        }
+    }
+    private void DiscountsValidationCheck(HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount){
+        Set<Integer> keys=item_Num_To_Quantity_To_Discount.keySet();
+
+        for(Integer i:keys){
+            //check if the item is in the catalog (can't give discounts for items we don't offer)
+         CheckIfItemExists(i);
+            //check if the discount is Valid
+            Set<Integer> keysOfQuantities=item_Num_To_Quantity_To_Discount.get(i).keySet();
+            for(Integer j:keysOfQuantities){
+                if(!CheckLegalNumber(j)) {
+                    throw new IllegalArgumentException("Quantity should be a legal number");
+                }
+                    if(!CheckLegalNumber(item_Num_To_Quantity_To_Discount.get(i).get(j))||item_Num_To_Quantity_To_Discount.get(i).get(j)>100)
+                        throw new IllegalArgumentException("Discount should be a legal number between 0 and 100");
+
+
+            }
+        }
+
+
+
+    }
+    private boolean CheckLegalNumber(Integer number){
+        if(number<0){
+           return false;
+        }
+        String numberToString=number.toString();
+        for (int i=0;i<numberToString.length();i++){
+            if (numberToString.charAt(i)!='0'||numberToString.charAt(i)!='1'||numberToString.charAt(i)!='2'||numberToString.charAt(i)!='3'||numberToString.charAt(i)!='4'||numberToString.charAt(i)!='5'||numberToString.charAt(i)!='6'||numberToString.charAt(i)!='7'||numberToString.charAt(i)!='8'||numberToString.charAt(i)!='9'){
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean CheckLegalNumberForDouble(Double number) {
+        if (number < 0) {
+            return false;
+        }
+        String numberToString = number.toString();
+        boolean DecimalPoint = false;
+        for (int i = 0; i < numberToString.length(); i++) {
+            if (numberToString.charAt(i) != '.' || numberToString.charAt(i) != '0' || numberToString.charAt(i) != '1' || numberToString.charAt(i) != '2' || numberToString.charAt(i) != '3' || numberToString.charAt(i) != '4' || numberToString.charAt(i) != '5' || numberToString.charAt(i) != '6' || numberToString.charAt(i) != '7' || numberToString.charAt(i) != '8' || numberToString.charAt(i) != '9') {
+                return false;
+            }
+            if (numberToString.charAt(i) == '.' && DecimalPoint == false) {
+                DecimalPoint = true;
+            } else if (numberToString.charAt(i) == '.' && DecimalPoint == true)
+                return false;
+
+        }
+        return true;
     }
 
 }

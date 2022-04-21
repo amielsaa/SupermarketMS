@@ -24,7 +24,10 @@ public class Supplier {
 
     public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
+        CheckLegalNumber(business_num);
+        CheckLengthOfBusinessNumber(business_num);
         Business_Num = business_num;
+        CheckLegalNumber(bank_acc_num);
         Bank_Acc_Num = bank_acc_num;
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
@@ -91,23 +94,17 @@ public class Supplier {
     }
 
     public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
-        Set<Days> toreturn =new LinkedHashSet<Days>();
-        if(days_To_Deliver.contains(1))
-            toreturn.add(Days.sunday);
-        if(days_To_Deliver.contains(2))
-            toreturn.add(Days.monday);
-        if(days_To_Deliver.contains(3))
-            toreturn.add(Days.tuesday);
-        if(days_To_Deliver.contains(4))
-            toreturn.add(Days.wednesday);
-        if(days_To_Deliver.contains(5))
-            toreturn.add(Days.thursday);
-        if(days_To_Deliver.contains(6))
-            toreturn.add(Days.friday);
-        if(days_To_Deliver.contains(7))
-            toreturn.add(Days.saturday);
+        Integer[] days = new Integer[Days_To_Deliver.toArray().length];//gets the set to Array
+        Set<Days> daysSet=new LinkedHashSet<Days>();
+        for(int i=0; i<days.length;i++){
+            days[i] = (Integer)days_To_Deliver.toArray()[i];
+        }
+        for (int i:days){
+            daysSet.add(dayCovertor(i));
+        }
 
-        return toreturn;
+
+        return daysSet;
     }
 
     public void setDelivery_By_Days(boolean delivery_By_Days) {
@@ -155,6 +152,71 @@ public class Supplier {
     public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
         return Quantity_Agreement.makeOrder(order);
 
+    }
+    private void CheckLegalNumber(Integer number){
+        if(number<0){
+            throw new IllegalArgumentException("cannot accept negative numbers");
+        }
+        String numberToString=number.toString();
+        for (int i=0;i<numberToString.length();i++){
+            if (numberToString.charAt(i)!='0'||numberToString.charAt(i)!='1'||numberToString.charAt(i)!='2'||numberToString.charAt(i)!='3'||numberToString.charAt(i)!='4'||numberToString.charAt(i)!='5'||numberToString.charAt(i)!='6'||numberToString.charAt(i)!='7'||numberToString.charAt(i)!='8'||numberToString.charAt(i)!='9'){
+                throw new IllegalArgumentException("cannot give Business number or bank account input other then numbers");
+            }
+        }
+    }
+    private void CheckLengthOfBusinessNumber(Integer number){
+        String numberToString=number.toString();
+        if(numberToString.length()!=9)
+            throw new IllegalArgumentException("Business number should be 9 digits");
+    }
+    public void addSupplierDeliveryDay(int day){
+        Days dayToAdd=dayCovertor(day);
+        if (Days_To_Deliver.contains(dayToAdd))
+            throw new IllegalArgumentException("this Day is already in the Delivery days");
+        Days_To_Deliver.add(dayToAdd);
+
+
+    }
+    public void removeSupplierDeliveryDay(int day){
+        Days dayToRemove=dayCovertor(day);
+        if(!Days_To_Deliver.contains(dayToRemove))
+            throw new IllegalArgumentException("cannot delete day-day isn't in the delivery days");
+        Days_To_Deliver.remove(dayToRemove);
+
+    }
+    private Days dayCovertor(int day){
+        if(day==1)
+            return Days.sunday;
+        else if(day==2)
+            return Days.monday;
+        else if(day==3)
+            return Days.tuesday;
+        else if(day==4)
+            return Days.wednesday;
+        else if(day==5)
+            return Days.thursday;
+        else if(day==6)
+            return Days.friday;
+        else if(day==7)
+            return Days.saturday;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
+    }
+    public void  updateSupplierBankAccount(int bank_acc){
+        CheckLegalNumber(bank_acc);
+        setBank_Acc_Num(bank_acc);
+    }
+    public void updateContactPhoneNumber(int oldPhoneNum,int newPhoneNum){
+        boolean found=false;
+        for(int i=0;i<Contacts.size()&&!found;i++){
+            if(Contacts.get(i).getPhone_Num()==oldPhoneNum){
+                Contacts.get(i).setPhone_Num(newPhoneNum);
+            }
+        }
+        if (!found){
+            throw new IllegalArgumentException("contact was not found");
+        }
     }
 
 

@@ -13,7 +13,8 @@ public class SupplierController {
     }
 
     public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
-        //todo: return dummy supplier?
+        if(BN_To_Supplier.containsKey(business_num))
+            throw new IllegalArgumentException("supplier Business number "+business_num+" already exists");
         Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
         BN_To_Supplier.put(business_num, newSupplier);
         return newSupplier;
@@ -66,5 +67,29 @@ public class SupplierController {
         Supplier supp = getSupplier(business_num);
         return supp.getQuantity_Agreement();
     }
+    public void addSupplierDeliveryDay(int business_num,int day){
+        Check_If_Supplier_Exists(business_num);
+        BN_To_Supplier.get(business_num).addSupplierDeliveryDay(day);
+    }
+    public void removeSupplierDeliveryDay(int business_num,int day){
+        Check_If_Supplier_Exists(business_num);
+        BN_To_Supplier.get(business_num).removeSupplierDeliveryDay(day);
+    }
+    public void  updateSupplierPaymentDetails(int business_num,String paymentDetail){
+        Check_If_Supplier_Exists(business_num);
+        BN_To_Supplier.get(business_num).setPayment_Details(paymentDetail);
+
+    }
+    public void  updateSupplierBankAccount(int business_num,int bankAcoount_Num){
+        Check_If_Supplier_Exists(business_num);
+        BN_To_Supplier.get(business_num).updateSupplierBankAccount(bankAcoount_Num);
+
+    }
+    public void updateContactPhoneNumber(int business_num,int oldPhoneNum,int newPhoneNum){
+        Check_If_Supplier_Exists(business_num);
+        BN_To_Supplier.get(business_num).updateContactPhoneNumber(oldPhoneNum,newPhoneNum);
+
+    }
+
 
 }
