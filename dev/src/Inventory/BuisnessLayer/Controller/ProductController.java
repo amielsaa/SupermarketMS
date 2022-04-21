@@ -156,6 +156,8 @@ public class ProductController {
     }
 
     public void setStoreId(int storeId) {
+        if(storeId != 1)
+            throw new IllegalArgumentException("Store doesn't exists.");
         this.storeId = storeId;
     }
 }
