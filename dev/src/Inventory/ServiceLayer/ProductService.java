@@ -18,8 +18,8 @@ public class ProductService {
     public CategoryController categoryController;
 
     public ProductService(DataController data) {
-        this.productController = new ProductController(data);
         this.categoryController = new CategoryController(data);
+        this.productController = new ProductController(data);
     }
 
     public Response<Integer> SelectStore(int storeId) {
@@ -82,18 +82,24 @@ public class ProductService {
         }
     }
 
-//    public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
-//        try{
-//
-//        }catch(Exception e) {
-//
-//        }
-//    }
+    public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
+        try{
+            String resCategory = categoryController.changeCategory(productId,categoryIndex,newCategory);
+            return Response.makeSuccess(resCategory);
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 
 
 
-    public Response<Product> AddDefectiveProduct(String name, String producer) {
-        return null;
+    public Response<String> AddDefectiveProduct(int productId) {
+        try{
+            Product product = productController.addDefectiveProduct(productId);
+            return Response.makeSuccess(product.toString());
+        }catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Product> DeleteProduct(String name, String producer) {

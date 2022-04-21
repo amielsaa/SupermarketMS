@@ -49,11 +49,48 @@ public class Menu {
                 case 5:
                     reportByExpiredAction();
                     break;
+                case 6:
+                    changeCategoryAction();
+                    break;
+                case 7:
+                    addDefectiveProductAction();
+                    break;
             }
         }catch(Exception e) {
             System.out.println("\nUnknown command, please try again.");
         }
         
+    }
+
+    private void addDefectiveProductAction() {
+        getAllStoreProductsAction();
+        printDivider();
+        System.out.println("Select a product by id that is defective");
+        printDivider();
+        String input = enterStringInput();
+        Response<String> res = service.AddDefectiveProduct(Integer.parseInt(input.trim()));
+        if(res.isSuccess())
+            System.out.println("Product reported defective successfully.");
+        else
+            System.out.println(res.getMessage());
+
+    }
+    
+    private void changeCategoryAction() {
+        getAllStoreProductsAction();
+        printDivider();
+        System.out.println("Select a product to change its category by the following scheme: \n" +
+                "id # category-index # existing-category-name\n" +
+                "category indexes: 0-Category, 1-Sub-Category, 2-SS-Category \n" +
+                "Example: 0 # 1 # Salty");
+        printDivider();
+        String input = enterStringInput();
+        String[] inputArray = trimProductArray(input,3);
+        Response<String> res = service.ChangeCategory(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),inputArray[2]);
+        if(res.isSuccess())
+            System.out.println("Product category changed successfully.");
+        else
+            System.out.println(res.getMessage());
     }
 
     private void addCategoryAction() {
@@ -76,7 +113,7 @@ public class Menu {
                 "id # quantity-in-store # quantity-in-warehouse # exp-date # locations:[place-aisle-shelf number]\n" +
                 "Example: 0 # 20 # 30 # 01/02/2022 # WAREHOUSE-1-2&STORE-1-2");
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input);
+        String[] inputArray = trimProductArray(input,5);
         Response<String> res = service.AddStoreProduct(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),Integer.parseInt(inputArray[2]),inputArray[3],inputArray[4]);
         if(res.isSuccess())
             System.out.println("Store Product added successfully.");
@@ -111,7 +148,7 @@ public class Menu {
                 "Example: Cottage 5% # Tnuva # 10.90 # 15.90 # Diary,Milk,Size\n");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input);
+        String[] inputArray = trimProductArray(input,5);
         Response<String> res = service.AddProduct(inputArray[0],inputArray[1],Double.parseDouble(inputArray[2]),Double.parseDouble(inputArray[3]),inputArray[4]);
         if(res.isSuccess())
             System.out.println(res.getData());
@@ -120,11 +157,11 @@ public class Menu {
 
     }
 
-    private String[] trimProductArray(String input) {
+    private String[] trimProductArray(String input, int expectedLength) {
         String[] inputArray = input.split("#");
         for(int i=0;i<inputArray.length;i++)
             inputArray[i] = inputArray[i].trim();
-        if(inputArray.length!= 5)
+        if(inputArray.length!= expectedLength)
             throw new IllegalArgumentException("\nCommand missing arguments, try again.");
         return inputArray;
     }
@@ -138,7 +175,9 @@ public class Menu {
                 "2-Add Store Product\n" +
                 "3-Add Category\n" +
                 "4-Print All Store Products\n" +
-                "5-Report By Expired Products");
+                "5-Report By Expired Products\n" +
+                "6-Change Category\n" +
+                "7-Add Defective Product");
     }
 
     private String enterStringInput() {

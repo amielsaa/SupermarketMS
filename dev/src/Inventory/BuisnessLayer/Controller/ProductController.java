@@ -8,25 +8,21 @@ import java.util.*;
 import java.util.spi.CalendarDataProvider;
 
 public class ProductController {
-//    private List<Product> defectiveProducts;
-//    private List<Product> expiredProducts;
-//    private Map<Product,List<StoreProduct>> productListMap;
-//    private List<Category> categories;
 
     private DataController data;
     private int productId; //TODO: add to diagram
     private int storeId; //TODO: add to diagram
 
     public ProductController(DataController data) {
-//        this.defectiveProducts = new ArrayList<>();
-//        this.expiredProducts = new ArrayList<>();
-//        this.productListMap = new HashMap<>();
-//        this.categories = new ArrayList<>();
         this.productId = 0;
         this.data = data;
-        //adding categories for testing
-//        Collections.addAll(this.categories,new Category("Diary"),new Category("Milk"),new Category("Size"));
+        addProducts();
 
+    }
+
+    private void addProducts() {
+        addProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
+        addProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
     }
 
     /**
@@ -111,7 +107,7 @@ public class ProductController {
      * @param locations
      */
     public StoreProduct addStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
-        Product currentProduct = findProductById(id);
+        Product currentProduct = data.findProductById(id);
         Date curExpDate = getDateByString(expDate);
         List<Location> curLocations = getLocationListByString(locations);
         StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
@@ -141,27 +137,18 @@ public class ProductController {
     private Date getDateByString(String expDate) {
         String[] res = expDate.split("/");
         if(res.length==3 && res[2].length()==4)
-            return new Date(Integer.parseInt(res[2])-1900,Integer.parseInt(res[1]),Integer.parseInt(res[0]));
+            return new Date(Integer.parseInt(res[2])-1900,Integer.parseInt(res[1])-1,Integer.parseInt(res[0]));
         throw new IllegalArgumentException("Date format isn't valid.");
     }
 
-    private Product findProductById(int id) {
-        for(Product item : data.getProductListMap().keySet()) {
-            if(item.getId() == id)
-                return item;
-        }
-        throw new IllegalArgumentException("No such product exists.");
+
+    public Product addDefectiveProduct(int productId) {
+        Product product = data.findProductById(productId);
+        if(data.getDefectiveProducts().contains(product))
+            throw new IllegalArgumentException("Product already reported as defective.");
+        data.getDefectiveProducts().add(product);
+        return product;
     }
-
-//    private Product findProductByProdName(String name, String producer) {
-//        for(Map.Entry<Product, List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
-//            if(entry.getKey().getName().equals(name) && entry.getKey().getProducer().equals(producer))
-//                return entry.getKey();
-//        }
-//        throw new IllegalArgumentException("No such product exists.");
-//    }
-
-
 
 
     public int getStoreId() {

@@ -50,7 +50,7 @@ public class StoreProduct {
     }
 
     public String toString() {
-        return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDay(),expDate.getMonth(),expDate.getYear(),getLocationsByString());
+        return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDate(),expDate.getMonth()+1,expDate.getYear()+1900,getLocationsByString());
     }
     public String[] toArrayString(){
         String[] arr = {String.valueOf(quantityInStore), String.valueOf(quantityInWarehouse),expDate.getDay()+","+expDate.getMonth()+","+expDate.getYear(),getLocationsByString()};

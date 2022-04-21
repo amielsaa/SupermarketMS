@@ -18,24 +18,13 @@ public class DataController {
         this.expiredProducts = new ArrayList<>();
         this.productListMap = new HashMap<>();
         this.categories = new ArrayList<>();
-        Collections.addAll(this.categories,new Category("Diary"),new Category("Milk"),new Category("Size")
-        ,new Category("Shampoo"),new Category("Wash"));
-        addProducts();
         /**
          * timer set
          */
         setTimer();
     }
 
-    private void addProducts() {
-        List<Category> categories1 = Arrays.asList(new Category("Wash"),new Category("Shampoo"),new Category("Weight"));
-        List<Category> categories2 = Arrays.asList(new Category("Snacks"),new Category("Salty"),new Category("Gram"));
-        this.categories.addAll(categories1);
-        this.categories.addAll(categories2);
-        this.productListMap.put(new Product(0,"Shampoo","Kef",10.20,12.50,categories1),new ArrayList<>());
-        this.productListMap.put(new Product(1,"Chips","Osem",7.20,10.50,categories2),new ArrayList<>());
 
-    }
 
     public List<Product> getDefectiveProducts() {
         return defectiveProducts;
@@ -51,6 +40,14 @@ public class DataController {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public Product findProductById(int id) {
+        for(Product item : getProductListMap().keySet()) {
+            if(item.getId() == id)
+                return item;
+        }
+        throw new IllegalArgumentException("No such product exists.");
     }
 
     public List<Category> getCategoriesByName(List<String> cat) {

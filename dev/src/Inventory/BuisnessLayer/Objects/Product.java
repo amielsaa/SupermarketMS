@@ -85,8 +85,16 @@ public class Product {
         return minQuantity;
     }
 
+    public void removeCategory(int categoryIndex) {
+        categories.remove(categoryIndex);
+    }
+
+    public void addCategory(Category category, int categoryIndex) {
+        categories.add(categoryIndex,category);
+    }
+
     public String toString() {
-        return " %s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
+        return "%s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
     public String[] toArrayString(){
         String[] arr = {name,producer, String.valueOf(sellingPrice), String.valueOf(buyingPrice), categoriesToString()};

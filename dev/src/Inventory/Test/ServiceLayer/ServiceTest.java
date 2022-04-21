@@ -6,10 +6,7 @@ import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.ServiceLayer.ProductService;
 import Inventory.ServiceLayer.Response;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,10 +18,18 @@ class ServiceTest {
 
     @BeforeAll
     static void beforeAll() {
+
+    }
+
+    @BeforeEach
+    void beforeEach() {
         productService = new ProductService(new DataController());
         productService.SelectStore(1);
-        List<String> categoryList = Arrays.asList("Wash","Shampoo","Size");
-        productService.AddProduct("Shampoo","Kef",10.99,15.99,"Wash,Shampoo,Size");
+    }
+
+    @AfterEach
+    void afterEach() {
+
     }
 
     @Test
@@ -36,23 +41,32 @@ class ServiceTest {
 
     @Test
     void addProduct() {
-        List<String> categoryList = Arrays.asList("Diary","Milk","Size");
+
         Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,"Diary,Milk,Size");
 
 
-        Assertions.assertEquals(" Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
+        Assertions.assertEquals("Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
     }
 
     @Test
     void addStoreProduct() {
         Response<String> res = productService.AddStoreProduct(0,10,12,"10/10/2020","warehouse-1-2&store-1-2");
 
-        String expected = "10 : 12 : 3/10/2020 : WAREHOUSE-1-2&STORE-1-2";
+        String expected = "10 : 12 : 10/10/2020 : WAREHOUSE-1-2&STORE-1-2";
 
         Assertions.assertEquals(expected,res.getData());
     }
 
-    //TODO: changing store product test
+    @Test
+    void overrideStoreProduct() {
+        Response<String> res1 = productService.AddStoreProduct(1,20,20,"10/10/2020","WAREHOUSE-1-2");
+        Response<String> res2 = productService.AddStoreProduct(1,30,50,"10/10/2020","WAREHOUSE-1-2");
+
+        String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2";
+
+        Assertions.assertEquals(expected,res2.getData());
+
+    }
 
     @Test
     void addCategory() {
@@ -64,7 +78,21 @@ class ServiceTest {
     }
 
     @Test
+    void changeCategory() {
+        Response<String> res = productService.ChangeCategory(0,1,"Salty");
+
+        String expected = "Salty";
+
+        Assertions.assertEquals(expected,res.getData());
+    }
+
+    @Test
     void addDefectiveProduct() {
+        Response<String> res = productService.AddDefectiveProduct(0);
+
+        String expected = "Shampoo : Kef : 12.50 : 10.20 : Wash,Shampoo,Size";
+
+        Assertions.assertEquals(expected,res.getData());
     }
 
     @Test

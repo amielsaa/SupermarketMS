@@ -41,9 +41,13 @@ public class Service {
         return productService.AddCategory(category);
     }
 
+    public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
+        return productService.ChangeCategory(productId,categoryIndex,newCategory);
+    }
 
-    public Response<ProductSL> AddDefectiveProduct(String name, String producer) {
-        return null;
+
+    public Response<String> AddDefectiveProduct(int productId) {
+        return productService.AddDefectiveProduct(productId);
     }
 
     public Response<ProductSL> DeleteProduct(String name, String producer) {
