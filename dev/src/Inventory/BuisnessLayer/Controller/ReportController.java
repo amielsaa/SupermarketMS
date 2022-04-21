@@ -18,6 +18,7 @@ public class ReportController {
     public ReportController(DataController data) {
         this.data = data;
     }
+
     public CommandLineTable reportByCategories(List<String> categories){
         List<Category> catList = data.getCategoriesByName(categories);
         Map<Product, List<StoreProduct>> map = data.getProductListMap();
@@ -27,17 +28,20 @@ public class ReportController {
         for(Category cat: catList){
             for(Map.Entry<Product,List<StoreProduct>> mapSet: map.entrySet())
             {
-
+                if(mapSet.getKey().getCategories().contains(cat)){
+                    for (StoreProduct storeProduct: mapSet.getValue()) {
+                        table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toArrayString()));}
+                }
             }
         }
-
-        return null;
+        return table;
     }
     public CommandLineTable reportByExpired(){
+        data.checkExpired();
         List<Product> expList = data.getExpiredProducts();
         Map<Product, List<StoreProduct>> map = data.getProductListMap();
         CommandLineTable table = new CommandLineTable();
-         Date now = new Date();
+        Date now = new Date();
         table.setShowVerticalLines(true);
         table.setHeaders("name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
         for(Product product: expList){
@@ -51,7 +55,10 @@ public class ReportController {
         return table;
     }
 
-
+    public CommandLineTable reportByDefective(){
+        
+        return null;
+    }
 
 
 
