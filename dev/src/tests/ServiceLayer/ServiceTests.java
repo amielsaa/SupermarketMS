@@ -13,8 +13,7 @@ public class ServiceTests {
     void initTest()
     {
         try{
-            DeliveryService service = new DeliveryService(true);
-            DeliveryService service2 = new DeliveryService(false);
+            DeliveryService service = new DeliveryService();
         }
         catch (Exception e){
             fail();
@@ -22,14 +21,14 @@ public class ServiceTests {
     }
     @Test
     void deleteTruck() {
-        DeliveryService service = new DeliveryService(true);
+        DeliveryService service = new DeliveryService();
         assertTrue(service.deleteTruck(1000002).isSuccess());
         assertFalse(service.deleteTruck(1000001).isSuccess());
     }
 
     @Test
     void deleteSite() {
-        DeliveryService service = new DeliveryService(true);
+        DeliveryService service = new DeliveryService();
         assertTrue(service.deleteSite(3).isSuccess());
         assertFalse(service.deleteSite(1).isSuccess());
         assertFalse(service.deleteSite(4).isSuccess());

@@ -11,16 +11,12 @@ public class DeliveryService {
     private TruckController truckController;
     private DriversController driversController;
     private DeliveriesController deliveriesController;
-    public DeliveryService(boolean loadAllData){
+    public DeliveryService(){
         sitesController = new SitesController();
         truckController=new TruckController();
         driversController = new DriversController();
         deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
-        if (loadAllData)
-            load();
-        else
-            loadDrivers();
-
+        load();
     }
 
     public void load(){

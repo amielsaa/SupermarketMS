@@ -12,7 +12,7 @@ public class UserTerminal {
 
     public UserTerminal(){
         sc = new Scanner(System.in).useDelimiter("\n");
-        service = new DeliveryService(true);
+        service = new DeliveryService();
         siteCommandsHandler = new SiteCommandsHandler(service);
     }
     public void run() {
