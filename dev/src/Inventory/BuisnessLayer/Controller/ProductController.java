@@ -149,6 +149,27 @@ public class ProductController {
         data.getDefectiveProducts().add(product);
         return product;
     }
+    public String addDiscountByName(String name,String producer, int discount, String date)
+    {
+        Date discountExpDate = getDateByString(date);
+        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
+            if((entry.getKey().getName()==name)&&(entry.getKey().getProducer()==producer)){
+                entry.getKey().setDiscount(discount,discountExpDate);
+            }
+        }
+        return "discount was set successfully ";
+    }
+    public String addDiscountByCategory(String categoryName, int discount, String date){
+        Date discountExpDate = getDateByString(date);
+        ArrayList<String> temp = new ArrayList<String>();
+        temp.add(categoryName);
+        List<Category> category = data.getCategoriesByName(temp);
+        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
+            if(entry.getKey().getCategories().contains(temp.get(0)))
+                entry.getKey().setDiscount(discount,discountExpDate);
+        }
+        return "discount was set successfully ";
+    }
 
 
     public int getStoreId() {

@@ -104,6 +104,7 @@ public class Menu {
 
     private void reportByExpiredAction() {
         Response<Report> res = service.ReportByExpired();
+        System.out.println( res.getData().getHeadline());
         res.getData().getTable().print();
     }
 

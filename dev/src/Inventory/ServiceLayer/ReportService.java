@@ -35,7 +35,12 @@ public class ReportService {
 
 
     public Response<Report> ReportByDefective() {
-        return null;
+        try {
+            Report report = new Report("Defective products report", reportController.reportByDefective());
+            return Response.makeSuccess(report);
+        } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
     //TODO: periodical reports
 

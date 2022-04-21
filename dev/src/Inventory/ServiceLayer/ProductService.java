@@ -106,12 +106,22 @@ public class ProductService {
         return null;
     }
 
-    public Response<String> AddDiscountByName(String name,String producer, int discount) {
-        return null;
+    public Response<String> AddDiscountByName(String name,String producer, int discount, String date) {
+        try{
+            String s = productController.addDiscountByName(name,producer,discount,date);
+            return Response.makeSuccess(s.toString());
+        }catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
-    public Response<String> AddDiscountByCategory(String categoryName, int discount) {
-        return null;
+    public Response<String> AddDiscountByCategory(String categoryName, int discount,String date) {
+        try{
+            String s = productController.addDiscountByCategory(categoryName,discount,date);
+            return Response.makeSuccess(s.toString());
+        }catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     //TODO: disable discount

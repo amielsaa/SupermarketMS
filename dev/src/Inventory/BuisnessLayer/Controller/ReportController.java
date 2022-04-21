@@ -5,11 +5,9 @@ import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.PresentationLayer.CommandLineTable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class ReportController {
 
@@ -19,6 +17,11 @@ public class ReportController {
         this.data = data;
     }
 
+    /**
+     *
+     * @param categories
+     * @return
+     */
     public CommandLineTable reportByCategories(List<String> categories){
         List<Category> catList = data.getCategoriesByName(categories);
         Map<Product, List<StoreProduct>> map = data.getProductListMap();
@@ -36,6 +39,11 @@ public class ReportController {
         }
         return table;
     }
+
+    /**
+     *
+     * @return
+     */
     public CommandLineTable reportByExpired(){
         data.checkExpired();
         List<Product> expList = data.getExpiredProducts();
@@ -55,13 +63,21 @@ public class ReportController {
         return table;
     }
 
+    /**
+     *
+     * @return
+     */
     public CommandLineTable reportByDefective(){
-
-        return null;
+        List<Product> defList = data.getDefectiveProducts();
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("Id", "name", "producer" ,"selling price", "buyingPrice", "categories");
+        for(Product defective:defList)
+        {
+            table.addRow(defective.toArrayString().split("\\:"));
+        }
+        return table;
     }
-
-
-
 
 
 

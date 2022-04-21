@@ -71,7 +71,7 @@ public class Service {
     }
 
     public Response<Report> ReportByDefective() {
-        return null;
+        return reportService.ReportByDefective();
     }
 
     public Response<Report> ReportStockByCategory() {

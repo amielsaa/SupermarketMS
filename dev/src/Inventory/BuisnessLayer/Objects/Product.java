@@ -100,5 +100,8 @@ public class Product {
         return "%d : %s : %s : %.2f : %.2f : %s".formatted(Id,name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
 
-
+    public void setDiscount(int discount, Date discountExpDate){
+        this.discount = discount;
+        this.discountExpDate = discountExpDate;
+    }
 }
