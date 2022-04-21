@@ -17,7 +17,7 @@ public class Product {
     private int minQuantity;
 
 
-    public Product(int Id, String name, String producer, double sellingPrice,double buyingPrice, List<Category> categories) {
+    public Product(int Id, String name, String producer,double buyingPrice, double sellingPrice, List<Category> categories) {
         this.Id = Id;
         this.name = name;
         this.producer = producer;

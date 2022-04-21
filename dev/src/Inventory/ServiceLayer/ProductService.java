@@ -71,6 +71,8 @@ public class ProductService {
         }
     }
 
+
+    //TODO: may need to change response type
     public Response<Category> AddCategory(String category) {
         try{
             Category cat = categoryController.addCategory(category);
@@ -80,8 +82,15 @@ public class ProductService {
         }
     }
 
+//    public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
+//        try{
+//
+//        }catch(Exception e) {
+//
+//        }
+//    }
 
-    //TODO: change category
+
 
     public Response<Product> AddDefectiveProduct(String name, String producer) {
         return null;

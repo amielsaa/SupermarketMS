@@ -2,6 +2,7 @@ package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.ServiceLayer.Objects.ProductSL;
+import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
 import Inventory.ServiceLayer.Service;
 
@@ -39,14 +40,34 @@ public class Menu {
                 case 2:
                     addStoreProductAction();
                     break;
+                case 3:
+                    addCategoryAction();
+                    break;
                 case 4:
                     getAllStoreProductsAction();
+                    break;
+                case 5:
+                    reportByExpiredAction();
                     break;
             }
         }catch(Exception e) {
             System.out.println("\nUnknown command, please try again.");
         }
         
+    }
+
+    private void addCategoryAction() {
+        String input = enterStringInput();
+        Response<Category> res = service.AddCategory(input.trim());
+        if(res.isSuccess())
+            System.out.println(res.getData().getCategoryName() + " category added successfully.");
+        else
+            System.out.println("Failed to add new category.");
+    }
+
+    private void reportByExpiredAction() {
+        Response<Report> res = service.ReportByExpired();
+        res.getData().getTable().print();
     }
 
     private void addStoreProductAction() {
@@ -116,7 +137,8 @@ public class Menu {
         System.out.println("1-Add Product\n" +
                 "2-Add Store Product\n" +
                 "3-Add Category\n" +
-                "4-Print All Store Products");
+                "4-Print All Store Products\n" +
+                "5-Report By Expired Products");
     }
 
     private String enterStringInput() {

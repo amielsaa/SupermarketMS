@@ -52,6 +52,8 @@ class ServiceTest {
         Assertions.assertEquals(expected,res.getData());
     }
 
+    //TODO: changing store product test
+
     @Test
     void addCategory() {
         Response<Category> res = productService.AddCategory("Bread Stuff");

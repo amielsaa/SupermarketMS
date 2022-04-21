@@ -38,12 +38,9 @@ public class Service {
     }
 
     public Response<Category> AddCategory(String category) {
-        return null;
+        return productService.AddCategory(category);
     }
 
-    public Response<String> DeleteCategory(String category) {
-        return null;
-    }
 
     public Response<ProductSL> AddDefectiveProduct(String name, String producer) {
         return null;
@@ -66,7 +63,7 @@ public class Service {
     //report service
 
     public Response<Report> ReportByExpired() {
-        return null;
+        return reportService.ReportByExpired();
     }
 
     public Response<Report> ReportByDefective() {

@@ -70,7 +70,7 @@ public class ProductController {
         categoriesExistance(categoriesList);
         //TODO: capitalize all categories names
         List<Category> productCategories = getCategoriesByName(categoriesList);
-        Product product = new Product(productId++,name,producer,sellingPrice,buyingPrice,productCategories);
+        Product product = new Product(productId++,name,producer,buyingPrice,sellingPrice,productCategories);
         data.getProductListMap().put(product,new ArrayList<>());
         return product;
 
@@ -115,8 +115,14 @@ public class ProductController {
         Date curExpDate = getDateByString(expDate);
         List<Location> curLocations = getLocationListByString(locations);
         StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
-        data.getProductListMap().get(currentProduct).add(sp);
+        addStoreProductToMap(currentProduct,sp);
         return sp;
+    }
+
+    private void addStoreProductToMap(Product p,StoreProduct sp) {
+        List<StoreProduct> spList = data.getProductListMap().get(p);
+        spList.removeIf(item -> item.getStoreId() == storeId);
+        data.getProductListMap().get(p).add(sp);
     }
 
     //locations of items will represenet as follow: warehouse-1-2&store-1-2
@@ -135,7 +141,7 @@ public class ProductController {
     private Date getDateByString(String expDate) {
         String[] res = expDate.split("/");
         if(res.length==3 && res[2].length()==4)
-            return new Date(Integer.parseInt(res[2]),Integer.parseInt(res[1]),Integer.parseInt(res[0]));
+            return new Date(Integer.parseInt(res[2])-1900,Integer.parseInt(res[1]),Integer.parseInt(res[0]));
         throw new IllegalArgumentException("Date format isn't valid.");
     }
 

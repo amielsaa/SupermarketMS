@@ -9,4 +9,12 @@ public class Report {
         this.headline = headline;
         this.table=table;
     }
+
+    public String getHeadline() {
+        return headline;
+    }
+
+    public CommandLineTable getTable() {
+        return table;
+    }
 }
