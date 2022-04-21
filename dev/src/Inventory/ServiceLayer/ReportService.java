@@ -5,6 +5,8 @@ import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Controller.ReportController;
 import Inventory.ServiceLayer.Objects.Report;
 
+import java.util.List;
+
 public class ReportService {
 
     private ReportController reportController;
@@ -26,7 +28,7 @@ public class ReportService {
         return null;
     }
 
-    public Response<Report> ReportStockByCategory(String category) {
+    public Response<Report> ReportStockByCategories(List<String> categories) {
         return null;
     }
 

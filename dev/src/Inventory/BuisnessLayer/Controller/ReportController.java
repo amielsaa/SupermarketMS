@@ -1,8 +1,11 @@
 package Inventory.BuisnessLayer.Controller;
 
+import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.PresentationLayer.CommandLineTable;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +18,18 @@ public class ReportController {
     public ReportController(DataController data) {
         this.data = data;
     }
-    public String reportByCategory(String category){
+    public CommandLineTable reportByCategories(List<String> categories){
+        List<Category> catList = data.getCategoriesByName(categories);
+        Map<Product, List<StoreProduct>> map = data.getProductListMap();
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
+        for(Category cat: catList){
+            for(Map.Entry<Product,List<StoreProduct>> mapSet: map.entrySet())
+            {
+
+            }
+        }
 
         return null;
     }

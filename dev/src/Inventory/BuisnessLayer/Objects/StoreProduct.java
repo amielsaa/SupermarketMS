@@ -11,8 +11,7 @@ public class StoreProduct {
     private Date expDate;
     private List<Location> locations;
 
-//    public int getQuantityInStore() {return quantityInStore;}
-//    public int getQuantityInWarehouse() {return quantityInWarehouse;}
+
 
     public StoreProduct(int storeId, int quantityInStore, int quantityInWarehouse, Date expDate, List<Location> locations) {
         this.storeId = storeId;
