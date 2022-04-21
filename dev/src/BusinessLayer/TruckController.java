@@ -13,7 +13,15 @@ public class TruckController {
         trucks=new HashMap<>();
     }
 
-   public void addTruck(int plateNum, String model, int maxWeight)throws Exception{
+    public void load() throws Exception{
+        addTruck(1000001, "small truck", 9000);
+        addTruck(1000002, "small truck", 9000);
+        addTruck(1000003, "small truck", 9000);
+        addTruck(1000004, "big truck", 14000);
+        addTruck(1000005, "big truck", 14000);
+    }
+
+    public void addTruck(int plateNum, String model, int maxWeight)throws Exception{
         if(trucks.containsKey(plateNum)){
             throw new Exception(String.format("A truck with plate number %d already exists..",plateNum));
         }

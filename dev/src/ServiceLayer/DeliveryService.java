@@ -36,42 +36,19 @@ public class DeliveryService {
     }
 
     private void loadSties() throws Exception {
-        sitesController.addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
-        sitesController.addSupplierWarehouse("Beer Sheva", 2, "054-0000002", "supplier2");
-        sitesController.addBranch("Tiberias", 0,"054-0000003","branch1");
-        sitesController.addBranch("Tel Aviv", 1,"054-0000004","branch2");
-        sitesController.addBranch("Jerusalem", 1,"054-0000005","branch3");
-        sitesController.addBranch("Dimona", 2,"054-0000006","branch4");
+        sitesController.load();
     }
 
     private void loadTrucks() throws Exception{
-        truckController.addTruck(1000001, "small truck", 9000);
-        truckController.addTruck(1000002, "small truck", 9000);
-        truckController.addTruck(1000003, "small truck", 9000);
-        truckController.addTruck(1000004, "big truck", 14000);
-        truckController.addTruck(1000005, "big truck", 14000);
+        truckController.load();
     }
 
     public void loadDrivers(){
-        driversController.addDriver(200000001, "c1 driver1", "C1");
-        driversController.addDriver(200000002, "c1 driver2", "C1");
-        driversController.addDriver(200000003, "c1 driver3", "C1");
-        driversController.addDriver(200000004, "c driver1", "C");
-        driversController.addDriver(200000005, "c driver2", "C");
-        driversController.addDriver(200000006, "c driver3", "C");
+        driversController.load();
     }
 
     private void loadDeliveries() throws Exception{
-        deliveriesController.addDelivery(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(4), 1000001, 200000001, 1);
-        deliveriesController.setWeight(1, 7000);
-        deliveriesController.addDestination(1,4);
-        deliveriesController.addDestination(1,5);
-        deliveriesController.addItemToDestination(1,4,"milk",10);
-        deliveriesController.addItemToDestination(1,5,"milk",20);
-        deliveriesController.addDelivery(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), 1000004, 200000004, 2);
-        deliveriesController.setWeight(2, 12500);
-        deliveriesController.addDestination(2,6);
-        deliveriesController.addItemToDestination(2,6,"eggs",30);
+        deliveriesController.load();
     }
 
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
