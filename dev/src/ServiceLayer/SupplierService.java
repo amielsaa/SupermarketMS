@@ -2,6 +2,7 @@ package ServiceLayer;
 
 import BusinessLayer.*;
 import ServiceLayer.DummyObjects.DOrder;
+import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -27,6 +28,28 @@ public class SupplierService {
         try {
             HashMap<Integer, Pair<String,Double>> itemsAfterDiscount = cSupplier.makeOrder(business_num, order);
             return Response.makeSuccess(itemsAfterDiscount);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+    }
+
+    public Response<DSupplier> getSupplier(int business_num){
+        try {
+            Supplier actualSupplier = cSupplier.getSupplier(business_num);
+            return Response.makeSuccess(new DSupplier(actualSupplier));
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+    }
+
+    public Response<DQuantityAgreement> getSupplierQuantityAgreement(int business_num){
+        try {
+            QuantityAgreement actualAgreement = cSupplier.getSupplierQuantityAgreement(business_num);
+            return Response.makeSuccess(new DQuantityAgreement(actualAgreement));
         }
         catch (Exception e){
             return Response.makeFailure(e.getMessage());

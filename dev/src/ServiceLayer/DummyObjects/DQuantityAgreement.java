@@ -13,24 +13,25 @@ public class DQuantityAgreement {
 
     public DQuantityAgreement(QuantityAgreement agreement) {
         item_Num_To_Price = new HashMap<Integer, Double>();
-        agreement.getItem_Num_To_Price().forEach((k, v) -> {
-            item_Num_To_Price.put(k,v);
-        });
+        for(int x : agreement.getItem_Num_To_Price().keySet()) {
+            item_Num_To_Price.put(x, agreement.getItem_Num_To_Price().get(x).doubleValue());
+        }
+
 
         item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
         for(int x : agreement.getItem_Num_To_Discount().keySet()) {
             item_Num_To_Discount.put(x, new HashMap<Integer,Integer>());
         }
-        agreement.getItem_Num_To_Discount().forEach((k, v) -> {
-            v.forEach((k1, v1) -> {
-                agreement.getItem_Num_To_Discount().get(k).put(k1,v1);
-            });
-        });
+        for(int x : agreement.getItem_Num_To_Discount().keySet()) {
+            for(int y : agreement.getItem_Num_To_Discount().get(x).keySet()) {
+                item_Num_To_Discount.get(x).put(y, agreement.getItem_Num_To_Discount().get(x).get(y));
+            }
+        }
 
         item_Num_To_Name = new HashMap<Integer,String>();
-        agreement.getItem_Num_To_Name().forEach((k, v) -> {
-            item_Num_To_Name.put(k,v);
-        });
+        for(int x : agreement.getItem_Num_To_Name().keySet()) {
+            item_Num_To_Name.put(x, agreement.getItem_Num_To_Name().get(x));
+        }
     }
 
     public HashMap<Integer, Double> getItem_Num_To_Price() {

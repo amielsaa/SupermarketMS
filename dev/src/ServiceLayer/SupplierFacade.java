@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
+import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -36,6 +37,14 @@ public class SupplierFacade {
             resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
         }
         return resFromOrder;
+    }
+
+    public Response<DSupplier> getSupplier(int businessNumber){
+        return sSupplier.getSupplier(businessNumber);
+    }
+
+    public Response<DQuantityAgreement> getSupplierQuantityAgreement(int businessNumber){
+        return sSupplier.getSupplierQuantityAgreement(businessNumber);
     }
 
 

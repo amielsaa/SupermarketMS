@@ -3,6 +3,7 @@ package ServiceLayer;
 import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
 import BusinessLayer.Supplier;
+import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 
 import java.util.HashMap;
@@ -21,19 +22,26 @@ public class MainFacade {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
         while(running){ //main program loop
-            System.out.print("Enter command (0 - Exit, 1 - Add supplier): ");
+            System.out.print("Enter command (0 - Exit, 1 - Add supplier, 2 - Make order, 3 - Testing): ");
             String input = s.nextLine();
 
             switch (input){
                 case ("0"): {
                     running = false;
                     s.close();
+                    break;
                 }
                 case ("1"): {
                     createSupplier(s);
+                    break;
                 }
                 case ("2"): {
                     makeOrder(s);
+                    break;
+                }
+                case("3"): {
+                    testFunction();
+                    break;
                 }
             }
 
@@ -100,11 +108,11 @@ public class MainFacade {
         Set<Integer> daysToDeliver = deliveryDaysLoop(s);
 
 
-        HashMap<Integer, Integer> item_num_to_price = new HashMap<Integer, Integer>();
+        HashMap<Integer, Double> item_num_to_price = new HashMap<Integer, Double>();
         HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
         HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
         createQuantityAgreement(s, item_num_to_price, item_num_to_name, item_Num_To_Discount);
-        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price, item_num_to_name, item_Num_To_Discount, deliveryDays, selfDelivery, daysToDeliver);
+        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price,item_Num_To_Discount , item_num_to_name, deliveryDays, selfDelivery, daysToDeliver);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -155,7 +163,7 @@ public class MainFacade {
         return days;
     }
 
-    private void createQuantityAgreement(Scanner s, HashMap<Integer, Integer> item_num_to_price, HashMap<Integer, String> item_num_to_name, HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount){
+    private void createQuantityAgreement(Scanner s, HashMap<Integer, Double> item_num_to_price, HashMap<Integer, String> item_num_to_name, HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount){
         System.out.println("Now we need to add the items that the supplier can supply.\nType item name and price. When you are done, type 'STOP' for the item name.");
         int itemID = 0;
         String itemName = "-1";
@@ -174,7 +182,7 @@ public class MainFacade {
             System.out.print("Item price: ");
             itemPrice = s.nextLine();
             try{
-                int priceNumber = Integer.parseInt(itemPrice);
+                double priceNumber = Double.parseDouble(itemPrice);
                 if(priceNumber<=0)
                     System.out.println("Illegal item price, try again.");
                 else {
@@ -238,22 +246,49 @@ public class MainFacade {
         while(true){
             System.out.print("Enter supplier BN: ");
             businessnumString = s.nextLine();
-            if(legalNumberCheck(businessnumString)) {
+            if(legalNumberCheck(businessnumString)&&Integer.parseInt(businessnumString)>=0) {
                 businessNumber = Integer.parseInt(businessnumString);
                 break;
             }
             else System.out.println("Invalid business number");
         }
-        if(businessNumber>=0) {
-            printSupplierItems(businessNumber); //todo: create func that prints supplier's stash
-            for (int x : item_num_to_name.keySet()) {
-                System.out.println("Item ID: " + x + ", Item name: " + item_num_to_name.get(x) + ", Item price: " + item_num_to_price.get(x));
-            }
 
+        Response printItemsResponse = printSupplierItems(businessNumber);
+        if(!printItemsResponse.isSuccess()){
+            System.out.println("Supplier number doesn't exist.");
+            return;
         }
 
+        HashMap<Integer,Integer> order = new HashMap<>();
+        System.out.println("Add items to the order. Type item ID and quantity of it.\nWhen you are done, type 'STOP' for the item name.");
+        while(true) {
+            System.out.print("Item ID: ");
+            String itemIdString = s.nextLine();
+            if(itemIdString.equals("STOP"))
+            {
+                break;
+            }
+            System.out.print("Item quantity: ");
+            String itemQuantityString = s.nextLine();
+            try{
+                int itemIdNumber = Integer.parseInt(itemIdString);
+                int itemQuantity = Integer.parseInt(itemQuantityString);
+                if(itemIdNumber<0 || itemQuantity<0) //todo: check if itemID is in range of supplier items?
+                    System.out.println("Illegal item ID/quantity, try again.");
+                else{
+                    order.put(itemIdNumber, itemQuantity);
+                }
 
-        Response res = fSupplier.makeOrder(businessnum, order);
+            }
+            catch (Exception E){
+                System.out.println("Illegal item ID/quantity, try again.");
+            }
+        }
+
+        Response res = fSupplier.makeOrder(businessNumber, order);
+        if(res.isSuccess())
+            System.out.println("Order created successfully.");
+        else System.out.println(res.getMessage());
     }
 
     private boolean legalNumberCheck(String input){
@@ -263,5 +298,32 @@ public class MainFacade {
         }
         catch(Exception e){}
         return x != -1;
+    }
+
+    private Response printSupplierItems(int businessNumber){
+        Response<DQuantityAgreement> qa = fSupplier.getSupplierQuantityAgreement(businessNumber);
+        if(qa.isSuccess()) {
+            HashMap<Integer, String> item_Num_To_Name = qa.getData().getItem_Num_To_Name();
+            HashMap<Integer, Double> item_Num_To_Price = qa.getData().getItem_Num_To_Price();
+            for (int x : item_Num_To_Name.keySet()) {
+                System.out.println("Item ID: " + x + ", Item name: " + item_Num_To_Name.get(x) + ", Item price: " + item_Num_To_Price.get(x));
+            }
+            return Response.makeSuccess(null);
+        }
+        return Response.makeFailure("Supplier isn't found.");
+    }
+
+    private void testFunction(){
+        //String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response
+        HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
+        item_Num_To_Price.put(0, 5.0);
+        HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
+        item_Num_To_Discount.put(0, new HashMap<Integer,Integer>());
+        HashMap<Integer,String> item_Num_To_Name = new HashMap<>();
+        item_Num_To_Name.put(0, "test");
+        Response<DSupplier> newsupplier = fSupplier.addSupplier("1",1,1,"credit","1", 1, item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, true, true, new HashSet<Integer>());
+        if(newsupplier.isSuccess())
+            System.out.println("Supplier created successfully.");
+        else System.out.println(newsupplier.getMessage());
     }
 }

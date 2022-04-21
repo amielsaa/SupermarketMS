@@ -24,13 +24,13 @@ public class DSupplier {
     public DSupplier(Supplier s) {
         Name = s.getName();
         Business_Num = s.getBusiness_Num();
-        Quantity_Agreement = new DQuantityAgreement(s.getQuantity_Agreement());
         Delivery_By_Days = s.isDelivery_By_Days();
         Self_Delivery_Or_Pickup = s.isSelf_Delivery_Or_Pickup();
         Days_To_Deliver = s.getDays_To_Deliver();
         Contacts = new LinkedList<DContact>();
         for(Contact c : s.getContacts())
             Contacts.add(new DContact(c));
+        Quantity_Agreement = new DQuantityAgreement(s.getQuantity_Agreement());
     }
 
     public String getName() {

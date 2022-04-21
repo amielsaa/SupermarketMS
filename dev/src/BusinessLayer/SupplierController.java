@@ -56,4 +56,15 @@ public class SupplierController {
         Check_If_Supplier_Exists(business_num);
         return BN_To_Supplier.get(business_num).makeOrder(order);
     }
+
+    public Supplier getSupplier(int business_num) {
+        Check_If_Supplier_Exists(business_num);
+        return BN_To_Supplier.get(business_num);
+    }
+
+    public QuantityAgreement getSupplierQuantityAgreement(int business_num) {
+        Supplier supp = getSupplier(business_num);
+        return supp.getQuantity_Agreement();
+    }
+
 }
