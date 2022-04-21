@@ -24,13 +24,13 @@ public class ReportController {
         Map<Product, List<StoreProduct>> map = data.getProductListMap();
         CommandLineTable table = new CommandLineTable();
         table.setShowVerticalLines(true);
-        table.setHeaders("name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
+        table.setHeaders("Id","name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
         for(Category cat: catList){
             for(Map.Entry<Product,List<StoreProduct>> mapSet: map.entrySet())
             {
                 if(mapSet.getKey().getCategories().contains(cat)){
                     for (StoreProduct storeProduct: mapSet.getValue()) {
-                        table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toArrayString()));}
+                        table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toString()));}
                 }
             }
         }
@@ -43,12 +43,12 @@ public class ReportController {
         CommandLineTable table = new CommandLineTable();
         Date now = new Date();
         table.setShowVerticalLines(true);
-        table.setHeaders("name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
+        table.setHeaders("Id", "name", "producer" ,"selling price", "buyingPrice", "categories","quantity in store", "quantity in warehouse", "expiration date", "locations");
         for(Product product: expList){
             List<StoreProduct> prodList = map.get(product);
             for(StoreProduct storeProduct: prodList)
                 if(!(storeProduct.getExpDate()).after(now)){
-                    table.addRow(mergeArray(product.toArrayString(),storeProduct.toArrayString()));
+                    table.addRow(mergeArray(product.toArrayString(),storeProduct.toString()));
                 }
         }
 
@@ -56,7 +56,7 @@ public class ReportController {
     }
 
     public CommandLineTable reportByDefective(){
-        
+
         return null;
     }
 
@@ -66,7 +66,9 @@ public class ReportController {
 
 
 
-    private String[] mergeArray(String[] arr1, String[] arr2) {
-        return (String[])Stream.of(arr1, arr2).flatMap(Stream::of).toArray();
+    private String[] mergeArray(String arr1, String arr2) {
+        String s = arr1+" : "+arr2;
+        String[] array = s.split("\\:");
+        return array;
     }
 }

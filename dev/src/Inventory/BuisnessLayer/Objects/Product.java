@@ -96,9 +96,8 @@ public class Product {
     public String toString() {
         return "%s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
-    public String[] toArrayString(){
-        String[] arr = {String.valueOf(Id),name,producer, String.valueOf(sellingPrice), String.valueOf(buyingPrice), categoriesToString()};
-        return arr ;
+    public String toArrayString(){
+        return "%d : %s : %s : %.2f : %.2f : %s".formatted(Id,name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
 
 
