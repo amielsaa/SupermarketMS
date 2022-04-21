@@ -202,6 +202,9 @@ public class DeliveriesController {
             if(delivery.getOrigin().getId()==siteId){
                 throw new Exception(String.format("Site id %s has upcoming deliveries",site));
             }
+            for (Branch branch: delivery.getDestinations())
+                if(branch.getId()==siteId)
+                    throw new Exception(String.format("Site id %s has upcoming deliveries",site));
         }
     }
 

@@ -11,11 +11,67 @@ public class DeliveryService {
     private TruckController truckController;
     private DriversController driversController;
     private DeliveriesController deliveriesController;
-    public DeliveryService(){
+    public DeliveryService(boolean loadAllData){
         sitesController = new SitesController();
         truckController=new TruckController();
         driversController = new DriversController();
         deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
+        if (loadAllData)
+            load();
+        else
+            loadDrivers();
+
+    }
+
+    public void load(){
+        try {
+            loadSties();
+            loadTrucks();
+            loadDrivers();
+            loadDeliveries();
+        }
+        catch (Exception e){
+
+        }
+    }
+
+    private void loadSties() throws Exception {
+        sitesController.addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
+        sitesController.addSupplierWarehouse("Beer Sheva", 2, "054-0000002", "supplier2");
+        sitesController.addBranch("Tiberias", 0,"054-0000003","branch1");
+        sitesController.addBranch("Tel Aviv", 1,"054-0000004","branch2");
+        sitesController.addBranch("Jerusalem", 1,"054-0000005","branch3");
+        sitesController.addBranch("Dimona", 2,"054-0000006","branch4");
+    }
+
+    private void loadTrucks() throws Exception{
+        truckController.addTruck(1000001, "small truck", 9000);
+        truckController.addTruck(1000002, "small truck", 9000);
+        truckController.addTruck(1000003, "small truck", 9000);
+        truckController.addTruck(1000004, "big truck", 14000);
+        truckController.addTruck(1000005, "big truck", 14000);
+    }
+
+    public void loadDrivers(){
+        driversController.addDriver(200000001, "c1 driver1", "C1");
+        driversController.addDriver(200000002, "c1 driver2", "C1");
+        driversController.addDriver(200000003, "c1 driver3", "C1");
+        driversController.addDriver(200000004, "c driver1", "C");
+        driversController.addDriver(200000005, "c driver2", "C");
+        driversController.addDriver(200000006, "c driver3", "C");
+    }
+
+    private void loadDeliveries() throws Exception{
+        deliveriesController.addDelivery(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(4), 1000001, 200000001, 1);
+        deliveriesController.setWeight(1, 7000);
+        deliveriesController.addDestination(1,4);
+        deliveriesController.addDestination(1,5);
+        deliveriesController.addItemToDestination(1,4,"milk",10);
+        deliveriesController.addItemToDestination(1,5,"milk",20);
+        deliveriesController.addDelivery(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), 1000004, 200000004, 2);
+        deliveriesController.setWeight(2, 12500);
+        deliveriesController.addDestination(2,6);
+        deliveriesController.addItemToDestination(2,6,"eggs",30);
     }
 
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
@@ -78,7 +134,6 @@ public class DeliveryService {
         }
     }
 
-    //needs to check is a delivery with this site exists!!!!!!
     public Response deleteSite(int id){
         try {
             deliveriesController.checkSiteHasUpcomingDelivery(id);
