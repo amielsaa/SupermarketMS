@@ -144,20 +144,24 @@ public class DeliveriesController {
     }
     public void editEndTime(int deliveryId,LocalDateTime newEndTime)throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        delivery.setStartTime(newEndTime);
+        delivery.setEndTime(newEndTime);
     }
 
     public void editDriver(int deliveryId,int newDriverId) throws Exception{
+        Driver driver = driversController.getDriver(newDriverId);
         Delivery delivery=getUpcomingDelivery(deliveryId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
-        Driver driver=driversController.getDriver(newDriverId);
+        if (!truckController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
+            throw new Exception("CHANGE ME");
         delivery.setDriver(driver);
     }
 
     public void editTruck(int deliveryId,int newTruckId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
         Truck truck=truckController.getTruck(newTruckId);
+        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
+        if (!truckController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
+            throw new Exception("CHANGE ME");
         delivery.setTruck(truck);
     }
 
@@ -171,6 +175,8 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         if(weight<0)
             throw new Exception("invalid weight");
+        if(weight > delivery.getTruck().getMaxWeight())
+            throw new Exception("CHANGE ME");
         delivery.setWeight(weight);
     }
 

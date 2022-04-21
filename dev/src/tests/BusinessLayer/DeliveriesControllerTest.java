@@ -111,8 +111,7 @@ class DeliveriesControllerTest {
             fail();
         }
         try{
-            deliveriesController.setWeight(2,5000);
-            deliveriesController.completeDelivery(2);
+            deliveriesController.getCompletedDelivery(2);
             fail();
         }
         catch (Exception e){
@@ -151,13 +150,6 @@ class DeliveriesControllerTest {
         }
         catch (Exception e){
             fail();
-        }
-        try{
-            deliveriesController.setWeight(2,5000);
-            deliveriesController.completeDelivery(2);
-            fail();
-        }
-        catch (Exception e){
         }
     }
 
@@ -235,8 +227,8 @@ class DeliveriesControllerTest {
     void addItemToDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDestination(1,1);
-            deliveriesController.addItemToDestination(1,1,"name",1);
+            deliveriesController.addDestination(1,2);
+            deliveriesController.addItemToDestination(1,2,"name",1);
         }
         catch (Exception e){
             fail();
@@ -253,21 +245,21 @@ class DeliveriesControllerTest {
     void removeItemFromDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDestination(1,1);
-            deliveriesController.addItemToDestination(1,1,"name",1);
-            deliveriesController.removeItemFromDestination(1, 1, "name");
+            deliveriesController.addDestination(1,2);
+            deliveriesController.addItemToDestination(1,2,"name",1);
+            deliveriesController.removeItemFromDestination(1, 2, "name");
         }
         catch (Exception e){
             fail();
         }
         try{
-            deliveriesController.removeItemFromDestination(1, 1, "name");
+            deliveriesController.removeItemFromDestination(1, 2, "name");
             fail();
         }
         catch (Exception e){
         }
         try{
-            deliveriesController.removeItemFromDestination(1, 1, "namee");
+            deliveriesController.removeItemFromDestination(1, 2, "namee");
             fail();
         }
         catch (Exception e){
@@ -278,15 +270,15 @@ class DeliveriesControllerTest {
     void editItemQuantity() {
         try{
             deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDestination(1,1);
-            deliveriesController.addItemToDestination(1,1,"name",1);
-            deliveriesController.editItemQuantity(1,1,"name",3);
+            deliveriesController.addDestination(1,2);
+            deliveriesController.addItemToDestination(1,2,"name",1);
+            deliveriesController.editItemQuantity(1,2,"name",3);
         }
         catch (Exception e){
             fail();
         }
         try{
-            deliveriesController.editItemQuantity(1,1,"namee",3);
+            deliveriesController.editItemQuantity(1,2,"namee",3);
             fail();
         }
         catch (Exception e){
@@ -296,7 +288,21 @@ class DeliveriesControllerTest {
     @Test
     void getItemsOfDest() {
         //no idea how to test that
-        fail();
+        try{
+            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDestination(1,2);
+            deliveriesController.addItemToDestination(1,2,"name",1);
+            deliveriesController.getItemsOfDest(1,2);
+        }
+        catch (Exception e){
+            fail();
+        }
+        try{
+            deliveriesController.getItemsOfDest(1,3);
+            fail();
+        }
+        catch (Exception e){
+        }
     }
 
     @Test
@@ -426,7 +432,7 @@ class DeliveriesControllerTest {
             fail();
         }
         try{
-            deliveriesController.setWeight(1,11000);
+            deliveriesController.setWeight(1,14000);
             fail();
         }
         catch (Exception e){
@@ -453,14 +459,14 @@ class DeliveriesControllerTest {
             deliveriesController.addDelivery(time1, time2, 2,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
-            deliveriesController.checkTruckHasUpcomingDelivery(1);
+            deliveriesController.checkTruckHasUpcomingDelivery(2);
 
         }
         catch (Exception e){
             fail();
         }
         try{
-            deliveriesController.checkTruckHasUpcomingDelivery(2);
+            deliveriesController.checkTruckHasUpcomingDelivery(1);
             fail();
         }
         catch (Exception e){
@@ -474,14 +480,14 @@ class DeliveriesControllerTest {
             deliveriesController.addDelivery(time1, time2, 2,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
-            deliveriesController.checkSiteHasUpcomingDelivery(1);//that test might not be accurate
+            deliveriesController.checkSiteHasUpcomingDelivery(2);//that test might not be accurate
 
         }
         catch (Exception e){
             fail();
         }
         try{
-            deliveriesController.checkSiteHasUpcomingDelivery(2);
+            deliveriesController.checkSiteHasUpcomingDelivery(1);
             fail();
         }
         catch (Exception e){
@@ -495,14 +501,14 @@ class DeliveriesControllerTest {
             deliveriesController.addDelivery(time1, time2, 2,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
-            deliveriesController.checkDriverHasUpcomingDelivery(2);
+            deliveriesController.checkDriverHasUpcomingDelivery(1);
 
         }
         catch (Exception e){
             fail();
         }
         try{
-            deliveriesController.checkDriverHasUpcomingDelivery(1);
+            deliveriesController.checkDriverHasUpcomingDelivery(2);
             fail();
         }
         catch (Exception e){

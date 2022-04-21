@@ -91,10 +91,12 @@ public class Delivery {
         return time.compareTo(endTime) < 0 && time.compareTo(startTime) > 0;
     }
 
-    public void addDestination(Branch branch){
+    public void addDestination(Branch branch) throws Exception {
         if(!destinationItems.containsKey(branch)){
             destinationItems.put(branch,new HashMap<>());
         }
+        else
+            throw new Exception("CHANGE ME");
     }
     public void removeDestination(Branch branch) throws Exception {
         if(destinationItems.containsKey(branch)){
@@ -116,7 +118,8 @@ public class Delivery {
         if(!destinationItems.containsKey(branch)){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
         }
-        destinationItems.get(branch).remove(item);
+        if (destinationItems.get(branch).remove(item) == null)
+            throw new Exception();
     }
     public void editItemQuantity(Branch branch, String item, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch)){
