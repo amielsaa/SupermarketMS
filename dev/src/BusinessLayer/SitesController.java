@@ -62,8 +62,11 @@ public class SitesController {
         toBeEdited.setContactName(name);
     }
 
-    public Site getSite(int id) {
-        return sites.get(id);
+    public Site getSite(int id) throws Exception {
+        Site site = sites.get(id);
+        if (site == null)
+            throw new Exception("CHANGE ME");
+        return site;
     }
     public Site getSite(String address) {
         return sites.get(siteAddressMapper.get(address));

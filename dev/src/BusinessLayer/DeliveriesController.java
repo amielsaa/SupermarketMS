@@ -12,10 +12,10 @@ public class DeliveriesController {
     private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
     private LinkedHashMap<Integer,String> deliveryArchive;
 
-    public DeliveriesController() {
-        this.driversController=new DriversController();
-        this.sitesController=new SitesController();
-        this.truckController=new TruckController();
+    public DeliveriesController(DriversController driversController, SitesController sitesController, TruckController truckController) {
+        this.driversController=driversController;
+        this.sitesController=sitesController;
+        this.truckController=truckController;
         this.upcomingDeliveries=new LinkedHashMap<>();
         this.deliveryArchive=new LinkedHashMap<>();
         nextDeliveryId=1;
@@ -206,4 +206,4 @@ public class DeliveriesController {
         }
     }
 
-    }
+}

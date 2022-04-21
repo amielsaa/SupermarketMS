@@ -8,11 +8,13 @@ import java.util.Collection;
 public class DeliveryService {
     private SitesController sitesController;
     private TruckController truckController;
+    private DriversController driversController;
     private DeliveriesController deliveriesController;
     public DeliveryService(){
         sitesController = new SitesController();
         truckController=new TruckController();
-        deliveriesController=new DeliveriesController();
+        driversController = new DriversController();
+        deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
     }
 
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
@@ -75,6 +77,7 @@ public class DeliveryService {
         }
     }
 
+    //needs to check is a delivery with this site exists!!!!!!
     public Response deleteSite(int id){
         try {
             deliveriesController.checkSiteHasUpcomingDelivery(id);

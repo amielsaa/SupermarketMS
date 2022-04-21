@@ -96,10 +96,12 @@ public class Delivery {
             destinationItems.put(branch,new HashMap<>());
         }
     }
-    public void removeDestination(Branch branch){
+    public void removeDestination(Branch branch) throws Exception {
         if(destinationItems.containsKey(branch)){
-            removeDestination(branch);
+            destinationItems.remove(branch);
         }
+        else
+            throw new Exception("CHANGE ME");
     }
     public void addItemToDestination(Branch branch, String item, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch)){

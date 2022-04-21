@@ -10,7 +10,7 @@ public class DriversController {
     }
 
     public void addDriver(int id,String name,String licenseType){
-        drivers.put(id,new Driver(id,name,LicenseType.valueOf(name)));
+        drivers.put(id,new Driver(id,name,LicenseType.valueOf(licenseType)));
     }
     public Driver getDriver(int driverId) throws Exception {
         if(!drivers.containsKey(driverId)){
