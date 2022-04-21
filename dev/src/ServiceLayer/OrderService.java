@@ -7,8 +7,7 @@ import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class OrderService {
     private OrderController cOrder;
@@ -35,8 +34,33 @@ public class OrderService {
         catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
-
     }
+
+    public Response<DOrder> getOrder(int supplierBN, int orderID){
+        try {
+            Order actualOrder = cOrder.getOrder(supplierBN, orderID);
+            return Response.makeSuccess(new DOrder(actualOrder));
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<List<DOrder>> getAllOrdersFromSupplier(int supplierBN){
+        try {
+            Collection<Order> actualOrders = cOrder.getAllOrdersFromSupplier(supplierBN);
+            List<DOrder> dummyOrders = new LinkedList<>();
+            for(Order o: actualOrders) {
+                dummyOrders.add(new DOrder(o));
+            }
+            return Response.makeSuccess(dummyOrders);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+
 
 
 }

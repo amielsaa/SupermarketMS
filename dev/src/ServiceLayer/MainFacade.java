@@ -3,13 +3,11 @@ package ServiceLayer;
 import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
 import BusinessLayer.Supplier;
+import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class MainFacade {
     SupplierFacade fSupplier;
@@ -22,7 +20,7 @@ public class MainFacade {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
         while(running){ //main program loop
-            System.out.print("Enter command (0 - Exit, 1 - Add supplier, 2 - Make order, 3 - Testing): ");
+            System.out.print("Enter command (0 - Exit, 1 - Add supplier, 2 - Make order, 3 - Testing): EDIT THIS LIST!!!!!!!!! ");
             String input = s.nextLine();
 
             switch (input){
@@ -36,13 +34,64 @@ public class MainFacade {
                     break;
                 }
                 case ("2"): {
-                    makeOrder(s);
+                    removeSupplier(s);
                     break;
                 }
                 case("3"): {
-                    testFunction();
+                    getSupplier(s);
                     break;
                 }
+                case("4"): {
+                    addSupplierDeliveryDay(s);
+                    break;
+                }
+                case("5"): {
+                    removeSupplierDeliveryDay(s);
+                    break;
+                }
+                case("6"): {
+                    updateSupplierDeliveryDays(s);
+                    break;
+                }
+                case("7"): {
+                    updateSupplierPaymentDetails(s);
+                    break;
+                }
+                case("8"): {
+                    updateSupplierBankAccount(s);
+                    break;
+                }
+                case("9"): {
+                    updateSupplierSelfDelivery(s);
+                    break;
+                }
+                case("10"): {
+                    addSupplierContact(s);
+                    break;
+                }
+                case("11"): {
+                    removeSupplierContact(s);
+                    break;
+                }
+                case("12"): {
+                    updateContactPhoneNumber(s);
+                    break;
+                }
+                case("13"): {
+                    makeOrder(s);
+                    break;
+                }
+                case("14"): {
+                    getOrder(s);
+                    break;
+                }
+                case("15"): {
+                    getAllOrdersFromSupplier(s);
+                    break;
+                }
+
+
+
             }
 
         }
@@ -51,6 +100,7 @@ public class MainFacade {
 
 
     }
+
 
     private void createSupplier(Scanner s){
         System.out.print("Enter supplier name: ");
@@ -79,10 +129,7 @@ public class MainFacade {
             else System.out.println("Invalid bank number");
         }
 
-
-        System.out.print("Enter supplier payment option (1 - Credit, 2 - Cash, 3 - Plus30, 4 - Plus60, 5 - Check): ");
-        String paymentDetail = s.nextLine();
-        paymentDetail = paymentDetailNumberToString(paymentDetail);
+        String paymentDetail = getPaymentFromUser(s);
 
         System.out.print("We need atleast one contact person.\nEnter contact name: ");
         String contactName = s.nextLine();
@@ -99,12 +146,9 @@ public class MainFacade {
         }
 
 
-        System.out.print("Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
-        String selfDeliveryString = s.nextLine();
-        boolean selfDelivery = stringToBoolean(selfDeliveryString);
-        System.out.print("Is the supplier delivering by days? (1 - yes, 2 - no, default - no): ");
-        String deliveryDaysString = s.nextLine();
-        boolean deliveryDays = stringToBoolean(deliveryDaysString);
+
+        boolean selfDelivery = getBooleanFromUser(s,"Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
+        boolean deliveryDays = getBooleanFromUser(s,"Is the supplier delivering by days? (1 - yes, 2 - no, default - no): ");
         Set<Integer> daysToDeliver = deliveryDaysLoop(s);
 
 
@@ -313,6 +357,184 @@ public class MainFacade {
         return Response.makeFailure("Supplier isn't found.");
     }
 
+    private void removeSupplier(Scanner s) {
+        int businessNumber = -1;
+        String businessNumberString;
+        while(true){
+            System.out.print("Enter supplier BN: ");
+            businessNumberString = s.nextLine();
+            if(legalNumberCheck(businessNumberString)) {
+                businessNumber = Integer.parseInt(businessNumberString);
+                break;
+            }
+            else System.out.println("Invalid business number");
+        }
+
+        Response<DSupplier> newsupplier = fSupplier.removeSupplier(businessNumber);
+        if(newsupplier.isSuccess())
+            System.out.println("Supplier removed successfully.");
+        else System.out.println(newsupplier.getMessage());
+
+    }
+
+    private void getSupplier(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        Response<DSupplier> newsupplier = fSupplier.getSupplier(businessNumber);
+        if(newsupplier.isSuccess())
+            System.out.println(newsupplier.toString()); //todo: implement toString
+        else System.out.println(newsupplier.getMessage());
+    }
+
+    private void addSupplierDeliveryDay(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
+        int dayNumber = getIntFromUser(s, "day");
+        Response res = fSupplier.addSupplierDeliveryDay(businessNumber, dayNumber);
+        if(res.isSuccess())
+            System.out.println("Day added successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void removeSupplierDeliveryDay(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        System.out.println("Select a day to remove.\nInstructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
+        int dayNumber = getIntFromUser(s, "day");
+        Response res = fSupplier.removeSupplierDeliveryDay(businessNumber, dayNumber);
+        if(res.isSuccess())
+            System.out.println("Day removed successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void updateSupplierDeliveryDays(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        Set<Integer> days = deliveryDaysLoop(s);
+        Response res = fSupplier.updateSupplierDeliveryDays(businessNumber, days);
+        if(res.isSuccess())
+            System.out.println("Days updated successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void updateSupplierPaymentDetails(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        String payment = getPaymentFromUser(s);
+        Response res = fSupplier.updateSupplierPaymentDetails(businessNumber, payment);
+        if(res.isSuccess())
+            System.out.println("Supplier Payment Details have been updated successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void updateSupplierBankAccount(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        int bankNumber = getIntFromUser(s, "supplier bank account number");
+        Response res = fSupplier.updateSupplierBankAccount(businessNumber, bankNumber);
+        if(res.isSuccess())
+            System.out.println("Supplier bank account have been updated successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void updateSupplierSelfDelivery(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        boolean selfDelivery = getBooleanFromUser(s, "Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
+        Response res = fSupplier.updateSupplierSelfDelivery(businessNumber, selfDelivery);
+        if(res.isSuccess())
+            System.out.println("Supplier self-delivery preference has been updated successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void addSupplierContact(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        System.out.println("Enter contact name: ");
+        String contactName = s.nextLine();
+        int contactPhone = getIntFromUser(s, "contact phone number");
+        Response res = fSupplier.addSupplierContact(businessNumber, contactName, contactPhone);
+        if(res.isSuccess())
+            System.out.println("Contact added successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void removeSupplierContact(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        int contactPhone = getIntFromUser(s, "contact phone number");
+        Response res = fSupplier.removeSupplierContact(businessNumber, contactPhone);
+        if(res.isSuccess())
+            System.out.println("Contact removed successfully.");
+        else System.out.println(res.getMessage());
+    }
+
+    private void getOrder(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        int contactPhone = getIntFromUser(s, "orderID");
+        Response<DOrder> res = fSupplier.getOrder(businessNumber, contactPhone);
+        if(res.isSuccess())
+            res.getData().toString();
+        else System.out.println(res.getMessage());
+    }
+
+    private void getAllOrdersFromSupplier(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        Response<List<DOrder>> res = fSupplier.getAllOrdersFromSupplier(businessNumber);
+        if(res.isSuccess())
+            printOrderList(res.getData());
+        else System.out.println(res.getMessage());
+    }
+
+    private void updateContactPhoneNumber(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        int oldPhone = getIntFromUser(s, "old phone number ");
+        int newPhone = getIntFromUser(s, "new phone number ");
+        Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
+        if(res.isSuccess())
+            printOrderList(res.getData());
+        else System.out.println(res.getMessage());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void printOrderList(List<DOrder> orderList){
+        System.out.println("Is not implemented yet.");
+    }
+
+    private int getIntFromUser(Scanner s, String field){ //todo: apply this func in ALL cases
+        int intNumber = -1;
+        String intNumberString;
+        while(true){
+            System.out.print("Enter " + field + ": ");
+            intNumberString = s.nextLine();
+            if(legalNumberCheck(intNumberString)) {
+                intNumber = Integer.parseInt(intNumberString);
+                break;
+            }
+            else System.out.println("Invalid " + field);
+        }
+        return intNumber;
+    }
+
+    private String getPaymentFromUser(Scanner s){
+        System.out.print("Enter supplier payment option (1 - Credit, 2 - Cash, 3 - Plus30, 4 - Plus60, 5 - Check): ");
+        String paymentDetail = s.nextLine();
+        paymentDetail = paymentDetailNumberToString(paymentDetail);
+        return paymentDetail;
+    }
+
+    private boolean getBooleanFromUser(Scanner s, String message){
+        System.out.print(message);
+        String someString = s.nextLine();
+        boolean someBoolean = stringToBoolean(someString);
+        return someBoolean;
+    }
+
     private void testFunction(){
         //String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response
         HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
@@ -326,4 +548,6 @@ public class MainFacade {
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
     }
+
+
 }

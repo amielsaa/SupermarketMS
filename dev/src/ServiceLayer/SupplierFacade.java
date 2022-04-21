@@ -48,17 +48,70 @@ public class SupplierFacade {
         return sSupplier.getSupplierQuantityAgreement(businessNumber);
     }
 
+    public Response<DSupplier> removeSupplier(int bn){
+        return sSupplier.removeSupplier(bn);
+    }
+
+    public Response addSupplierDeliveryDay(int bn, int day){
+        return sSupplier.addSupplierDeliveryDay(bn, day);
+    }
+
+    public Response removeSupplierDeliveryDay(int bn, int day){
+        return sSupplier.removeSupplierDeliveryDay(bn, day);
+    }
+
+    public Response updateSupplierDeliveryDays(int bn, Set<Integer> days){
+        return sSupplier.updateSupplierDeliveryDays(bn, days);
+    }
+
+    public Response updateSupplierPaymentDetails(int bn, String payment){
+        return sSupplier.updateSupplierPaymentDetails(bn, payment);
+    }
+
+    public Response updateSupplierBankAccount(int bn, int bankNumber){
+        return sSupplier.updateSupplierBankAccount(bn, bankNumber);
+    }
+
+    public Response updateSupplierSelfDelivery(int bn, boolean selfSelivery){
+        return sSupplier.updateSupplierSelfDelivery(bn, selfSelivery);
+    }
+
+    public Response addSupplierContact(int bn, String contactName, int contactPhone){
+        return sSupplier.addSupplierContact(bn, contactName, contactPhone);
+    }
+
+    public Response removeSupplierContact(int bn, int contactPhone){
+        return sSupplier.removeSupplierContact(bn, contactPhone);
+    }
+
+    public Response<DOrder> getOrder(int bn, int orderID){
+        return sOrder.getOrder(bn, orderID);
+    }
+
+    public Response<List<DOrder>> getAllOrdersFromSupplier(int bn){
+        return sOrder.getAllOrdersFromSupplier(bn);
+    }
+
+    public Response<List<DOrder>> updateContactPhoneNumber(int bn, int oldPhone, int newPhone){
+        return sSupplier.updateContactPhoneNumber(bn, oldPhone, newPhone);
+    }
 
 
 
 
 
-//    public Response<Boolean> addSupplier(){}
-    //------------------------supplierService------------------------
-    //addSupplier, removeSupplier, updateSupplierDeliveryDays, updateSupplierSelfDelivery, addSupplierContact, removeSupplierContact,
-    //createQuantityAgreement
 
-    //------------------------orderService------------------------
-    //makeOrder, getOrder, getAllOrdersFromSupplier, getFinalPrice
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

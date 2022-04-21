@@ -60,4 +60,8 @@ public class DSupplier {
     public Set<Days> getDays_To_Deliver() {
         return Days_To_Deliver;
     }
+
+    public String toString(){
+        return "DSupplier toString is not implemented.";
+    }
 }

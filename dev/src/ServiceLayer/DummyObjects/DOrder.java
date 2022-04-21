@@ -41,4 +41,8 @@ public class DOrder {
     public Date getOrder_Date() {
         return Order_Date;
     }
+
+    public String toString(){
+        return "DOrder toString is not implemented.";
+    }
 }

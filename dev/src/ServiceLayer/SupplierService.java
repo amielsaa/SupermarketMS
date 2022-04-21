@@ -56,4 +56,119 @@ public class SupplierService {
         }
 
     }
+
+    public Response<DSupplier> removeSupplier(int business_num){
+        try {
+            Supplier actualSupplier = cSupplier.removeSupplier(business_num);
+            return Response.makeSuccess(new DSupplier(actualSupplier));
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response addSupplierDeliveryDay(int business_num, int day){
+        try {
+            cSupplier.addSupplierDeliveryDay(business_num, day);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response removeSupplierDeliveryDay(int business_num, int day){
+        try {
+            cSupplier.removeSupplierDeliveryDay(business_num, day);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response updateSupplierDeliveryDays(int business_num, Set<Integer> days){
+        try {
+            cSupplier.updateSupplierDeliveryDays(business_num, days);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response updateSupplierPaymentDetails(int business_num, String payment){
+        try {
+            cSupplier.updateSupplierPaymentDetails(business_num, payment);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response updateSupplierBankAccount(int business_num, int bankNumber){
+        try {
+            cSupplier.updateSupplierBankAccount(business_num, bankNumber);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response updateSupplierSelfDelivery(int business_num, boolean selfDelivery){
+        try {
+            cSupplier.updateSupplierSelfDelivery(business_num, selfDelivery);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response addSupplierContact(int business_num, String contactName, int contactPhone){
+        try {
+            cSupplier.addSupplierContact(business_num, contactName, contactPhone);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response removeSupplierContact(int business_num, int contactPhone){
+        try {
+            cSupplier.removeSupplierContact(business_num, contactPhone);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response updateContactPhoneNumber(int business_num, int oldPhone, int newPhone){
+        try {
+            cSupplier.updateContactPhoneNumber(business_num, oldPhone, newPhone);
+            return Response.makeSuccess(null);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -32,24 +32,24 @@ public class SupplierController {
 
     }
 
-    private void updateSupplierDeliveryDays(int business_num, Set<Integer> days) {
+    public void updateSupplierDeliveryDays(int business_num, Set<Integer> days) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).setDays_To_Deliver(days);
     }
 
-    private void updateSupplierSelfDelivery(int business_num, boolean selfDelivery) {
+    public void updateSupplierSelfDelivery(int business_num, boolean selfDelivery) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).setSelf_Delivery_Or_Pickup(selfDelivery);
     }
 
-    private void addSupplierContact(int business_num, String contactName, int contactNum) {
+    public void addSupplierContact(int business_num, String contactName, int contactNum) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).addSupplierContact(contactName, contactNum);
 
 
     }
 
-    private void removeSupplierContact(int business_num, int contactNum) {
+    public void removeSupplierContact(int business_num, int contactNum) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
     }
