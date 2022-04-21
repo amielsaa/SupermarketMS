@@ -61,7 +61,7 @@ public class DataController {
         }
         return categoryList;
     }
-    private void checkExpired()
+    public void checkExpired()
     {
         Date now = new Date();
         for(Map.Entry<Product,List<StoreProduct>> mapSet:productListMap.entrySet())

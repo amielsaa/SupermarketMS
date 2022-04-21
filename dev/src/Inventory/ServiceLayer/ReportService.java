@@ -24,14 +24,19 @@ public class ReportService {
         }
     }
 
+    public Response<Report> ReportStockByCategories(List<String> categories) {
+        try {
+            Report report = new Report("Products by Categories report", reportController.reportByCategories(categories));
+            return Response.makeSuccess(report);
+        } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+
     public Response<Report> ReportByDefective() {
         return null;
     }
-
-    public Response<Report> ReportStockByCategories(List<String> categories) {
-        return null;
-    }
-
     //TODO: periodical reports
 
 }
