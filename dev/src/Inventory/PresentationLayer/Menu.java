@@ -57,7 +57,7 @@ public class Menu {
                     break;
             }
         }catch(Exception e) {
-            System.out.println("\nUnknown command, please try again.");
+            System.out.println(e.getMessage());
         }
         
     }
@@ -104,8 +104,13 @@ public class Menu {
 
     private void reportByExpiredAction() {
         Response<Report> res = service.ReportByExpired();
-        System.out.println( res.getData().getHeadline());
-        res.getData().getTable().print();
+        if(res.isSuccess()){
+            System.out.println( res.getData().getHeadline());
+            res.getData().getTable().print();
+        }
+        else
+            System.out.println(res.getMessage());
+
     }
 
     private void addStoreProductAction() {
