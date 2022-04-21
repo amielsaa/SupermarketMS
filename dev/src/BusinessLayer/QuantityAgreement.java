@@ -137,7 +137,7 @@ public class QuantityAgreement {
         String numberToString = number.toString();
         boolean DecimalPoint = false;
         for (int i = 0; i < numberToString.length(); i++) {
-            if (numberToString.charAt(i) != '.' || numberToString.charAt(i) != '0' || numberToString.charAt(i) != '1' || numberToString.charAt(i) != '2' || numberToString.charAt(i) != '3' || numberToString.charAt(i) != '4' || numberToString.charAt(i) != '5' || numberToString.charAt(i) != '6' || numberToString.charAt(i) != '7' || numberToString.charAt(i) != '8' || numberToString.charAt(i) != '9') {
+            if (numberToString.charAt(i) != '.' && numberToString.charAt(i) != '0' && numberToString.charAt(i) != '1' && numberToString.charAt(i) != '2' && numberToString.charAt(i) != '3' && numberToString.charAt(i) != '4' && numberToString.charAt(i) != '5' && numberToString.charAt(i) != '6' && numberToString.charAt(i) != '7' && numberToString.charAt(i) != '8' && numberToString.charAt(i) != '9') {
                 return false;
             }
             if (numberToString.charAt(i) == '.' && DecimalPoint == false) {

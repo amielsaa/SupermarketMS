@@ -159,7 +159,7 @@ public class Supplier {
         }
         String numberToString=number.toString();
         for (int i=0;i<numberToString.length();i++){
-            if (numberToString.charAt(i)!='0'||numberToString.charAt(i)!='1'||numberToString.charAt(i)!='2'||numberToString.charAt(i)!='3'||numberToString.charAt(i)!='4'||numberToString.charAt(i)!='5'||numberToString.charAt(i)!='6'||numberToString.charAt(i)!='7'||numberToString.charAt(i)!='8'||numberToString.charAt(i)!='9'){
+            if ((numberToString.charAt(i)!='0'&&numberToString.charAt(i)!='1'&&numberToString.charAt(i)!='2'&&numberToString.charAt(i)!='3'&&numberToString.charAt(i)!='4'&&numberToString.charAt(i)!='5'&&numberToString.charAt(i)!='6'&&numberToString.charAt(i)!='7'&&numberToString.charAt(i)!='8'&&numberToString.charAt(i)!='9')){
                 throw new IllegalArgumentException("cannot give Business number or bank account input other then numbers");
             }
         }
