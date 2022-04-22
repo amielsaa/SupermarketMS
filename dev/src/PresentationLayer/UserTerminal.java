@@ -1,5 +1,6 @@
 package PresentationLayer;
 
+import BusinessLayer.Delivery;
 import BusinessLayer.Site;
 import BusinessLayer.Truck;
 import ServiceLayer.DeliveryService;
@@ -358,7 +359,114 @@ public class UserTerminal {
     }
 
     private void runUpcomingDeliveriesMenu() {
+        boolean isUserFinished = false;
+        String userData;
+        while (!isUserFinished){
+            print("\n### Upcoming Deliveries Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. View all upcoming deliveries" +
+                    "\n\t2. Search an upcoming delivery" +
+                    "\n\t3. Add a new delivery" +
+                    "\n\t4. Edit a delivery" +
+                    "\n\t5. Delete an upcoming delivery" +
+                    "\n\t6. Return to Delivery Menu\n");
+            userData = sc.next();
+            switch (userData) {
+                case "1":
+                    printAllUpcomingDeliveries();
+                    break;
+                case "2":
+                    searchDelivery(false);
+                    break;
+                case "3":
+                    addDelivery();
+                    break;
+                case "4":
+                    EditDelivery();
+                    break;
+                case "5":
+                    DeleteDelivery();
+                    break;
+                case "6":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
 
+    }
+
+    private void addDelivery() {
+    }
+
+    private void EditDelivery() {
+        boolean isUserFinished = false;
+        String userData;
+        int deliveryId=-1;
+        boolean idLoaded=false;
+        Response<String> idRes=null;
+        while (!isUserFinished){
+            print("\n### Upcoming Delivery Editing Menu ###\n");
+            while(!idLoaded){
+                print("Enter delivery id:");
+                deliveryId=selectInt();
+                idRes=service.searchUpcomingDelivery(deliveryId);
+                if(idRes.isSuccess()){idLoaded=true;}
+                else print(idRes.getMessage());
+            }
+            print(String.format("\nEditing delivery: %s\n\n",idRes.getData()));
+            print("Enter option number to execute the desirable operation:" +
+                    "\n\t1. Add a destination" +
+                    "\n\t2. Remove a destination" +
+                    "\n\t3. Add an item to destination" +
+                    "\n\t3. Remove an item from destination" +
+                    "\n\t4. Edit item quantity" +
+                    "\n\t5. Edit start Time" +
+                    "\n\t6. Edit End Time" +
+                    "\n\t6. Change driver" +
+                    "\n\t6. Change truck" +
+                    "\n\t6. Change origin site" +
+                    "\n\t6. Edit truck's weight" +
+                    "\n\t3. Complete the delivery" +
+                    "\n\t6. Return to Upcoming Delivery Menu\n");
+
+            userData = sc.next();
+            switch (userData) {
+                case "1":
+                    printAllUpcomingDeliveries();
+                    break;
+                case "2":
+                    searchDelivery(false);
+                    break;
+                case "3":
+                    addDelivery();
+                    break;
+                case "4":
+                    EditDelivery();
+                    break;
+                case "5":
+                    DeleteDelivery();
+                    break;
+                case "6":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private void DeleteDelivery() {
+    }
+
+    private void printAllUpcomingDeliveries() {
+        Response<ArrayList<Delivery>> res=service.viewUpcomingDeliveries();
+        ArrayList<Delivery>  upcomingDeliveries=res.getData();
+        print("\nUpcoming Deliveries:\n");
+        for(Delivery delivery:upcomingDeliveries){
+            print(delivery.toString());
+        }
     }
 
     private void printTruckById(int id){

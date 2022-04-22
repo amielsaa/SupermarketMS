@@ -98,14 +98,14 @@ public class Delivery {
             destinationItems.put(branch,new HashMap<>());
         }
         else
-            throw new Exception("CHANGE ME");
+            throw new Exception(String.format("%s is already a destination of delivery number %d",branch.getAddress(),id));
     }
     public void removeDestination(Branch branch) throws Exception {
         if(destinationItems.containsKey(branch)){
             destinationItems.remove(branch);
         }
         else
-            throw new Exception("CHANGE ME");
+            throw new Exception(String.format("%s is not a destination of delivery number %d",branch.getAddress(),id));
     }
     public void addItemToDestination(Branch branch, String item, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch)){
