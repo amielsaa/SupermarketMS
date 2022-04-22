@@ -8,7 +8,7 @@ import javax.print.attribute.SetOfIntegerSyntax;
 import java.util.*;
 
 
-public class Supplier {
+public class Supplier  {
     private String Name;
     private int Business_Num;
     private int Bank_Acc_Num;
@@ -169,6 +169,8 @@ public class Supplier {
             throw new IllegalArgumentException("Business number should be 9 digits");
     }
     public void addSupplierDeliveryDay(int day){
+        if(!Delivery_By_Days)
+            Delivery_By_Days=true;
         Days dayToAdd=dayCovertor(day);
         if (Days_To_Deliver.contains(dayToAdd))
             throw new IllegalArgumentException("this Day is already in the Delivery days");

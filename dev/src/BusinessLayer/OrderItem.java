@@ -1,13 +1,13 @@
 package BusinessLayer;
 
 public class OrderItem {
-    private int Order_Id;
+    private Integer Order_Id;
     private String Item_Name;
-    private int Item_Num;
-    private double Item_Price;
-    private int Item_Amount;
+    private Integer Item_Num;
+    private Double Item_Price;
+    private Integer Item_Amount;
 
-    public OrderItem(int order_id, String item_name, int item_num, double item_price, int item_amount) {
+    public OrderItem(Integer order_id, String item_name, Integer item_num, Double item_price, Integer item_amount) {
         Order_Id = order_id;
         Item_Name = item_name;
         Item_Num = item_num;

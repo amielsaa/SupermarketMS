@@ -5,11 +5,12 @@ import BusinessLayer.OrderItem;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 public class DOrder {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Integer, OrderItem> item_Num_To_OrderItem;
+    private HashMap<Integer,  OrderItem> item_Num_To_OrderItem;
     private double final_Price;
     private Date Order_Date;
 
@@ -30,7 +31,7 @@ public class DOrder {
         return Order_Id;
     }
 
-    public HashMap<Integer, OrderItem> getItem_Num_To_OrderItem() {
+    public HashMap<Integer,OrderItem> getItem_Num_To_OrderItem() {
         return item_Num_To_OrderItem;
     }
 

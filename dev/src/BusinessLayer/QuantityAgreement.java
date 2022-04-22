@@ -53,6 +53,11 @@ public class QuantityAgreement {
         Integer[] orderKeys = new Integer[order.keySet().toArray().length];// array of the keys of the order
         for(int i=0; i<orderKeys.length;i++){
             orderKeys[i] = (Integer)order.keySet().toArray()[i];
+            // checks if the quantity is a legal number
+            if(!CheckLegalNumber(order.get(orderKeys[i]))){
+                throw new IllegalArgumentException("quantity of the order cannot be negative number on item number "+orderKeys[i]);
+
+            }
         }
 
 
@@ -64,13 +69,17 @@ public class QuantityAgreement {
                 for(int j=0; j<quantities.length;j++){
                     quantities[j] = (Integer)item_Num_To_Quantity_To_Discount.get(orderKeys[i]).keySet().toArray()[j];
                 }
-                for(int j=0;i<quantities.length;j++) {
-                    if((quantities[j]<order.get(orderKeys[i]))&&(currentDiscount<item_Num_To_Quantity_To_Discount.get(orderKeys[i]).get(quantities[j])))
+                for(int j=0;j<quantities.length;j++) {
+                    if((quantities[j]<=order.get(orderKeys[i]))&&(currentDiscount<item_Num_To_Quantity_To_Discount.get(orderKeys[i]).get(quantities[j])))
                         currentDiscount = item_Num_To_Quantity_To_Discount.get(orderKeys[i]).get(quantities[j]);
 
                 }
+                int actualDiscount=100-currentDiscount;
+                Double pricePerOne=item_Num_To_Price.get(orderKeys[i]);
+                int quantity=order.get(orderKeys[i]);
 
-                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),item_Num_To_Price.get(orderKeys[i])*order.get(orderKeys[i])*((currentDiscount)/100)));
+                Double PriceWithDiscountAfterMath=((pricePerOne)*(quantity)*(actualDiscount)/100);
+                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),PriceWithDiscountAfterMath));
             }
             else{
                 fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),item_Num_To_Price.get(orderKeys[i])*order.get(orderKeys[i])));
@@ -124,7 +133,7 @@ public class QuantityAgreement {
         }
         String numberToString=number.toString();
         for (int i=0;i<numberToString.length();i++){
-            if (numberToString.charAt(i)!='0'||numberToString.charAt(i)!='1'||numberToString.charAt(i)!='2'||numberToString.charAt(i)!='3'||numberToString.charAt(i)!='4'||numberToString.charAt(i)!='5'||numberToString.charAt(i)!='6'||numberToString.charAt(i)!='7'||numberToString.charAt(i)!='8'||numberToString.charAt(i)!='9'){
+            if (numberToString.charAt(i)!='0'&&numberToString.charAt(i)!='1'&&numberToString.charAt(i)!='2'&&numberToString.charAt(i)!='3'&&numberToString.charAt(i)!='4'&&numberToString.charAt(i)!='5'&&numberToString.charAt(i)!='6'&&numberToString.charAt(i)!='7'&&numberToString.charAt(i)!='8'&&numberToString.charAt(i)!='9'){
                 return false;
             }
         }

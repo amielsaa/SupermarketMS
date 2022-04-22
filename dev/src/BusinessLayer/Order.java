@@ -2,12 +2,15 @@ package BusinessLayer;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
+
+
 import BusinessLayer.*;
 
 public class Order {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Integer,OrderItem> item_Num_To_OrderItem;
+    private HashMap<Integer, OrderItem> item_Num_To_OrderItem;//item to its order details
     private double final_Price;
     private Date Order_Date;
 

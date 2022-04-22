@@ -13,8 +13,8 @@ public class SupplierController {
     }
 
     public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
-        if(BN_To_Supplier.containsKey(business_num))
-            throw new IllegalArgumentException("supplier Business number "+business_num+" already exists");
+        if (BN_To_Supplier.containsKey(business_num))
+            throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
         Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
         BN_To_Supplier.put(business_num, newSupplier);
         return newSupplier;
@@ -53,7 +53,8 @@ public class SupplierController {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
     }
-    public HashMap<Integer, Pair<String,Double>> makeOrder(int business_num, HashMap<Integer,Integer> order){
+
+    public HashMap<Integer, Pair<String, Double>> makeOrder(int business_num, HashMap<Integer, Integer> order) {
         Check_If_Supplier_Exists(business_num);
         return BN_To_Supplier.get(business_num).makeOrder(order);
     }
@@ -67,29 +68,40 @@ public class SupplierController {
         Supplier supp = getSupplier(business_num);
         return supp.getQuantity_Agreement();
     }
-    public void addSupplierDeliveryDay(int business_num,int day){
+
+    public void addSupplierDeliveryDay(int business_num, int day) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).addSupplierDeliveryDay(day);
     }
-    public void removeSupplierDeliveryDay(int business_num,int day){
+
+    public void removeSupplierDeliveryDay(int business_num, int day) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierDeliveryDay(day);
     }
-    public void  updateSupplierPaymentDetails(int business_num,String paymentDetail){
+
+    public void updateSupplierPaymentDetails(int business_num, String paymentDetail) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).setPayment_Details(paymentDetail);
 
     }
-    public void  updateSupplierBankAccount(int business_num,int bankAcoount_Num){
+
+    public void updateSupplierBankAccount(int business_num, int bankAcoount_Num) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).updateSupplierBankAccount(bankAcoount_Num);
 
     }
-    public void updateContactPhoneNumber(int business_num,String oldPhoneNum,String newPhoneNum){
+
+    public void updateContactPhoneNumber(int business_num, String oldPhoneNum, String newPhoneNum) {
         Check_If_Supplier_Exists(business_num);
-        BN_To_Supplier.get(business_num).updateContactPhoneNumber(oldPhoneNum,newPhoneNum);
+        BN_To_Supplier.get(business_num).updateContactPhoneNumber(oldPhoneNum, newPhoneNum);
+
+
 
     }
+    //------------------------------ForTests---------------------------------------------//
+    public boolean HasSupplier(int businessNum){
+        return BN_To_Supplier.containsKey(businessNum);
 
 
+    }
 }
