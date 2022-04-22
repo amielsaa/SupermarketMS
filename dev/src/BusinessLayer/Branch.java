@@ -12,7 +12,7 @@ public class Branch extends Site{
 
     @Override
     public String toString() {
-        return "--branch--    " + super.toString();
+        return "      --branch--          " + super.toString();
     }
 
     @Override

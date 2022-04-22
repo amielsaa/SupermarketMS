@@ -16,6 +16,35 @@ public class DeliveryService {
         truckController=new TruckController();
         driversController = new DriversController();
         deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
+        load();
+    }
+
+    public void load(){
+        try {
+            loadSties();
+            loadTrucks();
+            loadDrivers();
+            loadDeliveries();
+        }
+        catch (Exception e){
+
+        }
+    }
+
+    private void loadSties() throws Exception {
+        sitesController.load();
+    }
+
+    private void loadTrucks() throws Exception{
+        truckController.load();
+    }
+
+    public void loadDrivers(){
+        driversController.load();
+    }
+
+    private void loadDeliveries() throws Exception{
+        deliveriesController.load();
     }
 
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
@@ -78,7 +107,6 @@ public class DeliveryService {
         }
     }
 
-    //needs to check is a delivery with this site exists!!!!!!
     public Response deleteSite(int id){
         try {
             deliveriesController.checkSiteHasUpcomingDelivery(id);
@@ -110,7 +138,7 @@ public class DeliveryService {
         }
     }
 
-    public Response<Site> getAllSite(int id){
+    public Response<Site> getSite(int id){
         try {
             Site site = sitesController.getSite(id);
             return Response.makeSuccess(site);

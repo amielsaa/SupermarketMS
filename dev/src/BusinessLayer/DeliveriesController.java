@@ -21,6 +21,20 @@ public class DeliveriesController {
         nextDeliveryId=1;
     }
 
+    public void load() throws Exception {
+        addDelivery(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(4), 1000001, 200000001, 1);
+        setWeight(1, 7000);
+        addDestination(1,4);
+        addDestination(1,5);
+        addItemToDestination(1,4,"milk",10);
+        addItemToDestination(1,5,"milk",20);
+        addDelivery(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), 1000004, 200000004, 2);
+        setWeight(2, 12500);
+        addDestination(2,6);
+        addItemToDestination(2,6,"eggs",30);
+
+    }
+
     private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {
         for(Delivery delivery: upcomingDeliveries.values()){
             if((delivery.getTruck().getPlateNum()==truckId &&
@@ -202,6 +216,9 @@ public class DeliveriesController {
             if(delivery.getOrigin().getId()==siteId){
                 throw new Exception(String.format("Site id %s has upcoming deliveries",site));
             }
+            for (Branch branch: delivery.getDestinations())
+                if(branch.getId()==siteId)
+                    throw new Exception(String.format("Site id %s has upcoming deliveries",site));
         }
     }
 
