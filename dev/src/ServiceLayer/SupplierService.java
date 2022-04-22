@@ -13,7 +13,7 @@ public class SupplierService {
     private SupplierController cSupplier = new SupplierController();
 
 
-    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
+    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
         try {
             Supplier actualSupplier = cSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
             return Response.makeSuccess(new DSupplier(actualSupplier));
@@ -127,7 +127,7 @@ public class SupplierService {
         }
     }
 
-    public Response addSupplierContact(int business_num, String contactName, int contactPhone){
+    public Response addSupplierContact(int business_num, String contactName, String contactPhone){
         try {
             cSupplier.addSupplierContact(business_num, contactName, contactPhone);
             return Response.makeSuccess(null);
@@ -137,7 +137,7 @@ public class SupplierService {
         }
     }
 
-    public Response removeSupplierContact(int business_num, int contactPhone){
+    public Response removeSupplierContact(int business_num, String contactPhone){
         try {
             cSupplier.removeSupplierContact(business_num, contactPhone);
             return Response.makeSuccess(null);
@@ -147,7 +147,7 @@ public class SupplierService {
         }
     }
 
-    public Response updateContactPhoneNumber(int business_num, int oldPhone, int newPhone){
+    public Response updateContactPhoneNumber(int business_num, String oldPhone, String newPhone){
         try {
             cSupplier.updateContactPhoneNumber(business_num, oldPhone, newPhone);
             return Response.makeSuccess(null);

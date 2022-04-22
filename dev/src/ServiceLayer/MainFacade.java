@@ -89,6 +89,10 @@ public class MainFacade {
                     getAllOrdersFromSupplier(s);
                     break;
                 }
+                case("16"): { //todo: remove
+                    testFunction();
+                    break;
+                }
 
 
 
@@ -133,17 +137,9 @@ public class MainFacade {
 
         System.out.print("We need atleast one contact person.\nEnter contact name: ");
         String contactName = s.nextLine();
-        String contactNumberString;
-        int contactNumber = -1;
-        while(true){
-            System.out.print("Enter contact phone number: ");
-            contactNumberString = s.nextLine();
-            if(legalNumberCheck(contactNumberString)) {
-                contactNumber = Integer.parseInt(contactNumberString);
-                break;
-            }
-            else System.out.println("Invalid phone number");
-        }
+        System.out.print("Enter contact phone number: ");
+        String contactNumber = s.nextLine();
+
 
 
 
@@ -198,7 +194,7 @@ public class MainFacade {
                 else System.out.println("Illegal day number, try again.");
 
             }
-            catch (Exception E){ //todo: check double insertion
+            catch (Exception E){
                 System.out.println("Illegal day number, try again.");
             }
         }
@@ -236,7 +232,7 @@ public class MainFacade {
                 }
 
             }
-            catch (Exception E){ //todo: check double insertion
+            catch (Exception E){
                 System.out.println("Illegal item name/price, try again.");
             }
         }
@@ -268,7 +264,6 @@ public class MainFacade {
                 if(itemIdNumber<0 || itemDiscountNumber>100 || itemDiscountNumber<0 || itemAmountNumber<=0 || itemIdNumber>=item_num_to_name.keySet().size())
                     System.out.println("Illegal item discount/price/ID, try again.");
                 else{
-                    //todo: add checks
                     if(!item_Num_To_Discount.containsKey(itemIdNumber))
                         item_Num_To_Discount.put(itemIdNumber, new HashMap<>());
                     item_Num_To_Discount.get(itemIdNumber).put(itemAmountNumber, itemDiscountNumber);
@@ -284,7 +279,6 @@ public class MainFacade {
     }
 
     private void makeOrder(Scanner s){
-        //todo: collect info for func
         String businessnumString;
         int businessNumber = -1;
         while(true){
@@ -299,7 +293,7 @@ public class MainFacade {
 
         Response printItemsResponse = printSupplierItems(businessNumber);
         if(!printItemsResponse.isSuccess()){
-            System.out.println("Supplier number doesn't exist.");
+            System.out.println(printItemsResponse.getMessage());
             return;
         }
 
@@ -317,7 +311,7 @@ public class MainFacade {
             try{
                 int itemIdNumber = Integer.parseInt(itemIdString);
                 int itemQuantity = Integer.parseInt(itemQuantityString);
-                if(itemIdNumber<0 || itemQuantity<0) //todo: check if itemID is in range of supplier items?
+                if(itemIdNumber<0 || itemQuantity<0)
                     System.out.println("Illegal item ID/quantity, try again.");
                 else{
                     order.put(itemIdNumber, itemQuantity);
@@ -445,7 +439,8 @@ public class MainFacade {
         int businessNumber = getIntFromUser(s, "supplier business number");
         System.out.println("Enter contact name: ");
         String contactName = s.nextLine();
-        int contactPhone = getIntFromUser(s, "contact phone number");
+        System.out.println("Enter contact phone number: ");
+        String contactPhone = s.nextLine();
         Response res = fSupplier.addSupplierContact(businessNumber, contactName, contactPhone);
         if(res.isSuccess())
             System.out.println("Contact added successfully.");
@@ -454,7 +449,8 @@ public class MainFacade {
 
     private void removeSupplierContact(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
-        int contactPhone = getIntFromUser(s, "contact phone number");
+        System.out.println("Enter contact phone number: ");
+        String contactPhone = s.nextLine();
         Response res = fSupplier.removeSupplierContact(businessNumber, contactPhone);
         if(res.isSuccess())
             System.out.println("Contact removed successfully.");
@@ -466,7 +462,7 @@ public class MainFacade {
         int contactPhone = getIntFromUser(s, "orderID");
         Response<DOrder> res = fSupplier.getOrder(businessNumber, contactPhone);
         if(res.isSuccess())
-            res.getData().toString();
+            System.out.println(res.getData().toString());
         else System.out.println(res.getMessage());
     }
 
@@ -480,8 +476,10 @@ public class MainFacade {
 
     private void updateContactPhoneNumber(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
-        int oldPhone = getIntFromUser(s, "old phone number ");
-        int newPhone = getIntFromUser(s, "new phone number ");
+        System.out.print("Enter old phone number: ");
+        String oldPhone = s.nextLine();
+        System.out.print("Enter new phone number: ");
+        String newPhone = s.nextLine();
         Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
         if(res.isSuccess())
             printOrderList(res.getData());
@@ -536,14 +534,12 @@ public class MainFacade {
     }
 
     private void testFunction(){
-        //String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response
         HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
         item_Num_To_Price.put(0, 5.0);
         HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
-//        item_Num_To_Discount.put(0, new HashMap<Integer,Integer>());
         HashMap<Integer,String> item_Num_To_Name = new HashMap<>();
         item_Num_To_Name.put(0, "test");
-        Response<DSupplier> newsupplier = fSupplier.addSupplier("1",1,1,"credit","1", 1, item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, true, true, new HashSet<Integer>());
+        Response<DSupplier> newsupplier = fSupplier.addSupplier("1",111111111,1,"credit","1", "1", item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, false, true, new HashSet<Integer>());
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());

@@ -12,7 +12,7 @@ public class SupplierController {
         BN_To_Supplier = new HashMap<Integer, Supplier>();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         if(BN_To_Supplier.containsKey(business_num))
             throw new IllegalArgumentException("supplier Business number "+business_num+" already exists");
         Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
@@ -42,14 +42,14 @@ public class SupplierController {
         BN_To_Supplier.get(business_num).setSelf_Delivery_Or_Pickup(selfDelivery);
     }
 
-    public void addSupplierContact(int business_num, String contactName, int contactNum) {
+    public void addSupplierContact(int business_num, String contactName, String contactNum) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).addSupplierContact(contactName, contactNum);
 
 
     }
 
-    public void removeSupplierContact(int business_num, int contactNum) {
+    public void removeSupplierContact(int business_num, String contactNum) {
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
     }
@@ -85,7 +85,7 @@ public class SupplierController {
         BN_To_Supplier.get(business_num).updateSupplierBankAccount(bankAcoount_Num);
 
     }
-    public void updateContactPhoneNumber(int business_num,int oldPhoneNum,int newPhoneNum){
+    public void updateContactPhoneNumber(int business_num,String oldPhoneNum,String newPhoneNum){
         Check_If_Supplier_Exists(business_num);
         BN_To_Supplier.get(business_num).updateContactPhoneNumber(oldPhoneNum,newPhoneNum);
 

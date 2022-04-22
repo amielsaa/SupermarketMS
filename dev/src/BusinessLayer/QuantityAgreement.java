@@ -20,7 +20,7 @@ public class QuantityAgreement {
         DiscountsValidationCheck(item_num_to_discount);
         item_Num_To_Quantity_To_Discount = item_num_to_discount;
         item_Num_To_Name = item_num_to_name;
-        if(item_Num_To_Quantity_To_Discount.keySet().size()!=item_num_to_name.keySet().size())
+        if(item_num_to_price.keySet().size()!=item_num_to_name.keySet().size())
             throw new IllegalArgumentException("The size list of Products Names should match the size of the list of Products price");
     }
 

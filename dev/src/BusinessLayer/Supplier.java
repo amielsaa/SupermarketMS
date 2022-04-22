@@ -20,9 +20,8 @@ public class Supplier {
     private Set<Days> Days_To_Deliver;
 
 
-    public Supplier(){}//todo: remove this constructor - just for testing!
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
         CheckLegalNumber(business_num);
         CheckLengthOfBusinessNumber(business_num);
@@ -36,7 +35,7 @@ public class Supplier {
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
         Quantity_Agreement = new QuantityAgreement(item_num_to_price, item_num_to_discount, item_num_to_name);
         if(!Delivery_By_Days)
-            Days_To_Deliver = null;
+            Days_To_Deliver = new LinkedHashSet<Days>();
         else
             Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
     }
@@ -136,14 +135,14 @@ public class Supplier {
         Self_Delivery_Or_Pickup = self_Delivery_Or_Pickup;
     }
 
-    public void addSupplierContact(String name, int contactPhone) {
+    public void addSupplierContact(String name, String contactPhone) {
         Contacts.add(new Contact(name,contactPhone));
     }
 
-    public void removeSupplierContact(int contactPhone) {
+    public void removeSupplierContact(String contactPhone) {
         int beginningSize=Contacts.size();
         for (int i=0;i<Contacts.size();i++){
-            if(Contacts.get(i).getPhone_Num()==contactPhone)
+            if(Contacts.get(i).getPhone_Num().equals(contactPhone))
                 Contacts.remove(i);
         }
         if(Contacts.size()==beginningSize)
@@ -207,10 +206,10 @@ public class Supplier {
         CheckLegalNumber(bank_acc);
         setBank_Acc_Num(bank_acc);
     }
-    public void updateContactPhoneNumber(int oldPhoneNum,int newPhoneNum){
+    public void updateContactPhoneNumber(String oldPhoneNum,String newPhoneNum){
         boolean found=false;
         for(int i=0;i<Contacts.size()&&!found;i++){
-            if(Contacts.get(i).getPhone_Num()==oldPhoneNum){
+            if(Contacts.get(i).getPhone_Num().equals(oldPhoneNum)){
                 Contacts.get(i).setPhone_Num(newPhoneNum);
             }
         }

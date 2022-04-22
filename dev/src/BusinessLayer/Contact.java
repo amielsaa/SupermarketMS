@@ -2,14 +2,14 @@ package BusinessLayer;
 
 public class Contact {
     private String name;
-    private int Phone_Num;
+    private String Phone_Num;
 
-    public Contact(String name, int phone_num) {
+    public Contact(String name, String phone_num) {
         this.name = name;
         Phone_Num = phone_num;
     }
 
-    public int getPhone_Num() {
+    public String getPhone_Num() {
         return Phone_Num;
     }
 
@@ -21,7 +21,7 @@ public class Contact {
         this.name = name;
     }
 
-    public void setPhone_Num(int phone_Num) {
+    public void setPhone_Num(String phone_Num) {
         Phone_Num = phone_Num;
     }
 }

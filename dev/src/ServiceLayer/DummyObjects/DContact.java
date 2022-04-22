@@ -4,7 +4,7 @@ import BusinessLayer.Contact;
 
 public class DContact {
     private String name;
-    private int Phone_Num;
+    private String Phone_Num;
 
     public DContact(Contact c) {
         this.name = c.getName();
@@ -15,7 +15,7 @@ public class DContact {
         return name;
     }
 
-    public int getPhone_Num() {
+    public String getPhone_Num() {
         return Phone_Num;
     }
 }

@@ -23,7 +23,7 @@ public class SupplierFacade {
         sOrder = new OrderService();
     }
 
-    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, int contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){ //todo: change it to response
+    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
          Response<DSupplier> res = sSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
          if(res.isSuccess()) {
              sOrder.addSupplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
@@ -76,11 +76,11 @@ public class SupplierFacade {
         return sSupplier.updateSupplierSelfDelivery(bn, selfSelivery);
     }
 
-    public Response addSupplierContact(int bn, String contactName, int contactPhone){
+    public Response addSupplierContact(int bn, String contactName, String contactPhone){
         return sSupplier.addSupplierContact(bn, contactName, contactPhone);
     }
 
-    public Response removeSupplierContact(int bn, int contactPhone){
+    public Response removeSupplierContact(int bn, String contactPhone){
         return sSupplier.removeSupplierContact(bn, contactPhone);
     }
 
@@ -92,7 +92,7 @@ public class SupplierFacade {
         return sOrder.getAllOrdersFromSupplier(bn);
     }
 
-    public Response<List<DOrder>> updateContactPhoneNumber(int bn, int oldPhone, int newPhone){
+    public Response<List<DOrder>> updateContactPhoneNumber(int bn, String oldPhone, String newPhone){
         return sSupplier.updateContactPhoneNumber(bn, oldPhone, newPhone);
     }
 
