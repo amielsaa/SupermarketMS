@@ -37,5 +37,4 @@ public class Shift
     protected void removeWorker(@NotNull Employee employee){
         workers.remove(employee);
     }
-
 }

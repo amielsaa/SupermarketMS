@@ -2,7 +2,9 @@ package BusinessLayer;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class ShiftId
 {
@@ -34,5 +36,20 @@ public class ShiftId
      */
     public ShiftTime getShiftTime() {
         return time;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShiftId shiftId = (ShiftId) o;
+        return branchId == shiftId.branchId && date.getDayOfYear() == shiftId.date.getDayOfYear() && date.getYear() == shiftId.date.getYear() && time == shiftId.time;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(branchId, date, time);
     }
 }

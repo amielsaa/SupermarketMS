@@ -6,10 +6,7 @@ import Utilities.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShiftController
 {
@@ -23,21 +20,40 @@ public class ShiftController
         // TODO: implement getting data from DAL
     }
 
-    public Response<List<Shift>> getShifts() {
+    public Response<List<Shift>> getAllShifts() {
         return Response.makeSuccess(shifts.values().stream().toList());
+    }
+
+    public Response<List<Shift>> getShifts(int branchId) {
+        List<Shift> sList = getAllShifts().getData();
+        Iterator i = sList.iterator();
+        while(i.hasNext()) {
+            Shift s = (Shift)i.next();
+            if(s.getId().getBranchId() != branchId) {
+                i.remove();
+            }
+        }
+        return Response.makeSuccess(sList);
     }
 
     public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
                                     @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime){
-        if(shifts.containsKey(new ShiftId(branchId, date, shiftTime))){
-            return Response.makeFailure("this shift already exists");
+        // using for each for reasons...
+        ShiftId newShift = new ShiftId(branchId, date, shiftTime);
+        for(ShiftId s : shifts.keySet()) {
+            if(s.equals(newShift))
+                return Response.makeFailure("this shift already exists");
         }
-        if(date.isAfter(LocalDateTime.now().plusDays(1))){
+//        if(shifts.containsKey(new ShiftId(branchId, date, shiftTime))){
+//            return Response.makeFailure("this shift already exists");
+//        }
+        if(!date.isAfter(LocalDateTime.now().plusDays(1))){
             //Won't be allowed to add a shift a day after
             return Response.makeFailure("illegal starting time");
         }
-        ShiftId shiftId = new ShiftId(branchId, date, shiftTime);
+        ShiftId shiftId = newShift;
         Shift shift = new Shift(shiftId, workers, shiftManager);
+        this.shifts.put(shiftId, shift);
         return Response.makeSuccess(shift);
         //TODO: update after implementing DAL, Employee
     }
@@ -45,23 +61,38 @@ public class ShiftController
     public Response<Shift> removeShift(@NotNull ShiftId shiftId){
         //TODO: check if it should be possible to remove today's shift
         //TODO: update after implementing Response, DAL, Employee
-        if(shiftId.getDate().isAfter(LocalDateTime.now().plusDays(1))){
+        if(!shiftId.getDate().isAfter(LocalDateTime.now().plusDays(1))){
             //Won't be allowed to remove a shift a day after
             return Response.makeFailure("too late to remove");
         }
-        if(!shifts.containsKey(shiftId)){
-            return Response.makeFailure("no shift with such id");
+        ShiftId toRemoveId = null;
+        for(ShiftId s : shifts.keySet()) {
+            if(s.equals(shiftId))
+            {
+                toRemoveId = s;
+                break;
+            }
         }
-        Shift toRemove = shifts.remove(shiftId);
+        if(toRemoveId == null) {
+            return Response.makeFailure("No shift with such id. ");
+        }
+//        if(!shifts.containsKey(shiftId)){
+//            return Response.makeFailure("no shift with such id");
+//        }
+        Shift toRemove = shifts.remove(toRemoveId);
         return Response.makeSuccess(toRemove);
     }
 
     public Response<Shift> getShift(@NotNull ShiftId shiftId){
         //TODO: update after implementing Response, DAL, Employee
-        if(!shifts.containsKey(shiftId)){
-            return Response.makeFailure("no shift with such id");
+        for(ShiftId s : shifts.keySet()) {
+            if(s.equals(shiftId))
+                return Response.makeSuccess(shifts.get(s));
         }
-        return Response.makeSuccess(shifts.get(shiftId));
+//        if(!shifts.containsKey(shiftId)){
+//            return Response.makeFailure("no shift with such id");
+//        }
+        return Response.makeFailure("no shift with such id");
     }
 
 

@@ -35,27 +35,27 @@ public class Gateway
 
         // INIT PERMISSIONS AND QUALIFICATIONS
 
-        String[] permissions = {"ViewEmployees", "ManageEmployees", "ManageQualifications", "ManagePermissions", "ManageBranch1", "ManageBranch2"};
+        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManagePermissions", "ManageBranch1", "ManageBranch2"};
         for (String p : permissions)
         {
             qualificationController.addPermission(p);
         }
 
-        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ManageQualifications", "ManagePermissions"};
+        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManagePermissions"};
 
 
         Qualification qualificationHR = qualificationController.addQualification("HR").getData();
-        String[] permissionsAssistant = {"ViewEmployees"};
+        String[] permissionsAssistant = {"ViewEmployees", "ViewQualifications"};
         for(String p : permissionsHR) {
             var r = qualificationController.addPermissionToQualification(p, qualificationHR.getName());
-            System.out.println(r); // TODO DEBUG REMOVE ME
+
         }
 
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager").getData();
         String[] permissionsBranch1Manager = {"ManageBranch1"};
         for(String p : permissionsBranch1Manager) {
             var r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
-            System.out.println(r); // TODO DEBUG REMOVE ME
+
 
         }
 
@@ -63,9 +63,12 @@ public class Gateway
         String[] permissionsBranch2Manager = {"ManageBranch2"};
         for(String p : permissionsBranch2Manager) {
             var r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
-            System.out.println(r); // TODO DEBUG REMOVE ME
+
 
         }
+
+        Qualification qualificationCashier = qualificationController.addQualification("Cashier").getData();
+        Qualification qualificationCleaner = qualificationController.addQualification("Cleaner").getData();
 
         // INIT EMPLOYEES
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
@@ -110,6 +113,15 @@ public class Gateway
     }
 
     // EMPLOYEE FUNCTIONS
+
+    public Response<Employee> getEmployee(int id) {
+        Response<String> r = checkAuth("ViewEmployees");
+        if(!r.isSuccess()) {
+            return Response.makeFailure(r.getMessage());
+        }
+
+        return employeeController.getEmployee(id);
+    }
 
     public Response<List<Employee>> getEmployees() {
         Response<String> r = checkAuth("ViewEmployees");
@@ -228,6 +240,15 @@ public class Gateway
 
     // SHIFTS FUNCTIONS
 
+    public Response<List<Shift>> getShifts(int branchId) {
+        Response<String> r = checkAuth("ManageBranch" + branchId);
+        if(!r.isSuccess()) {
+            return Response.makeFailure(r.getMessage());
+        }
+
+        return shiftController.getShifts(branchId);
+    }
+
     public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
                                     @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime) {
         Response<String> r = checkAuth("ManageBranch" + branchId);
@@ -269,8 +290,17 @@ public class Gateway
 
     // SHIFTS FUNCTIONS
 
+    public Response<Qualification> getQualification(String name) {
+        Response<String> r = checkAuth("ViewQualifications");
+        if(!r.isSuccess()) {
+            return Response.makeFailure(r.getMessage());
+        }
+
+        return qualificationController.getQualification(name);
+    }
+
     public Response<List<Qualification>> getQualifications() {
-        Response<String> r = checkAuth("ManageQualifications");
+        Response<String> r = checkAuth("ViewQualifications");
         if(!r.isSuccess()) {
             return Response.makeFailure(r.getMessage());
         }
