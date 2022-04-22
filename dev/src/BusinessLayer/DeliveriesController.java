@@ -67,11 +67,12 @@ public class DeliveriesController {
     }
 
     public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId) throws Exception{
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         if(startTime.isBefore(LocalDateTime.now())){
-            throw new Exception(String.format("%s has passed",startTime));
+            throw new Exception(String.format("%s has passed",startTime.format(dateTimeFormatter)));
         }
         if(endTime.isBefore(LocalDateTime.now())){
-            throw new Exception(String.format("%s has passed",endTime));
+            throw new Exception(String.format("%s has passed",endTime.format(dateTimeFormatter)));
         }
         if(endTime.isBefore(startTime)){
             throw new Exception("end time cant be earlier than the start time");
@@ -173,7 +174,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
         if (!truckController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
-            throw new Exception("CHANGE ME");
+            throw new Exception("The truck is not free at this date");
         delivery.setDriver(driver);
     }
 
@@ -182,7 +183,7 @@ public class DeliveriesController {
         Truck truck=truckController.getTruck(newTruckId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
         if (!truckController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
-            throw new Exception("CHANGE ME");
+            throw new Exception("The driver is not free at this date");
         delivery.setTruck(truck);
     }
 
@@ -235,6 +236,13 @@ public class DeliveriesController {
                 throw new Exception(String.format("Driver id %d has upcoming deliveries",driverId));
             }
         }
+    }
+
+    public void deleteDelivery(int deliveryId) throws Exception{
+        if(!upcomingDeliveries.containsKey(deliveryId)){
+            throw new Exception(String.format("Delivery %d was not found",deliveryId));
+        }
+        upcomingDeliveries.remove(deliveryId);
     }
 
 }

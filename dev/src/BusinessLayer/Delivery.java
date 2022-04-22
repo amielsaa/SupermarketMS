@@ -133,10 +133,10 @@ public class Delivery {
         destinationItems.get(branch).replace(item,quantity);
     }
     public String toStringItemsOfDest(Branch site){
-        String output= String.format("\t\t** Destination address: %s\n\t\t\t*** Items:\n",site.getAddress());
+        String output= String.format("\t\t** Destination id: %d, Address: %s\n\t\t\t*** Items:\n",site.getId(),site.getAddress());
         HashMap<String,Integer> itemMap=destinationItems.get(site);
         for(Map.Entry pair:itemMap.entrySet()){
-            output=output.concat(String.format("\t\t\t\t**** item name: %s,  quantity: %d\n",pair.getKey(),pair.getValue()));
+            output=output.concat(String.format("\t\t\t\t**** Item name: %s,  Quantity: %d\n",pair.getKey(),pair.getValue()));
         }
         return output;
     }
@@ -148,8 +148,8 @@ public class Delivery {
     @Override
     public String toString(){
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String output=String.format("Delivery id: %d\n\t* Driver name: %s\n\t* Driver id: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin: %s\n\t* Weight: %d\n\t* Destinations:\n",
-                id,driver.getName(),driver.getId(),startTime.format(formatter),endTime.format(formatter),origin.getAddress(),weight);
+        String output=String.format("Delivery id: %d\n\t* Driver name: %s\n\t* Driver id: %d\n\t* Truck id: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin: %s\n\t* Weight: %d\n\t* Destinations:\n",
+                id,driver.getName(),driver.getId(),truck.getPlateNum(),startTime.format(formatter),endTime.format(formatter),origin.getAddress(),weight);
         for (Branch site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
     }

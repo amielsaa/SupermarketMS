@@ -312,9 +312,9 @@ public class DeliveryService {
         }
     }
 
-    public Response editDeliveryTruck(int deliveryId,int newDriverId){
+    public Response editDeliveryTruck(int deliveryId,int newTruckId){
         try {
-            deliveriesController.editTruck(deliveryId,newDriverId);
+            deliveriesController.editTruck(deliveryId,newTruckId);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -348,5 +348,23 @@ public class DeliveryService {
             return Response.makeFailure(e.getMessage());
         }
     }
+
+    public Response<ArrayList<String>> getDestList(){
+        ArrayList<String> list=new ArrayList<>();
+        for(Site site:sitesController.getAllDestinations()){
+            list.add(site.toString());
+        }
+        return Response.makeSuccess(list);
+    }
+
+    public Response deleteDelivery(int deliveryId){
+        try{
+            deliveriesController.deleteDelivery(deliveryId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
     }
 

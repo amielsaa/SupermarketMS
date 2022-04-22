@@ -6,9 +6,9 @@ import BusinessLayer.Truck;
 import ServiceLayer.DeliveryService;
 import ServiceLayer.Response;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class UserTerminal {
     private Scanner sc;
@@ -184,7 +184,7 @@ public class UserTerminal {
 
     private void printAllSites(){
         Response<Collection<Site>> res = service.getAllSites();
-        print("");
+        print("Site List:");
         if (res.isSuccess())
             for (Site s: res.getData())
                 print(s.toString());
@@ -291,7 +291,7 @@ public class UserTerminal {
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. Go to Upcoming Deliveries Menu" +
                     "\n\t2. Go to Completed Deliveries Menu" +
-                    "\n\t3. Return to Main Menu\n");
+                    "\n\t3. Return to Main Menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
@@ -316,7 +316,7 @@ public class UserTerminal {
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. View delivery archive" +
                     "\n\t2. Search a completed delivery" +
-                    "\n\t3. Return to Delivery Menu\n");
+                    "\n\t3. Return to Delivery Menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
@@ -369,7 +369,7 @@ public class UserTerminal {
                     "\n\t3. Add a new delivery" +
                     "\n\t4. Edit a delivery" +
                     "\n\t5. Delete an upcoming delivery" +
-                    "\n\t6. Return to Delivery Menu\n");
+                    "\n\t6. Return to Delivery Menu");
             userData = sc.next();
             switch (userData) {
                 case "1":
@@ -379,13 +379,13 @@ public class UserTerminal {
                     searchDelivery(false);
                     break;
                 case "3":
-                    addDelivery();
+                    printResponse(addDelivery());
                     break;
                 case "4":
                     EditDelivery();
                     break;
                 case "5":
-                    DeleteDelivery();
+                    printResponse(DeleteDelivery());
                     break;
                 case "6":
                     isUserFinished = true;
@@ -397,17 +397,31 @@ public class UserTerminal {
 
     }
 
-    private void addDelivery() {
+    private Response addDelivery() {
+        System.out.print("Enter start time, ");
+        LocalDateTime startDate=parseDate();
+        System.out.print("Enter end time, ");
+        LocalDateTime endDate=parseDate();
+        printAllTrucks();
+        print("Enter truck id:");
+        int truckId=selectInt();
+        print("Enter driver id:");
+        int driverId=selectInt();
+        printAllSites();
+        print("Enter new origin id:");
+        int originId=selectInt();
+        return service.addDelivery(startDate,endDate,truckId,driverId,originId);
     }
+
 
     private void EditDelivery() {
         boolean isUserFinished = false;
         String userData;
-        int deliveryId=-1;
+        int deliveryId = 0;
         boolean idLoaded=false;
-        Response<String> idRes=null;
+        Response<String> idRes;
         while (!isUserFinished){
-            print("\n### Upcoming Delivery Editing Menu ###\n");
+            print("\n### Upcoming Delivery Editing Menu ###");
             while(!idLoaded){
                 print("Enter delivery id:");
                 deliveryId=selectInt();
@@ -415,40 +429,67 @@ public class UserTerminal {
                 if(idRes.isSuccess()){idLoaded=true;}
                 else print(idRes.getMessage());
             }
+            idRes=service.searchUpcomingDelivery(deliveryId);
             print(String.format("\nEditing delivery: %s\n\n",idRes.getData()));
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a destination" +
                     "\n\t2. Remove a destination" +
                     "\n\t3. Add an item to destination" +
-                    "\n\t3. Remove an item from destination" +
-                    "\n\t4. Edit item quantity" +
-                    "\n\t5. Edit start Time" +
-                    "\n\t6. Edit End Time" +
-                    "\n\t6. Change driver" +
-                    "\n\t6. Change truck" +
-                    "\n\t6. Change origin site" +
-                    "\n\t6. Edit truck's weight" +
-                    "\n\t3. Complete the delivery" +
-                    "\n\t6. Return to Upcoming Delivery Menu\n");
+                    "\n\t4. Remove an item from destination" +
+                    "\n\t5. Edit item quantity" +
+                    "\n\t6. Edit start Time" +
+                    "\n\t7. Edit End Time" +
+                    "\n\t8. Change driver" +
+                    "\n\t9. Change truck" +
+                    "\n\t10. Change origin site" +
+                    "\n\t11. Edit truck's weight" +
+                    "\n\t12. Complete the delivery" +
+                    "\n\t13. Return to Upcoming Delivery Menu");
 
             userData = sc.next();
             switch (userData) {
                 case "1":
-                    printAllUpcomingDeliveries();
+                    printResponse(service.addDestinationToDelivery(deliveryId,chooseDest(service.getDestList().getData())));
                     break;
                 case "2":
-                    searchDelivery(false);
+                    print("Enter destination id:");
+                    printResponse(service.removeDestinationFromDelivery(deliveryId,selectInt()));
                     break;
                 case "3":
-                    addDelivery();
+                    printResponse(addItemToDest(deliveryId));
                     break;
                 case "4":
-                    EditDelivery();
+                    printResponse(removeItemFromDest(deliveryId));
                     break;
                 case "5":
-                    DeleteDelivery();
+                    printResponse(editQuantity(deliveryId));
                     break;
                 case "6":
+                    printResponse(editDate(deliveryId,true));
+                    break;
+                case "7":
+                    printResponse(editDate(deliveryId,false));
+                    break;
+                case "8":
+                    print("Enter new driver id:");
+                    printResponse(service.editDeliveryDriver(deliveryId,selectInt()));
+                    break;
+                case "9":
+                    printResponse(changeTruck(deliveryId));
+                    break;
+                case "10":
+                    printAllSites();
+                    print("Enter new origin id:");
+                    printResponse(service.editDeliveryOrigin(deliveryId,selectInt()));
+                    break;
+                case "11":
+                    print("Enter truck's weight:");
+                    printResponse(service.editDeliveryWeight(deliveryId,selectInt()));
+                    break;
+                case "12":
+                    printResponse(service.completeDelivery(deliveryId));
+                    break;
+                case "13":
                     isUserFinished = true;
                     break;
                 default:
@@ -457,13 +498,68 @@ public class UserTerminal {
         }
     }
 
-    private void DeleteDelivery() {
+    private Response changeTruck(int deliveryId) {
+        printAllTrucks();
+        print("Enter new truck id:");
+        return service.editDeliveryTruck(deliveryId,selectInt());
+    }
+
+    private Response editDate(int deliveryId,boolean start) {
+            LocalDateTime date=parseDate();
+            if(start) return service.editDeliveryStartTime(deliveryId,date);
+            else return service.editDeliveryEndTime(deliveryId,date);
+    }
+
+    private LocalDateTime parseDate(){
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        while (true){
+            print("use the format <dd-MM-yyyy HH:mm>:");
+            try {
+                return LocalDateTime.parse(sc.next(),formatter);
+            }catch (Exception e){
+                System.out.print("Invalid date, ");
+            }
+        }
+    }
+
+    private Response editQuantity(int deliveryId) {
+        print("Enter destination:");
+        int destId=selectInt();
+        print("Enter item:");
+        String item=sc.next();
+        print("Enter quantity:");
+        int quantity=selectInt();
+        return service.editDeliveryItemQuantity(deliveryId,destId,item,quantity);
+    }
+
+    private Response removeItemFromDest(int deliveryId) {
+        print("Enter destination:");
+        int destId=selectInt();
+        print("Enter item:");
+        String item=sc.next();
+        return service.removeItemFromDeliveryDestination(deliveryId,destId,item);
+    }
+
+    private Response addItemToDest(int deliveryId) {
+        print("Enter destination:");
+        int destId=selectInt();
+        print("Enter item:");
+        String item=sc.next();
+        print("Enter quantity:");
+        int quantity=selectInt();
+        return service.addItemToDeliveryDestination(deliveryId,destId,item,quantity);
+    }
+
+    private Response DeleteDelivery() {
+        print("Enter delivery id:");
+        return service.deleteDelivery(selectInt());
+
     }
 
     private void printAllUpcomingDeliveries() {
         Response<ArrayList<Delivery>> res=service.viewUpcomingDeliveries();
         ArrayList<Delivery>  upcomingDeliveries=res.getData();
-        print("\nUpcoming Deliveries:\n");
+        print("Upcoming Deliveries:");
         for(Delivery delivery:upcomingDeliveries){
             print(delivery.toString());
         }
@@ -478,13 +574,12 @@ public class UserTerminal {
     }
 
     private void printAllTrucks(){
-        Response<ArrayList<Truck>> res = service.getTrucks();
-        print("");
-        if (res.isSuccess())
-            for (Truck t: res.getData())
-                print(t.toString());
-        else
-            print(res.getMessage());
+        Response<ArrayList<Truck>> res=service.getTrucks();
+        ArrayList<Truck>  trucks=res.getData();
+        print("Truck List:");
+        for(Truck truck:trucks){
+            print(truck.toString());
+        }
         print("");
     }
 
@@ -528,6 +623,24 @@ public class UserTerminal {
             }
         }
     }
+
+    private void printResponse(Response res){
+        if (res.isSuccess() && res.getData() instanceof String)
+            print((String) res.getData());
+        else
+            print(res.getMessage());
+    }
+
+    private int chooseDest(ArrayList<String> sites){
+        //ArrayList<String> destList=service.getDestList().getData();
+        print("Destination List:");
+        for(String dest:sites){
+            print(dest);
+        }
+        print("Enter site id:");
+        return selectInt();
+    }
+
 }
 
 

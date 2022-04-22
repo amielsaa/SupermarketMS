@@ -1,8 +1,5 @@
 package BusinessLayer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SitesController {
     private Map<Integer, Site> sites;
@@ -110,5 +107,14 @@ public class SitesController {
             throw new Exception(String.format("A site with id %d does not exist",id));
         siteAddressMapper.remove(site.getAddress());
         sites.remove(id);
+    }
+
+    public ArrayList<Site> getAllDestinations(){
+        Collection<Site> siteList=sites.values();
+        ArrayList<Site> destList=new ArrayList<>();
+        for(Site site:siteList){
+            if(site.canBeADestination()){destList.add(site);}
+        }
+        return destList;
     }
 }
