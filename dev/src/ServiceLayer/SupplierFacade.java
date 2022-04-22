@@ -15,8 +15,6 @@ public class SupplierFacade {
     private SupplierService sSupplier;
     private OrderService sOrder;
 
-    //todo: 1. all main functions
-    //todo: 2. loadData (with turn on/off mechanism)
 
     public SupplierFacade(){
         sSupplier = new SupplierService();

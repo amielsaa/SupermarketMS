@@ -93,7 +93,7 @@ public class Supplier {
     }
 
     public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
-        Integer[] days = new Integer[Days_To_Deliver.toArray().length];//gets the set to Array
+        Integer[] days = new Integer[days_To_Deliver.toArray().length];//gets the set to Array
         Set<Days> daysSet=new LinkedHashSet<Days>();
         for(int i=0; i<days.length;i++){
             days[i] = (Integer)days_To_Deliver.toArray()[i];

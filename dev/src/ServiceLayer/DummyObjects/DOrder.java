@@ -43,6 +43,17 @@ public class DOrder {
     }
 
     public String toString(){
-        return "DOrder toString is not implemented.";
+        return "Supplier BN: "+getSupplier_BN() + ", OrderID: " + getOrder_Id() +", Order Date: " + getOrder_Date() + "\nItems: "+ itemsToString() + "\nFinal Price: " + getFinal_Price();
+    }
+
+    private String itemsToString(){
+        String ret = "\n";
+        HashMap<Integer, OrderItem> items = getItem_Num_To_OrderItem();
+        for(OrderItem x:items.values()){
+            ret+=x.toStringForOrderPrint() + ",\n";
+        }
+        if(ret.length()>2)
+            ret = ret.substring(0,ret.length()-2);
+        return ret;
     }
 }

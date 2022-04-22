@@ -18,4 +18,9 @@ public class DContact {
     public String getPhone_Num() {
         return Phone_Num;
     }
+
+    public String toString(){
+        return getName() + " - " + getPhone_Num();
+    }
+
 }

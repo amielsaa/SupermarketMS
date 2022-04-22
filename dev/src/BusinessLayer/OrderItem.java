@@ -53,4 +53,8 @@ public class OrderItem {
     public void setOrder_Id(int order_Id) {
         Order_Id = order_Id;
     }
+
+    public String toStringForOrderPrint(){
+        return "Item name: "+getItem_Name() + " ,Item ID: "+getItem_Num() + " ,Item amount: "+getItem_Amount() + " ,Item price: " + getItem_Price();
+    }
 }

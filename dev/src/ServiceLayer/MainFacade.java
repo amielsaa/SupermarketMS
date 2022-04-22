@@ -20,7 +20,13 @@ public class MainFacade {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
         while(running){ //main program loop
-            System.out.print("Enter command (0 - Exit, 1 - Add supplier, 2 - Make order, 3 - Testing): EDIT THIS LIST!!!!!!!!! ");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Add Supplier Delivery Day, 5 - Remove Supplier Delivery Day)");
+            System.out.println("(6 - Update Supplier Delivery Day, 7 - Update Supplier Payment Details, 8 - Update Supplier Bank Account, 9 - Update Supplier Self Delivery)");
+            System.out.println("(10 - Add Supplier Contact, 11 - Remove Supplier Contact, 12 - Update Contact Phone Number)");
+            System.out.println("(13 - Make Order, 14 - Get Order, 15 - Get All Orders From Supplier, 16 - Load Test Data)");
+
+            System.out.print("Enter command: ");
             String input = s.nextLine();
 
             switch (input){
@@ -89,8 +95,8 @@ public class MainFacade {
                     getAllOrdersFromSupplier(s);
                     break;
                 }
-                case("16"): { //todo: remove
-                    testFunction();
+                case("16"): {
+                    loadData();
                     break;
                 }
 
@@ -109,44 +115,17 @@ public class MainFacade {
     private void createSupplier(Scanner s){
         System.out.print("Enter supplier name: ");
         String supplierName = s.nextLine();
-        String businessNumberString;
-        int businessNumber = -1;
-        while(true){
-            System.out.print("Enter supplier business number: ");
-            businessNumberString = s.nextLine();
-            if(legalNumberCheck(businessNumberString)) {
-                businessNumber = Integer.parseInt(businessNumberString);
-                break;
-            }
-            else System.out.println("Invalid business number");
-        }
-
-        String bankNumberString;
-        int bankNumber = -1;
-        while(true){
-            System.out.print("Enter supplier bank account number: ");
-            bankNumberString = s.nextLine();
-            if(legalNumberCheck(bankNumberString)) {
-                bankNumber = Integer.parseInt(bankNumberString);
-                break;
-            }
-            else System.out.println("Invalid bank number");
-        }
-
+        int businessNumber =getIntFromUser(s,"business number");
+        int bankNumber = getIntFromUser(s,"supplier bank account number");
         String paymentDetail = getPaymentFromUser(s);
-
         System.out.print("We need atleast one contact person.\nEnter contact name: ");
         String contactName = s.nextLine();
         System.out.print("Enter contact phone number: ");
         String contactNumber = s.nextLine();
 
-
-
-
         boolean selfDelivery = getBooleanFromUser(s,"Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
         boolean deliveryDays = getBooleanFromUser(s,"Is the supplier delivering by days? (1 - yes, 2 - no, default - no): ");
         Set<Integer> daysToDeliver = deliveryDaysLoop(s);
-
 
         HashMap<Integer, Double> item_num_to_price = new HashMap<Integer, Double>();
         HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
@@ -280,16 +259,7 @@ public class MainFacade {
 
     private void makeOrder(Scanner s){
         String businessnumString;
-        int businessNumber = -1;
-        while(true){
-            System.out.print("Enter supplier BN: ");
-            businessnumString = s.nextLine();
-            if(legalNumberCheck(businessnumString)&&Integer.parseInt(businessnumString)>=0) {
-                businessNumber = Integer.parseInt(businessnumString);
-                break;
-            }
-            else System.out.println("Invalid business number");
-        }
+        int businessNumber = getIntFromUser(s,"supplier business number");
 
         Response printItemsResponse = printSupplierItems(businessNumber);
         if(!printItemsResponse.isSuccess()){
@@ -375,7 +345,7 @@ public class MainFacade {
         int businessNumber = getIntFromUser(s, "supplier business number");
         Response<DSupplier> newsupplier = fSupplier.getSupplier(businessNumber);
         if(newsupplier.isSuccess())
-            System.out.println(newsupplier.toString()); //todo: implement toString
+            System.out.println(newsupplier.getData().toString());
         else System.out.println(newsupplier.getMessage());
     }
 
@@ -482,29 +452,21 @@ public class MainFacade {
         String newPhone = s.nextLine();
         Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
         if(res.isSuccess())
-            printOrderList(res.getData());
+            System.out.println(printOrderList(res.getData()));
         else System.out.println(res.getMessage());
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    private void printOrderList(List<DOrder> orderList){
-        System.out.println("Is not implemented yet.");
+    private String printOrderList(List<DOrder> orderList){
+        String ret = "\n";
+        for(DOrder x:orderList){
+            ret += x.toString() + "\n-------------------------\n";
+        }
+        return ret;
     }
 
-    private int getIntFromUser(Scanner s, String field){ //todo: apply this func in ALL cases
+    private int getIntFromUser(Scanner s, String field){
         int intNumber = -1;
         String intNumberString;
         while(true){
@@ -533,16 +495,31 @@ public class MainFacade {
         return someBoolean;
     }
 
-    private void testFunction(){
+    private void loadData(){
         HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
         item_Num_To_Price.put(0, 5.0);
+        item_Num_To_Price.put(1, 20.0);
         HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
+        HashMap<Integer,Integer> dis1 = new HashMap<>();
+        dis1.put(200, 5);
+        item_Num_To_Discount.put(0, dis1);
         HashMap<Integer,String> item_Num_To_Name = new HashMap<>();
-        item_Num_To_Name.put(0, "test");
-        Response<DSupplier> newsupplier = fSupplier.addSupplier("1",111111111,1,"credit","1", "1", item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, false, true, new HashSet<Integer>());
+        item_Num_To_Name.put(0, "milk");
+        item_Num_To_Name.put(1, "beef");
+        Set<Integer> daysSet = new HashSet<>();
+        daysSet.add(1);
+        daysSet.add(3);
+        Response<DSupplier> newsupplier = fSupplier.addSupplier("Feliks Kablan",111111111,123456789,"credit","Ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, true, true, daysSet);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
+
+        HashMap<Integer,Integer> orderMap = new HashMap<>();
+        orderMap.put(0,100);
+        Response<DOrder> neworder = fSupplier.makeOrder(111111111, orderMap);
+        if(neworder.isSuccess())
+            System.out.println("Order created successfully.");
+        else System.out.println(neworder.getMessage());
     }
 
 

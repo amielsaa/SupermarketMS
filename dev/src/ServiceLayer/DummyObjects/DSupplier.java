@@ -62,6 +62,6 @@ public class DSupplier {
     }
 
     public String toString(){
-        return "DSupplier toString is not implemented.";
+        return "Supplier name: " + getName() + " ,Business number: " + getBusiness_Num() +" ,Is self delivering: " + isSelf_Delivery_Or_Pickup() + "\nIs delivering by days: " +isDelivery_By_Days() + " ,Days to deliver: " + getDays_To_Deliver() + "\nContacts: " + getContacts().toString() + "\nQuantity Agreement: " + getQuantity_Agreement();
     }
 }

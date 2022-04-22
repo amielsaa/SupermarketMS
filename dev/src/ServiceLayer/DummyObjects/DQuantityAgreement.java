@@ -45,4 +45,13 @@ public class DQuantityAgreement {
     public HashMap<Integer, String> getItem_Num_To_Name() {
         return item_Num_To_Name;
     }
+
+    public String toString(){
+        String ret = "\n";
+        for(int x:getItem_Num_To_Name().keySet()){
+            ret += ("Item ID: " + x + ", Item name: " + getItem_Num_To_Name().get(x) + ", Item price: " + getItem_Num_To_Price().get(x)) + "\n";
+        }
+        return ret;
+        //todo: add discount print?
+    }
 }
