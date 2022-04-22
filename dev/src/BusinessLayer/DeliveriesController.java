@@ -1,6 +1,7 @@
 package BusinessLayer;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -22,17 +23,23 @@ public class DeliveriesController {
     }
 
     public void load() throws Exception {
-        addDelivery(LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(4), 1000001, 200000001, 1);
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+       addDelivery(LocalDateTime.parse("13-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter), 1000001, 200000001, 1);
         setWeight(1, 7000);
         addDestination(1,4);
         addDestination(1,5);
         addItemToDestination(1,4,"milk",10);
         addItemToDestination(1,5,"milk",20);
-        addDelivery(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), 1000004, 200000004, 2);
+        addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2);
         setWeight(2, 12500);
         addDestination(2,6);
+        addDestination(2,4);
         addItemToDestination(2,6,"eggs",30);
+        addItemToDestination(2,6,"milk",30);
+        addItemToDestination(2,4,"coffee",30);
+        addItemToDestination(2,4,"tea",30);
 
+        completeDelivery(2);
     }
 
     private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {

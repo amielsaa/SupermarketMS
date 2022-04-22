@@ -1,8 +1,10 @@
 package BusinessLayer;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Delivery {
@@ -131,9 +133,11 @@ public class Delivery {
         destinationItems.get(branch).replace(item,quantity);
     }
     public String toStringItemsOfDest(Branch site){
-        String output= String.format("address: %s\nitems:\n",site.getAddress());
+        String output= String.format("\t\t** Destination address: %s\n\t\t\t*** Items:\n",site.getAddress());
         HashMap<String,Integer> itemMap=destinationItems.get(site);
-        itemMap.forEach((item,quantity)->output.concat(String.format("\t\t\titem name: %s,  quantity: %d\n",item,quantity)));
+        for(Map.Entry pair:itemMap.entrySet()){
+            output=output.concat(String.format("\t\t\t\t**** item name: %s,  quantity: %d\n",pair.getKey(),pair.getValue()));
+        }
         return output;
     }
 
@@ -143,9 +147,10 @@ public class Delivery {
 
     @Override
     public String toString(){
-        String output=String.format("id: %d\ndriver name: %s\ndriver id: %d\nstart time: %s\nend time: %s\norigin: %s\nitems:\n",
-                id,driver.getName(),driver.getId(),startTime,endTime,origin.getAddress());
-        destinationItems.keySet().forEach(site->output.concat(toStringItemsOfDest(site)));
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String output=String.format("Delivery id: %d\n\t* Driver name: %s\n\t* Driver id: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin: %s\n\t* Weight: %d\n\t* Destinations:\n",
+                id,driver.getName(),driver.getId(),startTime.format(formatter),endTime.format(formatter),origin.getAddress(),weight);
+        for (Branch site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
     }
 }

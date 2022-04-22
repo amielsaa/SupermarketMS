@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class UserTerminal {
     private Scanner sc;
     private DeliveryService service;
-    private SiteCommandsHandler siteCommandsHandler;
+  //  private SiteCommandsHandler siteCommandsHandler;
 
 
     public UserTerminal(){
         sc = new Scanner(System.in).useDelimiter("\n");
         service = new DeliveryService();
-        siteCommandsHandler = new SiteCommandsHandler(service);
+//        siteCommandsHandler = new SiteCommandsHandler(service);
     }
     public void run() {
         printWelcomeMessage();
@@ -34,7 +34,7 @@ public class UserTerminal {
                     runTrucksManu();
                     break;
                 case "3":
-                    runDeliveriesManu();
+                    runDeliveriesMenu();
                     break;
                 case "0":
                     isUserFinished = true;
@@ -283,8 +283,82 @@ public class UserTerminal {
         }
     }
 
-    private void runDeliveriesManu() {
-        //to be implemented
+    private void runDeliveriesMenu() {
+        boolean isUserFinished = false;
+        while (!isUserFinished){
+            print("\n### Delivery Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. Go to Upcoming Deliveries Menu" +
+                    "\n\t2. Go to Completed Deliveries Menu" +
+                    "\n\t3. Return to Main Menu\n");
+            String userData = sc.next();
+            switch (userData) {
+                case "1":
+                    runUpcomingDeliveriesMenu();
+                    break;
+                case "2":
+                    runCompletedDeliveriesMenu();
+                    break;
+                case "3":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private void runCompletedDeliveriesMenu() {
+        boolean isUserFinished = false;
+        while (!isUserFinished){
+            print("\n### Completed Deliveries Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. View delivery archive" +
+                    "\n\t2. Search a completed delivery" +
+                    "\n\t3. Return to Delivery Menu\n");
+            String userData = sc.next();
+            switch (userData) {
+                case "1":
+                    printDeliveryArchive();
+                    break;
+                case "2":
+                    searchDelivery(true);
+                    break;
+                case "3":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private void searchDelivery(boolean completed) {
+        Response<String> res;
+        print("Enter delivery id:");
+        int id=selectInt();
+        if(completed){
+            res = service.searchCompletedDelivery(id);
+        }else {
+            res=service.searchUpcomingDelivery(id);
+        }
+        if (res.isSuccess())
+            print(res.getData());
+        else
+            print(res.getMessage());
+    }
+
+    private void printDeliveryArchive() {
+        Response<ArrayList<String>> res=service.viewDeliveryArchive();
+        ArrayList<String>  archive=res.getData();
+        print("\nDelivery Archive:\n");
+        for(String delivery:archive){
+            print(delivery);
+        }
+    }
+
+    private void runUpcomingDeliveriesMenu() {
+
     }
 
     private void printTruckById(int id){
