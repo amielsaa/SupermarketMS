@@ -13,31 +13,30 @@ import java.util.*;
 public class UserTerminal {
     private Scanner sc;
     private DeliveryService service;
-  //  private SiteCommandsHandler siteCommandsHandler;
+
 
 
     public UserTerminal(){
         sc = new Scanner(System.in).useDelimiter("\n");
         service = new DeliveryService();
-//        siteCommandsHandler = new SiteCommandsHandler(service);
     }
     public void run() {
         printWelcomeMessage();
         boolean isUserFinished = false;
         while (!isUserFinished){
-            printMainManuMessage();
+            printMainMenuMessage();
             String userData = sc.next();
             switch (userData) {
                 case "1":
-                    runStiesManu();
+                    runStiesMenu();
                     break;
                 case "2":
-                    runTrucksManu();
+                    runTrucksMenu();
                     break;
                 case "3":
                     runDeliveriesMenu();
                     break;
-                case "0":
+                case "4":
                     isUserFinished = true;
                     break;
                 default:
@@ -49,24 +48,31 @@ public class UserTerminal {
 
     private void printWelcomeMessage()
     {
-        print("Welcome to \"Super Lee\" deliveries!\n");
+        print("### Welcome to \"Super-Lee\" deliveries! ###");
 
     }
-    private void printMainManuMessage()
+    private void printMainMenuMessage()
     {
-        print("please select manu\n1 for sites\n2 for trucks\n3 for deliveries\n0 to exit the program\n");
+        print("\n### Main Menu ###\n" +
+                "please select menu" +
+                "\n1 for sites" +
+                "\n2 for trucks" +
+                "\n3 for deliveries" +
+                "\n4 to exit the program");
     }
 
-    private void runStiesManu() {
+    private void runStiesMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
-            printSiteManuMessage();
+            printSiteMenuMessage();
             String userData = sc.next();
             switch (userData) {
                 case "1":
                     runSiteCreation();
+                    break;
                 case "2":
                     runSiteEdit();
+                    break;
                 case "3":
                     printAllSites();
                     print("please select site id that you want to delete");
@@ -93,7 +99,7 @@ public class UserTerminal {
                 case "6":
                     printAllSites();
                     break;
-                case "0":
+                case "7":
                     isUserFinished = true;
                     break;
                 default:
@@ -103,7 +109,9 @@ public class UserTerminal {
     }
 
     private void runSiteCreation() {
-        print("please pick up site type =\n1 for a supplier delivery\n2 for a branch");
+        print("please pick up site type:" +
+                "\n1 for a supplier delivery" +
+                "\n2 for a branch");
         boolean isUserFinished = false;
         boolean isBranch = false;
         while (!isUserFinished){
@@ -138,6 +146,7 @@ public class UserTerminal {
     }
 
     private void runSiteEdit() {
+        print("\n### Site editing Menu ###");
         printAllSites();
         Response<Site> res;
         int siteId;
@@ -150,8 +159,13 @@ public class UserTerminal {
 
         boolean isUserFinished = false;
         while (!isUserFinished){
-            print("please pick up what you want to edit\n1 for site address\n2 for site delivery zone\n3 for contact's phone number\n4 for contact's name\n0 for stop editing\n");
-            print(service.getSite(siteId).getData().toString());
+            print("Editing site: "+service.getSite(siteId).getData().toString());
+            print("please pick up what you want to edit" +
+                    "\n1 for site address" +
+                    "\n2 for site delivery zone" +
+                    "\n3 for contact's phone number" +
+                    "\n4 for contact's name" +
+                    "\n5 for stop editing");
             String userData = sc.next();
             switch (userData) {
                 case "1":
@@ -174,7 +188,7 @@ public class UserTerminal {
                     if (!r4.isSuccess())
                         print(r4.getMessage());
                     break;
-                case "0":
+                case "5":
                     isUserFinished = true;
                 default:
                     printIllegalOptionMessage();
@@ -193,20 +207,36 @@ public class UserTerminal {
         print("");
     }
 
-    private void printSiteManuMessage() {
-        print("please select site operation\n1 for creating a new site\n2 for editing a site\n3 for deleting a site\n4 to view a certain site\n5 to view all sites in a certain delivery zone\n6 to view all sites\n0 to return to the main manu");
+    private void printSiteMenuMessage() {
+        print("\n### Site Menu ###\n" +
+                "please select site operation\n" +
+                "1 for creating a new site\n" +
+                "2 for editing a site\n" +
+                "3 for deleting a site\n" +
+                "4 to view a certain site\n" +
+                "5 to view all sites in a certain delivery zone\n" +
+                "6 to view all sites\n" +
+                "7 to return to the main menu");
     }
 
-    private void runTrucksManu() {
+    private void runTrucksMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
-            print("please select truck operation\n1 for creating a new truck\n2 for editing a truck\n3 for deleting\n4 to view all trucks\n0 to return to the main manu\"");
+            print("\n### Truck Menu ###\n" +
+                    "please select truck operation\n" +
+                    "1 for creating a new truck\n" +
+                    "2 for editing a truck\n" +
+                    "3 for deleting\n" +
+                    "4 to view all trucks\n" +
+                    "5 to return to the main menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
                     runTruckCreation();
+                    break;
                 case "2":
                     runTruckEdit();
+                    break;
                 case "3":
                     printAllTrucks();
                     print("please select truck plate id that you want to delete");
@@ -217,7 +247,7 @@ public class UserTerminal {
                 case "4":
                     printAllTrucks();
                     break;
-                case "0":
+                case "5":
                     isUserFinished = true;
                     break;
                 default:
@@ -237,46 +267,52 @@ public class UserTerminal {
     }
 
     private void runTruckEdit() {
+        print("\n### Truck editing Menu ###");
         printAllTrucks();
-        Response<ArrayList<Truck>> res;
+        Response<String> res;
         int truckId;
         boolean found = false;
         do {
-            print("please select site id that you want to edit");
+            print("please select truck id that you want to edit");
             truckId = selectInt();
-            res = service.getTrucks();
-            ArrayList<Truck> tl = res.getData();
-            for (Truck t : tl)
-                if (t.getPlateNum() == truckId) {
-                    print(t.toString());
-                    found = true;
-                }
-
+            res = service.getTruck(truckId);
+            if(res.isSuccess()){
+                found=true;
+            } else res.getMessage();
         }
         while (!found);
-
         boolean isUserFinished = false;
         while (!isUserFinished){
-            print("please pick up what you want to edit\n1 for truck plate id\n2 for truck model\n3 for truck's max weight\n0 for stop editing\n");
+            System.out.print("\nEditing truck: ");
+            printResponse(service.getTruck(truckId));
+            print("please pick up what you want to edit\n" +
+                    "1 for truck plate id\n" +
+                    "2 for truck model\n" +
+                    "3 for truck's max weight\n" +
+                    "4 for stop editing");
             String userData = sc.next();
-            printTruckById(truckId);
             switch (userData) {
                 case "1":
-                    Response r1 = service.editPlateNum(truckId,selectInt());
+                    print("Enter new plate number:");
+                    int newPlateNum=selectInt();
+                    Response r1 = service.editPlateNum(truckId,newPlateNum);
                     if (!r1.isSuccess())
                         print(r1.getMessage());
+                    else truckId=newPlateNum;
                     break;
                 case "2":
+                    print("Enter new model:");
                     Response r2 = service.editModel(truckId,sc.next());
                     if (!r2.isSuccess())
                         print(r2.getMessage());
                     break;
                 case "3":
+                    print("Enter new max weight:");
                     Response r3 = service.editMaxWeight(truckId,selectInt());
                     if (!r3.isSuccess())
                         print(r3.getMessage());
                     break;
-                case "0":
+                case "4":
                     isUserFinished = true;
                 default:
                     printIllegalOptionMessage();
@@ -595,7 +631,10 @@ public class UserTerminal {
 
     private int deliveryZoneSelection()
     {
-        print("please pick up delivery zone =\n0 for north\n1 for center\n2 for south");
+        print("please pick a delivery zone =" +
+                "\n0 for north" +
+                "\n1 for center" +
+                "\n2 for south");
         while (true){
             String userData = sc.next();
             switch (userData) {
@@ -632,7 +671,6 @@ public class UserTerminal {
     }
 
     private int chooseDest(ArrayList<String> sites){
-        //ArrayList<String> destList=service.getDestList().getData();
         print("Destination List:");
         for(String dest:sites){
             print(dest);
@@ -642,58 +680,3 @@ public class UserTerminal {
     }
 
 }
-
-
-/*package PresentationLayer;
-
-import ServiceLayer.DeliveryService;
-
-import java.util.Scanner;
-
-public class UserTerminal {
-    private Scanner sc;
-    private DeliveryService service;
-    private SiteCommandsHandler siteCommandsHandler;
-
-
-    public UserTerminal(){
-        sc = new Scanner(System.in).useDelimiter("\n");
-        service = new DeliveryService();
-        siteCommandsHandler = new SiteCommandsHandler(service);
-    }
-    public void run() {
-        PrintWelcomeMessage();
-        boolean isUserFinished = false;
-        while (!isUserFinished){
-            isUserFinished = executeUserCommand(service, sc);
-        }
-        sc.close();
-    }
-
-
-    private boolean executeUserCommand(DeliveryService service, Scanner sc) {
-        String[] userData = sc.next().split(" ");
-        if (userData.length == 0)
-            return false;
-        String userCommand = userData[0];
-        if (userCommand.equals("exit"))
-            return true;
-        else if (userCommand.equals("help"))
-            PrintHelpMessage();
-        else if (siteCommandsHandler.isSiteCommand(userCommand))
-            siteCommandsHandler.executeCommand(userData);
-        return false;
-    }
-
-    private void PrintHelpMessage() {
-        System.out.println("2. sites commands");
-        System.out.println("");
-        System.out.println("2.1: add_supplier <address> <delivery zone> <contact's phone number> <contact's name>");
-        System.out.println("adds a new supplier");
-    }
-
-    public void PrintWelcomeMessage()
-    {
-
-    }
-}*/

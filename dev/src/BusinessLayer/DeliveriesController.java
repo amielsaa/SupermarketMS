@@ -39,7 +39,7 @@ public class DeliveriesController {
         addItemToDestination(2,4,"coffee",30);
         addItemToDestination(2,4,"tea",30);
 
-        completeDelivery(2);
+        //completeDelivery(2);
     }
 
     private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {

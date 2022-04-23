@@ -198,6 +198,15 @@ public class DeliveryService {
         return Response.makeSuccess(truckController.getTrucks());
     }
 
+    public Response<String> getTruck(int plateNum){
+        try{
+            Truck truck=truckController.getTruck(plateNum);
+            return Response.makeSuccess(truck.toString());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
     //****************DeliveryLogic***********************
     public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId){
         try{
