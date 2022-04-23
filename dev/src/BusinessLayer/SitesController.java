@@ -117,4 +117,11 @@ public class SitesController {
         }
         return destList;
     }
+
+    public String getDeliveryZoneName(int zone) throws Exception{
+        if(zone>=DeliveryZone.values().length){
+            throw new Exception(String.format("Delivery zone %d does not exist",zone));
+        }
+        return DeliveryZone.values()[zone].name();
+    }
 }

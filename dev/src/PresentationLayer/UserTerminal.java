@@ -25,13 +25,13 @@ public class UserTerminal {
             String userData = sc.next();
             switch (userData) {
                 case "1":
-                    runStiesMenu();
+                    runDeliveriesMenu();
                     break;
                 case "2":
-                    runTrucksMenu();
+                    runSitesMenu();
                     break;
                 case "3":
-                    runDeliveriesMenu();
+                    runTrucksMenu();
                     break;
                 case "4":
                     isUserFinished = true;
@@ -51,14 +51,14 @@ public class UserTerminal {
     private void printMainMenuMessage()
     {
         print("\n### Main Menu ###\n" +
-                "please select menu" +
-                "\n1 for sites" +
-                "\n2 for trucks" +
-                "\n3 for deliveries" +
-                "\n4 to exit the program");
+                "Enter option number to execute the desirable operation:" +
+                "\n\t1. Go to Delivery Menu" +
+                "\n\t2. Go to Site menu" +
+                "\n\t3. Go to Truck Menu" +
+                "\n\t4. Exit");
     }
 
-    private void runStiesMenu() {
+    private void runSitesMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
             printSiteMenuMessage();
@@ -72,26 +72,15 @@ public class UserTerminal {
                     break;
                 case "3":
                     printAllSites();
-                    print("please select site id that you want to delete");
-                    Response res1 = service.deleteSite(selectInt());
-                    if (!res1.isSuccess())
-                        print(res1.getMessage());
+                    print("Enter site id:");
+                    printResponse(service.deleteSite(selectInt()));
                     break;
                 case "4":
-                    print("please select site id that you want to view");
-                    Response<Site> res2 = service.getSite(selectInt());
-                    if (res2.isSuccess())
-                        print(res2.getData().toString());
-                    else
-                        print(res2.getMessage());
+                    print("Enter site id:");
+                    printResponse(service.getSite(selectInt()));
                     break;
                 case "5":
-                    Response<Collection<Site>> res3 = service.viewSitesPerZone(deliveryZoneSelection());
-                    if (res3.isSuccess())
-                        for (Site s: res3.getData())
-                            print(s.toString());
-                    else
-                        print(res3.getMessage());
+                    printSiteByZone();
                     break;
                 case "6":
                     printAllSites();
@@ -105,10 +94,21 @@ public class UserTerminal {
         }
     }
 
+    private void printSiteByZone() {
+        int zone=deliveryZoneSelection();
+        Response<String> zoneName=service.getDeliveryZoneName(zone);
+        if(zoneName.isSuccess()){
+            print(String.format("\nSites of delivery zone: %s",zoneName.getData()));
+            for(Site site:service.viewSitesPerZone(zone).getData()){
+                print(site.toString());
+            }
+        }else printResponse(zoneName);
+    }
+
     private void runSiteCreation() {
-        print("please pick up site type:" +
-                "\n1 for a supplier delivery" +
-                "\n2 for a branch");
+        print("Enter option number to choose site type:" +
+                "\n\t1. Supplier Warehouse" +
+                "\n\t2. Branch");
         boolean isUserFinished = false;
         boolean isBranch = false;
         while (!isUserFinished){
@@ -127,15 +127,11 @@ public class UserTerminal {
         }
         print("Enter site address:");
         String param1 = sc.next();
-
         int param2 = deliveryZoneSelection();
-
         print("Enter contact phone number");
         String param3 = sc.next();
-
         print("Enter up contact name:");
         String param4 = sc.next();
-
         if (isBranch)
             service.addBranch(param1,param2,param3,param4);
         else
@@ -151,7 +147,7 @@ public class UserTerminal {
             print("\n### Site Editing Menu ###");
             while (!idLoaded){
                 printAllSites();
-                print("Enter site id:");
+                print("Enter new site id:");
                 siteId = selectInt();
                 res = service.getSite(siteId);
                 if(res.isSuccess()){idLoaded=true;}
@@ -159,12 +155,12 @@ public class UserTerminal {
             }
             res=service.getSite(siteId);
             print("Editing site: "+res.getData());
-            print("please pick up what you want to edit" +
-                    "\n1 for site address" +
-                    "\n2 for site delivery zone" +
-                    "\n3 for contact's phone number" +
-                    "\n4 for contact's name" +
-                    "\n5 for stop editing");
+            print("Enter option number to execute the desirable operation:" +
+                    "\n\t1. Edit address" +
+                    "\n\t2. Edit delivery zone" +
+                    "\n\t3. Edit contact phone number" +
+                    "\n\t4. Edit contact name" +
+                    "\n\t5. Return to Site Menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
@@ -211,26 +207,27 @@ public class UserTerminal {
 
     private void printSiteMenuMessage() {
         print("\n### Site Menu ###\n" +
-                "please select site operation\n" +
-                "1 for creating a new site\n" +
-                "2 for editing a site\n" +
-                "3 for deleting a site\n" +
-                "4 to view a certain site\n" +
-                "5 to view all sites in a certain delivery zone\n" +
-                "6 to view all sites\n" +
-                "7 to return to the main menu");
+                "Enter option number to execute the desirable operation:" +
+                "\n\t1. Add a new site" +
+                "\n\t2. Edit a site" +
+                "\n\t3. Delete a site" +
+                "\n\t4. Search a site" +
+                "\n\t5. View all sites of a delivery zone" +
+                "\n\t6. View all sites" +
+                "\n\t7. Return to Main Menu");
     }
 
     private void runTrucksMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
             print("\n### Truck Menu ###\n" +
-                    "please select truck operation\n" +
-                    "1 for creating a new truck\n" +
-                    "2 for editing a truck\n" +
-                    "3 for deleting\n" +
-                    "4 to view all trucks\n" +
-                    "5 to return to the main menu");
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. Add a new truck" +
+                    "\n\t2. Edit a truck" +
+                    "\n\t3. Delete a truck" +
+                    "\n\t4. View all trucks" +
+                    "\n\t5. Search a truck" +
+                    "\n\t6. Return to Main Menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
@@ -241,15 +238,17 @@ public class UserTerminal {
                     break;
                 case "3":
                     printAllTrucks();
-                    print("please select truck plate id that you want to delete");
-                    Response res = service.deleteTruck(selectInt());
-                    if (!res.isSuccess())
-                        print(res.getMessage());
+                    print("Enter plate number:");
+                    printResponse(service.deleteTruck(selectInt()));
                     break;
                 case "4":
                     printAllTrucks();
                     break;
                 case "5":
+                    print("Enter plate number:");
+                    printTruckById(selectInt());
+                    break;
+                case "6":
                     isUserFinished = true;
                     break;
                 default:
@@ -259,11 +258,11 @@ public class UserTerminal {
     }
 
     private void runTruckCreation() {
-        print("please select plate number");
+        print("Enter plate number:");
         int param1 = selectInt();
-        print("please select truck model");
+        print("Enter model:");
         String param2 = sc.next();
-        print("please select truck max weight");
+        print("Enter max weight:");
         int param3 = selectInt();
         service.addTruck(param1,param2,param3);
     }
@@ -285,32 +284,28 @@ public class UserTerminal {
             }
             res=service.getTruck(truckId);
             print("Editing truck: "+res.getData());
-            print("please pick up what you want to edit\n" +
-                    "1 for truck plate id\n" +
-                    "2 for truck model\n" +
-                    "3 for truck's max weight\n" +
-                    "4 for stop editing");
+            print("Enter option number to execute the desirable operation:" +
+                    "\n\t1. Edit plate number" +
+                    "\n\t2. Edit model" +
+                    "\n\t3. Edit max weight" +
+                    "\n\t4. Return to Truck Menu");
             String userData = sc.next();
             switch (userData) {
                 case "1":
                     print("Enter new plate number:");
                     int newPlateNum=selectInt();
                     Response r1 = service.editPlateNum(truckId,newPlateNum);
-                    if (!r1.isSuccess())
-                        print(r1.getMessage());
-                    else truckId=newPlateNum;
+                    printResponse(r1);
+                    if (r1.isSuccess())
+                        truckId=newPlateNum;
                     break;
                 case "2":
                     print("Enter new model:");
-                    Response r2 = service.editModel(truckId,sc.next());
-                    if (!r2.isSuccess())
-                        print(r2.getMessage());
+                    printResponse(service.editModel(truckId,sc.next()));
                     break;
                 case "3":
                     print("Enter new max weight:");
-                    Response r3 = service.editMaxWeight(truckId,selectInt());
-                    if (!r3.isSuccess())
-                        print(r3.getMessage());
+                    printResponse(service.editMaxWeight(truckId,selectInt()));
                     break;
                 case "4":
                     isUserFinished = true;
@@ -379,10 +374,7 @@ public class UserTerminal {
         }else {
             res=service.searchUpcomingDelivery(id);
         }
-        if (res.isSuccess())
-            print(res.getData());
-        else
-            print(res.getMessage());
+       printResponse(res);
     }
 
     private void printDeliveryArchive() {
@@ -434,19 +426,46 @@ public class UserTerminal {
     }
 
     private Response addDelivery() {
+        Response found=null;
+        int truckId = 0;
+        int driverId=0;
+        int originId=0;
         System.out.print("Enter start time, ");
         LocalDateTime startDate=parseDate();
         System.out.print("Enter end time, ");
         LocalDateTime endDate=parseDate();
         printAllTrucks();
-        print("Enter truck id:");
-        int truckId=selectInt();
+        while (found==null) {
+            print("Enter truck id:");
+            truckId = selectInt();
+            found=service.getTruck(truckId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
+        found=null;
         printDriverList();
-        print("Enter driver id:");
-        int driverId=selectInt();
+        while (found==null) {
+            print("Enter driver id:");
+            driverId=selectInt();
+            found=service.getDriver(driverId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
+        found=null;
         printAllSites();
-        print("Enter new origin id:");
-        int originId=selectInt();
+        while (found==null) {
+            print("Enter origin id:");
+            originId=selectInt();
+            found=service.getSite(originId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
         return service.addDelivery(startDate,endDate,truckId,driverId,originId);
     }
 
@@ -570,7 +589,7 @@ public class UserTerminal {
         int destId=selectInt();
         print("Enter item:");
         String item=sc.next();
-        print("Enter quantity:");
+        print("Enter new quantity:");
         int quantity=selectInt();
         return service.editDeliveryItemQuantity(deliveryId,destId,item,quantity);
     }
@@ -609,11 +628,7 @@ public class UserTerminal {
     }
 
     private void printTruckById(int id){
-        Response<ArrayList<Truck>> res = service.getTrucks();
-        ArrayList<Truck> tl = res.getData();
-        for (Truck t : tl)
-            if (t.getPlateNum() == id)
-                print(t.toString());
+        printResponse(service.getTruck(id));
     }
 
     private void printAllTrucks(){
@@ -632,15 +647,15 @@ public class UserTerminal {
         System.out.println(message);
     }
     private void printIllegalOptionMessage() {
-        print("you picked an illegal option, please try again\n");
+        print("You picked an illegal option, please try again\n");
     }
 
     private int deliveryZoneSelection()
     {
-        print("please pick a delivery zone:" +
-                "\n0 for north" +
-                "\n1 for center" +
-                "\n2 for south");
+        print("Enter option number to choose a delivery zone:" +
+                "\n\t0. North" +
+                "\n\t1. Center" +
+                "\n\t2. South");
         while (true){
             String userData = sc.next();
             switch (userData) {

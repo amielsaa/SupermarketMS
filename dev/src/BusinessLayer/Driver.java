@@ -37,6 +37,6 @@ public class Driver {
 
     @Override
     public String toString(){
-        return String.format("Id: %d\n\t* Name: %s\n\t* License type: %s",id,name,licenseType.name());
+        return String.format("Id: %d\n\t* Name: %s\n\t* License type: %s\n",id,name,licenseType.name());
     }
 }

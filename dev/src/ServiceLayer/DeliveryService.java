@@ -148,6 +148,21 @@ public class DeliveryService {
         }
     }
 
+    public Response<String> getDeliveryZoneName(int zone){
+        try {
+            return Response.makeSuccess(sitesController.getDeliveryZoneName(zone));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> getDriver(int id){
+        try {
+            return Response.makeSuccess(driversController.getDriver(id).toString());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
     public Response<ArrayList<String>> getDriverList(){
         ArrayList<String> driverList=new ArrayList<>();
         for(Driver driver:driversController.getAllDrivers()){
