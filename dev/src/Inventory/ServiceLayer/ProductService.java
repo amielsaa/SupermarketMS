@@ -129,6 +129,5 @@ public class ProductService {
         }
     }
 
-    //TODO: disable discount
 
 }

@@ -3,7 +3,7 @@ package Inventory.BuisnessLayer.Controller;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
-import Inventory.PresentationLayer.CommandLineTable;
+import Inventory.BuisnessLayer.Objects.CommandLineTable;
 
 import java.util.Date;
 import java.util.List;

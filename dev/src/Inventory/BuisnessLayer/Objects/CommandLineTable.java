@@ -1,4 +1,4 @@
-package Inventory.PresentationLayer;
+package Inventory.BuisnessLayer.Objects;
 
 import java.util.ArrayList;
 import java.util.Arrays;

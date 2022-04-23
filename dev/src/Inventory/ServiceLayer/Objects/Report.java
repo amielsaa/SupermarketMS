@@ -1,6 +1,6 @@
 package Inventory.ServiceLayer.Objects;
 
-import Inventory.PresentationLayer.CommandLineTable;
+import Inventory.BuisnessLayer.Objects.CommandLineTable;
 
 public class Report {
     private String headline;
