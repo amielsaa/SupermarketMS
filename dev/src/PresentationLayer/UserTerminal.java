@@ -146,20 +146,22 @@ public class UserTerminal {
     }
 
     private void runSiteEdit() {
-        print("\n### Site editing Menu ###");
-        printAllSites();
         Response<Site> res;
-        int siteId;
-        do {
-            print("please select site id that you want to edit");
-            siteId = selectInt();
-            res = service.getSite(siteId);
-        }
-        while (!res.isSuccess());
-
+        int siteId = 0;
+        boolean idLoaded=false;
         boolean isUserFinished = false;
         while (!isUserFinished){
-            print("Editing site: "+service.getSite(siteId).getData().toString());
+            print("\n### Site Editing Menu ###");
+            while (!idLoaded){
+                printAllSites();
+                print("Enter site id:");
+                siteId = selectInt();
+                res = service.getSite(siteId);
+                if(res.isSuccess()){idLoaded=true;}
+                else print(res.getMessage());
+            }
+            res=service.getSite(siteId);
+            print("Editing site: "+res.getData());
             print("please pick up what you want to edit" +
                     "\n1 for site address" +
                     "\n2 for site delivery zone" +
@@ -466,7 +468,7 @@ public class UserTerminal {
                 else print(idRes.getMessage());
             }
             idRes=service.searchUpcomingDelivery(deliveryId);
-            print(String.format("\nEditing delivery: %s\n\n",idRes.getData()));
+            print(String.format("\nEditing delivery: %s\n",idRes.getData()));
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a destination" +
                     "\n\t2. Remove a destination" +
