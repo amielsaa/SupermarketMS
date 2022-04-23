@@ -34,6 +34,9 @@ public class Menu {
     private void action(int selection) {
         try{
             switch (selection) {
+                case 0:
+                    stopProgram();
+                    break;
                 case 1:
                     addProductAction();
                     break;
@@ -44,22 +47,112 @@ public class Menu {
                     addCategoryAction();
                     break;
                 case 4:
-                    getAllStoreProductsAction();
-                    break;
-                case 5:
-                    reportByExpiredAction();
-                    break;
-                case 6:
-                    changeCategoryAction();
-                    break;
-                case 7:
                     addDefectiveProductAction();
                     break;
+                case 5:
+                    getAllStoreProductsAction();
+                    break;
+                case 6:
+                    reportByCategoriesAction();
+                    break;
+                case 7:
+                    reportByExpiredAction();
+                    break;
+                case 8:
+                    reportByDefectiveAction();
+                    break;
+                case 9:
+                    changeCategoryAction();
+                    break;
+                case 10:
+                    addDiscountByCategoryAction();
+                    break;
+                case 11:
+                    addDiscountByNameAction();
+                    break;
+                case 12:
+                    deleteProductAction();
+                    break;
+
             }
         }catch(Exception e) {
             System.out.println(e.getMessage());
         }
         
+    }
+
+    private void stopProgram() {
+        this.menu_on = false;
+    }
+
+    private void deleteProductAction() {
+        getAllStoreProductsAction();
+        printDivider();
+        System.out.println("Select a product (by id) you would like to delete.");
+        printDivider();
+        String input = enterStringInput();
+        Response<String> res = service.DeleteProduct(Integer.parseInt(input.trim()));
+        if(res.isSuccess())
+            System.out.println(res.getData());
+        else
+            System.out.println(res.getMessage());
+    }
+
+    private void reportByCategoriesAction() {
+        printDivider();
+        System.out.println("Enter category names.\n" +
+                "Example: Salty # Shampoo # ...");
+        printDivider();
+        String input = enterStringInput();
+        String[] inputArray = trimProductArray(input,0,false);
+        Response<Report> res = service.ReportStockByCategory(Arrays.asList(inputArray));
+        if(res.isSuccess()){
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+        }
+        else
+            System.out.println(res.getMessage());
+    }
+
+    private void reportByDefectiveAction() {
+        Response<Report> res = service.ReportByDefective();
+        if(res.isSuccess()) {
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+        } else
+            System.out.println(res.getMessage());
+    }
+
+    private void addDiscountByNameAction() {
+        getAllStoreProductsAction();
+        printDivider();
+        System.out.println("Select a product to add discount to it by the following scheme:\n" +
+                "product-name # producer-name # discount-in-percentage # discount-exp-date\n" +
+                "Example: Chips # Osem # 20 # 01/05/2022");
+        printDivider();
+        String input = enterStringInput();
+        String[] inputArray = trimProductArray(input,4,true);
+        Response<String> res = service.AddDiscountByName(inputArray[0],inputArray[1],Integer.parseInt(inputArray[2]),inputArray[3]);
+        if(res.isSuccess())
+            System.out.println(res.getData());
+        else
+            System.out.println(res.getMessage());
+    }
+
+    private void addDiscountByCategoryAction() {
+        printDivider();
+        System.out.println("Enter a category to add discount to it by the following scheme:\n" +
+                "category-name # discount-in-percentage # discount-exp-date\n" +
+                "Example: Salty # 20 # 01/05/2022");
+        printDivider();
+        String input = enterStringInput();
+        String[] inputArray = trimProductArray(input,3,true);
+        Response<String> res = service.AddDiscountByCategory(inputArray[0],Integer.parseInt(inputArray[1]),inputArray[2]);
+        if(res.isSuccess())
+            System.out.println(res.getData());
+        else
+            System.out.println(res.getMessage());
+
     }
 
     private void addDefectiveProductAction() {
@@ -85,7 +178,7 @@ public class Menu {
                 "Example: 0 # 1 # Salty");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,3);
+        String[] inputArray = trimProductArray(input,3,true);
         Response<String> res = service.ChangeCategory(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),inputArray[2]);
         if(res.isSuccess())
             System.out.println("Product category changed successfully.");
@@ -119,7 +212,7 @@ public class Menu {
                 "id # quantity-in-store # quantity-in-warehouse # exp-date # locations:[place-aisle-shelf number]\n" +
                 "Example: 0 # 20 # 30 # 01/02/2022 # WAREHOUSE-1-2&STORE-1-2");
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,5);
+        String[] inputArray = trimProductArray(input,5,true);
         Response<String> res = service.AddStoreProduct(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),Integer.parseInt(inputArray[2]),inputArray[3],inputArray[4]);
         if(res.isSuccess())
             System.out.println("Store Product added successfully.");
@@ -154,7 +247,7 @@ public class Menu {
                 "Example: Cottage 5% # Tnuva # 10.90 # 15.90 # Diary,Milk,Size\n");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,5);
+        String[] inputArray = trimProductArray(input,5,true);
         Response<String> res = service.AddProduct(inputArray[0],inputArray[1],Double.parseDouble(inputArray[2]),Double.parseDouble(inputArray[3]),inputArray[4]);
         if(res.isSuccess())
             System.out.println(res.getData());
@@ -163,11 +256,11 @@ public class Menu {
 
     }
 
-    private String[] trimProductArray(String input, int expectedLength) {
+    private String[] trimProductArray(String input, int expectedLength, boolean flag) {
         String[] inputArray = input.split("#");
         for(int i=0;i<inputArray.length;i++)
             inputArray[i] = inputArray[i].trim();
-        if(inputArray.length!= expectedLength)
+        if(inputArray.length!= expectedLength && flag)
             throw new IllegalArgumentException("\nCommand missing arguments, try again.");
         return inputArray;
     }
@@ -177,13 +270,12 @@ public class Menu {
     }
 
     private void printMenu() {
-        System.out.println("1-Add Product\n" +
-                "2-Add Store Product\n" +
-                "3-Add Category\n" +
-                "4-Print All Store Products\n" +
-                "5-Report By Expired Products\n" +
-                "6-Change Category\n" +
-                "7-Add Defective Product");
+        System.out.println(
+                "1-Add Product                  <--->   5-Print All Store Products        <--->   9-Change Category\n" +
+                "2-Add Store Product            <--->   6-Report By Categories            <--->   10-Add Discount By Category\n" +
+                "3-Add Category                 <--->   7-Report By Expired Products      <--->   11-Add Discount To Product\n" +
+                "4-Add Defective Product        <--->   8-Report By Defective Products    <--->   12-Delete Product\n" +
+                "0-Exit");
     }
 
     private String enterStringInput() {

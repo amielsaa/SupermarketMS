@@ -102,8 +102,13 @@ public class ProductService {
         }
     }
 
-    public Response<Product> DeleteProduct(String name, String producer) {
-        return null;
+    public Response<String> DeleteProduct(int productId) {
+        try{
+            String res = productController.deleteProduct(productId);
+            return Response.makeSuccess(res);
+        }catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<String> AddDiscountByName(String name,String producer, int discount, String date) {

@@ -50,8 +50,8 @@ public class Service {
         return productService.AddDefectiveProduct(productId);
     }
 
-    public Response<ProductSL> DeleteProduct(String name, String producer) {
-        return null;
+    public Response<String> DeleteProduct(int productId) {
+        return productService.DeleteProduct(productId);
     }
 
     public Response<String> AddDiscountByName(String name,String producer, int discount,String date) {

@@ -153,7 +153,7 @@ public class ProductController {
     {
         Date discountExpDate = getDateByString(date);
         for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
-            if((entry.getKey().getName()==name)&&(entry.getKey().getProducer()==producer)){
+            if((entry.getKey().getName().equals(name))&&(entry.getKey().getProducer().equals(producer))){
                 entry.getKey().setDiscount(discount,discountExpDate);
             }
         }
@@ -165,10 +165,18 @@ public class ProductController {
         temp.add(categoryName);
         List<Category> category = data.getCategoriesByName(temp);
         for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
-            if(entry.getKey().getCategories().contains(temp.get(0)))
+            if(entry.getKey().getCategories().contains(category.get(0)))
                 entry.getKey().setDiscount(discount,discountExpDate);
         }
         return "discount was set successfully ";
+    }
+
+    public String deleteProduct(int productId) {
+        Product product = data.findProductById(productId);
+        data.getProductListMap().remove(product);
+        data.getDefectiveProducts().remove(product);
+        data.getExpiredProducts().remove(product);
+        return "Product with ID:%d deleted successfully.".formatted(productId);
     }
 
 

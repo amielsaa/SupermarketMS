@@ -29,6 +29,23 @@ public class CommandLineTable {
         joinSep = showVerticalLines ? "+" : " ";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CommandLineTable)) return false;
+        CommandLineTable that = (CommandLineTable) o;
+        return rightAlign == that.rightAlign &&
+                verticalSep.equals(that.verticalSep) &&
+                joinSep.equals(that.joinSep) &&
+                Arrays.equals(headers, that.headers) &&
+                rows.equals(that.rows);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
     public void setHeaders(String... headers) {
         this.headers = headers;
     }

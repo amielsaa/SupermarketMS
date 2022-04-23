@@ -65,7 +65,7 @@ public class ProductSL {
     private String getDateAsString(Date date) {
         if(date==null)
             return "Unknown";
-        return "%d/%d/%d".formatted(date.getDate(),date.getMonth(),date.getYear()+1900);
+        return "%d/%d/%d".formatted(date.getDate(),date.getMonth()+1,date.getYear()+1900);
     }
 
     public String getId() {
