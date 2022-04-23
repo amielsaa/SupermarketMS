@@ -34,4 +34,9 @@ public class Driver {
     public void setLicenseType(LicenseType licenseType) {
         this.licenseType = licenseType;
     }
+
+    @Override
+    public String toString(){
+        return String.format("Id: %d\n\t* Name: %s\n\t* License type: %s",id,name,licenseType.name());
+    }
 }

@@ -12,10 +12,6 @@ public class SupplierWarehouse extends Site{
 
     @Override
     public String toString() {
-        return "--supplier warehouse--    " + super.toString();
-    }
-
-    public String getDescriptionWithoutDeliveryZone() {
-        return super.getDescriptionWithoutDeliveryZone();
+        return String.format("%s\n\t* Type: Supplier Warehouse\n",super.toString());
     }
 }

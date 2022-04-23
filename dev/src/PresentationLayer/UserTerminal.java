@@ -13,9 +13,6 @@ import java.util.*;
 public class UserTerminal {
     private Scanner sc;
     private DeliveryService service;
-
-
-
     public UserTerminal(){
         sc = new Scanner(System.in).useDelimiter("\n");
         service = new DeliveryService();
@@ -444,6 +441,7 @@ public class UserTerminal {
         printAllTrucks();
         print("Enter truck id:");
         int truckId=selectInt();
+        printDriverList();
         print("Enter driver id:");
         int driverId=selectInt();
         printAllSites();
@@ -452,6 +450,12 @@ public class UserTerminal {
         return service.addDelivery(startDate,endDate,truckId,driverId,originId);
     }
 
+    private void printDriverList(){
+        print("Driver List:");
+        for(String driver:service.getDriverList().getData()){
+            print(driver);
+        }
+    }
 
     private void EditDelivery() {
         boolean isUserFinished = false;
@@ -615,11 +619,10 @@ public class UserTerminal {
     private void printAllTrucks(){
         Response<ArrayList<Truck>> res=service.getTrucks();
         ArrayList<Truck>  trucks=res.getData();
-        print("Truck List:");
+        print("\nTruck List:");
         for(Truck truck:trucks){
             print(truck.toString());
         }
-        print("");
     }
 
 

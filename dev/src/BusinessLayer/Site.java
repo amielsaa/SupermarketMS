@@ -63,10 +63,10 @@ public abstract class Site {
     }
 
     public String toString(){
-        return String.format("%s,  delivery zone: %s",getDescriptionWithoutDeliveryZone(),deliveryZone.name());
+        return String.format("%s\n\t* Delivery Zone: %s",getDescriptionWithoutDeliveryZone(),deliveryZone.name());
     }
     public String getDescriptionWithoutDeliveryZone(){
-        return String.format("id: %d,  address: %s,  contact name: %s (phone number: %s)",id,address,contactName,phoneNumber);
+        return String.format("Address: %s\n\t* Id: %d\n\t* Contact name: %s\n\t* Contact phone number: %s",address,id,contactName,phoneNumber);
     }
 
     public abstract boolean canBeADestination();

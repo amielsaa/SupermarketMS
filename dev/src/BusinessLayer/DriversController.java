@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DriversController {
@@ -27,5 +28,10 @@ public class DriversController {
         }
         return drivers.get(driverId);
     }
+    public ArrayList<Driver> getAllDrivers(){
+        ArrayList<Driver> list=new ArrayList<>(drivers.values());
+        return list;
+    }
+
 
 }

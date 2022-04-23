@@ -148,6 +148,14 @@ public class DeliveryService {
         }
     }
 
+    public Response<ArrayList<String>> getDriverList(){
+        ArrayList<String> driverList=new ArrayList<>();
+        for(Driver driver:driversController.getAllDrivers()){
+            driverList.add(driver.toString());
+        }
+        return Response.makeSuccess(driverList);
+    }
+
     //truck logic
     public Response addTruck(int plateNum, String model, int maxWeight){
         try{

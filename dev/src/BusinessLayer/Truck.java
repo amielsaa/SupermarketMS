@@ -37,6 +37,6 @@ public class Truck {
 
     @Override
     public String toString(){
-        return String.format("Plate number: %d,  Model: %s,  Max Weight: %d",plateNum,model,maxWeight);
+        return String.format("Plate number: %d\n\t* Model: %s\n\t* Max Weight: %d\n",plateNum,model,maxWeight);
     }
 }
