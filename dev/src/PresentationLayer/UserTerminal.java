@@ -128,15 +128,15 @@ public class UserTerminal {
                     printIllegalOptionMessage();
             }
         }
-        print("please enter up site address");
+        print("Enter site address:");
         String param1 = sc.next();
 
         int param2 = deliveryZoneSelection();
 
-        print("please enter up contact's phone number");
+        print("Enter contact phone number");
         String param3 = sc.next();
 
-        print("please enter up contact's name");
+        print("Enter up contact name:");
         String param4 = sc.next();
 
         if (isBranch)
@@ -171,6 +171,7 @@ public class UserTerminal {
             String userData = sc.next();
             switch (userData) {
                 case "1":
+                    print("Enter new address:");
                     Response r1 = service.editSiteAddress(siteId,sc.next());
                     if (!r1.isSuccess())
                         print(r1.getMessage());
@@ -181,11 +182,13 @@ public class UserTerminal {
                         print(r2.getMessage());
                     break;
                 case "3":
+                    print("Enter new contact phone number:");
                     Response r3 = service.editSitePhoneNumber(siteId,sc.next());
                     if (!r3.isSuccess())
                         print(r3.getMessage());
                     break;
                 case "4":
+                    print("Enter new contact name:");
                     Response r4 = service.editSiteContactName(siteId,sc.next());
                     if (!r4.isSuccess())
                         print(r4.getMessage());
@@ -269,24 +272,22 @@ public class UserTerminal {
     }
 
     private void runTruckEdit() {
-        print("\n### Truck editing Menu ###");
-        printAllTrucks();
         Response<String> res;
-        int truckId;
+        int truckId = 0;
         boolean found = false;
-        do {
-            print("please select truck id that you want to edit");
-            truckId = selectInt();
-            res = service.getTruck(truckId);
-            if(res.isSuccess()){
-                found=true;
-            } else res.getMessage();
-        }
-        while (!found);
         boolean isUserFinished = false;
         while (!isUserFinished){
-            System.out.print("\nEditing truck: ");
-            printResponse(service.getTruck(truckId));
+            print("\n### Truck Editing Menu ###");
+            while (!found){
+                printAllTrucks();
+                print("Enter truck id:");
+                truckId = selectInt();
+                res = service.getTruck(truckId);
+                if(res.isSuccess()){found=true;}
+                else print(res.getMessage());
+            }
+            res=service.getTruck(truckId);
+            print("Editing truck: "+res.getData());
             print("please pick up what you want to edit\n" +
                     "1 for truck plate id\n" +
                     "2 for truck model\n" +
@@ -633,7 +634,7 @@ public class UserTerminal {
 
     private int deliveryZoneSelection()
     {
-        print("please pick a delivery zone =" +
+        print("please pick a delivery zone:" +
                 "\n0 for north" +
                 "\n1 for center" +
                 "\n2 for south");
