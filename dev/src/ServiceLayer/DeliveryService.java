@@ -1,7 +1,5 @@
 package ServiceLayer;
-
 import BusinessLayer.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +9,7 @@ public class DeliveryService {
     private TruckController truckController;
     private DriversController driversController;
     private DeliveriesController deliveriesController;
+
     public DeliveryService(){
         sitesController = new SitesController();
         truckController=new TruckController();
@@ -18,35 +17,23 @@ public class DeliveryService {
         deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
         load();
     }
-
-    public void load(){
+    //############################# Loading Data ###################################################
+    private void load(){
         try {
             loadSties();
             loadTrucks();
             loadDrivers();
             loadDeliveries();
         }
-        catch (Exception e){
-
-        }
+        catch (Exception e){}
     }
+    private void loadSties() throws Exception {sitesController.load();}
+    private void loadTrucks() throws Exception{truckController.load();}
+    private void loadDrivers(){driversController.load();}
+    private void loadDeliveries() throws Exception{deliveriesController.load();}
 
-    private void loadSties() throws Exception {
-        sitesController.load();
-    }
 
-    private void loadTrucks() throws Exception{
-        truckController.load();
-    }
-
-    public void loadDrivers(){
-        driversController.load();
-    }
-
-    private void loadDeliveries() throws Exception{
-        deliveriesController.load();
-    }
-
+    //############################# Site Logic ###################################################
     public Response addSupplierWarehouse(String address, int zone, String phoneNumber, String contactName) {
         try {
             sitesController.addSupplierWarehouse(address, zone, phoneNumber, contactName);
@@ -156,6 +143,16 @@ public class DeliveryService {
         }
     }
 
+    public Response<ArrayList<String>> getDestList(){
+        ArrayList<String> list=new ArrayList<>();
+        for(Site site:sitesController.getAllDestinations()){
+            list.add(site.toString());
+        }
+        return Response.makeSuccess(list);
+    }
+
+
+    //#############################Driver Logic###################################################
     public Response<String> getDriver(int id){
         try {
             return Response.makeSuccess(driversController.getDriver(id).toString());
@@ -171,7 +168,7 @@ public class DeliveryService {
         return Response.makeSuccess(driverList);
     }
 
-    //truck logic
+    //############################# Truck Logic ###################################################
     public Response addTruck(int plateNum, String model, int maxWeight){
         try{
             truckController.addTruck(plateNum, model, maxWeight);
@@ -230,7 +227,7 @@ public class DeliveryService {
         }
     }
 
-    //****************DeliveryLogic***********************
+    //#############################Delivery Logic###################################################
     public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId){
         try{
             deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId);
@@ -381,14 +378,6 @@ public class DeliveryService {
         }
     }
 
-    public Response<ArrayList<String>> getDestList(){
-        ArrayList<String> list=new ArrayList<>();
-        for(Site site:sitesController.getAllDestinations()){
-            list.add(site.toString());
-        }
-        return Response.makeSuccess(list);
-    }
-
     public Response deleteDelivery(int deliveryId){
         try{
             deliveriesController.deleteDelivery(deliveryId);
@@ -397,6 +386,5 @@ public class DeliveryService {
             return Response.makeFailure(e.getMessage());
         }
     }
-
     }
 

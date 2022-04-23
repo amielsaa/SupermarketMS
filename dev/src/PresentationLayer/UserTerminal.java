@@ -17,7 +17,9 @@ public class UserTerminal {
         sc = new Scanner(System.in).useDelimiter("\n");
         service = new DeliveryService();
     }
-    public void run() {
+
+    //############################# Main Menu ###################################################
+    public void runMainMenu() {
         printWelcomeMessage();
         boolean isUserFinished = false;
         while (!isUserFinished){
@@ -44,10 +46,7 @@ public class UserTerminal {
     }
 
     private void printWelcomeMessage()
-    {
-        print("### Welcome to \"Super-Lee\" deliveries! ###");
-
-    }
+    { print("### Welcome to \"Super-Lee\" deliveries! ###");}
     private void printMainMenuMessage()
     {
         print("\n### Main Menu ###\n" +
@@ -58,6 +57,8 @@ public class UserTerminal {
                 "\n\t4. Exit");
     }
 
+
+    //############################# Site Menu ###################################################
     private void runSitesMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
@@ -94,17 +95,6 @@ public class UserTerminal {
                     printIllegalOptionMessage();
             }
         }
-    }
-
-    private void printSiteByZone() {
-        int zone=deliveryZoneSelection();
-        Response<String> zoneName=service.getDeliveryZoneName(zone);
-        if(zoneName.isSuccess()){
-            print(String.format("\nSites of delivery zone: %s",zoneName.getData()));
-            for(Site site:service.viewSitesPerZone(zone).getData()){
-                print(site.toString());
-            }
-        }else printResponse(zoneName);
     }
 
     private void runSiteCreation() {
@@ -196,6 +186,17 @@ public class UserTerminal {
         }
     }
 
+    private void printSiteByZone() {
+        int zone=deliveryZoneSelection();
+        Response<String> zoneName=service.getDeliveryZoneName(zone);
+        if(zoneName.isSuccess()){
+            print(String.format("\nSites of delivery zone: %s",zoneName.getData()));
+            for(Site site:service.viewSitesPerZone(zone).getData()){
+                print(site.toString());
+            }
+        }else printResponse(zoneName);
+    }
+
     private void printAllSites(){
         Response<Collection<Site>> res = service.getAllSites();
         print("\nSite List:");
@@ -218,6 +219,28 @@ public class UserTerminal {
                 "\n\t7. Return to Main Menu");
     }
 
+    private int deliveryZoneSelection()
+    {
+        while (true){
+            print("Enter option number to choose a delivery zone:" +
+                    "\n\t0. North" +
+                    "\n\t1. Center" +
+                    "\n\t2. South");
+            String userData = sc.next();
+            switch (userData) {
+                case "0":
+                    return 0;
+                case "1":
+                    return 1;
+                case "2":
+                    return 2;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    //############################# Truck Menu ###################################################
     private void runTrucksMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
@@ -316,6 +339,20 @@ public class UserTerminal {
         }
     }
 
+    private void printTruckById(int id){
+        printResponse(service.getTruck(id));
+    }
+
+    private void printAllTrucks(){
+        Response<ArrayList<Truck>> res=service.getTrucks();
+        ArrayList<Truck>  trucks=res.getData();
+        print("\nTruck List:");
+        for(Truck truck:trucks){
+            print(truck.toString());
+        }
+    }
+
+    //############################# Delivery Menu ###################################################
     private void runDeliveriesMenu() {
         boolean isUserFinished = false;
         while (!isUserFinished){
@@ -366,27 +403,6 @@ public class UserTerminal {
         }
     }
 
-    private void searchDelivery(boolean completed) {
-        Response<String> res;
-        print("Enter delivery id:");
-        int id=selectInt();
-        if(completed){
-            res = service.searchCompletedDelivery(id);
-        }else {
-            res=service.searchUpcomingDelivery(id);
-        }
-       printResponse(res);
-    }
-
-    private void printDeliveryArchive() {
-        Response<ArrayList<String>> res=service.viewDeliveryArchive();
-        ArrayList<String>  archive=res.getData();
-        print("\nDelivery Archive:\n");
-        for(String delivery:archive){
-            print(delivery);
-        }
-    }
-
     private void runUpcomingDeliveriesMenu() {
         boolean isUserFinished = false;
         String userData;
@@ -423,58 +439,6 @@ public class UserTerminal {
                     printIllegalOptionMessage();
             }
         }
-
-    }
-
-    private Response addDelivery() {
-        Response found=null;
-        int truckId = 0;
-        int driverId=0;
-        int originId=0;
-        System.out.print("Enter start time, ");
-        LocalDateTime startDate=parseDate();
-        System.out.print("Enter end time, ");
-        LocalDateTime endDate=parseDate();
-        printAllTrucks();
-        while (found==null) {
-            print("Enter truck id:");
-            truckId = selectInt();
-            found=service.getTruck(truckId);
-            if(!found.isSuccess()){
-                print(found.getMessage());
-                found=null;
-            }
-        }
-        found=null;
-        printDriverList();
-        while (found==null) {
-            print("Enter driver id:");
-            driverId=selectInt();
-            found=service.getDriver(driverId);
-            if(!found.isSuccess()){
-                print(found.getMessage());
-                found=null;
-            }
-        }
-        found=null;
-        printAllSites();
-        while (found==null) {
-            print("Enter origin id:");
-            originId=selectInt();
-            found=service.getSite(originId);
-            if(!found.isSuccess()){
-                print(found.getMessage());
-                found=null;
-            }
-        }
-        return service.addDelivery(startDate,endDate,truckId,driverId,originId);
-    }
-
-    private void printDriverList(){
-        print("\nDriver List:");
-        for(String driver:service.getDriverList().getData()){
-            print(driver);
-        }
     }
 
     private void EditDelivery() {
@@ -508,7 +472,6 @@ public class UserTerminal {
                     "\n\t11. Edit truck's weight" +
                     "\n\t12. Complete the delivery" +
                     "\n\t13. Return to Upcoming Delivery Menu");
-
             userData = sc.next();
             switch (userData) {
                 case "1":
@@ -562,6 +525,78 @@ public class UserTerminal {
         }
     }
 
+    private void searchDelivery(boolean completed) {
+        Response<String> res;
+        print("Enter delivery id:");
+        int id=selectInt();
+        if(completed){
+            res = service.searchCompletedDelivery(id);
+        }else {
+            res=service.searchUpcomingDelivery(id);
+        }
+       printResponse(res);
+    }
+
+    private void printDeliveryArchive() {
+        Response<ArrayList<String>> res=service.viewDeliveryArchive();
+        ArrayList<String>  archive=res.getData();
+        print("\nDelivery Archive:\n");
+        for(String delivery:archive){
+            print(delivery);
+        }
+    }
+
+    private Response addDelivery() {
+        Response found=null;
+        int truckId = 0;
+        int driverId=0;
+        int originId=0;
+        System.out.print("Enter start time, ");
+        LocalDateTime startDate=parseDate();
+        System.out.print("Enter end time, ");
+        LocalDateTime endDate=parseDate();
+        printAllTrucks();
+        while (found==null) {
+            print("Enter truck id:");
+            truckId = selectInt();
+            found=service.getTruck(truckId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
+        found=null;
+        printDriverList();
+        while (found==null) {
+            print("Enter driver id:");
+            driverId=selectInt();
+            found=service.getDriver(driverId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
+        found=null;
+        printAllSites();
+        while (found==null) {
+            print("Enter origin id:");
+            originId=selectInt();
+            found=service.getSite(originId);
+            if(!found.isSuccess()){
+                print(found.getMessage());
+                found=null;
+            }
+        }
+        return service.addDelivery(startDate,endDate,truckId,driverId,originId);
+    }
+
+    private void printDriverList(){
+        print("\nDriver List:");
+        for(String driver:service.getDriverList().getData()){
+            print(driver);
+        }
+    }
+
     private Response changeTruck(int deliveryId) {
         printAllTrucks();
         print("Enter new truck id:");
@@ -574,18 +609,6 @@ public class UserTerminal {
         LocalDateTime date=parseDate();
         if(start) return service.editDeliveryStartTime(deliveryId,date);
         else return service.editDeliveryEndTime(deliveryId,date);
-    }
-
-    private LocalDateTime parseDate(){
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        while (true){
-            print("use the format <dd-MM-yyyy HH:mm>:");
-            try {
-                return LocalDateTime.parse(sc.next(),formatter);
-            }catch (Exception e){
-                System.out.print("Invalid date, ");
-            }
-        }
     }
 
     private Response editQuantity(int deliveryId) {
@@ -631,59 +654,39 @@ public class UserTerminal {
         }
     }
 
-    private void printTruckById(int id){
-        printResponse(service.getTruck(id));
-    }
-
-    private void printAllTrucks(){
-        Response<ArrayList<Truck>> res=service.getTrucks();
-        ArrayList<Truck>  trucks=res.getData();
-        print("\nTruck List:");
-        for(Truck truck:trucks){
-            print(truck.toString());
+    private int chooseDest(ArrayList<String> sites){
+        print("Destination List:");
+        for(String dest:sites){
+            print(dest);
         }
+        print("Enter site id:");
+        return selectInt();
     }
 
 
-    //shortcut for System.out.println
-    private void print(String message)
-    {
-        System.out.println(message);
-    }
-    private void printIllegalOptionMessage() {
-        print("You picked an illegal option, please try again");
-    }
-
-    private int deliveryZoneSelection()
-    {
-        while (true){
-            print("Enter option number to choose a delivery zone:" +
-                    "\n\t0. North" +
-                    "\n\t1. Center" +
-                    "\n\t2. South");
-            String userData = sc.next();
-            switch (userData) {
-                case "0":
-                    return 0;
-                case "1":
-                    return 1;
-                case "2":
-                    return 2;
-                default:
-                    printIllegalOptionMessage();
-            }
-        }
-    }
-
+    //############################# Parsing & Printing ###################################################
+    private void print(String message){System.out.println(message);}
+    private void printIllegalOptionMessage() {print("You picked an illegal option, please try again");}
     private int selectInt()
     {
         while (true) {
             try {
-                int res = Integer.parseInt(sc.next());
-                return res;
+                return Integer.parseInt(sc.next());
             }
             catch (Exception e){
                 printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private LocalDateTime parseDate(){
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        while (true){
+            print("use the format <dd-MM-yyyy HH:mm>:");
+            try {
+                return LocalDateTime.parse(sc.next(),formatter);
+            }catch (Exception e){
+                System.out.print("Invalid date, ");
             }
         }
     }
@@ -695,13 +698,6 @@ public class UserTerminal {
             print(res.getMessage());
     }
 
-    private int chooseDest(ArrayList<String> sites){
-        print("Destination List:");
-        for(String dest:sites){
-            print(dest);
-        }
-        print("Enter site id:");
-        return selectInt();
-    }
+
 
 }
