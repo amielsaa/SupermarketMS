@@ -54,12 +54,12 @@ public class Service {
         return null;
     }
 
-    public Response<String> AddDiscountByName(String name,String producer, int discount) {
-        return null;
+    public Response<String> AddDiscountByName(String name,String producer, int discount,String date) {
+        return productService.AddDiscountByName(name,producer,discount,date);
     }
 
-    public Response<String> AddDiscountByCategory(String categoryName, int discount) {
-        return null;
+    public Response<String> AddDiscountByCategory(String categoryName, int discount, String date) {
+        return productService.AddDiscountByCategory(categoryName,discount,date);
     }
 
     //TODO: disable discount
@@ -74,8 +74,8 @@ public class Service {
         return reportService.ReportByDefective();
     }
 
-    public Response<Report> ReportStockByCategory() {
-        return null;
+    public Response<Report> ReportStockByCategory(List<String> categories) {
+        return reportService.ReportStockByCategories(categories);
     }
 
     //TODO: periodical reports

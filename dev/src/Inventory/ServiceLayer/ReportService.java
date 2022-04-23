@@ -42,6 +42,6 @@ public class ReportService {
             return Response.makeFailure(e.getMessage());
         }
     }
-    //TODO: periodical reports
+
 
 }

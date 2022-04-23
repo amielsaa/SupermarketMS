@@ -65,12 +65,16 @@ public class DataController {
         {
             for(StoreProduct sProduct:mapSet.getValue())
             {
+
                 if(!(sProduct.getExpDate()).after(now)) {
                     if(!expiredProducts.contains(mapSet.getKey()))
                         expiredProducts.add(mapSet.getKey());
                     break;
                 }
             }
+            if((mapSet.getKey().getDiscountExpDate()!=null)&&!(mapSet.getKey().getDiscountExpDate()).after(now))
+                mapSet.getKey().setDiscount(0,null);
+
         }
     }
 

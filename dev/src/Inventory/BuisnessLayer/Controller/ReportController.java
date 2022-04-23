@@ -59,7 +59,6 @@ public class ReportController {
                     table.addRow(mergeArray(product.toArrayString(),storeProduct.toString()));
                 }
         }
-
         return table;
     }
 

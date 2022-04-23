@@ -101,10 +101,16 @@ class ServiceTest {
 
     @Test
     void addDiscountByName() {
+        Response<String> res = productService.AddDiscountByName("Milk 3%","Tnuva",3,"10/6/2022");
+        String expected ="discount was set successfully ";
+        Assertions.assertEquals(expected,res.getData());
     }
 
     @Test
     void addDiscountByCategory() {
+        Response<String> res = productService.AddDiscountByCategory("Diary", 3, "10/6/2022");
+        String expected ="discount was set successfully ";
+        Assertions.assertEquals(expected,res.getData());
     }
 
     @AfterAll
