@@ -148,7 +148,7 @@ public class Delivery {
     @Override
     public String toString(){
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String output=String.format("Delivery id: %d\n\t* Driver name: %s\n\t* Driver id: %d\n\t* Truck id: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin: %s\n\t* Weight: %d\n\t* Destinations:\n",
+        String output=String.format("Delivery id: %d\n\t* Driver name: %s\n\t* Driver id: %d\n\t* Truck plate number: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin: %s\n\t* Weight: %d\n\t* Destinations:\n",
                 id,driver.getName(),driver.getId(),truck.getPlateNum(),startTime.format(formatter),endTime.format(formatter),origin.getAddress(),weight);
         for (Branch site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;

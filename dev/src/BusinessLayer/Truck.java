@@ -5,7 +5,8 @@ public class Truck {
     private String model;
     private int maxWeight;
 
-    public Truck(int plateNum, String model, int maxWeight) {
+    public Truck(int plateNum, String model, int maxWeight) throws Exception {
+        validateTruckPlateID(plateNum);
         this.plateNum = plateNum;
         this.model = model;
         this.maxWeight = maxWeight;
@@ -15,7 +16,8 @@ public class Truck {
         return plateNum;
     }
 
-    public void setPlateNum(int plateNum) {
+    public void setPlateNum(int plateNum) throws Exception {
+        validateTruckPlateID(plateNum);
         this.plateNum = plateNum;
     }
 
@@ -39,5 +41,10 @@ public class Truck {
     @Override
     public String toString(){
         return String.format("Plate number: %d\n\t* Model: %s\n\t* Max Weight: %d\n",plateNum,model,maxWeight);
+    }
+
+    protected void validateTruckPlateID(int id)throws Exception{
+        if (id < 1000000 || id > 99999999)
+            throw new Exception("truck number can be only a number with 7 or 8 digits");
     }
 }

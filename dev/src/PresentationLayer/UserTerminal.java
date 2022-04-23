@@ -300,13 +300,13 @@ public class UserTerminal {
             print("\n### Truck Editing Menu ###");
             while (!found){
                 printAllTrucks();
-                print("Enter truck id:");
+                print("Enter truck plate number:");
                 truckId = selectInt();
                 res = service.getTruck(truckId);
                 if(res.isSuccess()){found=true;}
                 else print(res.getMessage());
             }
-            res=service.getTruck(truckId);
+            res = service.getTruck(truckId);
             print("Editing truck: "+res.getData());
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Edit plate number" +
@@ -514,7 +514,7 @@ public class UserTerminal {
                     printResponse(service.editDeliveryWeight(deliveryId,selectInt()));
                     break;
                 case "12":
-                    printResponse(service.completeDelivery(deliveryId));
+                    isUserFinished = printCompleteDelivery(service.completeDelivery(deliveryId));
                     break;
                 case "13":
                     isUserFinished = true;
@@ -557,7 +557,7 @@ public class UserTerminal {
         LocalDateTime endDate=parseDate();
         printAllTrucks();
         while (found==null) {
-            print("Enter truck id:");
+            print("Enter truck plate number:");
             truckId = selectInt();
             found=service.getTruck(truckId);
             if(!found.isSuccess()){
@@ -663,6 +663,12 @@ public class UserTerminal {
         return selectInt();
     }
 
+    private boolean printCompleteDelivery(Response res){
+        if (res.isSuccess())
+            return true;
+        print(res.getMessage());
+        return false;
+    }
 
     //############################# Parsing & Printing ###################################################
     private void print(String message){System.out.println(message);}
@@ -670,11 +676,17 @@ public class UserTerminal {
     private int selectInt()
     {
         while (true) {
-            try {
-                return Integer.parseInt(sc.next());
-            }
-            catch (Exception e){
-                printIllegalOptionMessage();
+            String input = sc.next();
+            if (input.matches("-\\d+"))
+                print("negative numbers are not allowed, please try again");
+            else if (!input.matches("\\d+"))
+                print("you entered a something that is not a number, please try again");
+            else {
+                try {
+                    return Integer.parseInt(input);
+                } catch (Exception e) {
+                    print("your number is too big, please enter a smaller number");
+                }
             }
         }
     }
@@ -697,7 +709,5 @@ public class UserTerminal {
         else
             print(res.getMessage());
     }
-
-
 
 }
