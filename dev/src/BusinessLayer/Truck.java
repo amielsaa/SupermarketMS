@@ -32,6 +32,7 @@ public class Truck {
     }
 
     public void setMaxWeight(int maxWeight) {
+        if(maxWeight>=0)
         this.maxWeight = maxWeight;
     }
 

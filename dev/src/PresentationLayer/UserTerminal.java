@@ -77,7 +77,9 @@ public class UserTerminal {
                     break;
                 case "4":
                     print("Enter site id:");
-                    printResponse(service.getSite(selectInt()));
+                    Response<Site> res=service.getSite(selectInt());
+                    printResponse(res);
+                    if(res.isSuccess()) print(res.getData().toString());
                     break;
                 case "5":
                     printSiteByZone();
@@ -196,13 +198,12 @@ public class UserTerminal {
 
     private void printAllSites(){
         Response<Collection<Site>> res = service.getAllSites();
-        print("Site List:");
+        print("\nSite List:");
         if (res.isSuccess())
             for (Site s: res.getData())
                 print(s.toString());
         else
             print(res.getMessage());
-        print("");
     }
 
     private void printSiteMenuMessage() {
@@ -470,7 +471,7 @@ public class UserTerminal {
     }
 
     private void printDriverList(){
-        print("Driver List:");
+        print("\nDriver List:");
         for(String driver:service.getDriverList().getData()){
             print(driver);
         }
@@ -492,7 +493,7 @@ public class UserTerminal {
                 else print(idRes.getMessage());
             }
             idRes=service.searchUpcomingDelivery(deliveryId);
-            print(String.format("\nEditing delivery: %s\n",idRes.getData()));
+            print(String.format("Editing delivery: %s",idRes.getData()));
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a destination" +
                     "\n\t2. Remove a destination" +
@@ -533,6 +534,7 @@ public class UserTerminal {
                     printResponse(editDate(deliveryId,false));
                     break;
                 case "8":
+                    printDriverList();
                     print("Enter new driver id:");
                     printResponse(service.editDeliveryDriver(deliveryId,selectInt()));
                     break;
@@ -567,9 +569,11 @@ public class UserTerminal {
     }
 
     private Response editDate(int deliveryId,boolean start) {
-            LocalDateTime date=parseDate();
-            if(start) return service.editDeliveryStartTime(deliveryId,date);
-            else return service.editDeliveryEndTime(deliveryId,date);
+        if(start) System.out.print("Enter start time, ");
+        else System.out.print("Enter end time, ");
+        LocalDateTime date=parseDate();
+        if(start) return service.editDeliveryStartTime(deliveryId,date);
+        else return service.editDeliveryEndTime(deliveryId,date);
     }
 
     private LocalDateTime parseDate(){
@@ -585,9 +589,9 @@ public class UserTerminal {
     }
 
     private Response editQuantity(int deliveryId) {
-        print("Enter destination:");
+        print("Enter destination id:");
         int destId=selectInt();
-        print("Enter item:");
+        print("Enter item name:");
         String item=sc.next();
         print("Enter new quantity:");
         int quantity=selectInt();
@@ -595,17 +599,17 @@ public class UserTerminal {
     }
 
     private Response removeItemFromDest(int deliveryId) {
-        print("Enter destination:");
+        print("Enter destination id:");
         int destId=selectInt();
-        print("Enter item:");
+        print("Enter item name:");
         String item=sc.next();
         return service.removeItemFromDeliveryDestination(deliveryId,destId,item);
     }
 
     private Response addItemToDest(int deliveryId) {
-        print("Enter destination:");
+        print("Enter destination id:");
         int destId=selectInt();
-        print("Enter item:");
+        print("Enter item name:");
         String item=sc.next();
         print("Enter quantity:");
         int quantity=selectInt();
@@ -647,16 +651,16 @@ public class UserTerminal {
         System.out.println(message);
     }
     private void printIllegalOptionMessage() {
-        print("You picked an illegal option, please try again\n");
+        print("You picked an illegal option, please try again");
     }
 
     private int deliveryZoneSelection()
     {
-        print("Enter option number to choose a delivery zone:" +
-                "\n\t0. North" +
-                "\n\t1. Center" +
-                "\n\t2. South");
         while (true){
+            print("Enter option number to choose a delivery zone:" +
+                    "\n\t0. North" +
+                    "\n\t1. Center" +
+                    "\n\t2. South");
             String userData = sc.next();
             switch (userData) {
                 case "0":

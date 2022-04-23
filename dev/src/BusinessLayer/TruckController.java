@@ -50,6 +50,9 @@ public class TruckController {
         if(!trucks.containsKey(plateNum)){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
+        if(maxWeight<0){
+            throw new Exception(String.format("Weight of a truck cannot be negative.."));
+        }
         trucks.get(plateNum).setMaxWeight(maxWeight);
     }
 

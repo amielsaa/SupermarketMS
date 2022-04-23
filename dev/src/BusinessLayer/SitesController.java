@@ -64,14 +64,14 @@ public class SitesController {
     public void editSiteContactName(int id, String name) throws Exception {
         Site toBeEdited = getSite(id);
         if (toBeEdited == null)
-            throw new Exception("the site id has not been found, so nothing changed");
+            throw new Exception("The site id has not been found, so nothing changed");
         toBeEdited.setContactName(name);
     }
 
     public Site getSite(int id) throws Exception {
         Site site = sites.get(id);
         if (site == null)
-            throw new Exception("CHANGE ME");
+            throw new Exception(String.format("The site id %d does not exist",id));
         return site;
     }
     public Site getSite(String address) {

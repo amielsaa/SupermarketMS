@@ -109,7 +109,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
+            throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.addDestination((Branch) destination);
     }
@@ -118,9 +118,7 @@ public class DeliveriesController {
     public void removeDestination(int deliveryId,int siteId) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
-        if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
-        }
+        if(!(destination instanceof Branch)) throw new Exception(String.format("Site id %d is not a destination...",siteId));
         delivery.removeDestination((Branch) destination);
     }
 
@@ -128,7 +126,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
+            throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.addItemToDestination((Branch)destination,item,quantity);
     }
@@ -136,7 +134,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
+            throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.removeItemFromDestination((Branch)destination,item);
     }
@@ -145,7 +143,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
+            throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.editItemQuantity((Branch)destination,item,quantity);
     }
@@ -155,7 +153,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d does not belong to a branch",siteId));
+            throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         return delivery.toStringItemsOfDest((Branch) destination);
     }
@@ -174,7 +172,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
         if (!truckController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
-            throw new Exception("The truck is not free at this date");
+            throw new Exception("The truck is not free at this date...");
         delivery.setDriver(driver);
     }
 
@@ -183,7 +181,7 @@ public class DeliveriesController {
         Truck truck=truckController.getTruck(newTruckId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
         if (!truckController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
-            throw new Exception("The driver is not free at this date");
+            throw new Exception("The driver is not free at this date...");
         delivery.setTruck(truck);
     }
 
@@ -196,16 +194,18 @@ public class DeliveriesController {
     public void setWeight(int deliveryId,int weight) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
         if(weight<0)
-            throw new Exception("invalid weight");
+            throw new Exception("invalid weight...");
         if(weight > delivery.getTruck().getMaxWeight())
-            throw new Exception("CHANGE ME");
+            throw new Exception(
+                    String.format("Actual weight exceeds the max weight of truck %d..",
+                            delivery.getTruck().getMaxWeight()));
         delivery.setWeight(weight);
     }
 
     public void completeDelivery(int deliveryId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
         if(delivery.getWeight()<=0){
-            throw new Exception(String.format("Before completing delivery num. %d, truck's weight must be updated",deliveryId));
+            throw new Exception(String.format("Before completing delivery num. %d, truck's weight must be updated...",deliveryId));
         }
         upcomingDeliveries.remove(deliveryId);
         deliveryArchive.put(deliveryId,delivery.toString());
@@ -213,7 +213,7 @@ public class DeliveriesController {
     public void checkTruckHasUpcomingDelivery(int truckId) throws Exception {
         for (Delivery delivery: upcomingDeliveries.values()){
             if(delivery.getTruck().getPlateNum()==truckId){
-                throw new Exception(String.format("Truck id %d has upcoming deliveries",truckId));
+                throw new Exception(String.format("Truck id %d has upcoming deliveries...",truckId));
             }
         }
     }
@@ -222,25 +222,25 @@ public class DeliveriesController {
         String site=sitesController.getSite(siteId).getAddress();
         for (Delivery delivery: upcomingDeliveries.values()){
             if(delivery.getOrigin().getId()==siteId){
-                throw new Exception(String.format("Site id %s has upcoming deliveries",site));
+                throw new Exception(String.format("Site %s has upcoming deliveries...",site));
             }
             for (Branch branch: delivery.getDestinations())
                 if(branch.getId()==siteId)
-                    throw new Exception(String.format("Site id %s has upcoming deliveries",site));
+                    throw new Exception(String.format("Site %s has upcoming deliveries...",site));
         }
     }
 
     public void checkDriverHasUpcomingDelivery(int driverId) throws Exception {
         for (Delivery delivery: upcomingDeliveries.values()){
             if(delivery.getDriver().getId()==driverId){
-                throw new Exception(String.format("Driver id %d has upcoming deliveries",driverId));
+                throw new Exception(String.format("Driver id %d has upcoming deliveries...",driverId));
             }
         }
     }
 
     public void deleteDelivery(int deliveryId) throws Exception{
         if(!upcomingDeliveries.containsKey(deliveryId)){
-            throw new Exception(String.format("Delivery %d was not found",deliveryId));
+            throw new Exception(String.format("Delivery %d was not found...",deliveryId));
         }
         upcomingDeliveries.remove(deliveryId);
     }
