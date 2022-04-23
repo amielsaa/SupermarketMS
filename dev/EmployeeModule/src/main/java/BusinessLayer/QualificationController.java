@@ -27,6 +27,11 @@ public class QualificationController
         return Response.makeSuccess(qualifications);
     }
 
+    public Response<List<Permission>> getPermissions() {
+        return Response.makeSuccess(permissions);
+    }
+
+
     public Response<Qualification> getQualification(@NotNull String name){
         for (Qualification q: qualifications) {
             if(q.getName().equals(name)){
@@ -36,7 +41,6 @@ public class QualificationController
         return Response.makeFailure("failed to find qualification with that name");
     }
 
-    //TODO plan how to add new qualifications - add a blank list of permissions or make the list earlier
     public Response<Qualification> addQualification(@NotNull String name){
         Qualification toAdd = new Qualification(name, new ArrayList<>());
         if(qualifications.contains(toAdd)){
@@ -47,22 +51,38 @@ public class QualificationController
     }
 
     //TODO check if it is wise to give an  option to rename a Qualification
-    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
-        Qualification toChange = null;
-        for (Qualification q: qualifications) {
-            if(q.getName().equals(name)){
-                toChange = q;
-            }
-            if(q.getName().equals(newName)){
-                return Response.makeFailure("a qualification with such name already exists");
+//    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
+//        Qualification toChange = null;
+//        for (Qualification q: qualifications) {
+//            if(q.getName().equals(name)){
+//                toChange = q;
+//            }
+//            if(q.getName().equals(newName)){
+//                return Response.makeFailure("a qualification with such name already exists");
+//            }
+//        }
+//        if(toChange!=null){
+//            toChange.setName(newName);
+//        }
+//        return Response.makeFailure("a qualification with given name doesn't exist");
+//    }
+
+    public Response<Qualification> removeQualification(@NotNull String name) {
+        Qualification toRemove = null;
+        for(Qualification q : qualifications) {
+            if(q.getName().equals(name)) {
+                toRemove = q;
             }
         }
-        if(toChange!=null){
-            toChange.setName(newName);
+        if(toRemove == null) {
+            return Response.makeFailure("No such qualification. ");
         }
-        return Response.makeFailure("a qualification with given name doesn't exist");
+        qualifications.remove(toRemove);
+        return Response.makeSuccess(toRemove);
+        //TODO add interaction with DAL
     }
 
+    // TODO ADD Remove qualification and remove from linked empoyees and shifts the qualification like in "removePermission()"
     public Response<Permission> getPermission(@NotNull String name){
         for (Permission p: permissions) {
             if(p.getName().equals(name)){
@@ -86,9 +106,14 @@ public class QualificationController
         for (Permission p : permissions) {
             if (p.getName().equals(name)) {
                 toRemove = p;
+                break;
             }
         }
         if (toRemove != null) {
+            // unlink permission from existing qualifications
+            for(Qualification q : qualifications) {
+                removePermissionFromQualification(name, q.getName());
+            }
             permissions.remove(toRemove);
             return Response.makeSuccess(toRemove);
         } else {
@@ -112,6 +137,9 @@ public class QualificationController
             return Response.makeFailure("no permission with such name");
         }
         Permission p = res2.getData();
+        if(q.hasPermission(p)) {
+            return Response.makeFailure("The qualification already has this permission. ");
+        }
         q.addPermission(p);
         return  Response.makeSuccess(q);
     }
@@ -127,6 +155,9 @@ public class QualificationController
             return Response.makeFailure("no permission with such name");
         }
         Permission p = res2.getData();
+        if(!q.hasPermission(p)) {
+            return Response.makeFailure("The qualification doesn't have this permission. ");
+        }
         q.removePermission(p);
         return  Response.makeSuccess(q);
     }

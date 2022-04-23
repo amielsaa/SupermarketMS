@@ -6,10 +6,7 @@ import Utilities.Response;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.SimpleTimeZone;
+import java.util.*;
 
 public class Gateway
 {
@@ -69,6 +66,7 @@ public class Gateway
 
         Qualification qualificationCashier = qualificationController.addQualification("Cashier").getData();
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner").getData();
+        Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager").getData();
 
         // INIT EMPLOYEES
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
@@ -243,7 +241,7 @@ public class Gateway
     public Response<List<Shift>> getShifts(int branchId) {
         Response<String> r = checkAuth("ManageBranch" + branchId);
         if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
         }
 
         return shiftController.getShifts(branchId);
@@ -253,7 +251,7 @@ public class Gateway
                                     @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime) {
         Response<String> r = checkAuth("ManageBranch" + branchId);
         if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
         }
 
         return shiftController.addShift(branchId, date, shiftManager, workers, shiftTime);
@@ -262,7 +260,7 @@ public class Gateway
     public Response<Shift> removeShift(@NotNull ShiftId shiftId){
         Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
         if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
         }
 
         return shiftController.removeShift(shiftId);
@@ -271,7 +269,7 @@ public class Gateway
     public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<Qualification> qualifications){
         Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
         if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
         }
 
         return shiftController.addWorker(shiftId, worker, qualifications);
@@ -280,7 +278,7 @@ public class Gateway
     public Response<Employee> removeWorker(@NotNull ShiftId shiftId, @NotNull Employee worker){
         Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
         if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
         }
 
         return shiftController.removeWorker(shiftId, worker);
@@ -317,13 +315,40 @@ public class Gateway
         return qualificationController.addQualification(name);
     }
 
-    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
+//    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
+//        Response<String> r = checkAuth("ManageQualifications");
+//        if(!r.isSuccess()) {
+//            return Response.makeFailure(r.getMessage());
+//        }
+//
+//        return qualificationController.renameQualification(name, newName);
+//    }
+    public Response<Qualification> removeQualification(@NotNull String name) {
         Response<String> r = checkAuth("ManageQualifications");
         if(!r.isSuccess()) {
             return Response.makeFailure(r.getMessage());
         }
 
-        return qualificationController.renameQualification(name, newName);
+        var r2 = qualificationController.removeQualification(name);
+        if(!r2.isSuccess()) {
+            return r2;
+        }
+        Qualification removedQualification = r2.getData();
+        List<Employee> employees = employeeController.getEmployees();
+        for(Employee e : employees)
+        {
+            employeeController.employeeRemoveQualification(e.getId(), removedQualification.getName());
+        }
+        return Response.makeSuccess(r2.getData());
+    }
+
+    public Response<List<Permission>> getPermissions() {
+        Response<String> r = checkAuth("ViewQualifications");
+        if(!r.isSuccess()) {
+            return Response.makeFailure(r.getMessage());
+        }
+
+        return qualificationController.getPermissions();
     }
 
     public Response<Permission> addPermission(@NotNull String name){
@@ -364,6 +389,59 @@ public class Gateway
 
     // -----------------------------
 
+    // HR Functions
+
+    public Response<Map<Employee, int[]>> getEmployeesWithQualification(int branchId, Qualification qualification) {
+        Response<String> r = checkAuth("ManageBranch" + branchId);
+        if(!r.isSuccess()) {
+            return Response.makeFailure(r.getMessage() + "Not your branch. ");
+        }
+
+        Map<Employee, int[]> m = new HashMap<>();
+
+        // using this to bypass authentication
+        List<Employee> employees = employeeController.getEmployees();
+
+        // init zeros
+        for(Employee e : employees) {
+            int[] a = {0, 0};
+            m.put(e, a);
+        }
+
+        Response<List<Shift>> r3 = getShifts(branchId);
+        if(!r3.isSuccess()) {
+            return Response.makeFailure(r3.getMessage());
+        }
+
+        for(Shift s : r3.getData())
+        {
+            for(Employee e : s.getWorkers().keySet()) {
+                int[] a = m.get(e);
+                if(s.getId().getShiftTime() == ShiftTime.DAY) {
+                    // DAY
+                    a[0]++;
+                } else {
+                    // NIGHT
+                    a[1]++;
+                }
+            }
+        }
+
+        // Uncomment to remove workers that didn't work yet.
+//        Iterator<Employee> i = employees.iterator();
+//        while(i.hasNext()) {
+//            Employee e = i.next();
+//            int[] a = m.get(e);
+//            if(a[0] == 0 && a[1] == 0) {
+//                m.remove(e);
+//                i.remove();
+//            }
+//        }
+
+        return Response.makeSuccess(m);
+    }
+
+    // -----------------------------
 
     // TODO this ^^^ for all functions in BusinessLayer.
 

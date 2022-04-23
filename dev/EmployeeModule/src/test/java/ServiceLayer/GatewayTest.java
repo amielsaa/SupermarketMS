@@ -235,7 +235,7 @@ public class GatewayTest
         assertTrue(r1.getMessage(), r1.isSuccess());
 
         var r2 = g.removeWorker(s1.getId(), w2);
-        assertFalse("Employee should already be removed. ", r1.isSuccess());
+        assertFalse("Employee should already be removed. ", r2.isSuccess());
 
         var r3 = s1.getWorkers().keySet();
         assertEquals("There should be 1 employees after this. ", r3.size(), 1);
@@ -244,42 +244,124 @@ public class GatewayTest
     @Test
     public void getQualifications()
     {
-        fail();
+        var r = g.getQualifications();
+        assertTrue(r.getMessage(), r.isSuccess());
     }
 
     @Test
     public void addQualification()
     {
-        fail();
+        final int GUEST_ID = 1800400;
+        var guest = g.addEmployee(GUEST_ID, "guest", bankAccountDetailsGenerator(1800400), 1, LocalDateTime.now(), "guest with no permissions. ").getData();
+
+        var r = g.addQualification("TempQualification");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r1 = g.getQualification("TempQualification");
+        assertTrue(r1.getMessage(), r1.isSuccess());
+
+        var r2 = g.addQualification("TempQualification");
+        assertFalse("Shouldn't be able to add the same qualification twice. ", r2.isSuccess());
+
+        g.logout();
+        g.login(GUEST_ID);
+        var r3 = g.addQualification("");
+        assertFalse("Shouldn't be able to add a new qualification as guest user. ", r3.isSuccess());
     }
 
-    @Test
-    public void renameQualification()
-    {
-        fail();
-    }
+//    @Test
+//    public void renameQualification()
+//    {
+//        // TODO this test is not checked and might not work!
+//        final int GUEST_ID = 1800400;
+//        var guest = g.addEmployee(GUEST_ID, "guest", bankAccountDetailsGenerator(1800400), 1, LocalDateTime.now(), "guest with no permissions. ").getData();
+//
+//        final String n1 = "TempQualification";
+//        final String n2 = "TempQualification2";
+//
+//        g.addQualification(n1);
+//        g.addQualification(n2);
+//
+//        var r = g.getQualification(n1);
+//        assertTrue(r.getMessage(), r.isSuccess());
+//
+//        var r2 = g.renameQualification(n1, n2);
+//        assertTrue(r.getMessage(), r.isSuccess());
+//
+//        var r3 = g.getQualification(n1);
+//        assertFalse("qualification should be removed. ", r.isSuccess());
+//
+//        var r4 = g.getQualification(n2);
+//        assertTrue(r.getMessage(), r.isSuccess());
+//    }
 
     @Test
     public void addPermission()
     {
-        fail();
+        final int GUEST_ID = 1800400;
+        var guest = g.addEmployee(GUEST_ID, "guest", bankAccountDetailsGenerator(1800400), 1, LocalDateTime.now(), "guest with no permissions. ").getData();
+
+        var r = g.addPermission("TempPermission");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r2 = g.addPermission("TempPermission");
+        assertFalse("Shouldn't be able to add the same permission twice. ", r2.isSuccess());
+
+        g.logout();
+        g.login(GUEST_ID);
+        var r3 = g.addPermission("");
+        assertFalse("Shouldn't be able to add a new permission as guest user. ", r3.isSuccess());
     }
 
     @Test
     public void removePermission()
     {
-        fail();
+        final int GUEST_ID = 1800400;
+        var guest = g.addEmployee(GUEST_ID, "guest", bankAccountDetailsGenerator(1800400), 1, LocalDateTime.now(), "guest with no permissions. ").getData();
+
+        g.addPermission("TempPermission");
+        int permCount = g.getPermissions().getData().size();
+
+        var r = g.removePermission("TempPermission");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        // check that the permission has indeed been removed.
+        assertEquals("Expected the permission count to be smaller. ", g.getPermissions().getData().size(), (permCount - 1));
+
+        var r2 = g.removePermission("TempPermission");
+        assertFalse("Shouldn't be able to remove the same permission twice. ", r2.isSuccess());
+
+        g.logout();
+        g.login(GUEST_ID);
+        var r3 = g.addPermission("");
+        assertFalse("Shouldn't be able to remove a permission as guest user. ", r3.isSuccess());
     }
 
     @Test
     public void addPermissionToQualification()
     {
-        fail();
+        g.addPermission("TempPermission");
+        g.addQualification("TempQualification");
+
+        var r = g.addPermissionToQualification("TempPermission", "TempQualification");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r2 = g.addPermissionToQualification("TempPermission", "TempQualification");
+        assertFalse("Should not be able to add the same permission to a qualification twice. ", r2.isSuccess());
     }
 
     @Test
     public void removePermissionFromQualification()
     {
-        fail();
+        g.addPermission("TempPermission");
+        g.addQualification("TempQualification");
+
+        g.addPermissionToQualification("TempPermission", "TempQualification");
+
+        var r = g.removePermissionFromQualification("TempPermission", "TempQualification");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r2 = g.removePermissionFromQualification("TempPermission", "TempQualification");
+        assertFalse("Should not be able to remove the same permission from a qualification twice. ", r2.isSuccess());
     }
 }
