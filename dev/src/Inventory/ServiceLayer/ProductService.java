@@ -129,6 +129,13 @@ public class ProductService {
         }
     }
 
-    //TODO: disable discount
+    public Response<String> StopTimer(){
+        try {
+            String s = productController.turnOffTimer();
+            return Response.makeSuccess(s.toString());
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 
 }

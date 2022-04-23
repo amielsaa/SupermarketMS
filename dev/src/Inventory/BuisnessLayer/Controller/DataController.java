@@ -12,6 +12,7 @@ public class DataController {
     private List<Product> expiredProducts;
     private Map<Product,List<StoreProduct>> productListMap;
     private List<Category> categories;
+    private Timer _timer;
 
     public DataController() {
         this.defectiveProducts = new ArrayList<>();
@@ -21,6 +22,7 @@ public class DataController {
         /**
          * timer set
          */
+        _timer = new Timer();
         setTimer();
     }
 
@@ -74,7 +76,6 @@ public class DataController {
             }
             if((mapSet.getKey().getDiscountExpDate()!=null)&&!(mapSet.getKey().getDiscountExpDate()).after(now))
                 mapSet.getKey().setDiscount(0,null);
-
         }
     }
 
@@ -85,9 +86,13 @@ public class DataController {
                 checkExpired();
             }
         };
-        Timer _timer = new Timer();
         long delay = 1000L;
         long period = 1000L * 60L * 60L * 24L;
         _timer.scheduleAtFixedRate(expCheck,delay,period);
+    }
+    public String turnOffTimer(){
+        _timer.cancel();
+        _timer.purge();
+        return "system has shutdown";
     }
 }

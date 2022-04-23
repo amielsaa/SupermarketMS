@@ -77,8 +77,8 @@ public class Service {
     public Response<Report> ReportStockByCategory(List<String> categories) {
         return reportService.ReportStockByCategories(categories);
     }
+    public Response<String> stopTimer(){return productService.StopTimer();}
 
-    //TODO: periodical reports
 
 
 

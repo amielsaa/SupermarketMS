@@ -189,4 +189,5 @@ public class ProductController {
             throw new IllegalArgumentException("Store doesn't exists.");
         this.storeId = storeId;
     }
+    public String turnOffTimer(){return data.turnOffTimer();}
 }
