@@ -1,4 +1,4 @@
-package ServiceLayer;
+package PresentationLayer;
 
 import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
@@ -6,13 +6,15 @@ import BusinessLayer.Supplier;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
+import ServiceLayer.Response;
+import ServiceLayer.SupplierFacade;
 
 import java.util.*;
 
-public class MainFacade {
+public class PresentationMain {
     SupplierFacade fSupplier;
 
-    public MainFacade(){
+    public PresentationMain(){
         fSupplier = new SupplierFacade();
     }
 
@@ -440,7 +442,7 @@ public class MainFacade {
         int businessNumber = getIntFromUser(s, "supplier business number");
         Response<List<DOrder>> res = fSupplier.getAllOrdersFromSupplier(businessNumber);
         if(res.isSuccess())
-            printOrderList(res.getData());
+            System.out.println(printOrderList(res.getData()));
         else System.out.println(res.getMessage());
     }
 
@@ -496,6 +498,8 @@ public class MainFacade {
     }
 
     private void loadData(){
+        //This function has some business logic inside, but it's here only for the testers to have some info in the program
+        //(that is why it's here and not in business or service)
         HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
         item_Num_To_Price.put(0, 5.0);
         item_Num_To_Price.put(1, 20.0);

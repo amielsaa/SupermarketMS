@@ -27,7 +27,7 @@ public class SupplierController {
 
     private void Check_If_Supplier_Exists(int business_num) {
         if (!BN_To_Supplier.containsKey(business_num)) {
-            throw new IllegalArgumentException("Order ID was not found");
+            throw new IllegalArgumentException("Supplier ID was not found");
         }
 
     }

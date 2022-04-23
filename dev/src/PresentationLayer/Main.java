@@ -1,9 +1,9 @@
-import ServiceLayer.MainFacade;
+package PresentationLayer;
 
 public class Main {
 
     public static void main(String[] args) {
-        MainFacade fMain = new MainFacade();
+        PresentationMain fMain = new PresentationMain();
         fMain.main();
     }
 }
