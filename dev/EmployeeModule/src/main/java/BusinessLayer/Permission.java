@@ -1,6 +1,6 @@
 package BusinessLayer;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ public class Permission
 {
     private String name;
 
-    protected Permission(@NotNull String _name){
+    protected Permission(String _name){
         name = _name;
     }
 
@@ -23,6 +23,17 @@ public class Permission
         if (o == null || getClass() != o.getClass()) return false;
         Permission that = (Permission) o;
         return getName().equals(that.getName());
+    }
+
+    @Override
+    public String toString() {
+        return name;
+        /*
+        return "Permission{" +
+                "name='" + name + '\'' +
+                '}';
+                */
+
     }
 
     @Override

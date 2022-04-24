@@ -3,7 +3,7 @@ package BusinessLayer;
 import BusinessLayer.*;
 import DataAccessLayer.DALController;
 import Utilities.Response;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -14,7 +14,7 @@ public class ShiftController
     public Map<ShiftId, Shift> shifts;
 
     //TODO: decide when it shouldn't be possible to change the shift
-    public ShiftController(@NotNull DALController dalController) {
+    public ShiftController(DALController dalController) {
         dalController.execute();
         shifts = new HashMap<>();
         // TODO: implement getting data from DAL
@@ -36,8 +36,8 @@ public class ShiftController
         return Response.makeSuccess(sList);
     }
 
-    public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
-                                    @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime){
+    public Response<Shift> addShift(int branchId, LocalDateTime date, Employee shiftManager,
+                                    Map<Employee, List<Qualification>> workers, ShiftTime shiftTime){
         // using for each for reasons...
         ShiftId newShift = new ShiftId(branchId, date, shiftTime);
         for(ShiftId s : shifts.keySet()) {
@@ -58,7 +58,7 @@ public class ShiftController
         //TODO: update after implementing DAL, Employee
     }
 
-    public Response<Shift> removeShift(@NotNull ShiftId shiftId){
+    public Response<Shift> removeShift(ShiftId shiftId){
         //TODO: check if it should be possible to remove today's shift
         //TODO: update after implementing Response, DAL, Employee
         if(!shiftId.getDate().isAfter(LocalDateTime.now().plusDays(1))){
@@ -83,7 +83,7 @@ public class ShiftController
         return Response.makeSuccess(toRemove);
     }
 
-    public Response<Shift> getShift(@NotNull ShiftId shiftId){
+    public Response<Shift> getShift(ShiftId shiftId){
         //TODO: update after implementing Response, DAL, Employee
         for(ShiftId s : shifts.keySet()) {
             if(s.equals(shiftId))
@@ -96,7 +96,7 @@ public class ShiftController
     }
 
 
-    public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<Qualification> qualifications){
+    public Response<Employee> addWorker(ShiftId shiftId, Employee worker, List<Qualification> qualifications){
         Response<Shift> res = getShift(shiftId);
         if(!res.isSuccess()){
             return Response.makeFailure("no such shift");
@@ -112,7 +112,7 @@ public class ShiftController
         return Response.makeSuccess(worker);
     }
 
-    public Response<Employee> removeWorker(@NotNull ShiftId shiftId, @NotNull Employee worker){
+    public Response<Employee> removeWorker(ShiftId shiftId, Employee worker){
         Response<Shift> res = getShift(shiftId);
         if(!res.isSuccess()){
             return Response.makeFailure("no such shift");

@@ -1,6 +1,6 @@
 package BusinessLayer;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,7 @@ public class Shift
     private Map<Employee, List<Qualification>> workers;
     private Employee shiftManager;
 
-    public Shift(@NotNull ShiftId _id, @NotNull Map<Employee, List<Qualification>> _workers, @NotNull Employee _shiftManager){
+    public Shift(ShiftId _id, Map<Employee, List<Qualification>> _workers, Employee _shiftManager){
         id = _id;
         workers = _workers;
         shiftManager = _shiftManager;
@@ -30,11 +30,11 @@ public class Shift
         return shiftManager;
     }
 
-    protected void addWorker(@NotNull Employee employee, List<Qualification> qualifications){
+    protected void addWorker(Employee employee, List<Qualification> qualifications){
         workers.put(employee, qualifications);
     }
 
-    protected void removeWorker(@NotNull Employee employee){
+    protected void removeWorker(Employee employee){
         workers.remove(employee);
     }
 }

@@ -1,6 +1,6 @@
 package BusinessLayer;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +11,7 @@ public class Qualification
     private String name;
     private List<Permission> permissions;
     //the name would be unique for every qualification object
-    protected Qualification(@NotNull String name, @NotNull List<Permission> permissions) {
+    protected Qualification(String name, List<Permission> permissions) {
         this.name = name;
         this.permissions = permissions;
     }
@@ -20,7 +20,7 @@ public class Qualification
         return name;
     }
 
-    protected void setName(@NotNull String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
@@ -28,15 +28,23 @@ public class Qualification
         return Collections.unmodifiableList(permissions);
     }
 
-    protected void addPermission(@NotNull Permission permission){
+    protected void addPermission(Permission permission){
         permissions.add(permission);
     }
 
-    protected void removePermission(@NotNull Permission permission){
+    protected void removePermission(Permission permission){
         permissions.remove(permission);
     }
 
-    protected boolean hasPermission(@NotNull Permission permission) { return this.permissions.contains(permission); }
+    protected boolean hasPermission(Permission permission) { return this.permissions.contains(permission); }
+
+    @Override
+    public String toString() {
+        return "Qualification{" +
+                "name='" + name + '\'' +
+                ", permissions=" + permissions +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

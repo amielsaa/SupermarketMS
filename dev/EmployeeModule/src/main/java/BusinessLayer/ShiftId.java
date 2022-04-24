@@ -1,6 +1,6 @@
 package BusinessLayer;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public class ShiftId
     private LocalDateTime date;
     private ShiftTime time;
 
-    public ShiftId(int _branchId, @NotNull LocalDateTime _date, @NotNull ShiftTime _time){
+    public ShiftId(int _branchId, LocalDateTime _date, ShiftTime _time){
         branchId = _branchId;
         date = _date;
         time = _time;

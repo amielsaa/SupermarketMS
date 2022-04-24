@@ -1,7 +1,8 @@
 package BusinessLayer;
 
 import Utilities.LegalTimeException;
-import org.jetbrains.annotations.NotNull;
+
+
 import java.time.LocalDateTime;
 
 public class TimeInterval
@@ -9,7 +10,7 @@ public class TimeInterval
     private LocalDateTime start;
     private LocalDateTime end;
 
-    protected TimeInterval(@NotNull LocalDateTime start, @NotNull LocalDateTime end) throws LegalTimeException {
+    protected TimeInterval(LocalDateTime start, LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }
@@ -21,7 +22,7 @@ public class TimeInterval
         return start;
     }
 
-    protected void setStart(@NotNull LocalDateTime start) throws LegalTimeException {
+    protected void setStart(LocalDateTime start) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }
@@ -32,14 +33,14 @@ public class TimeInterval
         return end;
     }
 
-    protected void setEnd(@NotNull LocalDateTime end) throws LegalTimeException {
+    protected void setEnd(LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }
         this.end = end;
     }
 
-    public boolean isOverlapping(@NotNull TimeInterval other){
+    public boolean isOverlapping(TimeInterval other){
 
         if(this.getEnd().isBefore(other.getStart()) || this.getEnd().isEqual(other.getEnd())){
             return false;

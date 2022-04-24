@@ -6,9 +6,22 @@ public class Employee
 {
     private int id;
     private String name;
-    private BankAccountDetails bankAccountDetails;
+    private BusinessLayer.BankAccountDetails bankAccountDetails;
     private double salary;
     private LocalDateTime workStartingDate;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", bankAccountDetails=" + bankAccountDetails +
+                ", salary=" + salary +
+                ", workStartingDate=" + workStartingDate +
+                ", workingConditions=" + workingConditions +
+                '}';
+    }
+
     private WorkingConditions workingConditions;
 
     protected Employee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, WorkingConditions workingConditions)

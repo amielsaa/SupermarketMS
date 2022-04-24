@@ -44,14 +44,14 @@ public class Gateway
         Qualification qualificationHR = qualificationController.addQualification("HR").getData();
         String[] permissionsAssistant = {"ViewEmployees", "ViewQualifications"};
         for(String p : permissionsHR) {
-            var r = qualificationController.addPermissionToQualification(p, qualificationHR.getName());
+            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationHR.getName());
 
         }
 
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager").getData();
         String[] permissionsBranch1Manager = {"ManageBranch1"};
         for(String p : permissionsBranch1Manager) {
-            var r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
+            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
 
 
         }
@@ -59,7 +59,7 @@ public class Gateway
         Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager").getData();
         String[] permissionsBranch2Manager = {"ManageBranch2"};
         for(String p : permissionsBranch2Manager) {
-            var r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
+            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
 
 
         }
@@ -329,7 +329,7 @@ public class Gateway
             return Response.makeFailure(r.getMessage());
         }
 
-        var r2 = qualificationController.removeQualification(name);
+        Response<Qualification> r2 = qualificationController.removeQualification(name);
         if(!r2.isSuccess()) {
             return r2;
         }

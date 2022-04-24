@@ -22,7 +22,16 @@ public class WorkingConditions
             this.qualifications = new ArrayList<>();
         }
 
-        public String getDescription()
+    @Override
+    public String toString() {
+        return "WorkingConditions{" +
+                "description='" + description + '\'' +
+                ", workingHours=" + workingHours +
+                ", qualifications=" + qualifications +
+                '}';
+    }
+
+    public String getDescription()
         {
             return description;
         }

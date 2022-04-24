@@ -2,7 +2,7 @@ package BusinessLayer;
 
 import DataAccessLayer.DALController;
 import Utilities.Response;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -11,7 +11,7 @@ public class EmployeeController
 {
     private List<Employee> employees;
 
-    public EmployeeController(@NotNull DALController dalController) {
+    public EmployeeController(DALController dalController) {
         dalController.execute();
         employees = new ArrayList<Employee>();
     }
@@ -35,7 +35,7 @@ public class EmployeeController
         return Response.makeFailure("Employee does not have the permission. ");
     }
 
-    public Response<Employee> addEmployee(int id, @NotNull String name, @NotNull BankAccountDetails bankAccountDetails, double salary, @NotNull LocalDateTime workStartingDate, @NotNull String workingConditionsDescription) {
+    public Response<Employee> addEmployee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, String workingConditionsDescription) {
         // TODO database integration
         for(Employee e : employees)
         {
@@ -78,7 +78,7 @@ public class EmployeeController
         return Response.makeFailure("No employee with this id found. ");
     }
 
-    public Response<String> updateEmployeeName(int id, @NotNull String newName) {
+    public Response<String> updateEmployeeName(int id, String newName) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -108,7 +108,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, @NotNull BankAccountDetails newBankAccountDetails) {
+    public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, BankAccountDetails newBankAccountDetails) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -123,7 +123,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<TimeInterval> employeeAddWorkingHour(int id, @NotNull LocalDateTime start, @NotNull LocalDateTime end)
+    public Response<TimeInterval> employeeAddWorkingHour(int id, LocalDateTime start, LocalDateTime end)
     {
         // TODO database integration
         // update first occurrence
@@ -140,7 +140,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<TimeInterval> employeeRemoveWorkingHour(int id, @NotNull LocalDateTime start) {
+    public Response<TimeInterval> employeeRemoveWorkingHour(int id, LocalDateTime start) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
@@ -167,7 +167,7 @@ public class EmployeeController
             return Response.makeFailure("No employee with this id found. ");
         }
         // Check if employee already has that qualification
-        var r = updatedE.getWorkingConditions().getQualification(qualification.getName());
+        Response<Qualification> r = updatedE.getWorkingConditions().getQualification(qualification.getName());
         if(r.isSuccess()) {
             return Response.makeFailure("Employee already has a qualification with that name. ");
         }
@@ -180,7 +180,7 @@ public class EmployeeController
         return databaseResponse;
     }
 
-    public Response<Qualification> employeeRemoveQualification(int id, @NotNull String name) {
+    public Response<Qualification> employeeRemoveQualification(int id, String name) {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
