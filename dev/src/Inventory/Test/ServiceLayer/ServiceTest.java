@@ -97,6 +97,11 @@ class ServiceTest {
 
     @Test
     void deleteProduct() {
+        Response<String> res = productService.DeleteProduct(0);
+
+        String expected = "Product with ID:0 deleted successfully.";
+
+        Assertions.assertEquals(expected,res.getData());
     }
 
     @Test

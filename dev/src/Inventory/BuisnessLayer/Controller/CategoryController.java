@@ -15,7 +15,8 @@ public class CategoryController {
     }
 
     private void addCategories() {
-        String[] cat = {"Diary","Wash","Milk","Size","Shampoo","Salty","Gram","Weight","Snacks"};
+        String[] cat = {"Diary","Wash","Milk","Size","Shampoo","Salty","Gram","Snacks","Cereal","Sweets","Weight",
+        "Delicacy","Hot Drink","Coffee","Fruits","ML"};
         for(int i=0;i<cat.length;i++)
             addCategory(cat[i]);
     }

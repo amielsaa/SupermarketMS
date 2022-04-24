@@ -23,6 +23,12 @@ public class ProductController {
     private void addProducts() {
         addProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
         addProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
+        addProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
+        addProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
+        addProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
+        addProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
+        addProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
+        addProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
     }
 
     /**
@@ -77,7 +83,7 @@ public class ProductController {
             Category curCategory = data.getCategories().stream().filter(category-> item.equals(category.getCategoryName()))
                     .findFirst().orElse(null);
             if(curCategory == null)
-                throw new IllegalArgumentException(item + " doesn't exisits.");
+                throw new IllegalArgumentException(item + " doesn't exists.");
         }
     }
 
