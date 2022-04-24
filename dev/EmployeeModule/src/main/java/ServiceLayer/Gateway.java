@@ -71,7 +71,9 @@ public class Gateway
         // INIT EMPLOYEES
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
         employeeController.addEmployee(ADMIN_UID, "Admin", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(123, "Admin2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.employeeAddQualification(ADMIN_UID, qualificationHR);
+        employeeController.employeeAddQualification(123, qualificationHR);
     }
 
     // TODO change to user-pass authentication

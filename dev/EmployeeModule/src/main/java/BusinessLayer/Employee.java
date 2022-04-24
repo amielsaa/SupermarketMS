@@ -18,7 +18,7 @@ public class Employee
                 ", bankAccountDetails=" + bankAccountDetails +
                 ", salary=" + salary +
                 ", workStartingDate=" + workStartingDate +
-                ", workingConditions=" + workingConditions +
+                ", workingConditions=" + workingConditions.toString() +
                 '}';
     }
 

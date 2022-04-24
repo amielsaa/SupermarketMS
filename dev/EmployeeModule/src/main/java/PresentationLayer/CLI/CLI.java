@@ -99,8 +99,12 @@ public class CLI {
         final int addEmployee = 1, removeEmployee = 2, getEmployee = 3, updateEmployeeName = 4, updateEmployeeSalary = 5, updateEmployeeBankAccountDetails = 6,
                 addEmployeeWorkingHours = 7, removeEmployeeWorkingHours = 8, addEmployeeQualifications = 9, removeEmployeeQualifications = 10, getEmployeesList = 11, returnToMainMenu = 12;
         int choice =  getIntInput(input);
-        System.out.println("Please provide the employee's id number");
-        int e_id = getIntInput(input);
+        int e_id = 0;
+        if(choice == removeEmployee || choice == getEmployee || choice == updateEmployeeName|| choice == updateEmployeeSalary|| choice == updateEmployeeBankAccountDetails|| choice == addEmployeeWorkingHours||
+           choice == removeEmployeeWorkingHours || choice == addEmployeeQualifications || choice == removeEmployeeQualifications){
+            System.out.println("Please provide the employee's id number");
+            e_id = getIntInput(input);
+        }
         switch (choice){
             case addEmployee:
                 addEmployee();
@@ -296,7 +300,7 @@ public class CLI {
         while(true){
             String input = sc.nextLine();
             if(isDouble(input)){
-                return Integer.parseInt(input);
+                return Double.parseDouble(input);
             }
             else{
                 System.out.println("Only a whole number can be received");
@@ -515,13 +519,14 @@ public class CLI {
     private void qualificationManagement(){
         System.out.println("Choose from the menu:\n" +
                            "1.Get the full list of qualifications\n" +
+                           "2.Get the full list of permissions\n" +
                            "2.Add qualification\n" +
                            "3.Add permission\n" +
                            "4.Remove permission\n" +
                            "5.Add permission to qualification\n" +
                            "6.Remove permission from qualification\n" +
                            "7.Return to main menu");
-        final int getQualificationsList = 1, addQualification = 2, addPermission = 3, removePermission = 4, addPermissionToQual = 5, removePermissionFromQual = 6, returnToMainMenu = 7;
+        final int getQualificationsList = 1, getPermissionList = 2, addQualification = 3, addPermission = 4, removePermission = 5, addPermissionToQual = 6, removePermissionFromQual = 7, returnToMainMenu = 8;
         int choice =  getIntInput(input);
         switch (choice){
             case getQualificationsList:
@@ -542,6 +547,14 @@ public class CLI {
                     break;
                 }
                 System.out.println("Success");
+                break;
+            case getPermissionList:
+                Response<List<Permission>> res_perms = gateway.getPermissions();
+                if(!res_perms.isSuccess()){
+                    System.out.println(res_perms.getMessage());
+                    break;
+                }
+                System.out.println(res_perms.getData());
                 break;
                 /*
             case 3:
