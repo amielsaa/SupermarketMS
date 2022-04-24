@@ -23,6 +23,7 @@ class SitesControllerTest {
             assertEquals(1,sitesController.getAllSites().size());
             assertNotNull(sitesController.getSite("address1"));
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -35,6 +36,7 @@ class SitesControllerTest {
             assertEquals(1,sitesController.getAllSites().size());
             assertNotNull(sitesController.getSite("address1"));
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
 
@@ -48,14 +50,13 @@ class SitesControllerTest {
             assertNull(sitesController.getSite("address1"));
             assertNotNull(sitesController.getSite("address2"));
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try {
             sitesController.editSiteAddress(10,"nowhere");
             fail();
-        }catch (Exception e){
-            assertTrue(true);
-        }
+        }catch (Exception e){}
     }
 
     @Test
@@ -66,6 +67,7 @@ class SitesControllerTest {
             sitesController.editSiteDeliveryZone(sitesController.getSiteId("address1"),1);
             assertEquals("Center",sitesController.getSite("address1").getDeliveryZone().name());
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -78,6 +80,7 @@ class SitesControllerTest {
             sitesController.editSitePhoneNumber(sitesController.getSiteId("address1"),"11111");
             assertEquals("11111",sitesController.getSite("address1").getPhoneNumber());
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -90,6 +93,7 @@ class SitesControllerTest {
             sitesController.editSiteContactName(sitesController.getSiteId("address1"),"name2");
             assertEquals("name2",sitesController.getSite("address1").getContactName());
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -143,13 +147,13 @@ class SitesControllerTest {
             sitesController.deleteSite(2);
             assertEquals(0,sitesController.getAllSites().size());
         }catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try {
             sitesController.deleteSite(68);
             fail();
         }catch (Exception e){
-            assertTrue(true);
         }
     }
 }

@@ -1,7 +1,5 @@
 package BusinessLayer;
 
-import org.junit.Assert;
-import org.junit.internal.runners.statements.Fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,28 +8,28 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeliveriesControllerTest {
-    SitesController sitesController;
-    TruckController truckController;
-    DriversController driversController;
-    DeliveriesController deliveriesController;
-    LocalDateTime time1;
-    LocalDateTime time2;
-    LocalDateTime time3;
-    LocalDateTime time4;
-    LocalDateTime time5;
-    LocalDateTime time6;
+    private SitesController sitesController;
+    private TrucksController trucksController;
+    private DriversController driversController;
+    private DeliveriesController deliveriesController;
+    private LocalDateTime time1;
+    private LocalDateTime time2;
+    private LocalDateTime time3;
+    private LocalDateTime time4;
+    private LocalDateTime time5;
+    private LocalDateTime time6;
 
     @BeforeEach
     void setUp() {
         try {
             sitesController = new SitesController();
-            truckController = new TruckController();
+            trucksController = new TrucksController();
             driversController = new DriversController();
-            deliveriesController = new DeliveriesController(driversController, sitesController, truckController);
+            deliveriesController = new DeliveriesController(driversController, sitesController, trucksController);
             driversController.addDriver(1, "c driver", "C");
             driversController.addDriver(2, "c1 driver", "C1");
-            truckController.addTruck(1, "everyone", 10000);
-            truckController.addTruck(2, "only c", 20000);
+            trucksController.addTruck(1111111, "everyone", 10000);
+            trucksController.addTruck(2222222, "only c", 20000);
             sitesController.addSupplierWarehouse("a", 0, "11111111", "name");
             sitesController.addBranch("b", 1, "11111112", "name2");
             sitesController.addBranch("c", 1, "11111113", "name3");
@@ -44,6 +42,7 @@ class DeliveriesControllerTest {
         }
         catch (Exception e)
         {
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -51,46 +50,46 @@ class DeliveriesControllerTest {
     @Test
     void addDelivery() {
         try{
-            deliveriesController.addDelivery(time2, time1, 1,1,1);
+            deliveriesController.addDelivery(time2, time1, 1111111,1,1);
             fail();
         }
-        catch (Exception e){
-        }
-        try{
-            deliveriesController.addDelivery(time1, time2, 3,1,1);
-            fail();
-        }
-        catch (Exception e){
-        }
-        try{
-            deliveriesController.addDelivery(time1, time2, 1,3,1);
-            fail();
-        }
-        catch (Exception e){
-        }
-        try{
-            deliveriesController.addDelivery(time1, time2, 1,1,4);
-            fail();
-        }
-        catch (Exception e){
-        }
-        try{
-            deliveriesController.addDelivery(time1, time2, 2,2,1);
-            fail();
-        }
-        catch (Exception e){
+        catch (Exception e){}
 
-        }
         try{
-            deliveriesController.addDelivery(time1, time4, 1,2,1);
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDelivery(time3, time4, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 3333333,1,1);
+            fail();
+        }
+        catch (Exception e){}
+
+        try{
+            deliveriesController.addDelivery(time1, time2, 1111111,3,1);
+            fail();
+        }
+        catch (Exception e){}
+
+        try{
+            deliveriesController.addDelivery(time1, time2, 11111111,1,4);
+            fail();
+        }
+        catch (Exception e){}
+
+        try{
+            deliveriesController.addDelivery(time1, time2, 2222222,2,1);
+            fail();
+        }
+        catch (Exception e){}
+
+        try{
+            deliveriesController.addDelivery(time1, time4, 1111111,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
+            deliveriesController.addDelivery(time3, time4, 2222222,1,1);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.addDelivery(time2, time3, 1,2,1);
+            deliveriesController.addDelivery(time2, time3, 1111111,2,1);
             fail();
         }
         catch (Exception e){
@@ -101,13 +100,14 @@ class DeliveriesControllerTest {
     @Test
     void getCompletedDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,1,1);
-            deliveriesController.addDelivery(time3, time4, 1,1,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,1,1);
+            deliveriesController.addDelivery(time3, time4, 1111111,1,1);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
             deliveriesController.getCompletedDelivery(1);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -121,13 +121,14 @@ class DeliveriesControllerTest {
     @Test
     void getUpcomingDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,1,1);
-            deliveriesController.addDelivery(time3, time4, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,1,1);
+            deliveriesController.addDelivery(time3, time4, 2222222,1,1);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
-            assertEquals(2, deliveriesController.getUpcomingDelivery(2).getTruck().getPlateNum());
+            assertEquals(2222222, deliveriesController.getUpcomingDelivery(2).getTruck().getPlateNum());
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -141,14 +142,15 @@ class DeliveriesControllerTest {
     @Test
     void getUpcomingDeliveries() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time3, time4, 1,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time3, time4, 1111111,2,1);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
             assertEquals(2, deliveriesController.getUpcomingDeliveries().size());
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -156,9 +158,9 @@ class DeliveriesControllerTest {
     @Test
     void getDeliveryArchive() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time3, time4, 1,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time3, time4, 1111111,2,1);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
             deliveriesController.setWeight(2,5000);
@@ -166,6 +168,7 @@ class DeliveriesControllerTest {
             assertEquals(2, deliveriesController.getDeliveryArchive().size());
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -173,10 +176,11 @@ class DeliveriesControllerTest {
     @Test
     void addDestination() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
             deliveriesController.addDestination(1,2);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -208,11 +212,12 @@ class DeliveriesControllerTest {
     @Test
     void removeDestination() {
         try{
-        deliveriesController.addDelivery(time1, time2, 2,1,1);
+        deliveriesController.addDelivery(time1, time2, 2222222,1,1);
         deliveriesController.addDestination(1,2);
         deliveriesController.removeDestination(1,2);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -226,11 +231,12 @@ class DeliveriesControllerTest {
     @Test
     void addItemToDestination() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
             deliveriesController.addDestination(1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -244,12 +250,13 @@ class DeliveriesControllerTest {
     @Test
     void removeItemFromDestination() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
             deliveriesController.addDestination(1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
             deliveriesController.removeItemFromDestination(1, 2, "name");
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -269,12 +276,13 @@ class DeliveriesControllerTest {
     @Test
     void editItemQuantity() {
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
             deliveriesController.addDestination(1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
             deliveriesController.editItemQuantity(1,2,"name",3);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -289,12 +297,13 @@ class DeliveriesControllerTest {
     void getItemsOfDest() {
         //no idea how to test that
         try{
-            deliveriesController.addDelivery(time1, time2, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,1);
             deliveriesController.addDestination(1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
             deliveriesController.getItemsOfDest(1,2);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -308,10 +317,11 @@ class DeliveriesControllerTest {
     @Test
     void editStartTime() {
         try{
-            deliveriesController.addDelivery(time1, time3, 2,1,1);
+            deliveriesController.addDelivery(time1, time3, 2222222,1,1);
             deliveriesController.editStartTime(1,time2);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -325,10 +335,11 @@ class DeliveriesControllerTest {
     @Test
     void editEndTime() {
         try{
-            deliveriesController.addDelivery(time2, time4, 2,1,1);
+            deliveriesController.addDelivery(time2, time4, 2222222,1,1);
             deliveriesController.editEndTime(1,time3);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -342,13 +353,14 @@ class DeliveriesControllerTest {
     @Test
     void editDriver() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time3, time4, 2,1,1);
-            deliveriesController.addDelivery(time5, time6, 1,2,1);
-            deliveriesController.addDelivery(time5, time6, 2,1,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time3, time4, 2222222,1,1);
+            deliveriesController.addDelivery(time5, time6, 1111111,2,1);
+            deliveriesController.addDelivery(time5, time6, 2222222,1,1);
             deliveriesController.editDriver(1,1);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -375,30 +387,31 @@ class DeliveriesControllerTest {
     @Test
     void editTruck() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time3, time4, 2,1,1);
-            deliveriesController.addDelivery(time5, time6, 1,2,1);
-            deliveriesController.addDelivery(time5, time6, 2,1,1);
-            deliveriesController.editTruck(2,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time3, time4, 2222222,1,1);
+            deliveriesController.addDelivery(time5, time6, 1111111,2,1);
+            deliveriesController.addDelivery(time5, time6, 2222222,1,1);
+            deliveriesController.editTruck(2,1111111);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.editTruck(1,2);
+            deliveriesController.editTruck(1,2222222);
             fail();
         }
         catch (Exception e){
         }
 
         try{
-            deliveriesController.editTruck(2,3);
+            deliveriesController.editTruck(2,3333333);
             fail();
         }
         catch (Exception e){
         }
         try{
-            deliveriesController.editTruck(3,2);
+            deliveriesController.editTruck(3,2222222);
             fail();
         }
         catch (Exception e){
@@ -408,10 +421,11 @@ class DeliveriesControllerTest {
     @Test
     void setOrigin() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
             deliveriesController.setOrigin(1,2);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -425,10 +439,11 @@ class DeliveriesControllerTest {
     @Test
     void setWeight() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
             deliveriesController.setWeight(1,9000);
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -442,12 +457,13 @@ class DeliveriesControllerTest {
     @Test
     void completeDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
 
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
     }
@@ -455,18 +471,19 @@ class DeliveriesControllerTest {
     @Test
     void checkTruckHasUpcomingDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time1, time2, 2,1,2);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
-            deliveriesController.checkTruckHasUpcomingDelivery(2);
+            deliveriesController.checkTruckHasUpcomingDelivery(2222222);
 
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.checkTruckHasUpcomingDelivery(1);
+            deliveriesController.checkTruckHasUpcomingDelivery(1111111);
             fail();
         }
         catch (Exception e){
@@ -476,14 +493,15 @@ class DeliveriesControllerTest {
     @Test
     void checkSiteHasUpcomingDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time1, time2, 2,1,2);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
             deliveriesController.checkSiteHasUpcomingDelivery(2);//that test might not be accurate
 
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{
@@ -497,14 +515,15 @@ class DeliveriesControllerTest {
     @Test
     void checkDriverHasUpcomingDelivery() {
         try{
-            deliveriesController.addDelivery(time1, time2, 1,2,1);
-            deliveriesController.addDelivery(time1, time2, 2,1,2);
+            deliveriesController.addDelivery(time1, time2, 1111111,2,1);
+            deliveriesController.addDelivery(time1, time2, 2222222,1,2);
             deliveriesController.setWeight(2,5000);
             deliveriesController.completeDelivery(2);
             deliveriesController.checkDriverHasUpcomingDelivery(1);
 
         }
         catch (Exception e){
+            System.out.println(e.getMessage());
             fail();
         }
         try{

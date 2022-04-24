@@ -6,15 +6,15 @@ import java.util.Collection;
 
 public class DeliveryService {
     private SitesController sitesController;
-    private TruckController truckController;
+    private TrucksController trucksController;
     private DriversController driversController;
     private DeliveriesController deliveriesController;
 
     public DeliveryService(){
         sitesController = new SitesController();
-        truckController=new TruckController();
+        trucksController =new TrucksController();
         driversController = new DriversController();
-        deliveriesController=new DeliveriesController(driversController,sitesController,truckController);
+        deliveriesController=new DeliveriesController(driversController,sitesController, trucksController);
         load();
     }
     //############################# Loading Data ###################################################
@@ -28,7 +28,8 @@ public class DeliveryService {
         catch (Exception e){}
     }
     private void loadSties() throws Exception {sitesController.load();}
-    private void loadTrucks() throws Exception{truckController.load();}
+    private void loadTrucks() throws Exception{
+        trucksController.load();}
     private void loadDrivers(){driversController.load();}
     private void loadDeliveries() throws Exception{deliveriesController.load();}
 
@@ -171,7 +172,7 @@ public class DeliveryService {
     //############################# Truck Logic ###################################################
     public Response addTruck(int plateNum, String model, int maxWeight){
         try{
-            truckController.addTruck(plateNum, model, maxWeight);
+            trucksController.addTruck(plateNum, model, maxWeight);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -180,7 +181,7 @@ public class DeliveryService {
 
     public Response editPlateNum(int oldPlateNum, int newPlateNum){
         try{
-            truckController.editPlateNum(oldPlateNum, newPlateNum);
+            trucksController.editPlateNum(oldPlateNum, newPlateNum);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -189,7 +190,7 @@ public class DeliveryService {
 
     public Response editModel(int plateNum, String newModel){
         try{
-            truckController.editModel(plateNum, newModel);
+            trucksController.editModel(plateNum, newModel);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -197,7 +198,7 @@ public class DeliveryService {
     }
     public Response editMaxWeight(int plateNum, int maxWeight){
         try{
-            truckController.editMaxWeight(plateNum, maxWeight);
+            trucksController.editMaxWeight(plateNum, maxWeight);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -208,19 +209,19 @@ public class DeliveryService {
     public Response deleteTruck(int plateNum){
        try{
            deliveriesController.checkTruckHasUpcomingDelivery(plateNum);
-            truckController.deleteTruck(plateNum);
+            trucksController.deleteTruck(plateNum);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
     }
     public Response<ArrayList<Truck>> getTrucks(){
-        return Response.makeSuccess(truckController.getTrucks());
+        return Response.makeSuccess(trucksController.getTrucks());
     }
 
     public Response<String> getTruck(int plateNum){
         try{
-            Truck truck=truckController.getTruck(plateNum);
+            Truck truck= trucksController.getTruck(plateNum);
             return Response.makeSuccess(truck.toString());
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());

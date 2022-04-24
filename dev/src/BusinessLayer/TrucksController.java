@@ -2,14 +2,14 @@ package BusinessLayer;
 
 import java.util.*;
 
-public class TruckController {
+public class TrucksController {
     private HashMap<Integer, Truck> trucks;
     private HashMap<LicenseType,Integer> licenseMapper=new HashMap<LicenseType, Integer>(){{
         put(LicenseType.C,Integer.MAX_VALUE);
         put(LicenseType.C1,12000);
     }};
 
-    public TruckController() {
+    public TrucksController() {
         trucks=new HashMap<>();
     }
 
@@ -51,7 +51,7 @@ public class TruckController {
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         if(maxWeight<0){
-            throw new Exception(String.format("Weight of a truck cannot be negative.."));
+            throw new Exception("Weight of a truck cannot be negative..");
         }
         trucks.get(plateNum).setMaxWeight(maxWeight);
     }
@@ -64,7 +64,7 @@ public class TruckController {
     }
 
     //change to protected before submitting
-    public boolean isAbleToDrive(LicenseType licenseType , int plateNum){
+    protected boolean isAbleToDrive(LicenseType licenseType, int plateNum){
         if(trucks.containsKey(plateNum) && licenseMapper.containsKey(licenseType)){
             return trucks.get(plateNum).getMaxWeight()<=licenseMapper.get(licenseType);
         }

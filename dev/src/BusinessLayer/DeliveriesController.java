@@ -9,14 +9,14 @@ public class DeliveriesController {
     private int nextDeliveryId;
     private DriversController driversController;
     private SitesController sitesController;
-    private TruckController truckController;
+    private TrucksController trucksController;
     private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
     private LinkedHashMap<Integer,String> deliveryArchive;
 
-    public DeliveriesController(DriversController driversController, SitesController sitesController, TruckController truckController) {
+    public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController) {
         this.driversController=driversController;
         this.sitesController=sitesController;
-        this.truckController=truckController;
+        this.trucksController = trucksController;
         this.upcomingDeliveries=new LinkedHashMap<>();
         this.deliveryArchive=new LinkedHashMap<>();
         nextDeliveryId=1;
@@ -57,13 +57,10 @@ public class DeliveriesController {
 
     private boolean isOverlappedIntervals(LocalDateTime startTime1,LocalDateTime endTime1,
                                           LocalDateTime startTime2,LocalDateTime endTime2){
-        if(startTime1.isBefore(endTime2)&& endTime1.isAfter(startTime2)||
-        startTime1.isBefore(endTime2)&&endTime1.isAfter(endTime2)||
-        startTime1.isBefore(startTime2)&&endTime1.isAfter(endTime2)||
-        startTime1.isAfter(startTime2)&&endTime1.isBefore(endTime2)){
-            return true;
-        }
-        return false;
+        return startTime1.isBefore(endTime2) && endTime1.isAfter(startTime2) ||
+                startTime1.isBefore(endTime2) && endTime1.isAfter(endTime2) ||
+                startTime1.isBefore(startTime2) && endTime1.isAfter(endTime2) ||
+                startTime1.isAfter(startTime2) && endTime1.isBefore(endTime2);
     }
 
     public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId) throws Exception{
@@ -78,11 +75,11 @@ public class DeliveriesController {
             throw new Exception("end time cant be earlier than the start time");
         }
         Driver driver=driversController.getDriver(driverId);
-        if(!truckController.isAbleToDrive(driver.getLicenseType(),truckId)){
+        if(!trucksController.isAbleToDrive(driver.getLicenseType(),truckId)){
             throw new Exception(String.format("Driver whose id number is %d is not permitted to drive the truck %d",driverId,truckId));
         }
         checkAvailability(startTime,endTime,truckId,driverId);
-        Truck truck=truckController.getTruck(truckId);
+        Truck truck= trucksController.getTruck(truckId);
         Site origin=sitesController.getSite(originId);
         upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin));
         nextDeliveryId++;
@@ -171,16 +168,16 @@ public class DeliveriesController {
         Driver driver = driversController.getDriver(newDriverId);
         Delivery delivery=getUpcomingDelivery(deliveryId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
-        if (!truckController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
+        if (!trucksController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
             throw new Exception("The truck is not free at this date...");
         delivery.setDriver(driver);
     }
 
     public void editTruck(int deliveryId,int newTruckId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        Truck truck=truckController.getTruck(newTruckId);
+        Truck truck= trucksController.getTruck(newTruckId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
-        if (!truckController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
+        if (!trucksController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
             throw new Exception("The driver is not free at this date...");
         delivery.setTruck(truck);
     }

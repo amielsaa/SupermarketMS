@@ -8,6 +8,7 @@ import ServiceLayer.Response;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class UserTerminal {
@@ -696,9 +697,15 @@ public class UserTerminal {
         while (true){
             print("use the format <dd-MM-yyyy HH:mm>:");
             try {
-                return LocalDateTime.parse(sc.next(),formatter);
+                LocalDateTime dateTime=LocalDateTime.parse(sc.next(),formatter);
+                if(dateTime.isBefore(LocalDateTime.now())){
+                    throw new Exception("This date has passed, enter a new date and ");
+                }
+                return dateTime;
             }catch (Exception e){
-                System.out.print("Invalid date, ");
+                if(e instanceof DateTimeParseException)
+                    System.out.print("Invalid date, ");
+                else System.out.print(e.getMessage());
             }
         }
     }
