@@ -24,15 +24,17 @@ public class DeliveriesController {
 
     public void load() throws Exception {
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-       addDelivery(LocalDateTime.parse("13-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter), 1000001, 200000001, 1);
+       addDelivery(LocalDateTime.parse("13-10-2023 13:10",dateTimeFormatter),
+               LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter),
+               1000001,
+               200000001,
+               1,5);
         setWeight(1, 7000);
         addDestination(1,4);
-        addDestination(1,5);
         addItemToDestination(1,4,"milk",10);
         addItemToDestination(1,5,"milk",20);
-        addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2);
+        addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2,6);
         setWeight(2, 12500);
-        addDestination(2,6);
         addDestination(2,4);
         addItemToDestination(2,6,"eggs",30);
         addItemToDestination(2,6,"milk",30);
@@ -63,7 +65,7 @@ public class DeliveriesController {
                 startTime1.isAfter(startTime2) && endTime1.isBefore(endTime2);
     }
 
-    public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId) throws Exception{
+    public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId,int destinationId) throws Exception{
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         if(startTime.isBefore(LocalDateTime.now())){
             throw new Exception(String.format("%s has passed",startTime.format(dateTimeFormatter)));
@@ -81,7 +83,12 @@ public class DeliveriesController {
         checkAvailability(startTime,endTime,truckId,driverId);
         Truck truck= trucksController.getTruck(truckId);
         Site origin=sitesController.getSite(originId);
-        upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin));
+        Site destination=sitesController.getSite(destinationId);
+        if(!destination.canBeADestination()){
+            throw new Exception(String.format("Site %d is not a destination...",destinationId));
+        }
+
+        upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
         nextDeliveryId++;
     }
     public String getCompletedDelivery(int deliveryId) throws Exception {

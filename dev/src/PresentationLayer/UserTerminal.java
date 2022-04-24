@@ -476,7 +476,7 @@ public class UserTerminal {
             userData = sc.next();
             switch (userData) {
                 case "1":
-                    printResponse(service.addDestinationToDelivery(deliveryId,chooseDest(service.getDestList().getData())));
+                    printResponse(service.addDestinationToDelivery(deliveryId,chooseDest()));
                     break;
                 case "2":
                     print("Enter destination id:");
@@ -552,6 +552,7 @@ public class UserTerminal {
         int truckId = 0;
         int driverId=0;
         int originId=0;
+        int destId=0;
         System.out.print("Enter start time, ");
         LocalDateTime startDate=parseDate();
         System.out.print("Enter end time, ");
@@ -588,7 +589,8 @@ public class UserTerminal {
                 found=null;
             }
         }
-        return service.addDelivery(startDate,endDate,truckId,driverId,originId);
+        destId=chooseDest();
+        return service.addDelivery(startDate,endDate,truckId,driverId,originId,destId);
     }
 
     private void printDriverList(){
@@ -655,13 +657,22 @@ public class UserTerminal {
         }
     }
 
-    private int chooseDest(ArrayList<String> sites){
-        print("Destination List:");
-        for(String dest:sites){
+    private int chooseDest(){
+        Response<Site> found=null;
+        int id=0;
+        print("\nDestination List:");
+        for(String dest:service.getDestList().getData()){
             print(dest);
+        }while (found==null) {
+            print("Enter destination's site id:");
+            id = selectInt();
+            found = service.getSite(id);
+            if (!found.isSuccess()) {
+                print(found.getMessage());
+                found = null;
+            }
         }
-        print("Enter site id:");
-        return selectInt();
+        return id;
     }
 
     private boolean printCompleteDelivery(Response res){

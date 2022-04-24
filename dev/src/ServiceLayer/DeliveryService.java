@@ -229,9 +229,9 @@ public class DeliveryService {
     }
 
     //#############################Delivery Logic###################################################
-    public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId){
+    public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId, int destinationId){
         try{
-            deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId);
+            deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId,destinationId);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
