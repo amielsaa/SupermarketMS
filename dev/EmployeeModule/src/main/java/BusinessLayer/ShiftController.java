@@ -21,7 +21,8 @@ public class ShiftController
     }
 
     public Response<List<Shift>> getAllShifts() {
-        return Response.makeSuccess(shifts.values().stream().toList());
+        List l = new ArrayList(shifts.values());
+        return Response.makeSuccess(l);
     }
 
     public Response<List<Shift>> getShifts(int branchId) {

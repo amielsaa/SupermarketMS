@@ -326,8 +326,8 @@ public class GatewayTest
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData());
         Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, List.of(g.getQualification("Cashier").getData()));
-            put(w2, List.of(g.getQualification("Cleaner").getData()));
+            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
+            put(w2, Arrays.asList(g.getQualification("Cleaner").getData()));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -356,7 +356,7 @@ public class GatewayTest
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         Qualification qualificationCleaner = g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData()).getData();
         Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, List.of(g.getQualification("Cashier").getData()));
+            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -381,8 +381,8 @@ public class GatewayTest
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData());
         Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, List.of(g.getQualification("Cashier").getData()));
-            put(w2, List.of(g.getQualification("Cleaner").getData()));
+            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
+            put(w2, Arrays.asList(g.getQualification("Cleaner").getData()));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -439,16 +439,16 @@ public class GatewayTest
 //        g.addQualification(n1);
 //        g.addQualification(n2);
 //
-//        var r = g.getQualification(n1);
+//        Response<Qualification> r = g.getQualification(n1);
 //        assertTrue(r.getMessage(), r.isSuccess());
 //
-//        var r2 = g.renameQualification(n1, n2);
+//        Response<Qualification> r2 = g.renameQualification(n1, n2);
 //        assertTrue(r.getMessage(), r.isSuccess());
 //
-//        var r3 = g.getQualification(n1);
+//        Response<Qualification> r3 = g.getQualification(n1);
 //        assertFalse("qualification should be removed. ", r.isSuccess());
 //
-//        var r4 = g.getQualification(n2);
+//        Response<Qualification> r4 = g.getQualification(n2);
 //        assertTrue(r.getMessage(), r.isSuccess());
 //    }
 
