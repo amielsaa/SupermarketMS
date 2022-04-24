@@ -1,7 +1,7 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
-import org.junit.After;
+import org. junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,49 +80,205 @@ public class GatewayTest
     @Test
     public void removeEmployee()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+
+        int employeeCount = g.getEmployees().getData().size();
+
+        var r = g.removeEmployee(NEW_EMPLOYEE_ID);
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        assertEquals("Employee count should drop by 1. ", g.getEmployees().getData().size(), employeeCount);
+
+        var r2 = g.removeEmployee(NEW_EMPLOYEE_ID);
+        assertFalse("Employee should already be removed. ", r2.isSuccess());
+
+        var r3 = g.getEmployee();
+        assertFalse("Shouldn't be able to get a removed employee. ", r3.isSuccess());
     }
 
     @Test
     public void updateEmployeeName()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+
+        Employee e = g.getEmployee(NEW_EMPLOYEE_ID).getData();
+        assertEquals("Employee name not initiated correctly. ", e.getName(), "Snoop Dog");
+
+        g.updateEmployeeName(NEW_EMPLOYEE_ID, "Doog Snop");
+
+        assertEquals("Employee name should be updated. ", e.getName(), "Doog Snop");
+
+
     }
 
     @Test
     public void updateEmployeeSalary()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+
+        Employee e = g.getEmployee(NEW_EMPLOYEE_ID).getData();
+        assertEquals("Employee salary not initiated correctly. ", e.getSalary(), 42000);
+
+        g.updateEmployeeSalary(NEW_EMPLOYEE_ID, 420);
+
+        assertEquals("Employee salary should be updated. ", e.getSalary(), 420);
     }
 
     @Test
     public void updateEmployeeBankAccountDetails()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+
+        Employee e = g.getEmployee(NEW_EMPLOYEE_ID).getData();
+        assertEquals("Employee bank account details not initiated correctly. ", e.getBankAccountDetails().bankName(), "BANK_NAMED_420");
+
+        BankAccountDetails newDetails = bankAccountDetailsGenerator(21);
+
+        g.updateEmployeeBankAccountDetails(NEW_EMPLOYEE_ID, newDetails);
+
+        assertEquals("Employee bank account details should be updated. ", e.getBankAccountDetails().bankName(), "BANK_NAMED_21");
     }
 
     @Test
     public void employeeAddWorkingHour()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        final int OTHER_EMPLOYEE_ID = 21;
+
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+        g.addEmployee(OTHER_EMPLOYEE_ID, "Other Otherman", bankAccountDetailsGenerator(OTHER_EMPLOYEE_ID), 999, LocalDateTime.now(), "Works every other day. ");
+
+        var r1 = g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, LocalDateTime.now().plusMinutes(5), LocalDateTime.now().minusHours(2));
+        assertFalse("Shouldn't be able to add an illegal TimeInterval as new working hour. ", r1.isSuccess());
+
+        var r = g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(3));
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r2 = g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, LocalDateTime.now().plusDays(2).plusHours(5), LocalDateTime.now().plusDays(2).minusHours(1));
+        assertFalse("Shouldn't be able to add overlapping hours. ", r2.isSuccess());
+
+        g.logout();
+        g.login(NEW_EMPLOYEE_ID);
+
+        var r3 = g.employeeAddWorkingHour(OTHER_EMPLOYEE_ID, LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(3));
+        asserFalse("Shouldn't be able to add to other employee as another non permitted employee. ", r3.isSuccess());
+
+        var r4 = g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, LocalDateTime.now().plusDays(4), LocalDateTime.now().plusDays(4).plusHours(2));
+        assertTrue("Should be able to add working hours for myself. " + r4.getMessage(), r4.isSuccess());
     }
 
     @Test
     public void employeeRemoveWorkingHour()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        final int OTHER_EMPLOYEE_ID = 21;
+
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+        g.addEmployee(OTHER_EMPLOYEE_ID, "Other Otherman", bankAccountDetailsGenerator(OTHER_EMPLOYEE_ID), 999, LocalDateTime.now(), "Works every other day. ");
+
+
+
+        LocalDateTime timeStamp = LocalDateTime.now();
+
+        g.employeeAddWorkingHour(OTHER_EMPLOYEE_ID, timeStamp.plusDays(4), timeStamp.plusDays(4).plusHours(2));
+
+        g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1), timeStamp.plusHours(2));
+        var r1 = g.employeeRemoveWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1));
+        assertTrue(r1.getMessage(), r1.isSuccess());
+
+        var r2 = g.employeeRemoveWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1));
+        assertFalse("Shouldn't be able to remove the same hour twice. ", r1.isSuccess());
+
+        g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1), timeStamp.plusHours(2));
+
+        g.logout();
+        g.login(NEW_EMPLOYEE_ID);
+
+        var r3 = g.employeeRemoveWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1));
+        assertTrue(r1.getMessage(), r1.isSuccess());
+
+        var r4 = g.employeeRemoveWorkingHour(OTHER_EMPLOYEE_ID, timeStamp.plusDays(4));
+        assertFalse("Shouldn't be able to remove another employee's working hours. ", r4.isSuccess());
     }
 
     @Test
     public void employeeAddQualification()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        final int OTHER_EMPLOYEE_ID = 21;
+
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+        g.addEmployee(OTHER_EMPLOYEE_ID, "Other Otherman", bankAccountDetailsGenerator(OTHER_EMPLOYEE_ID), 999, LocalDateTime.now(), "Works every other day. ");
+
+        Qualification qCashier = g.getQualification("Cashier").getData();
+        Qualification qHR = g.getQualification("HR").getData();
+
+        var r = g.employeeAddQualification(NEW_EMPLOYEE_ID, qCashier);
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r1 = g.employeeAddQualification(NEW_EMPLOYEE_ID, qCashier);
+        assertFalse("Shouldn't be able to add the same qualification twice. ", r.isSuccess());
+
+        var r2 = g.employeeAddQualification(NEW_EMPLOYEE_ID, qHR);
+        assertTrue(r2.getMessage(), r2.isSuccess());
+
+        g.logout();
+        g.login(NEW_EMPLOYEE_ID);
+
+        var r3 = g.employeeAddQualification(OTHER_EMPLOYEE_ID, qCashier);
+        assertTrue("Snoop Dog should now be HR. ", r3.getMessage(), r3.isSuccess());
+
+
     }
+
+    // TODO Check possible bug where qualification pointer is saved,
+    //  the qualification is deleted and then that pointer is still used
+    //  when adding that qualification to an employee.
 
     @Test
     public void employeeRemoveQualification()
     {
-        fail();
+        // CHECK TEST
+        final int NEW_EMPLOYEE_ID = 420;
+        final int OTHER_EMPLOYEE_ID = 21;
+
+        g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
+        g.addEmployee(OTHER_EMPLOYEE_ID, "Other Otherman", bankAccountDetailsGenerator(OTHER_EMPLOYEE_ID), 999, LocalDateTime.now(), "Works every other day. ");
+
+        Qualification qCashier = g.getQualification("Cashier").getData();
+        Qualification qHR = g.getQualification("HR").getData();
+
+        var r1 = g.employeeRemoveQualification(NEW_EMPLOYEE_ID, "Cashier");
+        assertFalse("Employee shouldn't have the qualification yet. ", r1.isSuccess());
+
+        g.employeeAddQualification(NEW_EMPLOYEE_ID, qCashier);
+        var r = g.employeeRemoveQualification(NEW_EMPLOYEE_ID, "Cashier");
+        assertTrue(r.getMessage(), r.isSuccess());
+
+        var r2 = g.employeeRemoveQualification(NEW_EMPLOYEE_ID, "Cashier");
+        assertFalse("Qualification should be removed. ", r2.isSuccess());
+
+        g.employeeAddQualification(NEW_EMPLOYEE_ID, qHR);
+
+        g.logout();
+        g.login(NEW_EMPLOYEE_ID);
+
+        var r3 = g.employeeRemoveQualification(NEW_EMPLOYEE_ID, "HR");
+        assertTrue(r3.getMessage(), r3.isSuccess());
+
+        var r4 = g.employeeAddQualification(NEW_EMPLOYEE_ID, qHR);
+        assertFalse("Employee shouldn't be HR anymore. ", r4.isSuccess());
     }
 
     @Test
