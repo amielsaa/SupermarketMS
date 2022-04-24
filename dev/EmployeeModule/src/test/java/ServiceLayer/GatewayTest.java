@@ -1,7 +1,7 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
-import org. junit.After;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,9 +23,9 @@ public class GatewayTest
         int bankId = generator.nextInt();
         int branchId = generator.nextInt();
         int accountId = generator.nextInt();
-        String bankName = "BANK_NAMED_" + bankId;
-        String branchName = "BRANCH_NAMED_" + branchId;
-        String accountOwner = "ACCOUNT_NAMED_" + accountId;
+        String bankName = "BANK_NAMED_" + seed;
+        String branchName = "BRANCH_NAMED_" + seed;
+        String accountOwner = "ACCOUNT_NAMED_" + seed;
         return new BankAccountDetails(bankId, branchId, accountId, bankName, branchName, accountOwner);
     }
 
@@ -89,12 +89,12 @@ public class GatewayTest
         var r = g.removeEmployee(NEW_EMPLOYEE_ID);
         assertTrue(r.getMessage(), r.isSuccess());
 
-        assertEquals("Employee count should drop by 1. ", g.getEmployees().getData().size(), employeeCount);
+        assertEquals("Employee count should drop by 1. ", employeeCount - 1, g.getEmployees().getData().size());
 
         var r2 = g.removeEmployee(NEW_EMPLOYEE_ID);
         assertFalse("Employee should already be removed. ", r2.isSuccess());
 
-        var r3 = g.getEmployee();
+        var r3 = g.getEmployee(NEW_EMPLOYEE_ID);
         assertFalse("Shouldn't be able to get a removed employee. ", r3.isSuccess());
     }
 
@@ -123,11 +123,10 @@ public class GatewayTest
         g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
 
         Employee e = g.getEmployee(NEW_EMPLOYEE_ID).getData();
-        assertEquals("Employee salary not initiated correctly. ", e.getSalary(), 42000);
-
+        assertEquals("Employee salary not initiated correctly. ", 42000.0, e.getSalary(), 0.01);
         g.updateEmployeeSalary(NEW_EMPLOYEE_ID, 420);
 
-        assertEquals("Employee salary should be updated. ", e.getSalary(), 420);
+        assertEquals("Employee salary should be updated. ",  420.0, e.getSalary(), 0.01);
     }
 
     @Test
@@ -138,13 +137,13 @@ public class GatewayTest
         g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
 
         Employee e = g.getEmployee(NEW_EMPLOYEE_ID).getData();
-        assertEquals("Employee bank account details not initiated correctly. ", e.getBankAccountDetails().bankName(), "BANK_NAMED_420");
+        assertEquals("Employee bank account details not initiated correctly. ", "BANK_NAMED_420", e.getBankAccountDetails().bankName());
 
         BankAccountDetails newDetails = bankAccountDetailsGenerator(21);
 
         g.updateEmployeeBankAccountDetails(NEW_EMPLOYEE_ID, newDetails);
 
-        assertEquals("Employee bank account details should be updated. ", e.getBankAccountDetails().bankName(), "BANK_NAMED_21");
+        assertEquals("Employee bank account details should be updated. ", "BANK_NAMED_21", e.getBankAccountDetails().bankName());
     }
 
     @Test
@@ -170,7 +169,7 @@ public class GatewayTest
         g.login(NEW_EMPLOYEE_ID);
 
         var r3 = g.employeeAddWorkingHour(OTHER_EMPLOYEE_ID, LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(3));
-        asserFalse("Shouldn't be able to add to other employee as another non permitted employee. ", r3.isSuccess());
+        assertFalse("Shouldn't be able to add to other employee as another non permitted employee. ", r3.isSuccess());
 
         var r4 = g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, LocalDateTime.now().plusDays(4), LocalDateTime.now().plusDays(4).plusHours(2));
         assertTrue("Should be able to add working hours for myself. " + r4.getMessage(), r4.isSuccess());
@@ -197,7 +196,7 @@ public class GatewayTest
         assertTrue(r1.getMessage(), r1.isSuccess());
 
         var r2 = g.employeeRemoveWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1));
-        assertFalse("Shouldn't be able to remove the same hour twice. ", r1.isSuccess());
+        assertFalse("Shouldn't be able to remove the same hour twice. ", r2.isSuccess());
 
         g.employeeAddWorkingHour(NEW_EMPLOYEE_ID, timeStamp.plusHours(1), timeStamp.plusHours(2));
 
@@ -228,7 +227,7 @@ public class GatewayTest
         assertTrue(r.getMessage(), r.isSuccess());
 
         var r1 = g.employeeAddQualification(NEW_EMPLOYEE_ID, qCashier);
-        assertFalse("Shouldn't be able to add the same qualification twice. ", r.isSuccess());
+        assertFalse("Shouldn't be able to add the same qualification twice. ", r1.isSuccess());
 
         var r2 = g.employeeAddQualification(NEW_EMPLOYEE_ID, qHR);
         assertTrue(r2.getMessage(), r2.isSuccess());
@@ -237,7 +236,7 @@ public class GatewayTest
         g.login(NEW_EMPLOYEE_ID);
 
         var r3 = g.employeeAddQualification(OTHER_EMPLOYEE_ID, qCashier);
-        assertTrue("Snoop Dog should now be HR. ", r3.getMessage(), r3.isSuccess());
+        assertTrue("Snoop Dog should now be HR. ", r3.isSuccess());
 
 
     }

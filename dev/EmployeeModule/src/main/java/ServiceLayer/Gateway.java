@@ -442,7 +442,4 @@ public class Gateway
     }
 
     // -----------------------------
-
-    // TODO this ^^^ for all functions in BusinessLayer.
-
 }

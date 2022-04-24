@@ -166,6 +166,12 @@ public class EmployeeController
         if(updatedE == null) {
             return Response.makeFailure("No employee with this id found. ");
         }
+        // Check if employee already has that qualification
+        var r = updatedE.getWorkingConditions().getQualification(qualification.getName());
+        if(r.isSuccess()) {
+            return Response.makeFailure("Employee already has a qualification with that name. ");
+        }
+
         Response<Qualification> newQualification = updatedE.getWorkingConditions().addQualification(qualification);
         if(!newQualification.isSuccess()) {
             return newQualification;

@@ -50,7 +50,6 @@ public class QualificationController
         return Response.makeSuccess(toAdd);
     }
 
-    //TODO check if it is wise to give an  option to rename a Qualification
 //    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
 //        Qualification toChange = null;
 //        for (Qualification q: qualifications) {

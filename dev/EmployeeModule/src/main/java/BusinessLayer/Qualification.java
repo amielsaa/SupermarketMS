@@ -25,7 +25,6 @@ public class Qualification
     }
 
     public List<Permission> getPermissions() {
-        //TODO check if is needed to return unmodifiable list
         return Collections.unmodifiableList(permissions);
     }
 
@@ -37,7 +36,6 @@ public class Qualification
         permissions.remove(permission);
     }
 
-    // TODO check if works with equals (potential bug)
     protected boolean hasPermission(@NotNull Permission permission) { return this.permissions.contains(permission); }
 
     @Override

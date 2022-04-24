@@ -9,8 +9,6 @@ public class TimeInterval
     private LocalDateTime start;
     private LocalDateTime end;
 
-    //TODO: check null inputs
-
     protected TimeInterval(@NotNull LocalDateTime start, @NotNull LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");

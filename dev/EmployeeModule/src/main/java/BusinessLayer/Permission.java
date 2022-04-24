@@ -12,7 +12,6 @@ public class Permission
         name = _name;
     }
 
-    //TODO: check if compareTo is needed, for now implementing Equals; Edit the equals method if needed
 
     public String getName() {
         return name;
