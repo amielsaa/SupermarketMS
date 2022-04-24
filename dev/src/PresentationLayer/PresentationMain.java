@@ -162,6 +162,7 @@ public class PresentationMain {
         Set<Integer> days = new HashSet<Integer>();
         System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
         System.out.println("Type the number of the day you want to select and when you selected them all - type '0'");
+        System.out.println("(If you selected 'No' for days to deliver - insert '0')");
         String day = "-1";
         boolean running = true;
         while(running) {

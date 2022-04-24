@@ -1,4 +1,3 @@
-package Tests;
 
 import BusinessLayer.Contact;
 import BusinessLayer.SupplierController;
