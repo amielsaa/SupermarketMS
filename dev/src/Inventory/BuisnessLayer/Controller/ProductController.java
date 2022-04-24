@@ -176,7 +176,7 @@ public class ProductController {
         data.getProductListMap().remove(product);
         data.getDefectiveProducts().remove(product);
         data.getExpiredProducts().remove(product);
-        return "Product with ID:%d deleted successfully.".formatted(productId);
+        return String.format("Product with ID:%d deleted successfully.",productId);
     }
 
 

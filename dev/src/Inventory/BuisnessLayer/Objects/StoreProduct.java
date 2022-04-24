@@ -50,7 +50,7 @@ public class StoreProduct {
     }
 
     public String toString() {
-        return "%d : %d : %d/%d/%d : %s".formatted(quantityInStore,quantityInWarehouse,expDate.getDate(),expDate.getMonth()+1,expDate.getYear()+1900,getLocationsByString());
+        return String.format("%d : %d : %d/%d/%d : %s",quantityInStore,quantityInWarehouse,expDate.getDate(),expDate.getMonth()+1,expDate.getYear()+1900,getLocationsByString());
     }
 
 

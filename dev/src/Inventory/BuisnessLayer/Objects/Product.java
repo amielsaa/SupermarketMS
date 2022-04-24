@@ -24,21 +24,10 @@ public class Product {
         this.buyingPrice = buyingPrice;
         this.sellingPrice = sellingPrice;
         this.discount = 0;
-        this.discountExpDate = new Date();
+        this.discountExpDate = null;
         this.categories = categories;
         this.minQuantity = -1;
     }
-
-    public Product(String name, String producer, double sellingPrice,double buyingPrice, double discount) {
-        this.name = name;
-        this.producer = producer;
-        this.buyingPrice = buyingPrice;
-        this.sellingPrice = sellingPrice;
-        this.discount = discount;
-        this.categories = new ArrayList<>();
-        this.minQuantity = -1;
-    }
-
 
 
     public String getName() {
@@ -94,10 +83,10 @@ public class Product {
     }
 
     public String toString() {
-        return "%s : %s : %.2f : %.2f : %s".formatted(name,producer,sellingPrice,buyingPrice, categoriesToString());
+        return String.format("%s : %s : %.2f : %.2f : %s",name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
     public String toArrayString(){
-        return "%d : %s : %s : %.2f : %.2f : %s".formatted(Id,name,producer,sellingPrice,buyingPrice, categoriesToString());
+        return String.format("%d : %s : %s : %.2f : %.2f : %s",Id,name,producer,sellingPrice,buyingPrice, categoriesToString());
     }
 
     public void setDiscount(int discount, Date discountExpDate){
