@@ -47,7 +47,7 @@ public class UserTerminal {
     }
 
     private void printWelcomeMessage()
-    { print("### Welcome to \"Super-Lee\" deliveries! ###");}
+    { print("\n\n### Welcome to \"Super-Lee\" deliveries! ###");}
     private void printMainMenuMessage()
     {
         print("\n### Main Menu ###\n" +
@@ -123,7 +123,7 @@ public class UserTerminal {
         int param2 = deliveryZoneSelection();
         print("Enter contact phone number");
         String param3 = sc.next();
-        print("Enter up contact name:");
+        print("Enter contact name:");
         String param4 = sc.next();
         if (isBranch)
             service.addBranch(param1,param2,param3,param4);
