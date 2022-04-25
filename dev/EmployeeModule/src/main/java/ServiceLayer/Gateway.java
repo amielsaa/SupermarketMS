@@ -32,13 +32,13 @@ public class Gateway
 
         // INIT PERMISSIONS AND QUALIFICATIONS
 
-        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManagePermissions", "ManageBranch1", "ManageBranch2"};
+        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift"};
         for (String p : permissions)
         {
             qualificationController.addPermission(p);
         }
 
-        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManagePermissions"};
+        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications"};
 
 
         Qualification qualificationHR = qualificationController.addQualification("HR").getData();
@@ -49,7 +49,7 @@ public class Gateway
         }
 
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager").getData();
-        String[] permissionsBranch1Manager = {"ManageBranch1"};
+        String[] permissionsBranch1Manager = {"ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees"};
         for(String p : permissionsBranch1Manager) {
             Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
 
@@ -57,13 +57,15 @@ public class Gateway
         }
 
         Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager").getData();
-        String[] permissionsBranch2Manager = {"ManageBranch2"};
+        String[] permissionsBranch2Manager = {"ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees"};
         for(String p : permissionsBranch2Manager) {
             Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
 
 
         }
 
+
+        Qualification qualificationInventory = qualificationController.addQualification("InventoryManager").getData();
         Qualification qualificationShiftManager = qualificationController.addQualification("ShiftManager").getData();
         Qualification qualificationCashier = qualificationController.addQualification("Cashier").getData();
         Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker").getData();
@@ -71,6 +73,8 @@ public class Gateway
         Qualification qualificationTruck = qualificationController.addQualification("TruckDriver").getData();
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner").getData();
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager").getData();
+
+        qualificationController.addPermissionToQualification("ManageShift", "ShiftManager");
 
         // INIT EMPLOYEES
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
@@ -82,18 +86,20 @@ public class Gateway
         employeeController.addEmployee(3, "Cat The Stock Clerk", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(4, "Dan The Truck Driver", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(5, "Manny The Manager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(6, "InManny The InManager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
         employeeController.employeeAddQualification(1, qualificationCashier);
         employeeController.employeeAddQualification(2, qualificationWarehouse);
         employeeController.employeeAddQualification(3, qualificationStock);
         employeeController.employeeAddQualification(4, qualificationTruck);
+        employeeController.employeeAddQualification(6, qualificationInventory);
 
         employeeController.employeeAddQualification(1, qualificationShiftManager);
         employeeController.employeeAddQualification(2, qualificationShiftManager);
         employeeController.employeeAddQualification(3, qualificationShiftManager);
         employeeController.employeeAddQualification(4, qualificationShiftManager);
 
-        employeeController.employeeAddQualification(5, qualificationBranch2Manager);
+        employeeController.employeeAddQualification(5, qualificationBranch1Manager);
         employeeController.employeeAddQualification(6, qualificationShiftManager);
 
 
@@ -380,7 +386,7 @@ public class Gateway
     }
 
     public Response<Permission> addPermission(@NotNull String name){
-        Response<String> r = checkAuth("ManagePermissions");
+        Response<String> r = checkAuth("ManageQualifications");
         if(!r.isSuccess()) {
             return Response.makeFailure(r.getMessage());
         }
@@ -389,7 +395,7 @@ public class Gateway
     }
 
     public Response<Permission> removePermission(@NotNull String name) {
-        Response<String> r = checkAuth("ManagePermissions");
+        Response<String> r = checkAuth("ManageQualifications");
         if(!r.isSuccess()) {
             return Response.makeFailure(r.getMessage());
         }
@@ -432,8 +438,10 @@ public class Gateway
 
         // init zeros
         for(Employee e : employees) {
-            int[] a = {0, 0};
-            m.put(e, a);
+            if(e.getWorkingConditions().getQualifications().contains(qualification)){
+                int[] a = {0, 0};
+                m.put(e, a);
+            }
         }
 
         Response<List<Shift>> r3 = getShifts(branchId);

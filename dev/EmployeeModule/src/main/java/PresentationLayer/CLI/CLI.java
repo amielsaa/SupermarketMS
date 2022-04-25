@@ -373,14 +373,15 @@ public class CLI {
                            "2.Remove shift\n" +
                            "3.Add worker\n" +
                            "4.Remove worker\n" +
-                           "5.Return to main menu");
-        final int addShift = 1, removeShift = 2, addWorker = 3, removeWorker = 4, returnToMainMenu = 5;
+                           "5.Get shifts\n" +
+                           "6.Return to main menu");
+        final int addShift = 1, removeShift = 2, addWorker = 3, removeWorker = 4, getShifts = 5, returnToMainMenu = 6;
         int choice =  getIntInput(input);
         switch (choice){
             case addShift:
                 ShiftId shiftId = getShiftIdInput(input);
-                List<String> qualifications_required = Arrays.asList("cashier", "warehouse worker", "stock clerk", "truck driver");
-                List<String> qualifications_required_day = Arrays.asList("cashier", "warehouse worker", "stock clerk", "truck driver", "branch"+shiftId.getBranchId()+"manager", "inventory manager");
+                List<String> qualifications_required = Arrays.asList("Cashier", "WarehouseWorker", "StockClerk", "TruckDriver");
+                List<String> qualifications_required_day = Arrays.asList("Cashier", "WarehouseWorker", "StockClerk", "TruckDriver", "Branch"+shiftId.getBranchId()+"Manager", "InventoryManager");
                 Map<Employee, List<Qualification>> shift_workers = new HashMap<>();
                 if(shiftId.getShiftTime() == ShiftTime.DAY) {
                     //Arrays.asList(qualifications_required, qualifications_required_day);
@@ -411,6 +412,7 @@ public class CLI {
                     break;
                 }
                 System.out.println("Success");
+                break;
             case removeShift:
                 shiftId = getShiftIdInput(input);
                 Response<Shift> res_rem_shift = gateway.removeShift(shiftId);
@@ -475,6 +477,17 @@ public class CLI {
                     break;
                 }
                 System.out.println("Success");
+                break;
+            case getShifts:
+                System.out.println("Please provide the branch number");
+                int b_number = getIntInput(input);
+                Response<List<Shift>> res_shifts = gateway.getShifts(b_number);
+                if(!res_shifts.isSuccess()){
+                    System.out.println(res_shifts.getMessage());
+                    break;
+                }
+                System.out.println(res_shifts.getData());
+                break;
             case returnToMainMenu:
                 return;
             default:
@@ -508,7 +521,7 @@ public class CLI {
         }
         Map<Employee, int[]> emp_map = res.getData();
         LinkedHashMap<Employee, int[]> emp_map_sorted = qualMapSorter(emp_map, s);
-        System.out.println("Please choose an employee from the list");
+        System.out.println("Adding " + q.getName() + " Please choose an employee from the list");
         int number = 0;
         for (Map.Entry<Employee, int[]> employeeEntry : emp_map_sorted.entrySet()) {
             String line = number + " " + employeeEntry.getKey().getName() + " " + "number of shifts done: " + employeeEntry.getValue()[s.ordinal()];

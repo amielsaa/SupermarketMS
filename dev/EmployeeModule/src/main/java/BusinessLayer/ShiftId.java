@@ -48,6 +48,15 @@ public class ShiftId
     }
 
     @Override
+    public String toString() {
+        return "ShiftId{" +
+                "branchId=" + branchId +
+                ", date=" + date +
+                ", time=" + time +
+                '}';
+    }
+
+    @Override
     public int hashCode()
     {
         return Objects.hash(branchId, date, time);

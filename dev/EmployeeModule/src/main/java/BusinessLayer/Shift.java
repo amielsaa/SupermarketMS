@@ -30,6 +30,15 @@ public class Shift
         return shiftManager;
     }
 
+    @Override
+    public String toString() {
+        return "Shift{" +
+                "id=" + id +
+                ", workers=" + workers +
+                ", shiftManager=" + shiftManager +
+                '}';
+    }
+
     protected void addWorker(Employee employee, List<Qualification> qualifications){
         workers.put(employee, qualifications);
     }

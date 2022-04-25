@@ -40,6 +40,14 @@ public class TimeInterval
         this.end = end;
     }
 
+    @Override
+    public String toString() {
+        return "TimeInterval{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
+
     public boolean isOverlapping(TimeInterval other){
 
         if(this.getEnd().isBefore(other.getStart()) || this.getEnd().isEqual(other.getEnd())){
