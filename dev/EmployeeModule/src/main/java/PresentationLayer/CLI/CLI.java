@@ -4,6 +4,10 @@ package PresentationLayer.CLI;
 import BusinessLayer.*;
 import ServiceLayer.Gateway;
 import Utilities.Response;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -11,7 +15,8 @@ import java.util.stream.Collectors;
 
 public class CLI {
 
-    private Scanner input;
+    private BufferedReader input;
+    private InputStreamReader r;
     private final Gateway gateway;
 
     public static void main(String[] args) {
@@ -20,7 +25,11 @@ public class CLI {
     }
 
     public CLI() {
-        this.input = new Scanner(System.in);
+        r = new InputStreamReader(System.in);
+        input = new BufferedReader(r);
+
+
+        //this.input = new Scanner(System.in);
         this.gateway = new Gateway();
     }
 
@@ -40,8 +49,11 @@ public class CLI {
                            "|  |____ |  |  |  | |  |      |  `----.|  `--'  |     |  |     |  |____ |  |____    |  |  |  | |  `--'  | |  '--'  ||  `--'  | |  `----.|  |____                                \n" +
                            "|_______||__|  |__| | _|      |_______| \\______/      |__|     |_______||_______|   |__|  |__|  \\______/  |_______/  \\______/  |_______||_______|                               \n" +
                            "                                                                                                                                                             ");
-        System.out.println("to proceed, provide your ID number");
+        System.out.println("to proceed, provide your ID number or -1 to cancel");
         int userId = getIntInput(input);
+        if(userId == -1){
+            return;
+        }
         boolean loggedOut = false;
         Response<Employee> loginRes = gateway.login(userId);
         while(!loginRes.isSuccess()){
@@ -79,6 +91,12 @@ public class CLI {
                     System.out.println("Wrong input, try again");
                 }
             }
+        }
+        try{
+            input.close();
+            r.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -236,8 +254,7 @@ public class CLI {
         }
     }
 
-    private void addEmployee()
-    {
+    private void addEmployee() {
         System.out.println("Adding the new employee. Please provide the new employee's:");
         System.out.println("ID number");
         int id = getIntInput(input);
@@ -272,11 +289,11 @@ public class CLI {
     }
 
 
-    private int getIntInput(Scanner sc){
+    private int getIntInput(BufferedReader sc){
         while(true){
-            String input = sc.nextLine();
-            if(input.matches("-?\\d+")){
-                return Integer.parseInt(input);
+            String in = getStringInput(input);
+            if(in.matches("-?\\d+")){
+                return Integer.parseInt(in);
             }
             else{
                 System.out.println("Only a whole number can be received");
@@ -296,11 +313,11 @@ public class CLI {
         return true;
     }
 
-    private double getDoubleInput(Scanner sc){
+    private double getDoubleInput(BufferedReader sc){
         while(true){
-            String input = sc.nextLine();
-            if(isDouble(input)){
-                return Double.parseDouble(input);
+            String in = getStringInput(input);
+            if(isDouble(in)){
+                return Double.parseDouble(in);
             }
             else{
                 System.out.println("Only a whole number can be received");
@@ -311,11 +328,11 @@ public class CLI {
 
 
 
-    private LocalDateTime getDateInput(Scanner sc){
+    private LocalDateTime getDateInput(BufferedReader sc){
         System.out.println("Please provide the date in the following format: 'yyyy-MM-dd', for example: 2022-03-29;\n" +
                            "If you want you can add the full time in format 'yyyy-MM-ddThh:mm:ss', for example: 2022-03-29T21:08:30");
         while (true){
-            String in = sc.nextLine();
+            String in = getStringInput(input);
             if(isDateAndTime(in + "T06:00:00")){
                 return LocalDateTime.parse(in + "T06:00:00");
             }
@@ -338,8 +355,15 @@ public class CLI {
         return true;
     }
 
-    private String getStringInput(Scanner sc){
-        return sc.nextLine();
+    private String getStringInput(BufferedReader br){
+        String line = null;
+        try {
+            line = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return line;
     }
 
 
@@ -356,10 +380,12 @@ public class CLI {
             case addShift:
                 ShiftId shiftId = getShiftIdInput(input);
                 List<String> qualifications_required = Arrays.asList("cashier", "warehouse worker", "stock clerk", "truck driver");
-                List<String> qualifications_required_day = Arrays.asList("branch"+shiftId.getBranchId()+"manager", "inventory manager");
+                List<String> qualifications_required_day = Arrays.asList("cashier", "warehouse worker", "stock clerk", "truck driver", "branch"+shiftId.getBranchId()+"manager", "inventory manager");
                 Map<Employee, List<Qualification>> shift_workers = new HashMap<>();
                 if(shiftId.getShiftTime() == ShiftTime.DAY) {
-                    qualifications_required.addAll(qualifications_required_day);
+                    //Arrays.asList(qualifications_required, qualifications_required_day);
+                    qualifications_required = qualifications_required_day;
+                    //qualifications_required.addAll(qualifications_required_day);
                 }
                 for (String s : qualifications_required) {
                     Qualification q = gateway.getQualification(s).getData();
@@ -373,8 +399,12 @@ public class CLI {
                         shift_workers.put(e, l);
                     }
                 }
-                Qualification q = gateway.getQualification("shift manager").getData();
+                Qualification q = gateway.getQualification("ShiftManager").getData();
                 Employee shift_manager = chooseWorkerWithQualification(q, shiftId.getShiftTime(), shiftId.getBranchId());
+                if(shift_manager == null){
+                    System.out.println("No available managers. Returning");
+                    break;
+                }
                 Response<Shift> res_add_shift = gateway.addShift(shiftId.getBranchId(), shiftId.getDate(), shift_manager, shift_workers, shiftId.getShiftTime());
                 if(!res_add_shift.isSuccess()){
                     System.out.println(res_add_shift.getMessage());
@@ -454,7 +484,7 @@ public class CLI {
         }
     }
 
-    private ShiftId getShiftIdInput(Scanner sc){
+    private ShiftId getShiftIdInput(BufferedReader sc){
         System.out.println("Please provide the branch id");
         int branchId = getIntInput(input);
         System.out.println("Please provide the date of a shift");
@@ -481,7 +511,7 @@ public class CLI {
         System.out.println("Please choose an employee from the list");
         int number = 0;
         for (Map.Entry<Employee, int[]> employeeEntry : emp_map_sorted.entrySet()) {
-            String line = number + employeeEntry.getKey().getName() + " " + "number of shifts done:" + employeeEntry.getValue()[s.ordinal()];
+            String line = number + " " + employeeEntry.getKey().getName() + " " + "number of shifts done: " + employeeEntry.getValue()[s.ordinal()];
             number++;
             System.out.println(line);
         }

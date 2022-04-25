@@ -64,7 +64,11 @@ public class Gateway
 
         }
 
+        Qualification qualificationShiftManager = qualificationController.addQualification("ShiftManager").getData();
         Qualification qualificationCashier = qualificationController.addQualification("Cashier").getData();
+        Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker").getData();
+        Qualification qualificationStock = qualificationController.addQualification("StockClerk").getData();
+        Qualification qualificationTruck = qualificationController.addQualification("TruckDriver").getData();
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner").getData();
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager").getData();
 
@@ -72,6 +76,28 @@ public class Gateway
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
         employeeController.addEmployee(ADMIN_UID, "Admin", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(123, "Admin2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+
+        employeeController.addEmployee(1, "Bob The Cashier", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(2, "Alice The Warehouse Worker", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(3, "Cat The Stock Clerk", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(4, "Dan The Truck Driver", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(5, "Manny The Manager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+
+        employeeController.employeeAddQualification(1, qualificationCashier);
+        employeeController.employeeAddQualification(2, qualificationWarehouse);
+        employeeController.employeeAddQualification(3, qualificationStock);
+        employeeController.employeeAddQualification(4, qualificationTruck);
+
+        employeeController.employeeAddQualification(1, qualificationShiftManager);
+        employeeController.employeeAddQualification(2, qualificationShiftManager);
+        employeeController.employeeAddQualification(3, qualificationShiftManager);
+        employeeController.employeeAddQualification(4, qualificationShiftManager);
+
+        employeeController.employeeAddQualification(5, qualificationBranch2Manager);
+        employeeController.employeeAddQualification(6, qualificationShiftManager);
+
+
+
         employeeController.employeeAddQualification(ADMIN_UID, qualificationHR);
         employeeController.employeeAddQualification(123, qualificationHR);
     }

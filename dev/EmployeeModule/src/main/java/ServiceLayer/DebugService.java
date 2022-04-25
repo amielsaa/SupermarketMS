@@ -1,5 +1,8 @@
 package ServiceLayer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -13,10 +16,22 @@ public class DebugService
         LocalDateTime ldt = LocalDateTime.parse(date);
         System.out.println(ldt.format(formatter));
         */
-        Scanner sc = new Scanner(System.in);
+       /* Scanner sc = new Scanner(System.in);
         System.out.println("Please provide the date in the following format: 'yyyy-MM-dd' for example - 2022-03-29");
         String in = sc.nextLine() + "T00:00:00";
-        System.out.println(LocalDateTime.parse(in));
+        System.out.println(LocalDateTime.parse(in));*/
+
+        InputStreamReader r=new InputStreamReader(System.in);
+        BufferedReader br=new BufferedReader(r);
+
+        System.out.println("Enter your name");
+        String name= null;
+        try {
+            name = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Welcome "+name);
 
     }
 }
