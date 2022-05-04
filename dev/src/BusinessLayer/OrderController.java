@@ -1,16 +1,17 @@
 package BusinessLayer;
 
+import DAL.OrderDAO;
 import misc.Pair;
 import BusinessLayer.*;
 import java.sql.Date;
 import java.util.*;
 
 public class OrderController {
-private int Id_Order_Counter=0;
-private HashMap<Integer, HashMap<Integer,Order>> BN_To_Orders;
+    private int Id_Order_Counter=0;
+    private OrderDAO orderDAO;
 
     public OrderController() {
-        BN_To_Orders = new HashMap<Integer,HashMap<Integer,Order>>();
+        orderDAO = new OrderDAO();
     }
 
 
