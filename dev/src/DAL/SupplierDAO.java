@@ -4,11 +4,12 @@ import BusinessLayer.Supplier;
 
 import java.util.HashMap;
 
-public class SupplierDAO {
+public class SupplierDAO extends DalController {
     private SupplierMapper sMapper;
 
 
     public SupplierDAO(){
+        super("Suppliers");
         sMapper = new SupplierMapper();
     }
 
