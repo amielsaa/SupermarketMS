@@ -26,21 +26,23 @@ public class OrderController {
 
     //return all the Orders from the specific supplier
     public Collection<Order> getAllOrdersFromSupplier(int supplierBN){
-        return BN_To_Orders.get(supplierBN).values();
+        return orderDAO.getAllOrders(supplierBN);
 
     }
     //gets order by BN and orderID
     public Order getOrder(int supplierBN,int orderID){
-        Check_If_Order_Exists(supplierBN,orderID);
-        return BN_To_Orders.get(supplierBN).get(orderID);
+  //      Check_If_Order_Exists(supplierBN,orderID); //TODO:transfer to Dal
+        return orderDAO.getOrder(supplierBN, orderID);
 
-    }
+
+   /* }//TODO:Transfer this whole function to Dal
     //Private to check if Order exists
     private void Check_If_Order_Exists(int supplierBN,int orderID){
         if(!BN_To_Orders.get(supplierBN).containsKey(orderID)){
             throw new IllegalArgumentException("Order ID was not found");
         }
     }
+    */
     public double getFinalPrice(int supplierBN,int orderID){
         Check_If_Order_Exists(supplierBN,orderID);
         return BN_To_Orders.get(supplierBN).get(orderID).getFinal_Price();
