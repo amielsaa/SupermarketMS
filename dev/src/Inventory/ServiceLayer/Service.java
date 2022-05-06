@@ -2,10 +2,13 @@ package Inventory.ServiceLayer;
 
 import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
+import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.Map;
 
 public class Service {
 
@@ -62,22 +65,33 @@ public class Service {
         return productService.AddDiscountByCategory(categoryName,discount,date);
     }
 
-    //TODO: disable discount
 
     //report service
 
-    public Response<Report> ReportByExpired() {
-        return reportService.ReportByExpired();
+//    public Response<Report> ReportByExpired() {
+//        return reportService.ReportByExpired();
+//    }
+//
+//    public Response<Report> ReportByDefective() {
+//        return reportService.ReportByDefective();
+//    }
+//
+//    public Response<Report> ReportStockByCategory(List<String> categories) {
+//        return reportService.ReportStockByCategories(categories);
+//    }
+    public Response<String> stopTimer() {return productService.StopTimer();}
+
+    //integration between suppliers
+
+    public Response<String> MakeOrderMinQuantity() {
+
+        //MakeOrderToSuppliers()
+        throw new NotImplementedException();
     }
 
-    public Response<Report> ReportByDefective() {
-        return reportService.ReportByDefective();
+    public Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> pairOfBalls) {
+        throw new NotImplementedException();
     }
-
-    public Response<Report> ReportStockByCategory(List<String> categories) {
-        return reportService.ReportStockByCategories(categories);
-    }
-    public Response<String> stopTimer(){return productService.StopTimer();}
 
 
 

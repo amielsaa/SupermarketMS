@@ -15,33 +15,33 @@ public class ReportService {
         this.reportController = new ReportController(data);
     }
 
-    public Response<Report> ReportByExpired() {
-        try {
-            Report report = new Report("Expired products report", reportController.reportByExpired());
-            return Response.makeSuccess(report);
-        } catch (Exception e ) {
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
-    public Response<Report> ReportStockByCategories(List<String> categories) {
-        try {
-            Report report = new Report("Products by Categories report", reportController.reportByCategories(categories));
-            return Response.makeSuccess(report);
-        } catch (Exception e ) {
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
-
-    public Response<Report> ReportByDefective() {
-        try {
-            Report report = new Report("Defective products report", reportController.reportByDefective());
-            return Response.makeSuccess(report);
-        } catch (Exception e ) {
-            return Response.makeFailure(e.getMessage());
-        }
-    }
+//    public Response<Report> ReportByExpired() {
+//        try {
+//            Report report = new Report("Expired products report", reportController.reportByExpired());
+//            return Response.makeSuccess(report);
+//        } catch (Exception e ) {
+//            return Response.makeFailure(e.getMessage());
+//        }
+//    }
+//
+//    public Response<Report> ReportStockByCategories(List<String> categories) {
+//        try {
+//            Report report = new Report("Products by Categories report", reportController.reportByCategories(categories));
+//            return Response.makeSuccess(report);
+//        } catch (Exception e ) {
+//            return Response.makeFailure(e.getMessage());
+//        }
+//    }
+//
+//
+//    public Response<Report> ReportByDefective() {
+//        try {
+//            Report report = new Report("Defective products report", reportController.reportByDefective());
+//            return Response.makeSuccess(report);
+//        } catch (Exception e ) {
+//            return Response.makeFailure(e.getMessage());
+//        }
+//    }
 
 
 }

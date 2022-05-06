@@ -92,7 +92,6 @@ public class ProductService {
     }
 
 
-
     public Response<String> AddDefectiveProduct(int productId) {
         try{
             Product product = productController.addDefectiveProduct(productId);

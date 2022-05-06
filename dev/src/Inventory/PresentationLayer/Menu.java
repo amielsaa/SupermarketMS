@@ -101,30 +101,30 @@ public class Menu {
         else
             System.out.println(res.getMessage());
     }
-
+    //TODO: remove //
     private void reportByCategoriesAction() {
-        printDivider();
-        System.out.println("Enter category names.\n" +
-                "Example: Salty # Shampoo # ...");
-        printDivider();
-        String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,0,false);
-        Response<Report> res = service.ReportStockByCategory(Arrays.asList(inputArray));
-        if(res.isSuccess()){
-            System.out.println(res.getData().getHeadline());
-            res.getData().getTable().print();
-        }
-        else
-            System.out.println(res.getMessage());
+//        printDivider();
+//        System.out.println("Enter category names.\n" +
+//                "Example: Salty # Shampoo # ...");
+//        printDivider();
+//        String input = enterStringInput();
+//        String[] inputArray = trimProductArray(input,0,false);
+//        Response<Report> res = service.ReportStockByCategory(Arrays.asList(inputArray));
+//        if(res.isSuccess()){
+//            System.out.println(res.getData().getHeadline());
+//            res.getData().getTable().print();
+//        }
+//        else
+//            System.out.println(res.getMessage());
     }
-
+    //TODO: remove //
     private void reportByDefectiveAction() {
-        Response<Report> res = service.ReportByDefective();
-        if(res.isSuccess()) {
-            System.out.println(res.getData().getHeadline());
-            res.getData().getTable().print();
-        } else
-            System.out.println(res.getMessage());
+//        Response<Report> res = service.ReportByDefective();
+//        if(res.isSuccess()) {
+//            System.out.println(res.getData().getHeadline());
+//            res.getData().getTable().print();
+//        } else
+//            System.out.println(res.getMessage());
     }
 
     private void addDiscountByNameAction() {
@@ -199,14 +199,16 @@ public class Menu {
             System.out.println("Failed to add new category.");
     }
 
+
+    //TODO: remove //
     private void reportByExpiredAction() {
-        Response<Report> res = service.ReportByExpired();
-        if(res.isSuccess()){
-            System.out.println( res.getData().getHeadline());
-            res.getData().getTable().print();
-        }
-        else
-            System.out.println(res.getMessage());
+//        Response<Report> res = service.ReportByExpired();
+//        if(res.isSuccess()){
+//            System.out.println( res.getData().getHeadline());
+//            res.getData().getTable().print();
+//        }
+//        else
+//            System.out.println(res.getMessage());
 
     }
 

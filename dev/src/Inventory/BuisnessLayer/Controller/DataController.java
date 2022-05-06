@@ -3,11 +3,15 @@ package Inventory.BuisnessLayer.Controller;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
+import Inventory.DataAccessLayer.DalController;
 
 import java.util.*;
 
 public class DataController {
 
+    private DalController categoryDAO;
+    private DalController productsDAO;
+    
     private List<Product> defectiveProducts;
     private List<Product> expiredProducts;
     private Map<Product,List<StoreProduct>> productListMap;

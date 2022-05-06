@@ -155,6 +155,7 @@ public class ProductController {
         data.getDefectiveProducts().add(product);
         return product;
     }
+
     public String addDiscountByName(String name,String producer, int discount, String date)
     {
         Date discountExpDate = getDateByString(date);
