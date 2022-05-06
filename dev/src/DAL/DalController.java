@@ -2,6 +2,7 @@ package DAL;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public abstract class DalController {
@@ -15,7 +16,7 @@ public abstract class DalController {
     }
 
     public Connection makeConnection(){
-        path = (new File("").getAbsolutePath()).concat("\\database.db");
+        path =":../src/database.db";
         connString = "jdbc:sqlite".concat(path);
         Connection conn = null;
         try{
@@ -25,9 +26,17 @@ public abstract class DalController {
             System.out.println(e.getMessage());
         }
         return conn;
+
     }
 
     public String getPath() {
         return path;
     }
+
+
+
+
+
+
+
 }

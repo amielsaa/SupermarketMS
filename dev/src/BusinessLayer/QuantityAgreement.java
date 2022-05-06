@@ -13,8 +13,11 @@ public class QuantityAgreement {
     private HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount;
     private HashMap<Integer,String> item_Num_To_Name;
 
+    //todo: remove item_Num_To_Name, change Integer to Pair<String,String>
+
 
     public QuantityAgreement(HashMap<Integer,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
+        //todo: check if there are no items at all
         PriceValidationChecker(item_num_to_price);
         item_Num_To_Price = item_num_to_price;
         DiscountsValidationCheck(item_num_to_discount);
