@@ -1,6 +1,7 @@
 package DAL;
 
 import BusinessLayer.Order;
+import BusinessLayer.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -80,6 +81,7 @@ public class OrderDAO extends DalController {
             throw new Exception(e.getMessage());
         }
     }
+
 
 
 }

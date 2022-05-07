@@ -21,7 +21,7 @@ public class Supplier  {
 
 
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
         Name = name;
         CheckLegalNumber(business_num);
         CheckLengthOfBusinessNumber(business_num);
@@ -31,7 +31,7 @@ public class Supplier  {
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
         Contacts.add(new Contact(contactName, contactPhone));
-        Delivery_By_Days = delivery_by_days;
+        Delivery_By_Days = false;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
         Quantity_Agreement = new QuantityAgreement(item_num_to_price, item_num_to_discount, item_num_to_name);
         if(!Delivery_By_Days)
@@ -219,6 +219,7 @@ public class Supplier  {
             throw new IllegalArgumentException("contact was not found");
         }
     }
+
 
 
 }

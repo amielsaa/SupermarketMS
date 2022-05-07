@@ -18,7 +18,10 @@ public class SupplierDAO extends DalController {
 
     public void select(){}
 
-    public void insertSupplier(int bn, String name, int bankaccount, int paymentdetails, int deliverybydays, int selfdelivery) throws Exception {
+    //deliverbydays should be boolean
+    //selfdelivery should be boolean
+    //paymentdetails should be string
+    public void insertSupplier(int bn, String name, int bankaccount, String paymentdetails,boolean deliverybydays, boolean selfdelivery) throws Exception {
         String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, deliverybydays, selfdelivery) VALUES(?,?,?,?,?,?)";
 
         try{
@@ -27,9 +30,9 @@ public class SupplierDAO extends DalController {
             pstmt.setInt(1, bn);
             pstmt.setString(2, name);
             pstmt.setInt(3, bankaccount);
-            pstmt.setInt(4, paymentdetails);
-            pstmt.setInt(5, deliverybydays);
-            pstmt.setInt(6, selfdelivery);
+            pstmt.setString(4, paymentdetails);
+            pstmt.setBoolean(5, deliverybydays);
+            pstmt.setBoolean(6, selfdelivery);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new Exception(e.getMessage()); //todo: idk
@@ -169,6 +172,15 @@ public class SupplierDAO extends DalController {
             throw new Exception(e.getMessage());
         }
     }
+
+    public boolean containsSupplier(int bn){
+        return BN_To_Supplier.containsKey(bn);
+        //should add a check here if its in the dataBase, if it is-takes it and puts in in the map and returns true.
+    }
+    public void addSupplierToMap(Supplier supplier){
+        BN_To_Supplier.put(supplier.getBusiness_Num(),supplier);
+    }
+
 
 
 

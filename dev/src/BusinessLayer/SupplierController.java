@@ -6,17 +6,18 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class SupplierController {
-    private SupplierDAO supplerDAO;
+    private SupplierDAO supplierDAO;
 
     public SupplierController() {
-        supplerDAO = new SupplierDAO();
+        supplierDAO = new SupplierDAO();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) {
-        if (BN_To_Supplier.containsKey(business_num))
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) throws Exception {
+        if (supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
-        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
-        BN_To_Supplier.put(business_num, newSupplier);
+        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup, days_to_deliver);
+        supplierDAO.addSupplierToMap(newSupplier);//adds the supplier to the hashmap of the DAO
+        supplierDAO.insertSupplier(newSupplier.getBusiness_Num(),newSupplier.getName(),newSupplier.getBank_Acc_Num(),newSupplier.getPayment_Details().toString(),false,newSupplier.isSelf_Delivery_Or_Pickup());// Adds supplier to the supplier List
         return newSupplier;
     }
 
