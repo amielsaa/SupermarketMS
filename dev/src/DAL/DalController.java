@@ -33,7 +33,12 @@ public abstract class DalController {
         return path;
     }
 
+    public boolean update(String tableName,String col1, int key1, int arg1){
+        //todo: generic 1 key function update - key is int, arg is int
+        return false;
 
+
+    }
 
 
 
