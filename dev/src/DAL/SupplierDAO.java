@@ -1,11 +1,13 @@
 package DAL;
 
+import BusinessLayer.QuantityAgreement;
 import BusinessLayer.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Set;
 
 public class SupplierDAO extends DalController {
     private HashMap<Integer, Supplier> BN_To_Supplier;
@@ -173,13 +175,38 @@ public class SupplierDAO extends DalController {
         }
     }
 
+
+    public boolean addNewSupplier(Supplier supplier){
+        //inserts new Supplier
+    }
+
+    public Supplier getSupplier(int bn){
+        BN_To_Supplier.get(bn);
+    }
+
+    public boolean removeSupplier(int bn){
+        if(BN_To_Supplier.containsKey(bn))
+            BN_To_Supplier.remove(bn);
+        deleteSupplier(bn);
+    }
     public boolean containsSupplier(int bn){
-        return BN_To_Supplier.containsKey(bn);
-        //should add a check here if its in the dataBase, if it is-takes it and puts in in the map and returns true.
+
+
+
+        return null;
+        //should add a check here if its in the dataBase, if it is-takes it and puts in in the map and returns true else, returns false.
+        //this function is the most important of all!! when I check for a supplier and it doesnt exists on the map its your responsibility
+        //that it would show up on the map from the database! so when i ever wanna like get the agreement of this supplier it will already be
+        //in the map!
     }
-    public void addSupplierToMap(Supplier supplier){
-        BN_To_Supplier.put(supplier.getBusiness_Num(),supplier);
+    public boolean updateSupplierDeliveryDays(int bn, Set<Integer> days){
+        //remove old days, insert new ones
     }
+    public boolean updateSupplierSelfDelivery(int business_num, boolean selfDelivery){
+        // UwU
+    }
+
+
 
 
 
