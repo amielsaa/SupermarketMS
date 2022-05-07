@@ -2,7 +2,7 @@ package BusinessLayer;
 
 import BusinessLayer.*;
 import DataAccessLayer.DALController;
-import Utilities.Response;
+import Utilities.*;
 
 
 import java.time.LocalDateTime;
@@ -20,13 +20,13 @@ public class ShiftController
         // TODO: implement getting data from DAL
     }
 
-    public Response<List<Shift>> getAllShifts() {
+    public List<Shift> getAllShifts() {
         List l = new ArrayList(shifts.values());
-        return Response.makeSuccess(l);
+        return l;
     }
 
-    public Response<List<Shift>> getShifts(int branchId) {
-        List<Shift> sList = getAllShifts().getData();
+    public List<Shift> getShifts(int branchId) {
+        List<Shift> sList = getAllShifts();
         Iterator i = sList.iterator();
         while(i.hasNext()) {
             Shift s = (Shift)i.next();
@@ -34,37 +34,39 @@ public class ShiftController
                 i.remove();
             }
         }
-        return Response.makeSuccess(sList);
+        return sList;
     }
 
-    public Response<Shift> addShift(int branchId, LocalDateTime date, Employee shiftManager,
-                                    Map<Employee, List<Qualification>> workers, ShiftTime shiftTime){
+    public Shift addShift(int branchId, LocalDateTime date, Employee shiftManager,
+                                    Map<Employee, List<Qualification>> workers, ShiftTime shiftTime) throws Exception
+    {
         // using for each for reasons...
         ShiftId newShift = new ShiftId(branchId, date, shiftTime);
         for(ShiftId s : shifts.keySet()) {
             if(s.equals(newShift))
-                return Response.makeFailure("this shift already exists");
+                throw new ObjectAlreadyExistsException("this shift already exists");
         }
 //        if(shifts.containsKey(new ShiftId(branchId, date, shiftTime))){
 //            return Response.makeFailure("this shift already exists");
 //        }
         if(!date.isAfter(LocalDateTime.now().plusDays(1))){
             //Won't be allowed to add a shift a day after
-            return Response.makeFailure("illegal starting time");
+            throw new LegalTimeException("illegal starting time");
         }
         ShiftId shiftId = newShift;
         Shift shift = new Shift(shiftId, workers, shiftManager);
         this.shifts.put(shiftId, shift);
-        return Response.makeSuccess(shift);
+        return shift;
         //TODO: update after implementing DAL, Employee
     }
 
-    public Response<Shift> removeShift(ShiftId shiftId){
+    public Shift removeShift(ShiftId shiftId) throws Exception
+    {
         //TODO: check if it should be possible to remove today's shift
         //TODO: update after implementing Response, DAL, Employee
         if(!shiftId.getDate().isAfter(LocalDateTime.now().plusDays(1))){
             //Won't be allowed to remove a shift a day after
-            return Response.makeFailure("too late to remove");
+            throw new LegalTimeException("too late to remove");
         }
         ShiftId toRemoveId = null;
         for(ShiftId s : shifts.keySet()) {
@@ -75,55 +77,50 @@ public class ShiftController
             }
         }
         if(toRemoveId == null) {
-            return Response.makeFailure("No shift with such id. ");
+            throw new ObjectNotFoundException("No shift with such id. ");
         }
 //        if(!shifts.containsKey(shiftId)){
-//            return Response.makeFailure("no shift with such id");
+//            throew new ObjectNotFoundException("no shift with such id");
 //        }
         Shift toRemove = shifts.remove(toRemoveId);
-        return Response.makeSuccess(toRemove);
+        return toRemove;
     }
 
-    public Response<Shift> getShift(ShiftId shiftId){
+    public Shift getShift(ShiftId shiftId) throws Exception
+    {
         //TODO: update after implementing Response, DAL, Employee
         for(ShiftId s : shifts.keySet()) {
             if(s.equals(shiftId))
-                return Response.makeSuccess(shifts.get(s));
+                return shifts.get(s);
         }
 //        if(!shifts.containsKey(shiftId)){
-//            return Response.makeFailure("no shift with such id");
+//            throw new ObjectNotFoundException("no shift with such id");
 //        }
-        return Response.makeFailure("no shift with such id");
+        throw new ObjectNotFoundException("no shift with such id");
     }
 
 
-    public Response<Employee> addWorker(ShiftId shiftId, Employee worker, List<Qualification> qualifications){
-        Response<Shift> res = getShift(shiftId);
-        if(!res.isSuccess()){
-            return Response.makeFailure("no such shift");
-        }
-        Shift shift = res.getData();
+    public Employee addWorker(ShiftId shiftId, Employee worker, List<Qualification> qualifications) throws Exception
+    {
+        Shift shift = getShift(shiftId);
         if(shift.getWorkers().containsKey(worker)){
-            return Response.makeFailure("that employee is already in");
+            throw new ObjectAlreadyExistsException("that employee is already in");
         }
         if(qualifications.isEmpty()){
-            return Response.makeFailure("can't add an employee without any role");
+            throw new IllegalObjectException("can't add an employee without any role");
         }
         shift.addWorker(worker, qualifications);
-        return Response.makeSuccess(worker);
+        return worker;
     }
 
-    public Response<Employee> removeWorker(ShiftId shiftId, Employee worker){
-        Response<Shift> res = getShift(shiftId);
-        if(!res.isSuccess()){
-            return Response.makeFailure("no such shift");
-        }
-        Shift shift = res.getData();
+    public Employee removeWorker(ShiftId shiftId, Employee worker) throws Exception
+    {
+        Shift shift = getShift(shiftId);
         if(!shift.getWorkers().containsKey(worker)){
-            return Response.makeFailure("that employee isn't on this shift");
+            throw new ObjectNotFoundException("that employee isn't on this shift");
         }
         shift.removeWorker(worker);
-        return Response.makeSuccess(worker);
+        return worker;
     }
 
 }

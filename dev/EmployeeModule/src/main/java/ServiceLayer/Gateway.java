@@ -27,7 +27,7 @@ public class Gateway
         this.qualificationController = new QualificationController(dalController);
     }
 
-    public void initDefaultData() {
+    public void initDefaultData() throws Exception {
         // TODO DAL make this run once on database init
 
         // INIT PERMISSIONS AND QUALIFICATIONS
@@ -41,38 +41,32 @@ public class Gateway
         String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications"};
 
 
-        Qualification qualificationHR = qualificationController.addQualification("HR").getData();
+        Qualification qualificationHR = qualificationController.addQualification("HR");
         String[] permissionsAssistant = {"ViewEmployees", "ViewQualifications"};
         for(String p : permissionsHR) {
-            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationHR.getName());
-
+            qualificationController.addPermissionToQualification(p, qualificationHR.getName());
         }
 
-        Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager").getData();
+        Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager");
         String[] permissionsBranch1Manager = {"ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees"};
         for(String p : permissionsBranch1Manager) {
-            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
-
-
+            qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
         }
 
-        Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager").getData();
+        Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager");
         String[] permissionsBranch2Manager = {"ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees"};
         for(String p : permissionsBranch2Manager) {
-            Response<Qualification> r = qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
-
-
+            qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
         }
 
 
-        Qualification qualificationInventory = qualificationController.addQualification("InventoryManager").getData();
-        Qualification qualificationShiftManager = qualificationController.addQualification("ShiftManager").getData();
-        Qualification qualificationCashier = qualificationController.addQualification("Cashier").getData();
-        Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker").getData();
-        Qualification qualificationStock = qualificationController.addQualification("StockClerk").getData();
-        Qualification qualificationTruck = qualificationController.addQualification("TruckDriver").getData();
-        Qualification qualificationCleaner = qualificationController.addQualification("Cleaner").getData();
-        Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager").getData();
+        Qualification qualificationShiftManager = qualificationController.addQualification("ShiftManager");
+        Qualification qualificationCashier = qualificationController.addQualification("Cashier");
+        Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker");
+        Qualification qualificationStock = qualificationController.addQualification("StockClerk");
+        Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
+        Qualification qualificationCleaner = qualificationController.addQualification("Cleaner");
+        Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager");
 
         qualificationController.addPermissionToQualification("ManageShift", "ShiftManager");
 
@@ -92,7 +86,7 @@ public class Gateway
         employeeController.employeeAddQualification(2, qualificationWarehouse);
         employeeController.employeeAddQualification(3, qualificationStock);
         employeeController.employeeAddQualification(4, qualificationTruck);
-        employeeController.employeeAddQualification(6, qualificationInventory);
+        employeeController.employeeAddQualification(6, qualificationInventoryManager);
 
         employeeController.employeeAddQualification(1, qualificationShiftManager);
         employeeController.employeeAddQualification(2, qualificationShiftManager);
@@ -110,162 +104,176 @@ public class Gateway
 
     // TODO change to user-pass authentication
     public Response<Employee> login(int id) {
-        Response<Employee> r = employeeController.getEmployee(id);
-        if (!r.isSuccess()) {
-            return r;
+        try
+        {
+            Employee e = employeeController.getEmployee(id);
+            this.loggedEmployeeId = id;
+            return Response.makeSuccess(e);
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
         }
-
-        this.loggedEmployeeId = id;
-
-        return r;
     }
     public Response<Employee> getLoggedUser() {
         if(loggedEmployeeId == -1) {
             return Response.makeFailure("No user is logged in. ");
         }
-        return employeeController.getEmployee(loggedEmployeeId);
+        try {
+            Employee e = employeeController.getEmployee(loggedEmployeeId);
+            return Response.makeSuccess(e);
+        } catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
     }
     public void logout() {
         this.loggedEmployeeId = -1;
     }
 
-    private Response<String> checkAuth(String permission) {
-        if(loggedEmployeeId == -1) {
-            return Response.makeFailure("Not logged in.");
-        }
-        Response<Permission> permissionResponse = qualificationController.getPermission(permission);
-        if(!permissionResponse.isSuccess()) {
-            return Response.makeFailure(permissionResponse.getMessage());
-        }
-        Response<Permission> r = employeeController.checkPermission(loggedEmployeeId, permissionResponse.getData());
-        if(r.isSuccess()) {
-            return Response.makeSuccess("Authenticated for this permission. ");
-        }
-        return Response.makeFailure("Not authenticated for this permission. ");
+    private void checkAuth(String permission) throws Exception
+    {
+            if (loggedEmployeeId == -1)
+            {
+                throw new Exception("Not logged in.");
+            }
+            Permission p = qualificationController.getPermission(permission);
+            Permission p2 = employeeController.checkPermission(loggedEmployeeId, p);
     }
 
     // EMPLOYEE FUNCTIONS
 
     public Response<Employee> getEmployee(int id) {
-        Response<String> r = checkAuth("ViewEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
+        try
+        {
+            checkAuth("ViewEmployees");
+            return Response.makeSuccess(employeeController.getEmployee(id));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
         }
-
-        return employeeController.getEmployee(id);
     }
 
     public Response<List<Employee>> getEmployees() {
-        Response<String> r = checkAuth("ViewEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ViewEmployees");
 
-        return Response.makeSuccess(employeeController.getEmployees());
+            return Response.makeSuccess(employeeController.getEmployees());
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Employee> addEmployee(int id, @NotNull String name, @NotNull BankAccountDetails bankAccountDetails,
                                           double salary, @NotNull LocalDateTime workStartingDate, @NotNull String workingConditionsDescription) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageEmployees");
 
-        return employeeController.addEmployee(id, name, bankAccountDetails, salary, workStartingDate, workingConditionsDescription);
+            return Response.makeSuccess(employeeController.addEmployee(id, name, bankAccountDetails, salary, workStartingDate, workingConditionsDescription));
+        } catch (Exception e)
+        {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Employee> removeEmployee(int id) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageEmployees");
 
-        return employeeController.removeEmployee(id);
+            return Response.makeSuccess(employeeController.removeEmployee(id));
+        } catch (Exception e)
+        {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
 
 
     public Response<String> updateEmployeeName(int id, @NotNull String newName) {
         // added so each employee can change their own name
-        if(loggedEmployeeId == id) {
-            // all good.
-        }
-        else {
-            Response<String> r = checkAuth("ManageEmployees");
-            if(!r.isSuccess()) {
-                return Response.makeFailure(r.getMessage());
+        try {
+            // check if not updating myself
+            if(loggedEmployeeId != id) {
+                checkAuth("ManageEmployees");
             }
-        }
 
-        return employeeController.updateEmployeeName(id, newName);
+            return Response.makeSuccess(employeeController.updateEmployeeName(id, newName));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Double> updateEmployeeSalary(int id, double newSalary) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess())
+        try
         {
-            return Response.makeFailure(r.getMessage());
-        }
+            checkAuth("ManageEmployees");
 
-        return employeeController.updateEmployeeSalary(id, newSalary);
+            return Response.makeSuccess(employeeController.updateEmployeeSalary(id, newSalary));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, @NotNull BankAccountDetails newBankAccountDetails) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageEmployees");
 
-        return employeeController.updateEmployeeBankAccountDetails(id, newBankAccountDetails);
+            return Response.makeSuccess(employeeController.updateEmployeeBankAccountDetails(id, newBankAccountDetails));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<TimeInterval> employeeAddWorkingHour(int id, @NotNull LocalDateTime start, @NotNull LocalDateTime end)
     {
-        // added so each employee can add their hours
-        if(loggedEmployeeId == id) {
-            // all good.
-        }
-        else {
-            Response<String> r = checkAuth("ManageEmployees");
-            if(!r.isSuccess()) {
-                return Response.makeFailure(r.getMessage());
+        try
+        {
+            // added so each employee can add their hours
+            if (loggedEmployeeId != id)
+            {
+                checkAuth("ManageEmployees");
             }
+            return Response.makeSuccess(employeeController.employeeAddWorkingHour(id, start, end));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
         }
-
-        return employeeController.employeeAddWorkingHour(id, start, end);
     }
 
     public Response<TimeInterval> employeeRemoveWorkingHour(int id, @NotNull LocalDateTime start) {
-        // added so each employee can remove their hours
-        if(loggedEmployeeId == id) {
-            // all good.
-        }
-        else {
-            Response<String> r = checkAuth("ManageEmployees");
-            if(!r.isSuccess()) {
-                return Response.makeFailure(r.getMessage());
+        try
+        {
+            // added so each employee can remove their hours
+            if (loggedEmployeeId != id)
+            {
+                checkAuth("ManageEmployees");
             }
-        }
 
-        return employeeController.employeeRemoveWorkingHour(id, start);
+            return Response.makeSuccess(employeeController.employeeRemoveWorkingHour(id, start));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
-    public Response<Qualification> employeeAddQualification(int id, Qualification qualification) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+    public Response<Qualification> employeeAddQualification(int id, Qualification qualification)
+    {
+        try {
+            checkAuth("ManageEmployees");
 
-        return employeeController.employeeAddQualification(id, qualification);
+            return Response.makeSuccess(employeeController.employeeAddQualification(id, qualification));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Qualification> employeeRemoveQualification(int id, @NotNull String name) {
-        Response<String> r = checkAuth("ManageEmployees");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageEmployees");
 
-        return employeeController.employeeRemoveQualification(id, name);
+            return Response.makeSuccess(employeeController.employeeRemoveQualification(id, name));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     // -----------------------------
@@ -273,49 +281,59 @@ public class Gateway
     // SHIFTS FUNCTIONS
 
     public Response<List<Shift>> getShifts(int branchId) {
-        Response<String> r = checkAuth("ManageBranch" + branchId);
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
+        try
+        {
+            checkAuth("ManageBranch" + branchId);
 
-        return shiftController.getShifts(branchId);
+            return Response.makeSuccess(shiftController.getShifts(branchId));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
                                     @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime) {
-        Response<String> r = checkAuth("ManageBranch" + branchId);
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
+        try
+        {
+            checkAuth("ManageBranch" + branchId);
 
-        return shiftController.addShift(branchId, date, shiftManager, workers, shiftTime);
+            return Response.makeSuccess(shiftController.addShift(branchId, date, shiftManager, workers, shiftTime));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Shift> removeShift(@NotNull ShiftId shiftId){
-        Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
+        try
+        {
+            checkAuth("ManageBranch" + shiftId.getBranchId());
 
-        return shiftController.removeShift(shiftId);
+            return Response.makeSuccess(shiftController.removeShift(shiftId));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<Qualification> qualifications){
-        Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
+        try
+        {
+            checkAuth("ManageBranch" + shiftId.getBranchId());
 
-        return shiftController.addWorker(shiftId, worker, qualifications);
+            return Response.makeSuccess(shiftController.addWorker(shiftId, worker, qualifications));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Employee> removeWorker(@NotNull ShiftId shiftId, @NotNull Employee worker){
-        Response<String> r = checkAuth("ManageBranch" + shiftId.getBranchId());
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
+        try
+        {
+            checkAuth("ManageBranch" + shiftId.getBranchId());
 
-        return shiftController.removeWorker(shiftId, worker);
+            return Response.makeSuccess(shiftController.removeWorker(shiftId, worker));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     // -----------------------------
@@ -323,102 +341,113 @@ public class Gateway
     // SHIFTS FUNCTIONS
 
     public Response<Qualification> getQualification(String name) {
-        Response<String> r = checkAuth("ViewQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ViewQualifications");
 
-        return qualificationController.getQualification(name);
+            return Response.makeSuccess(qualificationController.getQualification(name));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<List<Qualification>> getQualifications() {
-        Response<String> r = checkAuth("ViewQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ViewQualifications");
 
-        return qualificationController.getQualifications();
+            return Response.makeSuccess(qualificationController.getQualifications());
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Qualification> addQualification(@NotNull String name){
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageQualifications");
 
-        return qualificationController.addQualification(name);
+            return Response.makeSuccess(qualificationController.addQualification(name));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
 //    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
 //        Response<String> r = checkAuth("ManageQualifications");
-//        if(!r.isSuccess()) {
-//            return Response.makeFailure(r.getMessage());
-//        }
 //
 //        return qualificationController.renameQualification(name, newName);
 //    }
     public Response<Qualification> removeQualification(@NotNull String name) {
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
-
-        Response<Qualification> r2 = qualificationController.removeQualification(name);
-        if(!r2.isSuccess()) {
-            return r2;
-        }
-        Qualification removedQualification = r2.getData();
-        List<Employee> employees = employeeController.getEmployees();
-        for(Employee e : employees)
+        try
         {
-            employeeController.employeeRemoveQualification(e.getId(), removedQualification.getName());
+            checkAuth("ManageQualifications");
+
+            Qualification removedQualification = qualificationController.removeQualification(name);
+            List<Employee> employees = employeeController.getEmployees();
+            for (Employee e : employees)
+            {
+                employeeController.employeeRemoveQualification(e.getId(), removedQualification.getName());
+            }
+            return Response.makeSuccess(removedQualification);
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
         }
-        return Response.makeSuccess(r2.getData());
     }
 
     public Response<List<Permission>> getPermissions() {
-        Response<String> r = checkAuth("ViewQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ViewQualifications");
 
-        return qualificationController.getPermissions();
+            return Response.makeSuccess(qualificationController.getPermissions());
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Permission> addPermission(@NotNull String name){
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageQualifications");
 
-        return qualificationController.addPermission(name);
+            return Response.makeSuccess(qualificationController.addPermission(name));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
-    public Response<Permission> removePermission(@NotNull String name) {
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+    public Response<Permission> removePermission(@NotNull String name)
+    {
+        try {
+            checkAuth("ManageQualifications");
 
-        return qualificationController.removePermission(name);
+            return Response.makeSuccess(qualificationController.removePermission(name));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Qualification> addPermissionToQualification(String permName, String qualName){
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageQualifications");
 
-        return qualificationController.addPermissionToQualification(permName, qualName);
+            return Response.makeSuccess(qualificationController.addPermissionToQualification(permName, qualName));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     public Response<Qualification> removePermissionFromQualification(String permName, String qualName){
-        Response<String> r = checkAuth("ManageQualifications");
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage());
-        }
+        try
+        {
+            checkAuth("ManageQualifications");
 
-        return qualificationController.removePermissionFromQualification(permName, qualName);
+            return Response.makeSuccess(qualificationController.removePermissionFromQualification(permName, qualName));
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     // -----------------------------
@@ -426,44 +455,50 @@ public class Gateway
     // HR Functions
 
     public Response<Map<Employee, int[]>> getEmployeesWithQualification(int branchId, Qualification qualification) {
-        Response<String> r = checkAuth("ManageBranch" + branchId);
-        if(!r.isSuccess()) {
-            return Response.makeFailure(r.getMessage() + "Not your branch. ");
-        }
-
-        Map<Employee, int[]> m = new HashMap<>();
-
-        // using this to bypass authentication
-        List<Employee> employees = employeeController.getEmployees();
-
-        // init zeros
-        for(Employee e : employees) {
-            if(e.getWorkingConditions().getQualifications().contains(qualification)){
-                int[] a = {0, 0};
-                m.put(e, a);
-            }
-        }
-
-        Response<List<Shift>> r3 = getShifts(branchId);
-        if(!r3.isSuccess()) {
-            return Response.makeFailure(r3.getMessage());
-        }
-
-        for(Shift s : r3.getData())
+        try
         {
-            for(Employee e : s.getWorkers().keySet()) {
-                int[] a = m.get(e);
-                if(s.getId().getShiftTime() == ShiftTime.DAY) {
-                    // DAY
-                    a[0]++;
-                } else {
-                    // NIGHT
-                    a[1]++;
+            checkAuth("ManageBranch" + branchId);
+
+            Map<Employee, int[]> m = new HashMap<>();
+
+            // using this to bypass authentication
+            List<Employee> employees = employeeController.getEmployees();
+
+            // init zeros
+            for (Employee e : employees)
+            {
+                if (e.getWorkingConditions().getQualifications().contains(qualification))
+                {
+                    int[] a = {0, 0};
+                    m.put(e, a);
                 }
             }
-        }
 
-        // Uncomment to remove workers that didn't work yet.
+            Response<List<Shift>> r3 = getShifts(branchId);
+            if (!r3.isSuccess())
+            {
+                return Response.makeFailure(r3.getMessage());
+            }
+
+            for (Shift s : r3.getData())
+            {
+                for (Employee e : s.getWorkers().keySet())
+                {
+                    int[] a = m.get(e);
+                    if (s.getId().getShiftTime() == ShiftTime.DAY)
+                    {
+                        // DAY
+                        a[0]++;
+                    }
+                    else
+                    {
+                        // NIGHT
+                        a[1]++;
+                    }
+                }
+            }
+
+            // Uncomment to remove workers that didn't work yet.
 //        Iterator<Employee> i = employees.iterator();
 //        while(i.hasNext()) {
 //            Employee e = i.next();
@@ -474,7 +509,10 @@ public class Gateway
 //            }
 //        }
 
-        return Response.makeSuccess(m);
+            return Response.makeSuccess(m);
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
     // -----------------------------

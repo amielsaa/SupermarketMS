@@ -35,7 +35,11 @@ public class CLI {
 
     private void run(){
         //TODO: initiation of default data; remove after adding DAL
-        gateway.initDefaultData();
+        try {
+            gateway.initDefaultData();
+        } catch (Exception e) {
+            System.out.println("WARNING! initialization of the default data resulted in an error. ");
+        }
         System.out.println("____    __    ____  _______  __        ______   ______   .___  ___.  _______    .___________.  ______          _______. __    __  .______    _______ .______       __       __  \n" +
                            "\\   \\  /  \\  /   / |   ____||  |      /      | /  __  \\  |   \\/   | |   ____|   |           | /  __  \\        /       ||  |  |  | |   _  \\  |   ____||   _  \\     |  |     |  | \n" +
                            " \\   \\/    \\/   /  |  |__   |  |     |  ,----'|  |  |  | |  \\  /  | |  |__      `---|  |----`|  |  |  |      |   (----`|  |  |  | |  |_)  | |  |__   |  |_)  |    |  |     |  | \n" +

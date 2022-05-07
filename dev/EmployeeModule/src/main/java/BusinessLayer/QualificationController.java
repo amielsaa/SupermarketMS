@@ -3,7 +3,8 @@ package BusinessLayer;
 import BusinessLayer.Permission;
 import BusinessLayer.Qualification;
 import DataAccessLayer.DALController;
-import Utilities.Response;
+import Utilities.ObjectAlreadyExistsException;
+import Utilities.ObjectNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,31 +24,31 @@ public class QualificationController
         permissions = new ArrayList<>();
     }
 
-    public Response<List<Qualification>> getQualifications() {
-        return Response.makeSuccess(qualifications);
+    public List<Qualification> getQualifications() {
+        return qualifications;
     }
 
-    public Response<List<Permission>> getPermissions() {
-        return Response.makeSuccess(permissions);
+    public List<Permission> getPermissions() {
+        return permissions;
     }
 
 
-    public Response<Qualification> getQualification(@NotNull String name){
+    public Qualification getQualification(@NotNull String name) throws Exception {
         for (Qualification q: qualifications) {
             if(q.getName().equals(name)){
-                return Response.makeSuccess(q);
+                return q;
             }
         }
-        return Response.makeFailure("failed to find qualification with that name");
+        throw new ObjectNotFoundException("failed to find qualification with that name");
     }
 
-    public Response<Qualification> addQualification(@NotNull String name){
+    public Qualification addQualification(@NotNull String name) throws Exception {
         Qualification toAdd = new Qualification(name, new ArrayList<>());
         if(qualifications.contains(toAdd)){
-            return Response.makeFailure("a qualification with such name already exists");
+            throw new ObjectAlreadyExistsException("a qualification with such name already exists");
         }
         qualifications.add(toAdd);
-        return Response.makeSuccess(toAdd);
+        return toAdd;
     }
 
 //    public Response<Qualification> renameQualification(@NotNull String name, @NotNull String newName){
@@ -66,7 +67,7 @@ public class QualificationController
 //        return Response.makeFailure("a qualification with given name doesn't exist");
 //    }
 
-    public Response<Qualification> removeQualification(@NotNull String name) {
+    public Qualification removeQualification(@NotNull String name) throws Exception {
         Qualification toRemove = null;
         for(Qualification q : qualifications) {
             if(q.getName().equals(name)) {
@@ -74,34 +75,34 @@ public class QualificationController
             }
         }
         if(toRemove == null) {
-            return Response.makeFailure("No such qualification. ");
+            throw new ObjectNotFoundException("No such qualification. ");
         }
         qualifications.remove(toRemove);
-        return Response.makeSuccess(toRemove);
+        return toRemove;
         //TODO add interaction with DAL
     }
 
 
     // TODO ADD Remove qualification and remove from linked empoyees and shifts the qualification like in "removePermission()"
-    public Response<Permission> getPermission(@NotNull String name){
+    public Permission getPermission(@NotNull String name) throws Exception {
         for (Permission p: permissions) {
             if(p.getName().equals(name)){
-                return Response.makeSuccess(p);
+                return p;
             }
         }
-        return Response.makeFailure("a permission with given name doesn't exist");
+        throw new ObjectNotFoundException("a permission with given name doesn't exist");
     }
 
-    public Response<Permission> addPermission(@NotNull String name){
+    public Permission addPermission(@NotNull String name) throws Exception {
         Permission toAdd = new Permission(name);
         if(permissions.contains(toAdd)){
-            return Response.makeFailure("a permission with such name already exists");
+            throw new ObjectAlreadyExistsException("a permission with such name already exists");
         }
         permissions.add(toAdd);
-        return Response.makeSuccess(toAdd);
+        return toAdd;
     }
 
-    public Response<Permission> removePermission(@NotNull String name) {
+    public Permission removePermission(@NotNull String name) throws Exception {
         Permission toRemove = null;
         for (Permission p : permissions) {
             if (p.getName().equals(name)) {
@@ -112,12 +113,17 @@ public class QualificationController
         if (toRemove != null) {
             // unlink permission from existing qualifications
             for(Qualification q : qualifications) {
-                removePermissionFromQualification(name, q.getName());
+                try
+                {
+                    removePermissionFromQualification(name, q.getName());
+                } catch (Exception e) {
+                    // do nothing
+                }
             }
             permissions.remove(toRemove);
-            return Response.makeSuccess(toRemove);
+            return toRemove;
         } else {
-            return Response.makeFailure("a permission with given name doesn't exist");
+            throw new ObjectNotFoundException("a permission with given name doesn't exist");
 
 
         }
@@ -126,40 +132,26 @@ public class QualificationController
 
     }
 
-    public Response<Qualification> addPermissionToQualification(String permName, String qualName){
-        Response<Qualification> res1 = getQualification(qualName);
-        if(!res1.isSuccess()){
-            return Response.makeFailure("no qualification with such name");
-        }
-        Qualification q = res1.getData();
-        Response<Permission> res2 = getPermission(permName);
-        if(!res2.isSuccess()){
-            return Response.makeFailure("no permission with such name");
-        }
-        Permission p = res2.getData();
+    public Qualification addPermissionToQualification(String permName, String qualName) throws Exception {
+        Qualification q = getQualification(qualName);
+        Permission p = getPermission(permName);
+
         if(q.hasPermission(p)) {
-            return Response.makeFailure("The qualification already has this permission. ");
+            throw new ObjectAlreadyExistsException("The qualification already has this permission. ");
         }
         q.addPermission(p);
-        return  Response.makeSuccess(q);
+        return  q;
     }
 
-    public Response<Qualification> removePermissionFromQualification(String permName, String qualName){
-        Response<Qualification> res1 = getQualification(qualName);
-        if(!res1.isSuccess()){
-            return Response.makeFailure("no qualification with such name");
-        }
-        Qualification q = res1.getData();
-        Response<Permission> res2 = getPermission(permName);
-        if(!res2.isSuccess()){
-            return Response.makeFailure("no permission with such name");
-        }
-        Permission p = res2.getData();
+    public Qualification removePermissionFromQualification(String permName, String qualName) throws Exception {
+        Qualification q = getQualification(qualName);
+        Permission p = getPermission(permName);
+
         if(!q.hasPermission(p)) {
-            return Response.makeFailure("The qualification doesn't have this permission. ");
+            throw new ObjectNotFoundException("The qualification doesn't have this permission. ");
         }
         q.removePermission(p);
-        return  Response.makeSuccess(q);
+        return  q;
     }
 
 

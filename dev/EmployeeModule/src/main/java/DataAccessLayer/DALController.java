@@ -14,55 +14,56 @@ public class DALController
         // this is a placeholder method, call this when you need to access database.
         // TODO IMPLEMENT THIS
     }
-    public static Response<Employee> addEmployee(Employee employee)
+    public static Employee addEmployee(Employee employee) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(employee);
+        return employee;
     }
-    public static Response<Employee> removeEmployee(Employee employee) {
-        // TODO IMPLEMENT
-        return Response.makeSuccess(employee);
-    }
-
-    public static Response<String> employeeUpdateName(Employee employee, String newName)
+    public static Employee removeEmployee(Employee employee) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(newName);
+        return employee;
     }
 
-    public static Response<Double> employeeUpdateSalary(Employee employee, double newSalary)
+    public static String employeeUpdateName(Employee employee, String newName) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(newSalary);
+        return newName;
     }
 
-    public static Response<BankAccountDetails> employeeUpdateBankAccountDetails(Employee employee, BankAccountDetails newBankAccountDetails)
+    public static Double employeeUpdateSalary(Employee employee, double newSalary) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(newBankAccountDetails);
+        return newSalary;
     }
 
-    public static Response<TimeInterval> employeeAddWorkingHour(Employee employee, TimeInterval newWorkingHour)
+    public static BankAccountDetails employeeUpdateBankAccountDetails(Employee employee, BankAccountDetails newBankAccountDetails) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(newWorkingHour);
+        return newBankAccountDetails;
     }
 
-    public static Response<TimeInterval> employeeRemoveWorkingHour(Employee employee, TimeInterval workingHour)
+    public static TimeInterval employeeAddWorkingHour(Employee employee, TimeInterval newWorkingHour) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(workingHour);
+        return newWorkingHour;
     }
 
-    public static Response<Qualification> employeeAddQualification(Employee employee, Qualification newQualification)
+    public static TimeInterval employeeRemoveWorkingHour(Employee employee, TimeInterval workingHour) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(newQualification);
+        return workingHour;
     }
 
-    public static Response<Qualification> employeeRemoveQualification(Employee updatedE, Qualification qualification)
+    public static Qualification employeeAddQualification(Employee employee, Qualification newQualification) throws Exception
     {
         // TODO IMPLEMENT
-        return Response.makeSuccess(qualification);
+        return newQualification;
+    }
+
+    public static Qualification employeeRemoveQualification(Employee updatedE, Qualification qualification) throws Exception
+    {
+        // TODO IMPLEMENT
+        return qualification;
     }
 }

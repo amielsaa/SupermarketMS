@@ -1,7 +1,6 @@
 package BusinessLayer;
 
-import Utilities.LegalTimeException;
-import Utilities.Response;
+import Utilities.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,26 +45,22 @@ public class WorkingConditions
             return Collections.unmodifiableList(qualifications);
         }
 
-        protected Response<TimeInterval> addWorkingHour(LocalDateTime start, LocalDateTime end)
+        protected TimeInterval addWorkingHour(LocalDateTime start, LocalDateTime end) throws Exception
         {
             TimeInterval newWh;
-            try
-            {
-                newWh = new TimeInterval(start, end);
-            } catch (LegalTimeException e) {
-                return Response.makeFailure("Start time is illegal. ");
-            }
+            newWh = new TimeInterval(start, end);
             for(TimeInterval wh : workingHours) {
                 if(wh.isOverlapping(newWh)) {
-                    return Response.makeFailure("Cannot create time overlapping with: " + wh.toString() + ". ");
+                    throw new IllegalObjectException("Cannot create time overlapping with: " + wh.toString() + ". ");
                 }
             }
             this.workingHours.add(newWh);
 
-            return Response.makeSuccess(newWh);
+            return newWh;
         }
 
-        protected Response<TimeInterval> removeWorkingHour(LocalDateTime start) {
+        protected TimeInterval removeWorkingHour(LocalDateTime start) throws Exception
+        {
             // remove all with the same starting time.
             // using iterator for safe removal.
             TimeInterval removedWh = null;
@@ -79,32 +74,34 @@ public class WorkingConditions
             }
             if(removedWh == null)
             {
-                return Response.makeFailure("No working hour with this starting time found. ");
+                throw new ObjectNotFoundException("No working hour with this starting time found. ");
             }
-            return Response.makeSuccess(removedWh);
+            return removedWh;
         }
 
-        protected Response<TimeInterval> getWorkingHour(LocalDateTime start) {
+        protected TimeInterval getWorkingHour(LocalDateTime start) throws Exception
+        {
             for(TimeInterval wh : workingHours) {
                 if(wh.getStart().isEqual(start)) {
-                    return Response.makeSuccess(wh);
+                    return wh;
                 }
             }
-            return Response.makeFailure("No working hour with this starting time found. ");
+            throw new ObjectNotFoundException("No working hour with this starting time found. ");
         }
 
-        protected Response<Qualification> addQualification(Qualification qualification) {
+        protected Qualification addQualification(Qualification qualification) throws Exception{
             // add by pointer
             if(qualifications.contains(qualification)) {
-                return Response.makeFailure("This qualification is already in this list. ");
+                throw new ObjectAlreadyExistsException("This qualification is already in this list. ");
             }
             else {
                 this.qualifications.add(qualification);
-                return Response.makeSuccess(qualification);
+                return qualification;
             }
         }
 
-        protected Response<Qualification> removeQualification(String name) {
+        protected Qualification removeQualification(String name) throws Exception
+        {
             // remove all with the same name
             // using iterator for safe removal.
             Qualification removedQ = null;
@@ -118,17 +115,17 @@ public class WorkingConditions
             }
             if(removedQ == null)
             {
-                return Response.makeFailure("No qualification with this name found. ");
+                throw new ObjectNotFoundException("No qualification with this name found. ");
             }
-            return Response.makeSuccess(removedQ);
+            return removedQ;
         }
 
-        protected Response<Qualification> getQualification(String name) {
+        protected Qualification getQualification(String name) throws Exception {
             for(Qualification q : qualifications) {
                 if(q.getName().equals(name)) {
-                    return Response.makeSuccess(q);
+                    return q;
                 }
             }
-            return Response.makeFailure("No qualification with this name found. ");
+            throw new ObjectNotFoundException("No qualification with this name found. ");
         }
 }

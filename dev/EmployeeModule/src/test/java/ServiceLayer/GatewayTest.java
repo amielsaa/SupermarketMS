@@ -36,12 +36,20 @@ public class GatewayTest
     public void setUp() throws Exception
     {
         g = new Gateway();
-        g.initDefaultData();
-        g.login(ADMIN_UID);
+        try
+        {
+            g.initDefaultData();
+        } catch (Exception e)
+        {
+            System.out.println("WARNING! initialization of the gateway resulted in an error: " + e.getMessage());
+        } finally
+        {
+            g.login(ADMIN_UID);
+        }
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         g.logout();
     }

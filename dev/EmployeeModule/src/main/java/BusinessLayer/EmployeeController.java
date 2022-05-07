@@ -1,8 +1,8 @@
 package BusinessLayer;
 
 import DataAccessLayer.DALController;
-import Utilities.Response;
-
+import Utilities.ObjectAlreadyExistsException;
+import Utilities.ObjectNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,143 +20,123 @@ public class EmployeeController
         return Collections.unmodifiableList(employees);
     }
 
-    public Response<Permission> checkPermission(int id, Permission permission) {
+    public Permission checkPermission(int id, Permission permission) throws Exception
+    {
         Employee e = findEmployeeById(id);
         if(e == null) {
-            Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
         List<Qualification> qList = e.getWorkingConditions().getQualifications();
         for (Qualification q : qList)
         {
             if(q.hasPermission(permission)) {
-                return Response.makeSuccess(permission);
+                return permission;
             }
         }
-        return Response.makeFailure("Employee does not have the permission. ");
+        throw new ObjectNotFoundException("Employee does not have the permission. ");
     }
 
-    public Response<Employee> addEmployee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, String workingConditionsDescription) {
+    public Employee addEmployee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, String workingConditionsDescription) throws Exception {
         // TODO database integration
         for(Employee e : employees)
         {
             if(e.getId() == id)
             {
-                return Response.makeFailure("An employee with that id already exists. ");
+                throw new ObjectAlreadyExistsException("An employee with that id already exists. ");
             }
         }
         WorkingConditions workingConditions = new WorkingConditions(workingConditionsDescription);
         Employee newEmployee = new Employee(id, name, bankAccountDetails, salary, workStartingDate, workingConditions);
-        Response<Employee> databaseResponse = DALController.addEmployee(newEmployee);
-        if(databaseResponse.isSuccess())
-        {
-            employees.add(newEmployee);
-        }
-        return databaseResponse;
+        Employee e = DALController.addEmployee(newEmployee);
+        employees.add(e);
+        return e;
     }
 
-    public Response<Employee> removeEmployee(int id) {
+    public Employee removeEmployee(int id) throws Exception{
         // TODO database integration
         // removing first occurrence
         Employee removedE = findEmployeeById(id);
         if(removedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<Employee> databaseResponse = DALController.removeEmployee(removedE);
-        if(databaseResponse.isSuccess())
-        {
-            employees.remove(removedE);
-        }
-        return databaseResponse;
+        Employee e = DALController.removeEmployee(removedE);
+        employees.remove(removedE);
+        return e;
     }
 
-    public Response<Employee> getEmployee(int id) {
+    public Employee getEmployee(int id) throws Exception{
         for(Employee e : employees) {
             if(e.getId() == id) {
-                return Response.makeSuccess(e);
+                return e;
             }
         }
-        return Response.makeFailure("No employee with this id found. ");
+        throw new ObjectNotFoundException("No employee with this id found. ");
     }
 
-    public Response<String> updateEmployeeName(int id, String newName) {
+    public String updateEmployeeName(int id, String newName) throws Exception {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<String> databaseResponse = DALController.employeeUpdateName(updatedE, newName);
-        if(databaseResponse.isSuccess())
-        {
-            updatedE.setName(databaseResponse.getData());
-        }
-        return databaseResponse;
+        String s = DALController.employeeUpdateName(updatedE, newName);
+        updatedE.setName(s);
+        return s;
     }
 
-    public Response<Double> updateEmployeeSalary(int id, double newSalary) {
+    public Double updateEmployeeSalary(int id, double newSalary) throws Exception {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<Double> databaseResponse = DALController.employeeUpdateSalary(updatedE, newSalary);
-        if(databaseResponse.isSuccess())
-        {
-            updatedE.setSalary(databaseResponse.getData());
-        }
-        return databaseResponse;
+        Double d = DALController.employeeUpdateSalary(updatedE, newSalary);
+        updatedE.setSalary(d);
+        return d;
     }
 
-    public Response<BankAccountDetails> updateEmployeeBankAccountDetails(int id, BankAccountDetails newBankAccountDetails) {
+    public BankAccountDetails updateEmployeeBankAccountDetails(int id, BankAccountDetails newBankAccountDetails) throws Exception {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<BankAccountDetails> databaseResponse = DALController.employeeUpdateBankAccountDetails(updatedE, newBankAccountDetails);
-        if(databaseResponse.isSuccess())
-        {
-            updatedE.setBankAccountDetails(databaseResponse.getData());
-        }
-        return databaseResponse;
+        BankAccountDetails b = DALController.employeeUpdateBankAccountDetails(updatedE, newBankAccountDetails);
+        updatedE.setBankAccountDetails(b);
+        return b;
     }
 
-    public Response<TimeInterval> employeeAddWorkingHour(int id, LocalDateTime start, LocalDateTime end)
+    public TimeInterval employeeAddWorkingHour(int id, LocalDateTime start, LocalDateTime end) throws Exception
     {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
 
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<TimeInterval> newWorkingHour = updatedE.getWorkingConditions().addWorkingHour(start, end);
-        if(!newWorkingHour.isSuccess()) {
-            return newWorkingHour;
-        }
-        Response<TimeInterval> databaseResponse = DALController.employeeAddWorkingHour(updatedE, newWorkingHour.getData());
-        return databaseResponse;
+        TimeInterval newWorkingHour = updatedE.getWorkingConditions().addWorkingHour(start, end);
+        TimeInterval ti = DALController.employeeAddWorkingHour(updatedE, newWorkingHour);
+        return ti;
     }
 
-    public Response<TimeInterval> employeeRemoveWorkingHour(int id, LocalDateTime start) {
+    public TimeInterval employeeRemoveWorkingHour(int id, LocalDateTime start) throws Exception {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
 
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<TimeInterval> removedWorkingHour = updatedE.getWorkingConditions().removeWorkingHour(start);
-        if(!removedWorkingHour.isSuccess()) {
-            return removedWorkingHour;
-        }
-        Response<TimeInterval> databaseResponse = DALController.employeeRemoveWorkingHour(updatedE, removedWorkingHour.getData());
-        return databaseResponse;
+        TimeInterval removedWorkingHour = updatedE.getWorkingConditions().removeWorkingHour(start);
+        TimeInterval ti = DALController.employeeRemoveWorkingHour(updatedE, removedWorkingHour);
+        return ti;
     }
 
-    public Response<Qualification> employeeAddQualification(int id, Qualification qualification) {
+    public Qualification employeeAddQualification(int id, Qualification qualification) throws Exception {
         // from service layer call the QualificationController and fetch it by name.
         // then call this with that qualification
         // TODO database integration
@@ -164,36 +144,33 @@ public class EmployeeController
         Employee updatedE = findEmployeeById(id);
 
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
         // Check if employee already has that qualification
-        Response<Qualification> r = updatedE.getWorkingConditions().getQualification(qualification.getName());
-        if(r.isSuccess()) {
-            return Response.makeFailure("Employee already has a qualification with that name. ");
+        try {
+            Qualification q = updatedE.getWorkingConditions().getQualification(qualification.getName());
+            throw new ObjectAlreadyExistsException("Employee already has a qualification with that name. ");
+        } catch (Exception e){
+            // all good
         }
 
-        Response<Qualification> newQualification = updatedE.getWorkingConditions().addQualification(qualification);
-        if(!newQualification.isSuccess()) {
-            return newQualification;
-        }
-        Response<Qualification> databaseResponse = DALController.employeeAddQualification(updatedE, newQualification.getData());
-        return databaseResponse;
+        Qualification newQualification = updatedE.getWorkingConditions().addQualification(qualification);
+
+        Qualification q = DALController.employeeAddQualification(updatedE, newQualification);
+        return q;
     }
 
-    public Response<Qualification> employeeRemoveQualification(int id, String name) {
+    public Qualification employeeRemoveQualification(int id, String name) throws Exception {
         // TODO database integration
         // update first occurrence
         Employee updatedE = findEmployeeById(id);
 
         if(updatedE == null) {
-            return Response.makeFailure("No employee with this id found. ");
+            throw new ObjectNotFoundException("No employee with this id found. ");
         }
-        Response<Qualification> removedQualification = updatedE.getWorkingConditions().removeQualification(name);
-        if(!removedQualification.isSuccess()) {
-            return removedQualification;
-        }
-        Response<Qualification> databaseResponse = DALController.employeeRemoveQualification(updatedE, removedQualification.getData());
-        return databaseResponse;
+        Qualification removedQualification = updatedE.getWorkingConditions().removeQualification(name);
+        Qualification q = DALController.employeeRemoveQualification(updatedE, removedQualification);
+        return q;
     }
 
     private Employee findEmployeeById(int id) {
