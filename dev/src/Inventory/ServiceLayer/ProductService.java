@@ -55,7 +55,10 @@ public class ProductService {
 
     public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
         try{
-            Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,categories);
+            Response<List<Category>> categoriesRes = GetCategories(categories);
+            if(!categoriesRes.isSuccess())
+                return Response.makeFailure(categoriesRes.getMessage());
+            Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,categoriesRes.getData());
             return Response.makeSuccess(product.toString());
         } catch(Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -73,6 +76,14 @@ public class ProductService {
 
 
     //TODO: may need to change response type
+    public Response<List<Category>> GetCategories(String categories) {
+        try{
+            return Response.makeSuccess(categoryController.getCategoriesByString(categories));
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
     public Response<Category> AddCategory(String category) {
         try{
             Category cat = categoryController.addCategory(category);

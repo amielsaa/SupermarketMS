@@ -1,5 +1,6 @@
-package Inventory.DataAccessLayer;
+package Inventory.DataAccessLayer.DAO;
 
+import Inventory.DataAccessLayer.DalController;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
@@ -7,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReportDAO extends DalController{
+public class ReportDAO extends DalController {
 
     public ReportDAO(String tableName) {
         super(tableName);
