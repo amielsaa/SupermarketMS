@@ -20,6 +20,7 @@ public class Service {
         this.data = new DataController();
         this.productService = new ProductService(data);
         this.reportService = new ReportService(data);
+        addProducts();
     }
 
     // product service
@@ -91,6 +92,17 @@ public class Service {
 
     public Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> pairOfBalls) {
         throw new NotImplementedException();
+    }
+
+    private void addProducts() {
+        AddProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
+        AddProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
+        AddProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
+        AddProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
+        AddProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
+        AddProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
+        AddProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
+        AddProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
     }
 
 

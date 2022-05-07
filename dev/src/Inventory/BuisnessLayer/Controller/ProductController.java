@@ -1,6 +1,8 @@
 package Inventory.BuisnessLayer.Controller;
 
 import Inventory.BuisnessLayer.Objects.*;
+import Inventory.DataAccessLayer.DAO.ProductDAO;
+import Inventory.DataAccessLayer.DAO.StoreProductDAO;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
@@ -13,23 +15,29 @@ public class ProductController {
     private int productId; //TODO: add to diagram
     private int storeId; //TODO: add to diagram
 
+    private ProductDAO productDAO;
+    private StoreProductDAO storeProductDAO;
+
     public ProductController(DataController data) {
         this.productId = 0;
         this.data = data;
-        addProducts();
+        this.productDAO = new ProductDAO("Products");
+        this.storeProductDAO = new StoreProductDAO("StoreProducts");
+        //addProducts();
 
     }
 
-    private void addProducts() {
-        addProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
-        addProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
-        addProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
-        addProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
-        addProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
-        addProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
-        addProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
-        addProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
-    }
+    //TODO:
+//    private void addProducts() {
+//        addProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
+//        addProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
+//        addProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
+//        addProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
+//        addProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
+//        addProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
+//        addProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
+//        addProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
+//    }
 
     /**
      *
@@ -66,44 +74,50 @@ public class ProductController {
      * @param categories
      * @return
      */
-    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
+
+
+    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, List<Category> categories) {
         //check for base conditions that satisfy the requirements - else throw exception
-        List<String> categoriesList = stringToCategoryList(categories);
-        categoriesExistance(categoriesList);
+        //List<String> categoriesList = stringToCategoryList(categories);
+        //categoriesExistance(categoriesList);
         //TODO: capitalize all categories names
-        List<Category> productCategories = getCategoriesByName(categoriesList);
-        Product product = new Product(productId++,name,producer,buyingPrice,sellingPrice,productCategories);
-        data.getProductListMap().put(product,new ArrayList<>());
-        return product;
-
+        //List<Category> productCategories = getCategoriesByName(categoriesList);
+        return productDAO.InsertProduct(productId++,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,-1);
     }
 
-    private void categoriesExistance(List<String> categories) {
-        for(String item : categories) {
-            Category curCategory = data.getCategories().stream().filter(category-> item.equals(category.getCategoryName()))
-                    .findFirst().orElse(null);
-            if(curCategory == null)
-                throw new IllegalArgumentException(item + " doesn't exists.");
-        }
-    }
-
-    private List<String> stringToCategoryList(String categoryString) {
-        List<String> categories = new ArrayList<>();
-        String[] categoryArray = categoryString.split(",");
-        for(int i=0;i<categoryArray.length;i++)
-            categoryArray[i] = categoryArray[i].trim();
-        Collections.addAll(categories,categoryArray);
-        return categories;
-    }
-
-    private List<Category> getCategoriesByName(List<String> cat) {
-        List<Category> categoryList = new ArrayList<>();
-        for (String it: cat) {
-            categoryList.add(data.getCategories().stream().filter(category-> it.equals(category.getCategoryName()))
-                    .findFirst().orElse(null));
-        }
-        return categoryList;
-    }
+//    private String categoryListToString(List<Category> categories) {
+//        String returnString = "";
+//        for(Category c : categories)
+//            returnString = returnString+","+c.getCategoryName();
+//        return returnString.substring(0,returnString.length()-1);
+//    }
+//
+//    private void categoriesExistance(List<String> categories) {
+//        for(String item : categories) {
+//            Category curCategory = data.getCategories().stream().filter(category-> item.equals(category.getCategoryName()))
+//                    .findFirst().orElse(null);
+//            if(curCategory == null)
+//                throw new IllegalArgumentException(item + " doesn't exists.");
+//        }
+//    }
+//
+//    private List<String> stringToCategoryList(String categoryString) {
+//        List<String> categories = new ArrayList<>();
+//        String[] categoryArray = categoryString.split(",");
+//        for(int i=0;i<categoryArray.length;i++)
+//            categoryArray[i] = categoryArray[i].trim();
+//        Collections.addAll(categories,categoryArray);
+//        return categories;
+//    }
+//
+//    private List<Category> getCategoriesByName(List<String> cat) {
+//        List<Category> categoryList = new ArrayList<>();
+//        for (String it: cat) {
+//            categoryList.add(data.getCategories().stream().filter(category-> it.equals(category.getCategoryName()))
+//                    .findFirst().orElse(null));
+//        }
+//        return categoryList;
+//    }
 
     /**
      * @param id
@@ -113,19 +127,20 @@ public class ProductController {
      * @param locations
      */
     public StoreProduct addStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
-        Product currentProduct = data.findProductById(id);
+        //Product currentProduct = data.findProductById(id);
         Date curExpDate = getDateByString(expDate);
         List<Location> curLocations = getLocationListByString(locations);
-        StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
-        addStoreProductToMap(currentProduct,sp);
-        return sp;
+        return storeProductDAO.InsertStoreProduct(id,storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
+        //StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
+        //addStoreProductToMap(currentProduct,sp);
+        //return sp;
     }
 
-    private void addStoreProductToMap(Product p,StoreProduct sp) {
-        List<StoreProduct> spList = data.getProductListMap().get(p);
-        spList.removeIf(item -> item.getStoreId() == storeId);
-        data.getProductListMap().get(p).add(sp);
-    }
+//    private void addStoreProductToMap(Product p,StoreProduct sp) {
+//        List<StoreProduct> spList = data.getProductListMap().get(p);
+//        spList.removeIf(item -> item.getStoreId() == storeId);
+//        data.getProductListMap().get(p).add(sp);
+//    }
 
     //locations of items will represenet as follow: warehouse-1-2&store-1-2
     private List<Location> getLocationListByString(String location) {
@@ -148,6 +163,7 @@ public class ProductController {
     }
 
 
+    //TODO: should be deleted
     public Product addDefectiveProduct(int productId) {
         Product product = data.findProductById(productId);
         if(data.getDefectiveProducts().contains(product))

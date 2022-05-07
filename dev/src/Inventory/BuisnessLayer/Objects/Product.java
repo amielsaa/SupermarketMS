@@ -93,4 +93,7 @@ public class Product {
         this.discount = discount;
         this.discountExpDate = discountExpDate;
     }
+    public void setMinQuantity(int minQuantity){
+        this.minQuantity = minQuantity;
+    }
 }

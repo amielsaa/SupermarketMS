@@ -4,8 +4,7 @@ import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
-import Inventory.DataAccessLayer.ProductDAO;
-import Inventory.DataAccessLayer.ReportDAO;
+import Inventory.DataAccessLayer.DAO.ReportDAO;
 import Inventory.ServiceLayer.Objects.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
