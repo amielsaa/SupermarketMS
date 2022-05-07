@@ -39,8 +39,19 @@ public class ReportDAO extends DalController{
     }
 
     public void InsertDefectiveProducts(Integer productID) {
+        String sql = "UPDATE Products "+
+                "SET defective = 'true'"+
+                "WHERE id =(productID)"+"VALUES(?)";
+        try{
 
-        throw new NotImplementedException();
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,productID);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void InsertExpiredProducts(List<Integer> productIDs) {
