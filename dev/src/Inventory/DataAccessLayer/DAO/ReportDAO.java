@@ -1,5 +1,6 @@
 package Inventory.DataAccessLayer.DAO;
 
+import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.DataAccessLayer.DalController;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -8,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReportDAO extends DalController {
+public class ReportDAO extends DalController{
 
     public ReportDAO(String tableName) {
         super(tableName);
@@ -30,7 +31,7 @@ public class ReportDAO extends DalController {
 //        }
 //    }
 //
-    public void SelectDefectiveProducts() {
+    public List<Product> SelectDefectiveProducts() {
         throw new NotImplementedException();
     }
 
@@ -38,7 +39,8 @@ public class ReportDAO extends DalController {
         throw new NotImplementedException();
     }
 
-    public void InsertDefectiveProducts(List<Integer> productIDs) {
+    public void InsertDefectiveProducts(Integer productID) {
+
         throw new NotImplementedException();
     }
 

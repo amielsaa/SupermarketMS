@@ -49,6 +49,14 @@ public class StoreProduct {
         return locations;
     }
 
+    public boolean isExpired(){
+        Date now = new Date();
+        if(expDate.after(now))
+            return true;
+        else
+            return false;
+    }
+
     public String toString() {
         return String.format("%d : %d : %d/%d/%d : %s",quantityInStore,quantityInWarehouse,expDate.getDate(),expDate.getMonth()+1,expDate.getYear()+1900,getLocationsByString());
     }
