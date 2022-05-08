@@ -96,4 +96,5 @@ public class ProductDAO extends DalController {
             acc = acc + "," +c.getCategoryName();
         return acc.substring(1);
     }
+
 }
