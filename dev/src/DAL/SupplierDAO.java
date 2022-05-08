@@ -21,7 +21,7 @@ public class SupplierDAO extends DalController {
         BN_To_Supplier = new HashMap<Integer, Supplier>();
     }
 
-    public void select(){}
+    //public void select(){}
 
     //deliverbydays should be boolean
     //selfdelivery should be boolean
@@ -136,22 +136,8 @@ public class SupplierDAO extends DalController {
         return false;
     }
 
-    public boolean updateSupplierDeliveryDays(int bn, Set<Integer> days){
-        //remove old days, insert new ones
-        try{
-            Supplier supp = getSupplier(bn);
-            for(Days d : supp.getDays_To_Deliver()){
-                deleteDaysToDeliver(bn, dayConverter(d));
-            }
-            for(int d : days){
-                insertDaysToDeliver(bn, d);
-            }
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
+
+
     public boolean updateSupplierSelfDelivery(int business_num, boolean selfDelivery){
         // UwU
         int selfDeliveryInt = 0;
@@ -185,6 +171,7 @@ public class SupplierDAO extends DalController {
         if(b) x++;
         return x;
     }
+
     public boolean updateSupplierPaymentDetails(int bn, String paymentDetails){
         //todo:
         return false;

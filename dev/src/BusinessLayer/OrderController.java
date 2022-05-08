@@ -30,7 +30,7 @@ public class OrderController {
 
     //return all the Orders from the specific supplier
     public Collection<Order> getAllOrdersFromSupplier(int supplierBN){
-        if(!orderDAO.setAllOrdersForSpecificBN(supplierBN))
+        if(!orderDAO.setAllOrders(supplierBN))
             return new ArrayList<Order>();
         return orderDAO.getAllOrders(supplierBN);
 

@@ -1,8 +1,11 @@
 package DAL;
 
+import BusinessLayer.Contact;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 
 public class ContactDAO extends DalController{
     public ContactDAO() {
@@ -25,19 +28,23 @@ public class ContactDAO extends DalController{
         return true;
     }
 
-    public boolean deleteContact(int bn, String name)  {
-        String sql = "DELETE FROM Contacts WHERE bn = ?, name = ?";
+    public boolean deleteContact(int bn, String phone)  {
+        String sql = "DELETE FROM Contacts WHERE bn = ?, phone = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
-            pstmt.setString(2, name);
+            pstmt.setString(2, phone);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
         }
         return true;
+    }
+
+    public Collection<Contact> selectAllContacts(int bn){
+
     }
 
 

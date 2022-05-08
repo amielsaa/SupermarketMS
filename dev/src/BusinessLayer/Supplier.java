@@ -40,6 +40,11 @@ public class Supplier  {
             Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
     }
 
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, boolean self_delivery_or_pickup, boolean delivery_By_Days) {
+        Name = name;
+        Business_Num = business_num;
+    }
+
     public void setName(String name) {
         Name = name;
     }

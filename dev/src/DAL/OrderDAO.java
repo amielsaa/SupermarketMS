@@ -6,7 +6,9 @@ import BusinessLayer.Supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class OrderDAO extends DalController {
     private HashMap<Integer, HashMap<Integer, Order>> BN_To_Orders;
@@ -91,11 +93,16 @@ public class OrderDAO extends DalController {
       return BN_To_Orders.get(bn).get(orderId);
 
     }
-    public boolean setAllOrdersForSpecificBN (int bn){
+    public boolean setAllOrders(int bn){
         //sets all the orders of a specific BN inside the Hashmap. if there are none return false if there are even one
         //return true
-        //todo:
+        //todo: select orders with this bn, add orders to HM. return false if none are found. check if each order isn't getting added twice to HM (wasn't there previously)
         return false;
+    }
+
+    public Collection<Order> getAllOrders(int bn){
+        //todo: get all orders from HM and return it
+        return new LinkedList<>();
     }
 
 

@@ -44,6 +44,33 @@ public class DaysToDeliverDAO extends DalController{
         return true;
     }
 
+    private boolean deleteAllDaysToDeliver(int bn)  {
+        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?";
 
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean updateSupplierDeliveryDays(int bn, Set<Integer> days){
+        //remove old days, insert new ones
+        try{
+            deleteAllDaysToDeliver(bn);
+            for(int d : days){
+                insertDaysToDeliver(bn, d);
+            }
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
 
 }
