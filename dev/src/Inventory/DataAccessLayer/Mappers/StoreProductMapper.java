@@ -12,13 +12,13 @@ public class StoreProductMapper {
         this.storeProductsMap = new HashMap<>();
     }
 
+    //TODO: update storeproduct
     public List<StoreProduct> addStoreProduct(int productid, StoreProduct sp) {
         if(storeProductsMap.containsKey(productid)) {
             StoreProduct spInMap = storeProductsMap.get(productid).stream().filter(s-> sp.getStoreId()==s.getStoreId() && sp.getExpDate().equals(s.getExpDate())).findFirst().orElse(null);
             if(spInMap==null)
                 storeProductsMap.get(productid).add(sp);
         }
-
         else
             storeProductsMap.put(productid, Arrays.asList(sp));
         return storeProductsMap.get(productid);

@@ -39,7 +39,7 @@ public class ReportController {
     //TODO: change return type to whatever <name & producer , quantity>
     // done.
     public Map<Pair<String,String>,Integer> reportByMinimumQuantity(Map<Product,List<StoreProduct>> productListMap) {
-        Map<Pair<String, String>, Integer> report = new HashMap<>() {};
+        Map<Pair<String, String>, Integer> report = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
             int quantity =0;
             for(StoreProduct storeProduct: mapSet.getValue()){
@@ -67,7 +67,8 @@ public class ReportController {
                 {
                     if(mapSet.getKey().getCategories().contains(cat)){
                         for (StoreProduct storeProduct: mapSet.getValue()) {
-                            table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toString()));}
+                            if(!storeProduct.isNull())
+                                table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toString()));}
                     }
                 }
            }
@@ -84,7 +85,7 @@ public class ReportController {
         for(Map.Entry<Product,List<StoreProduct>> mapset: productListMap.entrySet())
         {
             for(StoreProduct storeProduct: mapset.getValue()){
-                if(storeProduct.isExpired()){
+                if(!storeProduct.isNull() && storeProduct.isExpired()){
                     table.addRow(mergeArray(mapset.getKey().toArrayString(),storeProduct.toString()));
                 }
             }

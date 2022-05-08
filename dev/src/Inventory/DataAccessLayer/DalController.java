@@ -1,9 +1,7 @@
 package Inventory.DataAccessLayer;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public abstract class DalController {
     private final String tableName;
@@ -26,6 +24,44 @@ public abstract class DalController {
             System.out.println(e.getMessage());
         }
         return conn;
+    }
+
+    public void Update(String idColName,int id,String colName, int value) {
+        String sql = "UPDATE " + tableName + " SET "+ colName + "="+value+
+                " WHERE "+idColName+"="+id;
+        try {
+            Connection conn = this.makeConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }catch(SQLException e) {
+            throw new IllegalArgumentException("Update failed.");
+        }
+    }
+
+    public void Update(String idColName,int id, String colName, String value) {
+        String sql = "UPDATE " + tableName + " SET "+ colName + "="+"'"+value+"'"+
+                " WHERE "+idColName+"="+id;
+        try {
+            Connection conn = this.makeConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }catch(SQLException e) {
+            //System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Update failed.");
+        }
+
+    }
+
+    public void Delete(String idColeName,int id) {
+        String sql = "DELETE FROM "+tableName+" WHERE "+idColeName+"=" +id;
+        try {
+            Connection conn = this.makeConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }catch(SQLException e) {
+            //System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Update failed.");
+        }
     }
 
     public String getPath() {

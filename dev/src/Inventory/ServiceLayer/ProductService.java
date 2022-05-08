@@ -31,20 +31,32 @@ public class ProductService {
         }
     }
 
+    public Response<Map<Product,List<StoreProduct>>> GetAllProductsMap() {
+        try{
+            Map<Product,List<StoreProduct>> products = productController.getAllProducts();
+            return Response.makeSuccess(products);
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
     public Response<List<ProductSL>> GetAllProducts() {
         try {
-            Map<Product,StoreProduct> products = productController.getAllProducts();
+            Map<Product,List<StoreProduct>> products = productController.getAllProducts();
             List<ProductSL> slproducts = new ArrayList<>();
-            for(Map.Entry<Product,StoreProduct> entry : products.entrySet()) {
+            for(Map.Entry<Product,List<StoreProduct>> entry : products.entrySet()) {
                 Product curProd = entry.getKey();
-                StoreProduct curSP = entry.getValue();
-                slproducts.add(new ProductSL(curProd.getId(),curProd.getName(),
-                        curProd.getProducer(),curProd.getBuyingPrice(),
-                        curProd.getSellingPrice(),curProd.getDiscount(),
-                        curProd.getDiscountExpDate(),curProd.getCategories(),
-                        curProd.getMinQuantity(),curSP.getQuantityInStore(),
-                        curSP.getQuantityInWarehouse(),curSP.getExpDate(),
-                        curSP.getLocations()));
+                List<StoreProduct> curSP = entry.getValue();
+                for(StoreProduct sp: curSP){
+                    slproducts.add(new ProductSL(curProd.getId(),curProd.getName(),
+                            curProd.getProducer(),curProd.getBuyingPrice(),
+                            curProd.getSellingPrice(),curProd.getDiscount(),
+                            curProd.getDiscountExpDate(),curProd.getCategories(),
+                            curProd.getMinQuantity(),sp.getQuantityInStore(),
+                            sp.getQuantityInWarehouse(),sp.getExpDate(),
+                            sp.getLocations()));
+                }
+
             }
             return Response.makeSuccess(slproducts);
         } catch(Exception e) {
@@ -95,7 +107,7 @@ public class ProductService {
 
     public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
         try{
-            String resCategory = categoryController.changeCategory(productId,categoryIndex,newCategory);
+            String resCategory = productController.changeCategory(productId,categoryIndex,categoryController.getCategory(newCategory));
             return Response.makeSuccess(resCategory);
         }catch(Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -121,9 +133,9 @@ public class ProductService {
         }
     }
 
-    public Response<String> AddDiscountByName(String name,String producer, int discount, String date) {
+    public Response<String> AddDiscountByName(int productId, int discount, String date) {
         try{
-            String s = productController.addDiscountByName(name,producer,discount,date);
+            String s = productController.addDiscountByName(productId,discount,date);
             return Response.makeSuccess(s.toString());
         }catch (Exception e) {
             return Response.makeFailure(e.getMessage());

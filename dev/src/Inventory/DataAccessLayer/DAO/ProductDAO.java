@@ -8,6 +8,7 @@ import Inventory.DataAccessLayer.Mappers.ProductMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,35 @@ public class ProductDAO extends DalController {
         }
     }
 
+    //public void UpdateCategory
+
+    public Product SelectProductById(int productid) {
+        Product pExists = productMapper.getProduct(productid);
+        if(pExists!=null)
+            return pExists;
+        String sql = "SELECT * FROM Products WHERE id=?";
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,productid);
+            ResultSet rs = pstmt.executeQuery();
+
+            Product p = null;
+            while (rs.next()) {
+                p = new Product(rs.getInt("id"),rs.getString("name"),
+                        rs.getString("producer"),rs.getDouble("buyingprice"),
+                        rs.getDouble("sellingprice"),
+                        stringToCategoryList(rs.getString("categories")));
+                p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
+                p.setMinQuantity(rs.getInt("minquantity"));
+            }
+            return productMapper.addProduct(p);
+        } catch (SQLException e) {
+            //System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Products fetch failed.");
+        }
+    }
+
     public List<Product> SelectAll() {
         String sql = "SELECT * FROM Products";
         List<Product> products = new ArrayList<>();
@@ -66,17 +96,26 @@ public class ProductDAO extends DalController {
                         rs.getString("producer"),rs.getDouble("buyingprice"),
                         rs.getDouble("sellingprice"),
                         stringToCategoryList(rs.getString("categories")));
-                p.setDiscount(rs.getInt("discount"),rs.getDate("discountDate"));
+                p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
                 p.setMinQuantity(rs.getInt("minquantity"));
                 products.add(productMapper.addProduct(p));
             }
             return products;
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
-            throw new IllegalArgumentException("Store products fetch failed.");
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Products fetch failed.");
         }
 
 
+    }
+
+    private java.util.Date getDateByString(String expDate) {
+        if(expDate.equals("Unknown"))
+            return null;
+        String[] res = expDate.split("/");
+        if(res.length==3 && res[2].length()==4)
+            return new Date(Integer.parseInt(res[2])-1900,Integer.parseInt(res[1])-1,Integer.parseInt(res[0]));
+        throw new IllegalArgumentException("Date format isn't valid.");
     }
 
 
@@ -96,5 +135,10 @@ public class ProductDAO extends DalController {
             acc = acc + "," +c.getCategoryName();
         return acc.substring(1);
     }
+
+    public void UpdateMapper(Product product) {
+        productMapper.addProduct(product);
+    }
+
 
 }

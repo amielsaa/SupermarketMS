@@ -2,6 +2,7 @@ package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
+import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
@@ -74,6 +75,9 @@ public class Menu {
                 case 12:
                     deleteProductAction();
                     break;
+                case 13:
+                    reportByMinQuantity();
+                    break;
 
             }
         }catch(Exception e) {
@@ -87,6 +91,16 @@ public class Menu {
         printDivider();
         System.out.println(service.stopTimer().getData());
         printDivider();
+    }
+
+    private void reportByMinQuantity() {
+        Response<Map<Pair<String,String>,Integer>> res = service.ReportMinQuantity();
+        if(res.isSuccess()) {
+            for(Map.Entry<Pair<String,String>,Integer> entry : res.getData().entrySet()) {
+                System.out.println(entry.getKey().getFirst() +" "+entry.getKey().getSecond() + " : "+entry.getValue());
+            }
+        } else
+            System.out.println(res.getMessage());
     }
 
     private void deleteProductAction() {
@@ -103,40 +117,40 @@ public class Menu {
     }
     //TODO: remove //
     private void reportByCategoriesAction() {
-//        printDivider();
-//        System.out.println("Enter category names.\n" +
-//                "Example: Salty # Shampoo # ...");
-//        printDivider();
-//        String input = enterStringInput();
-//        String[] inputArray = trimProductArray(input,0,false);
-//        Response<Report> res = service.ReportStockByCategory(Arrays.asList(inputArray));
-//        if(res.isSuccess()){
-//            System.out.println(res.getData().getHeadline());
-//            res.getData().getTable().print();
-//        }
-//        else
-//            System.out.println(res.getMessage());
+        printDivider();
+        System.out.println("Enter category names.\n" +
+                "Example: Salty # Shampoo # ...");
+        printDivider();
+        String input = enterStringInput();
+        String[] inputArray = trimProductArray(input,0,false);
+        Response<Report> res = service.ReportStockByCategory(Arrays.asList(inputArray));
+        if(res.isSuccess()){
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+        }
+        else
+            System.out.println(res.getMessage());
     }
     //TODO: remove //
     private void reportByDefectiveAction() {
-//        Response<Report> res = service.ReportByDefective();
-//        if(res.isSuccess()) {
-//            System.out.println(res.getData().getHeadline());
-//            res.getData().getTable().print();
-//        } else
-//            System.out.println(res.getMessage());
+        Response<Report> res = service.ReportByDefective();
+        if(res.isSuccess()) {
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+        } else
+            System.out.println(res.getMessage());
     }
 
     private void addDiscountByNameAction() {
         getAllStoreProductsAction();
         printDivider();
         System.out.println("Select a product to add discount to it by the following scheme:\n" +
-                "product-name # producer-name # discount-in-percentage # discount-exp-date\n" +
-                "Example: Chips # Osem # 20 # 01/05/2022");
+                "product-id # discount-in-percentage # discount-exp-date\n" +
+                "Example: 0 # 20 # 01/05/2022");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,4,true);
-        Response<String> res = service.AddDiscountByName(inputArray[0],inputArray[1],Integer.parseInt(inputArray[2]),inputArray[3]);
+        String[] inputArray = trimProductArray(input,3,true);
+        Response<String> res = service.AddDiscountByName(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),inputArray[2]);
         if(res.isSuccess())
             System.out.println(res.getData());
         else
@@ -202,13 +216,13 @@ public class Menu {
 
     //TODO: remove //
     private void reportByExpiredAction() {
-//        Response<Report> res = service.ReportByExpired();
-//        if(res.isSuccess()){
-//            System.out.println( res.getData().getHeadline());
-//            res.getData().getTable().print();
-//        }
-//        else
-//            System.out.println(res.getMessage());
+        Response<Report> res = service.ReportByExpired();
+        if(res.isSuccess()){
+            System.out.println( res.getData().getHeadline());
+            res.getData().getTable().print();
+        }
+        else
+            System.out.println(res.getMessage());
 
     }
 

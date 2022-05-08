@@ -17,9 +17,15 @@ public class ProductMapper {
     }
 
     public Product addProduct(Product p) {
+        if(p==null)
+            throw new IllegalArgumentException("Product not found.");
         products.removeIf((s)->s.getId()==p.getId());
         products.add(p);
         return p;
+    }
+
+    public Product getProduct(int productid) {
+        return products.stream().filter((p)->p.getId()==productid).findFirst().orElse(null);
     }
 
 }
