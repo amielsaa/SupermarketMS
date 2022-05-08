@@ -49,42 +49,47 @@ public class SupplierController {
             throw new DataFormatException("Error In Database on updateSupplierSelfDelivery");
     }
 
-    public void addSupplierContact(int business_num, String contactName, String contactNum) {
+    public void addSupplierContact(int business_num, String contactName, String contactNum) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).addSupplierContact(contactName, contactNum);
-
-
+        supplierDAO.getSupplier(business_num).addSupplierContact(contactName, contactNum);
+        if (!supplierDAO.insertContact(business_num, contactName, contactNum))
+            throw new DataFormatException("Error In Database on addSupplierContact");
     }
 
-    public void removeSupplierContact(int business_num, String contactNum) {
+    public void removeSupplierContact(int business_num, String contactNum) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).removeSupplierContact(contactNum);
+        supplierDAO.getSupplier(business_num).removeSupplierContact(contactNum);
+        if (!supplierDAO.removeContact(business_num, contactNum))
+            throw new DataFormatException("Error In Database on removeSupplierContact");
     }
 
     public HashMap<Integer, Pair<String, Double>> makeOrder(int business_num, HashMap<Integer, Integer> order) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        return BN_To_Supplier.get(business_num).makeOrder(order);
+        HashMap<Integer, Pair<String, Double>> toreturn=supplierDAO.getSupplier(business_num).makeOrder(order);
+        return toreturn;
     }
 
     public Supplier getSupplier(int business_num) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        return BN_To_Supplier.get(business_num);
+        return supplierDAO.getSupplier(business_num);
     }
 
     public QuantityAgreement getSupplierQuantityAgreement(int business_num) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        return supp.getQuantity_Agreement();
+        return supplierDAO.getSupplier(business_num).getQuantity_Agreement();
     }
 
     public void addSupplierDeliveryDay(int business_num, int day) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).addSupplierDeliveryDay(day);
+        supplierDAO.getSupplier(business_num).addSupplierDeliveryDay(day);
+
+
     }
 
     public void removeSupplierDeliveryDay(int business_num, int day) {
