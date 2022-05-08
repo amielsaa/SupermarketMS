@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public abstract class DalController {
-    private final String tableName;
+    public final String tableName;
     private String connString;
     private String path;
 
