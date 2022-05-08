@@ -6,6 +6,7 @@ import Inventory.BuisnessLayer.Controller.ReportController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
+import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.Report;
 
 import java.util.List;
@@ -42,6 +43,15 @@ public class ReportService {
         try {
             Report report = new Report("Defective products report", reportController.reportByDefective());
             return Response.makeSuccess(report);
+        } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Map<Pair<String,String>,Integer>> ReportMinQuantity(Map<Product,List<StoreProduct>> productListMap) {
+        try {
+            Map<Pair<String,String>,Integer> mappedProducts = reportController.reportByMinimumQuantity(productListMap);
+            return Response.makeSuccess(mappedProducts);
         } catch (Exception e ) {
             return Response.makeFailure(e.getMessage());
         }

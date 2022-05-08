@@ -24,7 +24,7 @@ public class Service {
         this.data = new DataController();
         this.productService = new ProductService(data);
         this.reportService = new ReportService(data);
-        //addProducts();
+        addProducts();
     }
 
     // product service
@@ -93,7 +93,12 @@ public class Service {
     public Response<Report> ReportStockByCategory(List<String> categories) {
         return reportService.ReportStockByCategories(GetAllProductsMap().getData(),GetCategories(String.join(",",categories)).getData());
     }
-    public Response<String> stopTimer() {return productService.StopTimer();}
+
+    public Response<Map<Pair<String,String>,Integer>> ReportMinQuantity() {
+        return reportService.ReportMinQuantity(GetAllProductsMap().getData());
+    }
+
+        public Response<String> stopTimer() {return productService.StopTimer();}
 
     //integration between suppliers
 

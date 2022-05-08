@@ -2,6 +2,7 @@ package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
+import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
@@ -74,6 +75,9 @@ public class Menu {
                 case 12:
                     deleteProductAction();
                     break;
+                case 13:
+                    reportByMinQuantity();
+                    break;
 
             }
         }catch(Exception e) {
@@ -87,6 +91,16 @@ public class Menu {
         printDivider();
         System.out.println(service.stopTimer().getData());
         printDivider();
+    }
+
+    private void reportByMinQuantity() {
+        Response<Map<Pair<String,String>,Integer>> res = service.ReportMinQuantity();
+        if(res.isSuccess()) {
+            for(Map.Entry<Pair<String,String>,Integer> entry : res.getData().entrySet()) {
+                System.out.println(entry.getKey().getFirst() +" "+entry.getKey().getSecond() + " : "+entry.getValue());
+            }
+        } else
+            System.out.println(res.getMessage());
     }
 
     private void deleteProductAction() {
