@@ -81,6 +81,22 @@ public class OrderDAO extends DalController {
             throw new Exception(e.getMessage());
         }
     }
+    public boolean containsOrder(int bn,int orderId){
+        //1-checks if there's a specific order in the hashmap. if yes-return true if not -step 2
+        //2-checks if there's a specific order in the db. if yes-put in the Hashmap and return true, if not return false.
+        //todo:
+        return false;
+    }
+    public Order getOrder(int bn,int orderId){
+      return BN_To_Orders.get(bn).get(orderId);
+
+    }
+    public boolean setAllOrdersForSpecificBN (int bn){
+        //sets all the orders of a specific BN inside the Hashmap. if there are none return false if there are even one
+        //return true
+        //todo:
+        return false;
+    }
 
 
 

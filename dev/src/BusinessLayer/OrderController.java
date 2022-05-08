@@ -1,17 +1,21 @@
 package BusinessLayer;
 
 import DAL.OrderDAO;
+import DAL.OrderItemsDAO;
 import misc.Pair;
 import BusinessLayer.*;
 import java.sql.Date;
 import java.util.*;
+import java.util.zip.DataFormatException;
 
 public class OrderController {
     private int Id_Order_Counter=0;
     private OrderDAO orderDAO;
+    private OrderItemsDAO orderItemsDAO;
 
     public OrderController() {
         orderDAO = new OrderDAO();
+        orderItemsDAO=new OrderItemsDAO();
     }
 
 
@@ -26,12 +30,15 @@ public class OrderController {
 
     //return all the Orders from the specific supplier
     public Collection<Order> getAllOrdersFromSupplier(int supplierBN){
+        if(!orderDAO.setAllOrdersForSpecificBN(supplierBN))
+            return new ArrayList<Order>();
         return orderDAO.getAllOrders(supplierBN);
 
     }
     //gets order by BN and orderID
-    public Order getOrder(int supplierBN,int orderID){
-  //      Check_If_Order_Exists(supplierBN,orderID); //TODO:transfer to Dal
+    public Order getOrder(int supplierBN,int orderID) throws DataFormatException {
+        if(!orderDAO.containsOrder(supplierBN,orderID))
+            throw new DataFormatException("Order does not exists or supplier does not exists");
         return orderDAO.getOrder(supplierBN, orderID);
 
 
@@ -68,7 +75,7 @@ public class OrderController {
         HashMap <Integer,OrderItem> Item_Num_To_OrderItem=new HashMap<Integer,OrderItem>();//the Parameter that will be inserted into the Order
         double finalPrice=0;
         for (int i=0;i<orderKeys.length;i++) {
-            OrderItem orderItem=new OrderItem(Id_Order_Counter,fixedOrder.get(orderKeys[i]).getFirst(),orderKeys[i],fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
+            OrderItem orderItem=new OrderItem(supplierBN,Id_Order_Counter,fixedOrder.get(orderKeys[i]).getFirst(),orderKeys[i],fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
 
             Item_Num_To_OrderItem.put(orderKeys[i],orderItem);
             finalPrice=finalPrice+fixedOrder.get(orderKeys[i]).getSecond();
