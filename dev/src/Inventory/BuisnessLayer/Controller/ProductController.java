@@ -34,15 +34,15 @@ public class ProductController {
      * @return
      */
     //TODO: need to be changed to List<StoreProduct>
-    public Map<Product,StoreProduct> getAllProducts() {
-        Map<Product,StoreProduct> products = new HashMap<>();
+    public Map<Product,List<StoreProduct>> getAllProducts() {
+        Map<Product,List<StoreProduct>> products = new HashMap<>();
         Map<Integer, List<StoreProduct>> storeProductMap = storeProductDAO.SelectAll();
         List<Product> productList = productDAO.SelectAll();
         for(Product p : productList) {
             if(storeProductMap.containsKey(p.getId()))
-                products.put(p,storeProductMap.get(p.getId()).get(0));
+                products.put(p,storeProductMap.get(p.getId()));
             else
-                products.put(p,new StoreProduct(storeId,0,0,null,null));
+                products.put(p,Arrays.asList(new StoreProduct(storeId,0,0,null,null)));
         }
         return products;
     }

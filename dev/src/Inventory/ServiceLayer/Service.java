@@ -2,13 +2,17 @@ package Inventory.ServiceLayer;
 
 import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
+import Inventory.BuisnessLayer.Objects.Product;
+import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Service {
 
@@ -20,7 +24,7 @@ public class Service {
         this.data = new DataController();
         this.productService = new ProductService(data);
         this.reportService = new ReportService(data);
-        addProducts();
+        //addProducts();
     }
 
     // product service
@@ -33,7 +37,16 @@ public class Service {
         return productService.GetAllProducts();
     }
 
-    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
+    public Response<Map<Product,List<StoreProduct>>> GetAllProductsMap() {
+        return productService.GetAllProductsMap();
+    }
+
+    public Response<List<Category>> GetCategories(String categories) {
+        return productService.GetCategories(categories);
+    }
+
+
+        public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
         return productService.AddProduct(name,producer,buyingPrice,sellingPrice,categories);
     }
 
@@ -69,17 +82,17 @@ public class Service {
 
     //report service
 
-//    public Response<Report> ReportByExpired() {
-//        return reportService.ReportByExpired();
-//    }
-//
-//    public Response<Report> ReportByDefective() {
-//        return reportService.ReportByDefective();
-//    }
-//
-//    public Response<Report> ReportStockByCategory(List<String> categories) {
-//        return reportService.ReportStockByCategories(categories);
-//    }
+    public Response<Report> ReportByExpired() {
+        return reportService.ReportByExpired(GetAllProductsMap().getData());
+    }
+
+    public Response<Report> ReportByDefective() {
+        return reportService.ReportByDefective();
+    }
+
+    public Response<Report> ReportStockByCategory(List<String> categories) {
+        return reportService.ReportStockByCategories(GetAllProductsMap().getData(),GetCategories(String.join(",",categories)).getData());
+    }
     public Response<String> stopTimer() {return productService.StopTimer();}
 
     //integration between suppliers

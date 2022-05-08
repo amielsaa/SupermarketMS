@@ -68,7 +68,8 @@ public class ReportController {
                 {
                     if(mapSet.getKey().getCategories().contains(cat)){
                         for (StoreProduct storeProduct: mapSet.getValue()) {
-                            table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toString()));}
+                            if(!storeProduct.isNull())
+                                table.addRow(mergeArray(mapSet.getKey().toArrayString(),storeProduct.toString()));}
                     }
                 }
            }
@@ -85,7 +86,7 @@ public class ReportController {
         for(Map.Entry<Product,List<StoreProduct>> mapset: productListMap.entrySet())
         {
             for(StoreProduct storeProduct: mapset.getValue()){
-                if(storeProduct.isExpired()){
+                if(!storeProduct.isNull() && storeProduct.isExpired()){
                     table.addRow(mergeArray(mapset.getKey().toArrayString(),storeProduct.toString()));
                 }
             }

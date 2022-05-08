@@ -29,6 +29,10 @@ public class StoreProduct {
         return res.substring(0,res.length()-1);
     }
 
+    public boolean isNull() {
+        return expDate == null;
+    }
+
     public int getStoreId() {
         return storeId;
     }
@@ -52,9 +56,9 @@ public class StoreProduct {
     public boolean isExpired(){
         Date now = new Date();
         if(expDate.after(now))
-            return true;
-        else
             return false;
+        else
+            return true;
     }
 
     public String toString() {
