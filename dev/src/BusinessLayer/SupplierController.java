@@ -1,16 +1,25 @@
 package BusinessLayer;
 
+import DAL.*;
 import misc.Pair;
-import DAL.SupplierDAO;
+
 import java.util.HashMap;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
 public class SupplierController {
     private SupplierDAO supplierDAO;
+    private ContactDAO contactDAO;
+    private DaysToDeliverDAO daysToDeliverDAO;
+    private QuantityAgreementDAO quantityAgreementDAO;
+    private DiscountsDAO discountsDAO;
 
     public SupplierController() {
         supplierDAO = new SupplierDAO();
+        contactDAO=new ContactDAO();
+        daysToDeliverDAO=new DaysToDeliverDAO();
+        quantityAgreementDAO=new QuantityAgreementDAO();
+        discountsDAO=new DiscountsDAO();
     }
 
     public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) throws Exception {
@@ -53,7 +62,7 @@ public class SupplierController {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         supplierDAO.getSupplier(business_num).addSupplierContact(contactName, contactNum);
-        if (!supplierDAO.insertContact(business_num, contactName, contactNum))
+        if (!contactDAO.insertContact(business_num, contactName, contactNum))
             throw new DataFormatException("Error In Database on addSupplierContact");
     }
 
@@ -61,7 +70,7 @@ public class SupplierController {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         supplierDAO.getSupplier(business_num).removeSupplierContact(contactNum);
-        if (!supplierDAO.removeContact(business_num, contactNum))
+        if (!contactDAO.deleteContact(business_num, contactNum))
             throw new DataFormatException("Error In Database on removeSupplierContact");
     }
 
@@ -84,38 +93,54 @@ public class SupplierController {
         return supplierDAO.getSupplier(business_num).getQuantity_Agreement();
     }
 
-    public void addSupplierDeliveryDay(int business_num, int day) {
+    public void addSupplierDeliveryDay(int business_num, int day) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         supplierDAO.getSupplier(business_num).addSupplierDeliveryDay(day);
+        if (!daysToDeliverDAO.insertDaysToDeliver(business_num,day))
+            throw new DataFormatException("Error In Database on addSupplierDeliveryDay");
 
 
     }
 
-    public void removeSupplierDeliveryDay(int business_num, int day) {
+    public void removeSupplierDeliveryDay(int business_num, int day) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).removeSupplierDeliveryDay(day);
-    }
+        supplierDAO.getSupplier(business_num).removeSupplierDeliveryDay(day);
+        if(!daysToDeliverDAO.deleteDaysToDeliver(business_num,day))
+            throw new DataFormatException("Error In Database on removeSupplierDeliveryDay");
 
-    public void updateSupplierPaymentDetails(int business_num, String paymentDetail) {
-        if(!supplierDAO.containsSupplier(business_num))
-            throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).setPayment_Details(paymentDetail);
 
-    }
-
-    public void updateSupplierBankAccount(int business_num, int bankAcoount_Num) {
-        if(!supplierDAO.containsSupplier(business_num))
-            throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).updateSupplierBankAccount(bankAcoount_Num);
 
     }
 
-    public void updateContactPhoneNumber(int business_num, String oldPhoneNum, String newPhoneNum) {
+    public void updateSupplierPaymentDetails(int business_num, String paymentDetail) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        BN_To_Supplier.get(business_num).updateContactPhoneNumber(oldPhoneNum, newPhoneNum);
+        supplierDAO.getSupplier(business_num).setPayment_Details(paymentDetail);
+        if(!supplierDAO.updateSupplierPaymentDetails(business_num,paymentDetail))
+            throw new DataFormatException("Error In Database on updateSupplierPaymentDetails");
+
+
+
+    }
+
+    public void updateSupplierBankAccount(int business_num, int bankAcoount_Num) throws DataFormatException {
+        if(!supplierDAO.containsSupplier(business_num))
+            throw new IllegalArgumentException("Supplier was not found");
+        supplierDAO.getSupplier(business_num).setBank_Acc_Num(bankAcoount_Num);
+        if(!supplierDAO.updateSupplierBankAccount(business_num,bankAcoount_Num))
+            throw new DataFormatException("Error In Database on updateSupplierBankAccount");
+
+
+    }
+
+    public void updateContactPhoneNumber(int business_num, String oldPhoneNum, String newPhoneNum) throws DataFormatException {
+        if(!supplierDAO.containsSupplier(business_num))
+            throw new IllegalArgumentException("Supplier was not found");
+        supplierDAO.getSupplier(business_num).updateContactPhoneNumber(oldPhoneNum, newPhoneNum);
+        if(!supplierDAO.updateContactPhoneNumber(business_num,oldPhoneNum,newPhoneNum))
+            throw new DataFormatException("Error In Database on updateContactPhoneNumber");
 
 
 

@@ -185,7 +185,19 @@ public class SupplierDAO extends DalController {
         if(b) x++;
         return x;
     }
+    public boolean updateSupplierPaymentDetails(int bn, String paymentDetails){
+        //todo:
+        return false;
+    }
+    public boolean updateSupplierBankAccount(int bn, int bankAcoount_Num){
+        //todo:
+        return false;
+    }
 
+    public boolean updateContactPhoneNumber(int business_num, String oldPhoneNum, String newPhoneNum){
+        //todo:
+        return false;
+    }
 
 
 
