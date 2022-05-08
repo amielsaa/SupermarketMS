@@ -95,7 +95,7 @@ public class ProductService {
 
     public Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
         try{
-            String resCategory = categoryController.changeCategory(productId,categoryIndex,newCategory);
+            String resCategory = productController.changeCategory(productId,categoryIndex,categoryController.getCategory(newCategory));
             return Response.makeSuccess(resCategory);
         }catch(Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -121,9 +121,9 @@ public class ProductService {
         }
     }
 
-    public Response<String> AddDiscountByName(String name,String producer, int discount, String date) {
+    public Response<String> AddDiscountByName(int productId, int discount, String date) {
         try{
-            String s = productController.addDiscountByName(name,producer,discount,date);
+            String s = productController.addDiscountByName(productId,discount,date);
             return Response.makeSuccess(s.toString());
         }catch (Exception e) {
             return Response.makeFailure(e.getMessage());

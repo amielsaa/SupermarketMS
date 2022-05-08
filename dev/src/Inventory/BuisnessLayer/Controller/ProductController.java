@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.spi.CalendarDataProvider;
+import java.util.stream.Collectors;
 
 public class ProductController {
 
@@ -27,42 +28,25 @@ public class ProductController {
 
     }
 
-    //TODO:
-//    private void addProducts() {
-//        addProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
-//        addProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
-//        addProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
-//        addProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
-//        addProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
-//        addProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
-//        addProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
-//        addProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
-//    }
 
     /**
      *
      * @return
      */
-
+    //TODO: need to be changed to List<StoreProduct>
     public Map<Product,StoreProduct> getAllProducts() {
         Map<Product,StoreProduct> products = new HashMap<>();
-        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()) {
-            StoreProduct sp = getStoreProductByStoreId(entry.getValue());
-            if(sp!=null)
-                products.put(entry.getKey(),sp);
+        Map<Integer, List<StoreProduct>> storeProductMap = storeProductDAO.SelectAll();
+        List<Product> productList = productDAO.SelectAll();
+        for(Product p : productList) {
+            if(storeProductMap.containsKey(p.getId()))
+                products.put(p,storeProductMap.get(p.getId()).get(0));
             else
-                products.put(entry.getKey(),new StoreProduct(storeId,0,0,null,null));
+                products.put(p,new StoreProduct(storeId,0,0,null,null));
         }
         return products;
     }
 
-    private StoreProduct getStoreProductByStoreId(List<StoreProduct> list) {
-        for(StoreProduct item : list){
-            if(item.getStoreId() == storeId)
-                return item;
-        }
-        return null;
-    }
 
 
     /**
@@ -77,47 +61,10 @@ public class ProductController {
 
 
     public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, List<Category> categories) {
-        //check for base conditions that satisfy the requirements - else throw exception
-        //List<String> categoriesList = stringToCategoryList(categories);
-        //categoriesExistance(categoriesList);
         //TODO: capitalize all categories names
-        //List<Category> productCategories = getCategoriesByName(categoriesList);
         return productDAO.InsertProduct(productId++,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,-1);
     }
 
-//    private String categoryListToString(List<Category> categories) {
-//        String returnString = "";
-//        for(Category c : categories)
-//            returnString = returnString+","+c.getCategoryName();
-//        return returnString.substring(0,returnString.length()-1);
-//    }
-//
-//    private void categoriesExistance(List<String> categories) {
-//        for(String item : categories) {
-//            Category curCategory = data.getCategories().stream().filter(category-> item.equals(category.getCategoryName()))
-//                    .findFirst().orElse(null);
-//            if(curCategory == null)
-//                throw new IllegalArgumentException(item + " doesn't exists.");
-//        }
-//    }
-//
-//    private List<String> stringToCategoryList(String categoryString) {
-//        List<String> categories = new ArrayList<>();
-//        String[] categoryArray = categoryString.split(",");
-//        for(int i=0;i<categoryArray.length;i++)
-//            categoryArray[i] = categoryArray[i].trim();
-//        Collections.addAll(categories,categoryArray);
-//        return categories;
-//    }
-//
-//    private List<Category> getCategoriesByName(List<String> cat) {
-//        List<Category> categoryList = new ArrayList<>();
-//        for (String it: cat) {
-//            categoryList.add(data.getCategories().stream().filter(category-> it.equals(category.getCategoryName()))
-//                    .findFirst().orElse(null));
-//        }
-//        return categoryList;
-//    }
 
     /**
      * @param id
@@ -131,16 +78,8 @@ public class ProductController {
         Date curExpDate = getDateByString(expDate);
         List<Location> curLocations = getLocationListByString(locations);
         return storeProductDAO.InsertStoreProduct(id,storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
-        //StoreProduct sp = new StoreProduct(storeId,quantityInStore,quantityInWarehouse,curExpDate,curLocations);
-        //addStoreProductToMap(currentProduct,sp);
-        //return sp;
     }
 
-//    private void addStoreProductToMap(Product p,StoreProduct sp) {
-//        List<StoreProduct> spList = data.getProductListMap().get(p);
-//        spList.removeIf(item -> item.getStoreId() == storeId);
-//        data.getProductListMap().get(p).add(sp);
-//    }
 
     //locations of items will represenet as follow: warehouse-1-2&store-1-2
     private List<Location> getLocationListByString(String location) {
@@ -172,39 +111,79 @@ public class ProductController {
         return product;
     }
 
-    public String addDiscountByName(String name,String producer, int discount, String date)
+    /**
+     *
+     * @param productId
+     * @param discount
+     * @param date
+     * @return
+     */
+
+    //TODO: concat updates
+    public String addDiscountByName(int productId, int discount, String date)
     {
-        Date discountExpDate = getDateByString(date);
-        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
-            if((entry.getKey().getName().equals(name))&&(entry.getKey().getProducer().equals(producer))){
-                entry.getKey().setDiscount(discount,discountExpDate);
-            }
-        }
-        return "discount was set successfully ";
-    }
-    public String addDiscountByCategory(String categoryName, int discount, String date){
-        Date discountExpDate = getDateByString(date);
-        ArrayList<String> temp = new ArrayList<String>();
-        temp.add(categoryName);
-        List<Category> category = data.getCategoriesByName(temp);
-        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
-            if(entry.getKey().getCategories().contains(category.get(0)))
-                entry.getKey().setDiscount(discount,discountExpDate);
-        }
+        Product product = productDAO.SelectProductById(productId);
+        product.setDiscount(discount,getDateByString(date));
+        productDAO.Update("id",productId,"discount",discount);
+        productDAO.Update("id",productId,"discountDate",date);
+        productDAO.UpdateMapper(product);
         return "discount was set successfully ";
     }
 
+    /**
+     *
+     * @param categoryName
+     * @param discount
+     * @param date
+     * @return
+     */
+
+    public String addDiscountByCategory(String categoryName, int discount, String date){
+        List<Product> products = productDAO.SelectAll();
+        for(Product p : products) {
+            Category c = p.getCategories().stream().filter(cat->cat.getCategoryName().equals(categoryName)).findFirst().orElse(null);
+            if(c!=null)
+                addDiscountByName(p.getId(),discount,date);
+        }
+//
+//        Date discountExpDate = getDateByString(date);
+//        ArrayList<String> temp = new ArrayList<String>();
+//        temp.add(categoryName);
+//        List<Category> category = data.getCategoriesByName(temp);
+//        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
+//            if(entry.getKey().getCategories().contains(category.get(0)))
+//                entry.getKey().setDiscount(discount,discountExpDate);
+//        }
+        return "discount was set successfully ";
+    }
+
+    /**
+     *
+     * @param productId
+     * @return
+     */
     public String deleteProduct(int productId) {
-        Product product = data.findProductById(productId);
-        data.getProductListMap().remove(product);
-        data.getDefectiveProducts().remove(product);
-        data.getExpiredProducts().remove(product);
+        productDAO.Delete("id",productId);
+        storeProductDAO.Delete("productid",productId);
         return String.format("Product with ID:%d deleted successfully.",productId);
     }
 
 
-    public int getStoreId() {
-        return storeId;
+    /**
+     *
+     * @param productId
+     * @param categoryIndex
+     * @param newCategory
+     * @return
+     */
+    public String changeCategory(int productId, int categoryIndex, Category newCategory) {
+        Product product = productDAO.SelectProductById(productId);
+
+        product.removeCategory(categoryIndex);
+        product.addCategory(newCategory,categoryIndex);
+        productDAO.Update("id",productId,"categories",product.getCategories().stream().map(c->c.getCategoryName()).collect(Collectors.joining(",")));
+        productDAO.UpdateMapper(product);
+        return newCategory.getCategoryName();
     }
 
     public void setStoreId(int storeId) {

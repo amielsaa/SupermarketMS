@@ -131,12 +131,12 @@ public class Menu {
         getAllStoreProductsAction();
         printDivider();
         System.out.println("Select a product to add discount to it by the following scheme:\n" +
-                "product-name # producer-name # discount-in-percentage # discount-exp-date\n" +
-                "Example: Chips # Osem # 20 # 01/05/2022");
+                "product-id # discount-in-percentage # discount-exp-date\n" +
+                "Example: 0 # 20 # 01/05/2022");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,4,true);
-        Response<String> res = service.AddDiscountByName(inputArray[0],inputArray[1],Integer.parseInt(inputArray[2]),inputArray[3]);
+        String[] inputArray = trimProductArray(input,3,true);
+        Response<String> res = service.AddDiscountByName(Integer.parseInt(inputArray[0]),Integer.parseInt(inputArray[1]),inputArray[2]);
         if(res.isSuccess())
             System.out.println(res.getData());
         else

@@ -5,9 +5,11 @@ import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
 import Inventory.DataAccessLayer.DAO.ReportDAO;
+import Inventory.ServiceLayer.Objects.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +40,7 @@ public class ReportController {
     //TODO: change return type to whatever <name & producer , quantity>
     // done.
     public Map<Pair<String,String>,Integer> reportByMinimumQuantity(Map<Product,List<StoreProduct>> productListMap) {
-        Map<Pair<String, String>, Integer> report = new HashMap<>() {};
+        Map<Pair<String, String>, Integer> report = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
             int quantity =0;
             for(StoreProduct storeProduct: mapSet.getValue()){

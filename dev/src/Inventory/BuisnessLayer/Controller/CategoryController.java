@@ -40,6 +40,12 @@ public class CategoryController {
         return c;
     }
 
+    /**
+     *
+     * @param categories
+     * @return
+     */
+
     public List<Category> getCategoriesByString(String categories) {
         List<String> cat = splitCategoriesString(categories);
         List<Category> categoryList = new ArrayList<>();
@@ -47,7 +53,7 @@ public class CategoryController {
             categoryList.add(categoryDAO.SelectCategory(s));
         return categoryList;
     }
-
+    //helper
     private List<String> splitCategoriesString(String categoryString) {
         List<String> categories = new ArrayList<>();
         String[] categoryArray = categoryString.split(",");
@@ -57,18 +63,12 @@ public class CategoryController {
         return categories;
     }
 
-
-    //TODO: implement with dao
-    public String changeCategory(int productId, int categoryIndex, String newCategory) {
-        //Category curCategory = getCategoryByName(newCategory);
-        Category curCategory = null;
-        if(curCategory == null)
-            throw new IllegalArgumentException("Category doesn't exists");
-        Product product = data.findProductById(productId);
-        product.removeCategory(categoryIndex);
-        product.addCategory(curCategory,categoryIndex);
-        return newCategory;
+    public Category getCategory(String category) {
+        return categoryDAO.SelectCategory(category);
     }
+
+
+
 
 
 

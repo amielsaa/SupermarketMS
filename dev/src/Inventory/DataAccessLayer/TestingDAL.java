@@ -1,14 +1,12 @@
 package Inventory.DataAccessLayer;
 
-import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.BuisnessLayer.Objects.Location;
-import Inventory.BuisnessLayer.Objects.Locations;
-import Inventory.BuisnessLayer.Objects.StoreProduct;
+import Inventory.BuisnessLayer.Objects.*;
 import Inventory.DataAccessLayer.DAO.CategoryDAO;
 import Inventory.DataAccessLayer.DAO.ProductDAO;
 import Inventory.DataAccessLayer.DAO.StoreProductDAO;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +15,21 @@ public class TestingDAL {
 
 
     public static void main(String[] args) {
-        storeprod();
+        //prodprint();
+        ProductDAO pdao = new ProductDAO("Products");
+        pdao.Update("id",1,"categories","SomeShit");
+    }
+
+    public static void prodselectid(){
+        ProductDAO pdao = new ProductDAO("Products");
+        System.out.println(pdao.SelectProductById(1).toString());
+    }
+
+    public static void prodprint() {
+        ProductDAO pdao = new ProductDAO("Products");
+        List<Product> products = pdao.SelectAll();
+        for(Product p : products)
+            System.out.println(p.toString());
     }
 
     public static void storeprod() {

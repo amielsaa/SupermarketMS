@@ -58,8 +58,8 @@ public class Service {
         return productService.DeleteProduct(productId);
     }
 
-    public Response<String> AddDiscountByName(String name,String producer, int discount,String date) {
-        return productService.AddDiscountByName(name,producer,discount,date);
+    public Response<String> AddDiscountByName(int productId, int discount,String date) {
+        return productService.AddDiscountByName(productId,discount,date);
     }
 
     public Response<String> AddDiscountByCategory(String categoryName, int discount, String date) {

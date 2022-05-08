@@ -52,7 +52,7 @@ public class CategoryDAO extends DalController {
             return categoryMapper.addCategory(new Category(rs.getString("name")));
 
         } catch (SQLException e) {
-            throw new IllegalArgumentException("An error occurred, please try again.");
+            throw new IllegalArgumentException("Category not found.");
         }
 
     }
