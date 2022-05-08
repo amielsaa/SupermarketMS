@@ -76,6 +76,7 @@ public class OrderController {
         double finalPrice=0;
         for (int i=0;i<orderKeys.length;i++) {
             OrderItem orderItem=new OrderItem(supplierBN,Id_Order_Counter,fixedOrder.get(orderKeys[i]).getFirst(),orderKeys[i],fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
+            //todo: remove supplierBN from orderItem constructor ^^^^
 
             Item_Num_To_OrderItem.put(orderKeys[i],orderItem);
             finalPrice=finalPrice+fixedOrder.get(orderKeys[i]).getSecond();

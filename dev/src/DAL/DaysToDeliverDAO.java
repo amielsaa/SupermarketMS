@@ -1,11 +1,12 @@
 package DAL;
 
-import BusinessLayer.Supplier;
-import misc.Days;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class DaysToDeliverDAO extends DalController{
@@ -59,8 +60,8 @@ public class DaysToDeliverDAO extends DalController{
     }
 
 
-    public boolean updateSupplierDeliveryDays(int bn, Set<Integer> days){
-        //remove old days, insert new ones
+    //remove old days, insert new ones
+    public boolean updateDeliveryDays(int bn, Set<Integer> days){
         try{
             deleteAllDaysToDeliver(bn);
             for(int d : days){
@@ -72,5 +73,29 @@ public class DaysToDeliverDAO extends DalController{
             return false;
         }
     }
+
+    //returns days as integers
+    public Collection<Integer> selectAllDays(int bn){
+        String sql = "select * from DaysToDeliver where bn = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,bn);
+            ResultSet rs = pstmt.executeQuery();
+            Collection<Integer> cc = new LinkedList<>();
+            while (rs.next()) {
+                cc.add(rs.getInt("day"));
+            }
+            return cc;
+
+        } catch (SQLException e) {
+            return null; //todo
+        }
+
+    }
+
+
+
 
 }

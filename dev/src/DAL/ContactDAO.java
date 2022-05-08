@@ -4,8 +4,10 @@ import BusinessLayer.Contact;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class ContactDAO extends DalController{
     public ContactDAO() {
@@ -44,6 +46,24 @@ public class ContactDAO extends DalController{
     }
 
     public Collection<Contact> selectAllContacts(int bn){
+        String sql = "select bn, phone, name from Contacts where bn = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,bn);
+            ResultSet rs = pstmt.executeQuery();
+            Collection<Contact> cc = new LinkedList<>();
+            Contact c;
+            while (rs.next()) {
+                c = new Contact(rs.getString("name"),rs.getString("phone"));
+                cc.add(c);
+            }
+            return cc;
+
+        } catch (SQLException e) {
+            return null; //todo
+        }
 
     }
 

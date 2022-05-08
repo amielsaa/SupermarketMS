@@ -1,18 +1,18 @@
 package BusinessLayer;
 
 public class OrderItem {
-    private Integer Business_Number;
+//    private Integer Business_Number;
     private Integer Order_Id;
     private String Item_Name;
-    private Integer Item_Num;
+    private String Item_Producer;
     private Double Item_Price;
     private Integer Item_Amount;
 
-    public OrderItem(Integer business_Number,Integer order_id, String item_name, Integer item_num, Double item_price, Integer item_amount) {
-        business_Number=business_Number;
+    public OrderItem(/*Integer business_Number,*/ Integer order_id, String item_name, String item_producer, Double item_price, Integer item_amount) {
+//        business_Number=business_Number;
         Order_Id = order_id;
         Item_Name = item_name;
-        Item_Num = item_num;
+        Item_Producer = item_producer;
         Item_Price = item_price;
         Item_Amount = item_amount;
     }
@@ -25,8 +25,12 @@ public class OrderItem {
         return Item_Amount;
     }
 
-    public int getItem_Num() {
-        return Item_Num;
+    public String getItem_Producer() {
+        return Item_Producer;
+    }
+
+    public void setItem_Producer(String item_Producer) {
+        Item_Producer = item_Producer;
     }
 
     public int getOrder_Id() {
@@ -44,9 +48,6 @@ public class OrderItem {
         Item_Name = item_Name;
     }
 
-    public void setItem_Num(int item_Num) {
-        Item_Num = item_Num;
-    }
 
     public void setItem_Price(double item_Price) {
         Item_Price = item_Price;
@@ -57,6 +58,6 @@ public class OrderItem {
     }
 
     public String toStringForOrderPrint(){
-        return "Item name: "+getItem_Name() + " ,Item ID: "+getItem_Num() + " ,Item amount: "+getItem_Amount() + " ,Item price: " + getItem_Price();
+        return "Item name: "+getItem_Name() + " ,Producer: "+ getItem_Producer() + " ,Item amount: "+getItem_Amount() + " ,Item price: " + getItem_Price();
     }
 }

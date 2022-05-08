@@ -46,7 +46,7 @@ public class SupplierController {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         supplierDAO.getSupplier(business_num).setDays_To_Deliver(days);
-        if (!supplierDAO.updateSupplierDeliveryDays( business_num, days))
+        if (!daysToDeliverDAO.updateDeliveryDays( business_num, days))
             throw new DataFormatException("Error In Database on updateSupplierDeliveryDays");
     }
 
@@ -135,16 +135,20 @@ public class SupplierController {
 
     }
 
+    /*
     public void updateContactPhoneNumber(int business_num, String oldPhoneNum, String newPhoneNum) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         supplierDAO.getSupplier(business_num).updateContactPhoneNumber(oldPhoneNum, newPhoneNum);
         if(!supplierDAO.updateContactPhoneNumber(business_num,oldPhoneNum,newPhoneNum))
             throw new DataFormatException("Error In Database on updateContactPhoneNumber");
-
-
-
     }
+     */
+
+
+
+
+
     //------------------------------ForTests---------------------------------------------//
     public boolean HasSupplier(int businessNum){
         return supplierDAO.containsSupplier(businessNum);

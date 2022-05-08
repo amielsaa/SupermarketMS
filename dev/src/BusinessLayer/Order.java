@@ -1,6 +1,7 @@
 package BusinessLayer;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -21,6 +22,14 @@ public class Order {
         item_Num_To_OrderItem = item_num_to_orderItem;
         final_Price = final_price;
         Order_Date = order_date;
+    }
+
+    public Order(int supplier_bn, int order_id, double final_price, String order_date) {
+        //DAL constructor
+        Supplier_BN = supplier_bn;
+        Order_Id = order_id;
+        final_Price = final_price;
+        Order_Date = Date.valueOf(order_date);
     }
 
     public int getOrder_Id() {

@@ -40,9 +40,17 @@ public class Supplier  {
             Days_To_Deliver=setDays_To_Deliver(days_to_deliver);
     }
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, boolean self_delivery_or_pickup, boolean delivery_By_Days) {
+    public Supplier(int business_num, String name, int bank_acc_num, String payment_details, int delivery_By_Days, int self_delivery_or_pickup) {
+        //DAL constructor
         Name = name;
         Business_Num = business_num;
+        Bank_Acc_Num = bank_acc_num;
+        Delivery_By_Days = delivery_By_Days == 1;
+        Self_Delivery_Or_Pickup = self_delivery_or_pickup == 1;
+        Payment_Details =setPayment_Details(payment_details);
+        Contacts = new LinkedList<Contact>();
+        Quantity_Agreement = new QuantityAgreement();
+        Days_To_Deliver = new LinkedHashSet<Days>();
     }
 
     public void setName(String name) {
@@ -127,10 +135,9 @@ public class Supplier  {
         else if(payment_Details.equals("check"))
             return PaymentDetails.check;
         else
-            throw new IllegalArgumentException("Payment Method isnt valid");
-
-
+            throw new IllegalArgumentException("Payment Method isn't valid");
     }
+
 
     public void setQuantity_Agreement(QuantityAgreement quantity_Agreement) {
         Quantity_Agreement = quantity_Agreement;

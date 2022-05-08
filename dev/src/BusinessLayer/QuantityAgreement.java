@@ -27,6 +27,9 @@ public class QuantityAgreement {
             throw new IllegalArgumentException("The size list of Products Names should match the size of the list of Products price");
     }
 
+    public QuantityAgreement(){}//only for DAL constructor!
+
+
     public HashMap<Integer, Double> getItem_Num_To_Price() {
         return item_Num_To_Price;
     }

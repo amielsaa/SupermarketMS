@@ -44,4 +44,5 @@ public class QuantityAgreementDAO extends DalController{
 
 
 
+
 }

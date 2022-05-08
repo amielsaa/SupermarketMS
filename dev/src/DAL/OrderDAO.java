@@ -1,14 +1,14 @@
 package DAL;
 
 import BusinessLayer.Order;
-import BusinessLayer.Supplier;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
+
 
 public class OrderDAO extends DalController {
     private HashMap<Integer, HashMap<Integer, Order>> BN_To_Orders;
@@ -19,8 +19,6 @@ public class OrderDAO extends DalController {
         BN_To_Orders = new HashMap<Integer,HashMap<Integer,Order>>();
     }
 
-    public void select(){}
-    //public void update(){}
 
     public void insertOrders(int bn, int orderID, int finalprice, String orderdate ) throws Exception {
         String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate ) VALUES(?,?,?,?)";
@@ -52,59 +50,86 @@ public class OrderDAO extends DalController {
         }
     }
 
-    public void insertOrderItems(int orderID, int itemname, String itemproducer, int itemprice, int itemamount ) throws Exception {
-        String sql = "INSERT INTO OrderItems(orderID, itemname, itemproducer, itemprice, itemamount) VALUES(?,?,?,?,?)";
 
-        try{
-            Connection conn = this.makeConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, orderID);
-            pstmt.setInt(2, itemname);
-            pstmt.setString(3, itemproducer);
-            pstmt.setInt(4, itemprice);
-            pstmt.setInt(5, itemamount);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    public void deleteOrderItems(int orderID, int itemname, String itemproducer) throws Exception {
-        String sql = "DELETE FROM OrderItems WHERE orderID = ?, itemname = ?, itemproducer = ?";
-
-        try{
-            Connection conn = this.makeConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, orderID);
-            pstmt.setInt(2, itemname);
-            pstmt.setString(3, itemproducer);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new Exception(e.getMessage());
-        }
-    }
     public boolean containsOrder(int bn,int orderId){
-        //1-checks if there's a specific order in the hashmap. if yes-return true if not -step 2
-        //2-checks if there's a specific order in the db. if yes-put in the Hashmap and return true, if not return false.
-        //todo:
-        return false;
+        if(BN_To_Orders.containsKey(bn))
+            if(BN_To_Orders.get(bn).containsKey(orderId))
+                return true;
+        return checkOrderInDB(bn, orderId);
     }
+
+    private boolean checkOrderInDB(int bn, int orderId) {
+        return selectOrder(bn, orderId) != null;
+    }
+
+    private Order selectOrder(int bn, int orderId) {
+        String sql = "select * from Orders where bn = ?, orderID = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,bn);
+            pstmt.setInt(2,orderId);
+            ResultSet rs = pstmt.executeQuery();
+            Order order = null;
+            while (rs.next()) {
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getInt("finalprice"),rs.getString("orderdate"));
+                insertOrderToHM(bn, order);
+            }
+            return getOrder(bn, orderId);
+
+        } catch (SQLException e) {
+            return null; //todo
+        }
+    }
+
     public Order getOrder(int bn,int orderId){
       return BN_To_Orders.get(bn).get(orderId);
-
     }
+
+
+
     public boolean setAllOrders(int bn){
-        //sets all the orders of a specific BN inside the Hashmap. if there are none return false if there are even one
-        //return true
-        //todo: select orders with this bn, add orders to HM. return false if none are found. check if each order isn't getting added twice to HM (wasn't there previously)
-        return false;
+        // select orders with this bn, add orders to HM. return false if none are found.
+        // check if each order isn't getting added twice to HM (wasn't there previously)
+
+        String sql = "select * from Orders where bn = ?";
+        boolean ans = false;
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,bn);
+            ResultSet rs = pstmt.executeQuery();
+            Order order = null;
+            while (rs.next()) {
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getInt("finalprice"),rs.getString("orderdate"));
+                if(insertOrderToHM(bn, order)) ans = true;
+            }
+
+
+        } catch (SQLException e) {
+            return false;
+        }
+
+        return ans;
     }
 
     public Collection<Order> getAllOrders(int bn){
-        //todo: get all orders from HM and return it
-        return new LinkedList<>();
+        return BN_To_Orders.get(bn).values();
     }
 
+    public boolean insertOrderToHM(int bn, Order s){
+        //returns true if added to HM, false otherwise
+
+        if(!BN_To_Orders.containsKey(bn))
+            BN_To_Orders.put(bn, new HashMap<Integer, Order>());
+
+        if(!BN_To_Orders.get(bn).containsKey(s.getOrder_Id())) {
+            BN_To_Orders.get(bn).put(s.getOrder_Id(), s);
+            return true;
+        }
+        return false;
+    }
 
 
 }
