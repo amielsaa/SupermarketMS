@@ -38,7 +38,7 @@ public class OrderController {
     //gets order by BN and orderID
     public Order getOrder(int supplierBN,int orderID) throws DataFormatException {
         if(!orderDAO.containsOrder(supplierBN,orderID))
-            throw new DataFormatException("Order does not exists or supplier does not exists");
+            throw new DataFormatException("Order does not exists");
         return orderDAO.getOrder(supplierBN, orderID);
 
 
@@ -50,11 +50,11 @@ public class OrderController {
         }
     }
     */
-    public double getFinalPrice(int supplierBN,int orderID){
+    /*public double getFinalPrice(int supplierBN,int orderID){
         Check_If_Order_Exists(supplierBN,orderID);
         return BN_To_Orders.get(supplierBN).get(orderID).getFinal_Price();
 
-    }
+    }*/
     public void addSupplier(int supplierBN){
         if(BN_To_Orders.containsKey(supplierBN))
             throw new IllegalArgumentException("supplier already exists");
