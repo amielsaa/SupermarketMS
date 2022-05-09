@@ -3,58 +3,48 @@ package BusinessLayer;
 
 import misc.Pair;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
 
 public class QuantityAgreement {
-    private HashMap<Integer, Double> item_Num_To_Price;
-    private HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount;
-    private HashMap<Integer,String> item_Num_To_Name;
+    private HashMap<Pair<String,String>, Double> item_To_Price;
+    private HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount;
+
 
     //todo: remove item_Num_To_Name, change Integer to Pair<String,String>
 
 
-    public QuantityAgreement(HashMap<Integer,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
+    public QuantityAgreement(HashMap<Pair<String,String>,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
         //todo: check if there are no items at all
         PriceValidationChecker(item_num_to_price);
-        item_Num_To_Price = item_num_to_price;
+        item_To_Price = item_num_to_price;
         DiscountsValidationCheck(item_num_to_discount);
         item_Num_To_Quantity_To_Discount = item_num_to_discount;
-        item_Num_To_Name = item_num_to_name;
-        if(item_num_to_price.keySet().size()!=item_num_to_name.keySet().size())
-            throw new IllegalArgumentException("The size list of Products Names should match the size of the list of Products price");
+
+
     }
 
     public QuantityAgreement(){}//only for DAL constructor!
 
 
-    public HashMap<Integer, Double> getItem_Num_To_Price() {
-        return item_Num_To_Price;
+    public HashMap<Integer, Double> getItem_To_Price() {
+        return item_To_Price;
     }
 
-    public HashMap<Integer, HashMap<Integer, Integer>> getItem_Num_To_Discount() {
+    public HashMap<Pair<String,String>, HashMap<Integer, Integer>> getItem_Num_To_Discount() {
         return item_Num_To_Quantity_To_Discount;
     }
 
-    public void setItem_Num_To_Discount(HashMap<Integer, HashMap<Integer, Integer>> item_Num_To_Discount) {
+    public void setItem_Num_To_Discount(HashMap<Pair<String,String>, HashMap<Integer, Integer>> item_Num_To_Discount) {
         this.item_Num_To_Quantity_To_Discount = item_Num_To_Discount;
     }
 
-    public HashMap<Integer, String> getItem_Num_To_Name() {
-        return item_Num_To_Name;
-    }
 
-    public void setItem_Num_To_Name(HashMap<Integer, String> item_Num_To_Name) {
-
-        this.item_Num_To_Name = item_Num_To_Name;
+    public void setItem_To_Price(HashMap<Pair<String,String>, Double> item_To_Price) {
+        this.item_To_Price = item_To_Price;
     }
-
-    public void setItem_Num_To_Price(HashMap<Integer, Double> item_Num_To_Price) {
-        this.item_Num_To_Price = item_Num_To_Price;
-    }
-    public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
+    public HashMap<Pair<String,String>, Pair<Double,Double>> makeOrder(HashMap<Integer,Integer> order){
         HashMap<Integer,Pair<String,Double>> fixedOrder= new HashMap<Integer, Pair<String, Double>>();// the fixed Order to return
         Integer[] orderKeys = new Integer[order.keySet().toArray().length];// array of the keys of the order
         for(int i=0; i<orderKeys.length;i++){
@@ -65,8 +55,6 @@ public class QuantityAgreement {
 
             }
         }
-
-
         for(int i=0;i<orderKeys.length;i++){
             CheckIfItemExists(orderKeys[i]);
             if(item_Num_To_Quantity_To_Discount.containsKey(orderKeys[i])){
@@ -81,28 +69,28 @@ public class QuantityAgreement {
 
                 }
                 int actualDiscount=100-currentDiscount;
-                Double pricePerOne=item_Num_To_Price.get(orderKeys[i]);
+                Double pricePerOne= item_To_Price.get(orderKeys[i]);
                 int quantity=order.get(orderKeys[i]);
 
                 Double PriceWithDiscountAfterMath=((pricePerOne)*(quantity)*(actualDiscount)/100);
                 fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),PriceWithDiscountAfterMath));
             }
             else{
-                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),item_Num_To_Price.get(orderKeys[i])*order.get(orderKeys[i])));
+                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]), item_To_Price.get(orderKeys[i])*order.get(orderKeys[i])));
             }
 
 
         }
         return fixedOrder;
     }
-    private void CheckIfItemExists(int itemNum){
-        if(!item_Num_To_Price.containsKey(itemNum))
-            throw new IllegalArgumentException("item number"+itemNum+"is not in the supplier catalog");
+    private void CheckIfItemExists(Pair itemName){
+        if(!item_To_Price.containsKey(itemName))
+            throw new IllegalArgumentException("item name "+itemName.getFirst()+"from the producer"+itemName.getSecond()+"is not in the supplier catalog");
     }
-    private void PriceValidationChecker(HashMap<Integer,Double> item_num_to_price){
-        Set<Integer> keys=item_num_to_price.keySet();
+    private void PriceValidationChecker(HashMap<Pair<String,String>,Double> item_num_to_price){
+        Set<Pair<String,String>> keys=item_num_to_price.keySet();
         //checks if the price is negative
-        for(Integer i:keys){
+        for(Pair i:keys){
             if (item_num_to_price.get(i)<0)
                 throw new IllegalArgumentException("Negative price Detected on item "+ i);
             //check if the price are only numbers
@@ -111,10 +99,10 @@ public class QuantityAgreement {
 
         }
     }
-    private void DiscountsValidationCheck(HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount){
-        Set<Integer> keys=item_Num_To_Quantity_To_Discount.keySet();
+    private void DiscountsValidationCheck(HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount){
+        Set<Pair<String,String>> keys=item_Num_To_Quantity_To_Discount.keySet();
 
-        for(Integer i:keys){
+        for(Pair i:keys){
             //check if the item is in the catalog (can't give discounts for items we don't offer)
          CheckIfItemExists(i);
             //check if the discount is Valid

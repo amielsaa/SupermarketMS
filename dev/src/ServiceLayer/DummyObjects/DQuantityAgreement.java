@@ -13,8 +13,8 @@ public class DQuantityAgreement {
 
     public DQuantityAgreement(QuantityAgreement agreement) {
         item_Num_To_Price = new HashMap<Integer, Double>();
-        for(int x : agreement.getItem_Num_To_Price().keySet()) {
-            item_Num_To_Price.put(x, agreement.getItem_Num_To_Price().get(x).doubleValue());
+        for(int x : agreement.getItem_To_Price().keySet()) {
+            item_Num_To_Price.put(x, agreement.getItem_To_Price().get(x).doubleValue());
         }
 
 
