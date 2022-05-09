@@ -1,8 +1,12 @@
 package DAL;
 
+import misc.Pair;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class QuantityAgreementDAO extends DalController{
     public QuantityAgreementDAO() {
@@ -42,6 +46,27 @@ public class QuantityAgreementDAO extends DalController{
         return true;
     }
 
+    public HashMap<Pair<String,String>, Double> selectAllItems(int bn){
+        String sql = "select * from QuantityAgreement where bn = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,bn);
+            ResultSet rs = pstmt.executeQuery();
+            HashMap<Pair<String,String>, Double> cc = new HashMap<>();
+            Pair item;
+            while (rs.next()) {
+                item = new Pair(rs.getString("itemname"), rs.getString("producer"));
+                cc.put(item, rs.getDouble("price"));
+            }
+            return cc;
+
+        } catch (SQLException e) {
+            return null; //todo
+        }
+
+    }
 
 
 

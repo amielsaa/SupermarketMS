@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ContactDAO extends DalController{
     public ContactDAO() {
@@ -45,7 +46,7 @@ public class ContactDAO extends DalController{
         return true;
     }
 
-    public Collection<Contact> selectAllContacts(int bn){
+    public List<Contact> selectAllContacts(int bn){
         String sql = "select bn, phone, name from Contacts where bn = ?";
 
         try{
@@ -53,7 +54,7 @@ public class ContactDAO extends DalController{
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();
-            Collection<Contact> cc = new LinkedList<>();
+            List<Contact> cc = new LinkedList<>();
             Contact c;
             while (rs.next()) {
                 c = new Contact(rs.getString("name"),rs.getString("phone"));

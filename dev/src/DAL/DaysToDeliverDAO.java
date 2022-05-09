@@ -16,14 +16,15 @@ public class DaysToDeliverDAO extends DalController{
 
     //todo: add orderID to DAO
 
-    public boolean insertDaysToDeliver(int bn, int day)  {
-        String sql = "INSERT INTO DaysToDeliver(bn, day) VALUES(?,?)";
+    public boolean insertDaysToDeliver(int bn, int orderID, int day)  {
+        String sql = "INSERT INTO DaysToDeliver(bn, orderID, day) VALUES(?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
-            pstmt.setInt(2, day);
+            pstmt.setInt(2, orderID);
+            pstmt.setInt(3, day);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -31,14 +32,15 @@ public class DaysToDeliverDAO extends DalController{
         return true;
     }
 
-    public boolean deleteDaysToDeliver(int bn, int day)  {
-        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?, day = ?";
+    public boolean deleteDaysToDeliver(int bn, int orderID, int day)  {
+        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?, orderID = ?, day = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
-            pstmt.setInt(2, day);
+            pstmt.setInt(2, orderID);
+            pstmt.setInt(3, day);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -62,11 +64,11 @@ public class DaysToDeliverDAO extends DalController{
 
 
     //remove old days, insert new ones
-    public boolean updateDeliveryDays(int bn, Set<Integer> days){
+    public boolean updateDeliveryDays(int bn, int orderID, Set<Integer> days){
         try{
             deleteAllDaysToDeliver(bn);
             for(int d : days){
-                insertDaysToDeliver(bn, d);
+                insertDaysToDeliver(bn,orderID,d);
             }
             return true;
         }
@@ -76,13 +78,14 @@ public class DaysToDeliverDAO extends DalController{
     }
 
     //returns days as integers
-    public Collection<Integer> selectAllDays(int bn){
-        String sql = "select * from DaysToDeliver where bn = ?";
+    public Collection<Integer> selectAllDays(int bn, int orderID){
+        String sql = "select * from DaysToDeliver where bn = ?, orderID = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
+            pstmt.setInt(2,orderID);
             ResultSet rs = pstmt.executeQuery();
             Collection<Integer> cc = new LinkedList<>();
             while (rs.next()) {

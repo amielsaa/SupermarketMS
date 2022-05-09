@@ -1,10 +1,13 @@
 package DAL;
 
+import misc.Pair;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class DiscountsDAO extends DalController{
@@ -13,8 +16,7 @@ public class DiscountsDAO extends DalController{
     }
 
 
-    //returns as object array - indexes 0 3 4 are Integers, 1 2 are Strings
-    public Collection<Object[]> selectAllDiscounts(int bn){
+    public HashMap<Pair<String,String>, HashMap<Integer,Integer>> selectAllDiscounts(int bn){
         String sql = "select * from Discounts where bn = ?";
 
         try{
@@ -22,16 +24,13 @@ public class DiscountsDAO extends DalController{
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();
-            Collection<Object[]> cc = new LinkedList<>();
-            Object[] line;
+            HashMap<Pair<String,String>,HashMap<Integer,Integer>> cc = new HashMap<>();
+            Pair item;
             while (rs.next()) {
-                line = new Object[5];
-                line[0] = rs.getInt("bn");
-                line[1] = rs.getString("itemname");
-                line[2] = rs.getString("producer");
-                line[3] = rs.getInt("itemamount");
-                line[4] = rs.getInt("itemdiscount");
-                cc.add(line);
+                item = new Pair(rs.getString("itemname"), rs.getString("producer"));
+                if(!cc.containsKey(item))
+                    cc.put(item, new HashMap<Integer,Integer>());
+                cc.get(item).put(rs.getInt("itemamount"), rs.getInt("itemdiscount"));
             }
             return cc;
 
