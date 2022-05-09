@@ -9,6 +9,7 @@ public class DQuantityAgreement {
     private HashMap<Integer, Double> item_Num_To_Price;
     private HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount;
     private HashMap<Integer,String> item_Num_To_Name;
+    //todo: edit
 
 
     public DQuantityAgreement(QuantityAgreement agreement) {

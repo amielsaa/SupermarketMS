@@ -19,6 +19,7 @@ public class DSupplier {
     private boolean Delivery_By_Days; //if the supplier Delivers by days or not
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
     private Set<Days> Days_To_Deliver;
+    //todo: edit
 
 
     public DSupplier(Supplier s) {

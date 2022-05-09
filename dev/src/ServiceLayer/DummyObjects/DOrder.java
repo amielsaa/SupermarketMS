@@ -13,6 +13,7 @@ public class DOrder {
     private HashMap<Integer,  OrderItem> item_Num_To_OrderItem;
     private double final_Price;
     private Date Order_Date;
+    //todo: edit
 
 
     public DOrder(Order o) {

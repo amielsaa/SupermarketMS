@@ -8,6 +8,7 @@ import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 import ServiceLayer.Response;
 import ServiceLayer.SupplierFacade;
+import misc.Pair;
 
 import java.util.*;
 
@@ -126,13 +127,10 @@ public class PresentationMain {
         String contactNumber = s.nextLine();
 
         boolean selfDelivery = getBooleanFromUser(s,"Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
-        boolean deliveryDays = getBooleanFromUser(s,"Is the supplier delivering by days? (1 - yes, 2 - no, default - no): ");
-        Set<Integer> daysToDeliver = deliveryDaysLoop(s);
 
-        HashMap<Integer, Double> item_num_to_price = new HashMap<Integer, Double>();
-        HashMap<Integer, String> item_num_to_name = new HashMap<Integer, String>();
-        HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Integer,HashMap<Integer,Integer>>();
-        createQuantityAgreement(s, item_num_to_price, item_num_to_name, item_Num_To_Discount);
+        HashMap<Pair<String,String>, Double> item_to_price = new HashMap<Pair<String,String>, Double>();
+        HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Pair<String,String>,HashMap<Integer,Integer>>();
+        createQuantityAgreement(s, item_to_price, item_Num_To_Discount);
         Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price,item_Num_To_Discount , item_num_to_name, deliveryDays, selfDelivery, daysToDeliver);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
@@ -185,10 +183,11 @@ public class PresentationMain {
         return days;
     }
 
-    private void createQuantityAgreement(Scanner s, HashMap<Integer, Double> item_num_to_price, HashMap<Integer, String> item_num_to_name, HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount){
-        System.out.println("Now we need to add the items that the supplier can supply.\nType item name and price. When you are done, type 'STOP' for the item name.");
+    private void createQuantityAgreement(Scanner s, HashMap<Pair<String,String>, Double> item_to_price, HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_To_Discount){
+        System.out.println("Now we need to add the items that the supplier can supply.\nType item name, producer and price. When you are done, type 'STOP' for the item name.");
         int itemID = 0;
         String itemName = "-1";
+        String itemProducer = "-1";
         String itemPrice = "-1";
         //------------------------------------Item name+price Loop------------------------------------
         //------------------------------------Item name+price Loop------------------------------------
@@ -201,6 +200,8 @@ public class PresentationMain {
                 running = false;
                 break;
             }
+            System.out.print("Item producer: ");
+            itemProducer = s.nextLine();
             System.out.print("Item price: ");
             itemPrice = s.nextLine();
             try{
@@ -208,8 +209,7 @@ public class PresentationMain {
                 if(priceNumber<=0)
                     System.out.println("Illegal item price, try again.");
                 else {
-                    item_num_to_price.put(itemID, priceNumber);
-                    item_num_to_name.put(itemID, itemName);
+                    item_to_price.put(new Pair<>(itemName, itemProducer), priceNumber);
                     itemID++;
                 }
 
@@ -223,8 +223,12 @@ public class PresentationMain {
         //------------------------------------Discount Loop------------------------------------
         System.out.println("Now you can add discounts for items after certain amount.\nEnter item ID, then the discount in % and the amount for the discount.\nType 'STOP' in Item ID to stop adding discounts.");
         running = true;
-        for(int x:item_num_to_name.keySet()){
-            System.out.println("Item ID: " + x + ", Item name: " + item_num_to_name.get(x) + ", Item price: " + item_num_to_price.get(x));
+        int index=0;
+        HashMap<Integer, Pair<String,String>> itemsMap = new HashMap<>();
+        for(Pair<String, String> x:item_to_price.keySet()){
+            System.out.println("Item ID: " + index + ", Item name: " + x.getFirst() + ", Item producer: " + x.getSecond() + ", Item price: " + item_to_price.get(x));
+            itemsMap.put(index, x);
+            index++;
         }
 
         while(running) {
@@ -243,13 +247,13 @@ public class PresentationMain {
                 int itemIdNumber = Integer.parseInt(itemIdString);
                 int itemDiscountNumber = Integer.parseInt(itemDiscount);
                 int itemAmountNumber = Integer.parseInt(itemDiscountAmount);
-                if(itemIdNumber<0 || itemDiscountNumber>100 || itemDiscountNumber<0 || itemAmountNumber<=0 || itemIdNumber>=item_num_to_name.keySet().size())
+                if(itemIdNumber<0 || itemDiscountNumber>100 || itemDiscountNumber<0 || itemAmountNumber<=0 || itemIdNumber>=index)
                     System.out.println("Illegal item discount/price/ID, try again.");
                 else{
-                    if(!item_Num_To_Discount.containsKey(itemIdNumber))
-                        item_Num_To_Discount.put(itemIdNumber, new HashMap<>());
-                    item_Num_To_Discount.get(itemIdNumber).put(itemAmountNumber, itemDiscountNumber);
-
+                    Pair<String,String> currPair = itemsMap.get(itemIdNumber);
+                    if(!item_To_Discount.containsKey(currPair))
+                        item_To_Discount.put(currPair, new HashMap<Integer,Integer>());
+                    item_To_Discount.get(currPair).put(itemAmountNumber, itemDiscountNumber);
                 }
 
             }
