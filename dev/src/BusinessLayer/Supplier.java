@@ -15,7 +15,6 @@ public class Supplier  {
     private PaymentDetails Payment_Details;
     private List<Contact> Contacts;
     private QuantityAgreement Quantity_Agreement;
-    private boolean Delivery_By_Days; //if the supplier Delivers by days or not
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
 
 
@@ -55,10 +54,6 @@ public class Supplier  {
         return Name;
     }
 
-    public boolean isDelivery_By_Days() {
-        return Delivery_By_Days;
-    }
-
     public boolean isSelf_Delivery_Or_Pickup() {
         return Self_Delivery_Or_Pickup;
     }
@@ -95,11 +90,6 @@ public class Supplier  {
         Contacts = contacts;
     }
 
-
-
-    public void setDelivery_By_Days(boolean delivery_By_Days) {
-        Delivery_By_Days = delivery_By_Days;
-    }
 
     public PaymentDetails setPayment_Details(String payment_Details) {
         if(payment_Details.equals("credit"))
@@ -140,8 +130,8 @@ public class Supplier  {
     }
     public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
         return Quantity_Agreement.makeOrder(order);
-
     }
+
     private void CheckLegalNumber(Integer number){
         if(number<0){
             throw new IllegalArgumentException("cannot accept negative numbers");
