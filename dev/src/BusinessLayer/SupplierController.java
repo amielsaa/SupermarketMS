@@ -22,10 +22,10 @@ public class SupplierController {
         discountsDAO=new DiscountsDAO();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver) throws Exception {
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) throws Exception {
         if (supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
-        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup, days_to_deliver);
+        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
         return newSupplier;
@@ -42,13 +42,6 @@ public class SupplierController {
     }
 
 
-    public void updateSupplierDeliveryDays(int business_num, Set<Integer> days) throws DataFormatException {
-        if(!supplierDAO.containsSupplier(business_num))
-            throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).setDays_To_Deliver(days);
-        if (!daysToDeliverDAO.updateDeliveryDays( business_num, days))
-            throw new DataFormatException("Error In Database on updateSupplierDeliveryDays");
-    }
 
     public void updateSupplierSelfDelivery(int business_num, boolean selfDelivery) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
@@ -93,26 +86,6 @@ public class SupplierController {
         return supplierDAO.getSupplier(business_num).getQuantity_Agreement();
     }
 
-    public void addSupplierDeliveryDay(int business_num, int day) throws DataFormatException {
-        if(!supplierDAO.containsSupplier(business_num))
-            throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).addSupplierDeliveryDay(day);
-        if (!daysToDeliverDAO.insertDaysToDeliver(business_num,day))
-            throw new DataFormatException("Error In Database on addSupplierDeliveryDay");
-
-
-    }
-
-    public void removeSupplierDeliveryDay(int business_num, int day) throws DataFormatException {
-        if(!supplierDAO.containsSupplier(business_num))
-            throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).removeSupplierDeliveryDay(day);
-        if(!daysToDeliverDAO.deleteDaysToDeliver(business_num,day))
-            throw new DataFormatException("Error In Database on removeSupplierDeliveryDay");
-
-
-
-    }
 
     public void updateSupplierPaymentDetails(int business_num, String paymentDetail) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
