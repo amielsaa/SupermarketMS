@@ -54,7 +54,8 @@ public class SupplierController {
     public void addSupplierContact(int business_num, String contactName, String contactNum) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).addSupplierContact(contactName, contactNum);
+
+        buildSupplier(business_num).addSupplierContact(contactName, contactNum);
         if (!contactDAO.insertContact(business_num, contactName, contactNum))
             throw new DataFormatException("Error In Database on addSupplierContact");
     }
@@ -62,7 +63,7 @@ public class SupplierController {
     public void removeSupplierContact(int business_num, String contactNum) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).removeSupplierContact(contactNum);
+        buildSupplier(business_num).removeSupplierContact(contactNum);
         if (!contactDAO.deleteContact(business_num, contactNum))
             throw new DataFormatException("Error In Database on removeSupplierContact");
     }
@@ -70,27 +71,27 @@ public class SupplierController {
     public HashMap<Integer, Pair<String, Double>> makeOrder(int business_num, HashMap<Integer, Integer> order) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        HashMap<Integer, Pair<String, Double>> toreturn=supplierDAO.getSupplier(business_num).makeOrder(order);
+        HashMap<Integer, Pair<String, Double>> toreturn= buildSupplier(business_num).makeOrder(order);
         return toreturn;
     }
 
     public Supplier getSupplier(int business_num) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        return supplierDAO.getSupplier(business_num);
+        return  buildSupplier(business_num);
     }
 
     public QuantityAgreement getSupplierQuantityAgreement(int business_num) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        return supplierDAO.getSupplier(business_num).getQuantity_Agreement();
+        return  buildSupplier(business_num).getQuantity_Agreement();
     }
 
 
     public void updateSupplierPaymentDetails(int business_num, String paymentDetail) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).setPayment_Details(paymentDetail);
+        buildSupplier(business_num).setPayment_Details(paymentDetail);
         if(!supplierDAO.updateSupplierPaymentDetails(business_num,paymentDetail))
             throw new DataFormatException("Error In Database on updateSupplierPaymentDetails");
 
@@ -101,7 +102,7 @@ public class SupplierController {
     public void updateSupplierBankAccount(int business_num, int bankAcoount_Num) throws DataFormatException {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        supplierDAO.getSupplier(business_num).setBank_Acc_Num(bankAcoount_Num);
+        buildSupplier(business_num).setBank_Acc_Num(bankAcoount_Num);
         if(!supplierDAO.updateSupplierBankAccount(business_num,bankAcoount_Num))
             throw new DataFormatException("Error In Database on updateSupplierBankAccount");
 
@@ -127,5 +128,14 @@ public class SupplierController {
         return supplierDAO.containsSupplier(businessNum);
 
 
+    }
+    private Supplier buildSupplier(int businessNum){
+        Supplier supplier=supplierDAO.getSupplier(businessNum);
+        QuantityAgreement quantityAgreement=new QuantityAgreement();
+        quantityAgreement.setItem_To_Price(quantityAgreementDAO.getAllItems(businessNum));
+        quantityAgreement.setItem_Num_To_Discount(discountsDAO.getAllDiscounts(businessNum));
+        supplier.setQuantity_Agreement(quantityAgreement);
+        supplier.setContacts(contactDAO.selectAllContacts(businessNum));
+        return supplier;
     }
 }

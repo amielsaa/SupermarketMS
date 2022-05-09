@@ -31,7 +31,6 @@ public class Supplier  {
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
         Contacts.add(new Contact(contactName, contactPhone));
-        Delivery_By_Days = false;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
         Quantity_Agreement = new QuantityAgreement(item_num_to_price, item_num_to_discount, item_num_to_name);
 
@@ -42,7 +41,6 @@ public class Supplier  {
         Name = name;
         Business_Num = business_num;
         Bank_Acc_Num = bank_acc_num;
-        Delivery_By_Days = delivery_By_Days == 1;
         Self_Delivery_Or_Pickup = self_delivery_or_pickup == 1;
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
@@ -193,6 +191,7 @@ public class Supplier  {
             throw new IllegalArgumentException("contact was not found");
         }
     }
+
 
 
 
