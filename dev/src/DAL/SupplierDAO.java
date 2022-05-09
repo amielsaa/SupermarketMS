@@ -77,9 +77,15 @@ public class SupplierDAO extends DalController {
 
     }
 
-    //only checks if supplier in DB - DOES NOT ADD IT TO HM!
+    // only checks if supplier in DB
+    // and adds supplier to HM
     private boolean checkSupplierInDB(int bn) {
-        return selectSupplier(bn) != null;
+        Supplier b = selectSupplier(bn);
+        if(b != null) {
+            insertSupplierToHM(b);
+            return true;
+        }
+        return false;
     }
 
     public Supplier selectSupplier(int bn){
@@ -93,9 +99,9 @@ public class SupplierDAO extends DalController {
             Supplier supp = null;
             while (rs.next()) {
                 supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("deliverybydays"),rs.getInt("selfdelivery"));
-                insertSupplierToHM(supp);
+
             }
-            return getSupplier(bn); //we know its not null because of containsSupplier() function
+            return supp; //we know its not null because of containsSupplier() function
 
         } catch (SQLException e) {
             return null; //todo

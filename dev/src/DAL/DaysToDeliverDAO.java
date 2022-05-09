@@ -14,6 +14,7 @@ public class DaysToDeliverDAO extends DalController{
         super("DaysToDeliver");
     }
 
+    //todo: add orderID to DAO
 
     public boolean insertDaysToDeliver(int bn, int day)  {
         String sql = "INSERT INTO DaysToDeliver(bn, day) VALUES(?,?)";
