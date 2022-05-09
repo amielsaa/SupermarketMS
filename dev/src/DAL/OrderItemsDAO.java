@@ -15,17 +15,18 @@ public class OrderItemsDAO extends DalController{
     }
 
 
-    public boolean insertOrderItem(int orderID, int itemname, int itemproducer, int itemprice, int itemamount) {
-        String sql = "INSERT INTO OrderItems(orderID, itemname, itemproducer, itemprice, itemamount) VALUES(?,?,?,?,?)";
+    public boolean insertOrderItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount) {
+        String sql = "INSERT INTO OrderItems(orderID, itemname, itemproducer, itemprice, itemamount) VALUES(?,?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, orderID);
-            pstmt.setInt(2, itemname);
-            pstmt.setInt(3, itemproducer);
-            pstmt.setInt(4, itemprice);
-            pstmt.setInt(5, itemamount);
+            pstmt.setString(2, itemname);
+            pstmt.setString(3, itemproducer);
+            pstmt.setDouble(4, itemprice);
+            pstmt.setDouble(5, itemoriginalprice);
+            pstmt.setInt(6, itemamount);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -33,15 +34,15 @@ public class OrderItemsDAO extends DalController{
         return true;
     }
 
-    public boolean deleteOrderItem(int orderID, int itemname, int itemproducer) {
+    public boolean deleteOrderItem(int orderID, String itemname, String itemproducer) {
         String sql = "DELETE FROM OrderItems WHERE orderID = ?, itemname = ?, itemproducer = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, orderID);
-            pstmt.setInt(2, itemname);
-            pstmt.setInt(3, itemproducer);
+            pstmt.setString(2, itemname);
+            pstmt.setString(3, itemproducer);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -60,7 +61,7 @@ public class OrderItemsDAO extends DalController{
             Collection<OrderItem> cc = new LinkedList<>();
             OrderItem item;
             while (rs.next()) {
-                item = new OrderItem(rs.getInt("orderID"),rs.getString("itemname"),rs.getString("itemproducer"),rs.getDouble("itemprice"),rs.getInt("itemamount"));
+                item = new OrderItem(rs.getInt("orderID"),rs.getString("itemname"),rs.getString("itemproducer"),rs.getDouble("itemprice"),rs.getDouble("itemoriginalprice"),rs.getInt("itemamount"));
                 cc.add(item);
             }
             return cc;
