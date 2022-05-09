@@ -132,8 +132,8 @@ public class SupplierController {
     private Supplier buildSupplier(int businessNum){
         Supplier supplier=supplierDAO.getSupplier(businessNum);
         QuantityAgreement quantityAgreement=new QuantityAgreement();
-        quantityAgreement.setItem_To_Price(quantityAgreementDAO.getAllItems(businessNum));
-        quantityAgreement.setItem_Num_To_Discount(discountsDAO.getAllDiscounts(businessNum));
+        quantityAgreement.setItem_To_Price(quantityAgreementDAO.selectAllItems(businessNum));
+        quantityAgreement.setItem_Num_To_Discount(discountsDAO.selectAllDiscounts(businessNum));
         supplier.setQuantity_Agreement(quantityAgreement);
         supplier.setContacts(contactDAO.selectAllContacts(businessNum));
         return supplier;
