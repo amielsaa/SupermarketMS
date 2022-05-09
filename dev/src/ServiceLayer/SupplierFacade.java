@@ -30,8 +30,8 @@ public class SupplierFacade {
          return res;
     }
 
-    public Response makeOrder(int business_num, HashMap<Integer,Integer> order){
-        Response<HashMap<Integer, Pair<String,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
+    public Response makeOrder(int business_num, HashMap<Pair<String,String>,Integer> order){
+        Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
         if(resWithHash.isSuccess()) {
             Response<DOrder> resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
             return resFromOrder;
@@ -51,7 +51,7 @@ public class SupplierFacade {
         return sSupplier.removeSupplier(bn);
     }
 
-    public Response addSupplierDeliveryDay(int bn, int day){
+   /* public Response addSupplierDeliveryDay(int bn, int day){
         return sSupplier.addSupplierDeliveryDay(bn, day);
     }
 
@@ -62,6 +62,8 @@ public class SupplierFacade {
     public Response updateSupplierDeliveryDays(int bn, Set<Integer> days){
         return sSupplier.updateSupplierDeliveryDays(bn, days);
     }
+
+    */
 
     public Response updateSupplierPaymentDetails(int bn, String payment){
         return sSupplier.updateSupplierPaymentDetails(bn, payment);
@@ -91,9 +93,11 @@ public class SupplierFacade {
         return sOrder.getAllOrdersFromSupplier(bn);
     }
 
-    public Response<List<DOrder>> updateContactPhoneNumber(int bn, String oldPhone, String newPhone){
+   /* public Response<List<DOrder>> updateContactPhoneNumber(int bn, String oldPhone, String newPhone){
         return sSupplier.updateContactPhoneNumber(bn, oldPhone, newPhone);
     }
+
+    */
 
 
 

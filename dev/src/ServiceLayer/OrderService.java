@@ -26,7 +26,7 @@ public class OrderService {
 
     }
 
-    public Response<DOrder> makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
+    public Response<DOrder> makeOrder(int supplierBN,HashMap <Pair<String,String>,Integer> order,HashMap<Pair<String,String>, Pair<Double,Double>> fixedOrder){
         try {
             Order actualOrder = cOrder.makeOrder(supplierBN, order, fixedOrder);
             return Response.makeSuccess(new DOrder(actualOrder));

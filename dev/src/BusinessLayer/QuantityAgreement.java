@@ -28,7 +28,7 @@ public class QuantityAgreement {
     public QuantityAgreement(){}//only for DAL constructor!
 
 
-    public HashMap<Integer, Double> getItem_To_Price() {
+    public HashMap<Pair<String,String>, Double> getItem_To_Price() {
         return item_To_Price;
     }
 
@@ -44,11 +44,12 @@ public class QuantityAgreement {
     public void setItem_To_Price(HashMap<Pair<String,String>, Double> item_To_Price) {
         this.item_To_Price = item_To_Price;
     }
-    public HashMap<Pair<String,String>, Pair<Double,Double>> makeOrder(HashMap<Integer,Integer> order){
-        HashMap<Integer,Pair<String,Double>> fixedOrder= new HashMap<Integer, Pair<String, Double>>();// the fixed Order to return
-        Integer[] orderKeys = new Integer[order.keySet().toArray().length];// array of the keys of the order
+    public HashMap<Pair<String,String>, Pair<Double,Double>> makeOrder(HashMap<Pair<String,String>,Integer> order){
+        HashMap<Pair<String,String>,Pair<Double,Double>> fixedOrder= new HashMap<Pair<String,String>, Pair<Double, Double>>();// the fixed Order to return
+        Pair[] orderKeys = new Pair[order.keySet().toArray().length];// array of the keys of the order
+        //first loop that goes all over the items in the order.
         for(int i=0; i<orderKeys.length;i++){
-            orderKeys[i] = (Integer)order.keySet().toArray()[i];
+            orderKeys[i] = (Pair)order.keySet().toArray()[i];
             // checks if the quantity is a legal number
             if(!CheckLegalNumber(order.get(orderKeys[i]))){
                 throw new IllegalArgumentException("quantity of the order cannot be negative number on item number "+orderKeys[i]);
@@ -71,12 +72,12 @@ public class QuantityAgreement {
                 int actualDiscount=100-currentDiscount;
                 Double pricePerOne= item_To_Price.get(orderKeys[i]);
                 int quantity=order.get(orderKeys[i]);
-
+                Double PriceWithoutDiscount=((pricePerOne)*(quantity));
                 Double PriceWithDiscountAfterMath=((pricePerOne)*(quantity)*(actualDiscount)/100);
-                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]),PriceWithDiscountAfterMath));
+                fixedOrder.put(orderKeys[i],new Pair(PriceWithoutDiscount,PriceWithDiscountAfterMath));
             }
             else{
-                fixedOrder.put(orderKeys[i],new Pair(item_Num_To_Name.get(orderKeys[i]), item_To_Price.get(orderKeys[i])*order.get(orderKeys[i])));
+                fixedOrder.put(orderKeys[i],new Pair(item_To_Price.get(orderKeys[i])*order.get(orderKeys[i]), item_To_Price.get(orderKeys[i])*order.get(orderKeys[i])));
             }
 
 

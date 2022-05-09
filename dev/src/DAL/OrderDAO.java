@@ -131,6 +131,9 @@ public class OrderDAO extends DalController {
         }
         return false;
     }
+    public void addSupplier(int bn){
+        BN_To_Orders.put(bn,new HashMap<>());
+    }
 
 
 }

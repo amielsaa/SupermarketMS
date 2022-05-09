@@ -128,7 +128,7 @@ public class Supplier  {
         if(Contacts.size()==beginningSize)
             throw new IllegalArgumentException("Contact could no be found");
     }
-    public HashMap<Integer, Pair<String,Double>> makeOrder(HashMap<Integer,Integer> order){
+    public HashMap<Pair<String,String>, Pair<Double,Double>> makeOrder(HashMap<Pair<String,String>,Integer> order){
         return Quantity_Agreement.makeOrder(order);
     }
 

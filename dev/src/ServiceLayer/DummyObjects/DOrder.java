@@ -2,6 +2,7 @@ package ServiceLayer.DummyObjects;
 
 import BusinessLayer.Order;
 import BusinessLayer.OrderItem;
+import misc.Pair;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Set;
 public class DOrder {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Integer,  OrderItem> item_Num_To_OrderItem;
+    private HashMap<Pair<String,String>,  OrderItem> item_Num_To_OrderItem;
     private double final_Price;
     private Date Order_Date;
 
@@ -31,7 +32,7 @@ public class DOrder {
         return Order_Id;
     }
 
-    public HashMap<Integer,OrderItem> getItem_Num_To_OrderItem() {
+    public HashMap<Pair<String,String>,OrderItem> getItem_Num_To_OrderItem() {
         return item_Num_To_OrderItem;
     }
 
@@ -49,7 +50,7 @@ public class DOrder {
 
     private String itemsToString(){
         String ret = "\n";
-        HashMap<Integer, OrderItem> items = getItem_Num_To_OrderItem();
+        HashMap<Pair<String,String>, OrderItem> items = getItem_Num_To_OrderItem();
         for(OrderItem x:items.values()){
             ret+=x.toStringForOrderPrint() + ",\n";
         }
