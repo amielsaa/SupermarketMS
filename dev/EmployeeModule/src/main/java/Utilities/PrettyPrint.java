@@ -107,7 +107,7 @@ public class PrettyPrint
         return entries;
     }
 
-    private static int calcMaxTabSize(String[] strings) {
+    public static int calcMaxTabSize(String[] strings) {
         int tabCount = 0;
         for (String s : strings)
         {
@@ -120,11 +120,11 @@ public class PrettyPrint
         return tabCount;
     }
 
-    private static int calcTabSize(String s) {
-        return s.length() / TAB_SIZE; //(s.length() % TAB_SIZE == 0 ? 0 : 1);
+    public static int calcTabSize(String s) {
+        return s.length() / TAB_SIZE - ((s.length() % TAB_SIZE) == (TAB_SIZE - 1) ? 0 : 1);
     }
 
-    private static String mulString(String s, int times) {
+    public static String mulString(String s, int times) {
         String res = "";
         for(int i = 0; i < times; i++) {
             res += s;

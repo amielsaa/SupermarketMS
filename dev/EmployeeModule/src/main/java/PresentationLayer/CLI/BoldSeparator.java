@@ -25,4 +25,8 @@ public class BoldSeparator implements SeparatorSet
     {
         return "=O=";
     }
+    public String intersectionClean()
+    {
+        return "O";
+    }
 }

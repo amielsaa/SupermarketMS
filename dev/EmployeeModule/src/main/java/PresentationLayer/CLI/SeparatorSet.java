@@ -6,5 +6,6 @@ public interface SeparatorSet
     public String horizontal();
     public String vertical();
     public String intersection();
+    public String intersectionClean();
 }
 

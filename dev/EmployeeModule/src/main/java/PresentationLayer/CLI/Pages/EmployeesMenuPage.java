@@ -7,6 +7,7 @@ import BusinessLayer.TimeInterval;
 import ServiceLayer.Gateway;
 import Utilities.CLIException;
 import Utilities.Pair;
+import Utilities.PrettyTable;
 import Utilities.Response;
 
 import java.time.LocalDateTime;
@@ -27,16 +28,19 @@ public class EmployeesMenuPage extends OptionsMenuPage
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
         // TODO try fetch and display employees
-//        Response<List<Employee>> res_employees = gateway.getEmployees();
-//        if(!res_employees.isSuccess()){
-//            System.out.println(res_employees.getMessage());
-//            break;
-//        }
-//        List<Employee> employees = res_employees.getData();
-//        for (Employee employee : employees) {
-//
-//            System.out.println(employee);
-//        }
+        Response<List<Employee>> res_employees = g.getEmployees();
+        if(!res_employees.isSuccess()){
+            System.out.println(res_employees.getMessage());
+        }
+        else {
+            List<Employee> employees = res_employees.getData();
+            PrettyTable table = new PrettyTable("ID", "Name", "Salary");
+            for(Employee e : employees) {
+                table.insert(Integer.toString(e.getId()), e.getName(), Double.toString(e.getSalary()));
+            }
+            System.out.println(table.toString());
+        }
+
 
         super.runWithResponse(input, g);
         return true;

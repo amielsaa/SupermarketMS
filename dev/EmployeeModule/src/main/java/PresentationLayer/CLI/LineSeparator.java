@@ -25,4 +25,8 @@ public class LineSeparator implements SeparatorSet
     {
         return "-+-";
     }
+    public String intersectionClean()
+    {
+        return "+";
+    }
 }
