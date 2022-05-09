@@ -4,8 +4,11 @@ import PresentationLayer.CLI.Pages.LoginPage;
 import PresentationLayer.CLI.Pages.Page;
 import ServiceLayer.Gateway;
 import Utilities.CLIException;
+import Utilities.PrettyTable;
 
 import java.util.Scanner;
+
+import static Utilities.PrettyPrint.mulString;
 
 public class NICLI
 {

@@ -49,7 +49,8 @@ public class PrettyTable
 
 
     @Override
-    public String toString()
+    public String
+    toString()
     {
         String s = "";
         SeparatorSet boldSeparators = new BoldSeparator();
@@ -60,17 +61,19 @@ public class PrettyTable
 
             int[] tabCounts = calcTabCounts(newEntries);
 
+            s += makeSeparationLine(header, boldSeparators, tabCounts) + "\n";;
             s += toStringEntry(header, boldSeparators, tabCounts) + "\n";
-
+            s += makeSeparationLine(header, boldSeparators, tabCounts) + "\n";;
             return s + bodyToString(tabCounts);
         } else {
-            return bodyToString();
+            if(entries.size() == 0) {
+                return "[EMPTY TABLE]";
+            }
+            int[] tabCounts = calcTabCounts(this.entries);
+            s += makeSeparationLine(entries.get(0), new LineSeparator(), tabCounts) + "\n";
+            s += bodyToString(tabCounts);
+            return s;
         }
-    }
-
-    public String bodyToString() {
-        int[] tabCounts = calcTabCounts(this.entries);
-        return bodyToString();
     }
 
     public int[] calcTabCounts(List<PrettyTableEntry> entries) {
@@ -101,6 +104,7 @@ public class PrettyTable
         // Print entries
         for(PrettyTableEntry entry : entries) {
             s += toStringEntry(entry, separators, tabCounts) + "\n";
+            s += makeSeparationLine(entry, separators, tabCounts) + "\n";
         }
         return s;
     }
@@ -110,25 +114,29 @@ public class PrettyTable
         String[] rowFields = entry.getFields();
         for(int i = 0; i < rowFields.length; i++)
         {
-            row += rowFields[i] + mulString("\t", (tabCounts[i] - calcTabSize(rowFields[i]) + 1));
+            row += rowFields[i] + mulString(" ", (calcLeftSize(rowFields[i]) + tabCounts[i] - calcTabSize(rowFields[i])));
             if(i < rowFields.length - 1) {
                 row += separators.horizontal();
             }
         }
-        row += " " + separators.horizontalClean() + "\n";
-
-        // Make lines and separators
-        row += separators.intersectionClean() + separators.vertical();
-        for(int i = 0; i < rowFields.length; i++)
-        {
-            row += mulString(separators.vertical(), ((tabCounts[i] + 1) * TAB_SIZE));
-            if(i < rowFields.length - 1) {
-                row += separators.intersection();
-            }
-        }
-        row += separators.vertical() + separators.intersectionClean();
+        row += " " + separators.horizontalClean();
 
         return row;
+    }
+    private String makeSeparationLine(PrettyTableEntry entry, SeparatorSet separators, int[] tabCounts) {
+        // Make lines and separators
+        String[] rowFields = entry.getFields();
+        String s = "";
+        s += separators.intersectionClean() + separators.vertical();
+        for(int i = 0; i < rowFields.length; i++)
+        {
+            s += mulString(separators.vertical(), (tabCounts[i]));
+            if(i < rowFields.length - 1) {
+                s += separators.intersection();
+            }
+        }
+        s += separators.vertical() + separators.intersectionClean();
+        return s;
     }
 
     private class PrettyTableEntry

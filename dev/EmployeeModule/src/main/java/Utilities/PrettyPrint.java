@@ -1,5 +1,6 @@
 package Utilities;
 
+import BusinessLayer.*;
 import PresentationLayer.CLI.BoldSeparator;
 import PresentationLayer.CLI.LineSeparator;
 import PresentationLayer.CLI.SeparatorSet;
@@ -13,6 +14,7 @@ import static Utilities.PrettyInput.printAndWaitForLegalInt;
 public class PrettyPrint
 {
     public static final int TAB_SIZE = 4;
+    public static final int MARGIN_TABS = 1;
 
     public static String makeErrorMessage(String msg) {
         return "[ERROR] " + msg;
@@ -64,7 +66,7 @@ public class PrettyPrint
         for(Pair<String, String> pair : entries) {
             String k = pair.getKey();
             String v = pair.getValue();
-            s += k + mulString("\t", (tabCount - calcTabSize(k) + 1)) + separators.horizontal() + v + "\n";
+            s += k + mulString(" ", (calcLeftSize(k) + tabCount - calcTabSize(k))) + separators.horizontal() + v + "\n";
         }
         return s;
     }
@@ -83,7 +85,7 @@ public class PrettyPrint
         }
         String formattedTitle = makeTitle(title);
         int tabCount = calcMaxTabSize(getKeys(entries).toArray(new String[entries.length]));
-        int intersectionPosition = (tabCount + 1) * TAB_SIZE;
+        int intersectionPosition = (tabCount);
         int maxLineLength = Arrays.stream(body.split("\n")).max((s1, s2) -> (s1.length() - s2.length())).get().length();
         int headerLength = Math.max(formattedTitle.length(), maxLineLength);
 
@@ -121,7 +123,21 @@ public class PrettyPrint
     }
 
     public static int calcTabSize(String s) {
-        return s.length() / TAB_SIZE - ((s.length() % TAB_SIZE) == (TAB_SIZE - 1) ? 0 : 1);
+        int len = s.length();
+        if(len % TAB_SIZE == 0)
+        {
+            return len;
+        }
+        return len + TAB_SIZE - (len) % TAB_SIZE;
+    }
+
+    public static int calcLeftSize(String s) {
+        int len = s.length();
+        if(len % TAB_SIZE == 0)
+        {
+            return 0;
+        }
+        return TAB_SIZE - (len) % TAB_SIZE;
     }
 
     public static String mulString(String s, int times) {
@@ -130,5 +146,62 @@ public class PrettyPrint
             res += s;
         }
         return res;
+    }
+
+    public static void printEmployee(Employee e) {
+        // Employee data
+        PrettyTable employeeTable = new PrettyTable("ID", "Name", "Salary", "Work Starting Date");
+        employeeTable.insert(Integer.toString(e.getId()), e.getName(), Double.toString(e.getSalary()), e.getWorkStartingDate().toLocalDate().toString());
+        System.out.println(employeeTable.toString());
+
+        // Working conditions data
+        WorkingConditions wc = e.getWorkingConditions();
+
+        if(wc.getQualifications().size() > 0)
+        {
+            String[] qualificationNames = new String[wc.getQualifications().size()];
+            int i = 0;
+            for (Qualification q : wc.getQualifications())
+            {
+                qualificationNames[i] = q.getName();
+                i++;
+            }
+            Pair[] optionPairs = makeIndexedEntries(qualificationNames, 1);
+            System.out.println(makeListWithTitle("Qualifications", optionPairs));
+        } else {
+            System.out.println(makeTitle("no qualifications"));
+        }
+
+        System.out.println(makeTitle("Working Conditions"));
+        String wcDescription = wc.getDescription();
+        System.out.println(wcDescription.length() == 0 ? "[Empty]" : wcDescription);
+
+        if(wc.getWorkingHours().size() > 0)
+        {
+            System.out.println(makeBigTitle("Working Hours"));
+            PrettyTable workingHoursTable = new PrettyTable("Starting Date and Time", "Ending Date and Time");
+            for (TimeInterval ti : wc.getWorkingHours())
+            {
+                workingHoursTable.insert(ti.getStart().toString(), ti.getEnd().toString());
+            }
+            System.out.println(workingHoursTable.toString());
+        } else {
+            System.out.println(makeTitle("no working hours"));
+        }
+    }
+
+    public static void printBankAccountDetails(BankAccountDetails bad) {
+        // Bank account details
+        System.out.println(makeBigTitle("Bank Account Details"));
+        PrettyTable badTable = new PrettyTable("Bank Id", "Branch Id", "Account Id", "Bank Name", "Branch Name", "Account Name");
+        badTable.insert(
+                Integer.toString(bad.bankId()),
+                Integer.toString(bad.branchId()),
+                Integer.toString(bad.accountId()),
+                bad.bankName(),
+                bad.branchName(),
+                bad.accountOwner()
+        );
+        System.out.println(badTable.toString());
     }
 }

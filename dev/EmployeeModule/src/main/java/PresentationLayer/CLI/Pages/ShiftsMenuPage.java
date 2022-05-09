@@ -10,6 +10,7 @@ public class ShiftsMenuPage extends ResponsePage<Boolean>
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
+
         return true;
     }
 }

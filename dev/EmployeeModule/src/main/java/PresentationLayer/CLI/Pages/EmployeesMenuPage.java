@@ -1,9 +1,6 @@
 package PresentationLayer.CLI.Pages;
 
-import BusinessLayer.BankAccountDetails;
-import BusinessLayer.Employee;
-import BusinessLayer.Qualification;
-import BusinessLayer.TimeInterval;
+import BusinessLayer.*;
 import ServiceLayer.Gateway;
 import Utilities.CLIException;
 import Utilities.Pair;
@@ -13,7 +10,7 @@ import Utilities.Response;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static Utilities.PrettyInput.printAndWaitForLegalInt;
+import static Utilities.PrettyInput.*;
 import static Utilities.PrettyPrint.*;
 import static Utilities.Util.checkLegalId;
 
@@ -22,7 +19,6 @@ public class EmployeesMenuPage extends OptionsMenuPage
     ResponsePage<Boolean> pgEmptyFalse = new ReturnPage();
     ResponsePage<Boolean> pgAddEmployee = new AddEmployeePage();
     ResponsePage<Boolean> pgEditEmployee = new EditEmployeePage();
-    ResponsePage<Boolean> pgManageWorkingHours = new ManageEmployeeWorkingHoursPage();
 
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
@@ -34,15 +30,16 @@ public class EmployeesMenuPage extends OptionsMenuPage
         }
         else {
             List<Employee> employees = res_employees.getData();
-            PrettyTable table = new PrettyTable("ID", "Name", "Salary");
+            PrettyTable table = new PrettyTable("ID", "Name");
             for(Employee e : employees) {
-                table.insert(Integer.toString(e.getId()), e.getName(), Double.toString(e.getSalary()));
+                table.insert(Integer.toString(e.getId()), e.getName());
             }
             System.out.println(table.toString());
         }
 
-
-        super.runWithResponse(input, g);
+        if(super.runWithResponse(input, g)) {
+            runWithResponse(input, g);
+        }
         return true;
     }
 
@@ -51,18 +48,21 @@ public class EmployeesMenuPage extends OptionsMenuPage
     {
         return new LinkedHashMap<String, ResponsePage<Boolean>>() {{
             put("Return", pgEmptyFalse);
-            // UNCOMMENT TO ADD FUNCTIONALITY
-//            put("Get Employee", makeResponsePage((Pair<Scanner, Gateway> args) -> {
-//                int e_id = printAndWaitForLegalInt(args.getKey(), "Enter the employee id: ", (x) -> checkLegalId(x), "Illegal id. ");
-//                Response<Employee> res_emp = args.getValue().getEmployee(e_id);
-//                if(!res_emp.isSuccess()){
-//                    System.out.println(makeErrorMessage(res_emp.getMessage()));
-//                }
-//                else {
-//                    System.out.println(makeSuccessMessage());
-//                }
-//                return true;
-//            }));
+            put("Show Employee Information", makeResponsePage((Pair<Scanner, Gateway> args) -> {
+                int e_id = printAndWaitForLegalInt(args.getKey(), "Enter the employee id: ", (x) -> checkLegalId(x), "Illegal id. ");
+                Response<Employee> res_emp = args.getValue().getEmployee(e_id);
+                if(res_emp.isSuccess()){
+                    Employee e = res_emp.getData();
+                    System.out.println(makeBigTitle("Showing Information on " + e.getName()));
+                    printEmployee(e);
+                    printBankAccountDetails(e.getBankAccountDetails());
+                }
+                else {
+                    System.out.println(makeErrorMessage("Failed to show employee, " + res_emp.getMessage()));
+                }
+                printAndWaitForLegalString(args.getKey(), "Enter anything to continue: ");
+                return true;
+            }));
             put("Add Employee", pgAddEmployee);
             put("Remove Employee", makeResponsePage((Pair<Scanner, Gateway> args) -> {
                 int e_id = printAndWaitForLegalInt(args.getKey(), "Enter the employee id: ", (x) -> checkLegalId(x), "Illegal id. ");
@@ -76,7 +76,6 @@ public class EmployeesMenuPage extends OptionsMenuPage
                 return true;
             }));
             put("Edit Employee", pgEditEmployee);
-            put("Manage Working Hours", pgManageWorkingHours);
         }};
     }
 

@@ -5,28 +5,28 @@ public class BoldSeparator implements SeparatorSet
     @Override
     public String horizontalClean()
     {
-        return "#";
+        return "║";
     }
 
     @Override
     public String horizontal()
     {
-        return " # ";
+        return " ║ ";
     }
 
     @Override
     public String vertical()
     {
-        return "=";
+        return "═";
     }
 
     @Override
     public String intersection()
     {
-        return "=O=";
+        return "═+═";
     }
     public String intersectionClean()
     {
-        return "O";
+        return "+";
     }
 }

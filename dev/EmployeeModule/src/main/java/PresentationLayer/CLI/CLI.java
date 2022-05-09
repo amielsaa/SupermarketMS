@@ -203,6 +203,7 @@ public class CLI {
                 System.out.println("Success");
                 break;
             case removeEmployeeWorkingHours:
+                // NOT IMPLEMENTED
                 System.out.println("Please provide starting time in the next format: yyyy-MM-ddThh:mm:ss");
                 start = getDateInput(input);
                 System.out.println("Please provide ending time in the next format: yyyy-MM-ddThh:mm:ss");

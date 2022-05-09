@@ -5,25 +5,25 @@ public class LineSeparator implements SeparatorSet
     @Override
     public String horizontalClean()
     {
-        return "|";
+        return "│";
     }
 
     @Override
     public String horizontal()
     {
-        return " | ";
+        return " │ ";
     }
 
     @Override
     public String vertical()
     {
-        return "-";
+        return "─";
     }
 
     @Override
     public String intersection()
     {
-        return "-+-";
+        return "─+─";
     }
     public String intersectionClean()
     {
