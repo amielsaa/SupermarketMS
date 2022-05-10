@@ -3,6 +3,7 @@ package ServiceLayer;
 import BusinessLayer.*;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
+import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -98,7 +99,14 @@ public class SupplierFacade {
     }
 
     */
-
+   public Response makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
+       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
+       if(resWithHash.isSuccess()) {
+           Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(),days);
+           return resFromOrder;
+       }
+       return resWithHash;
+   }
     //todo: add a function of RoutineOrder
     //todo:add a function of amielzz
 

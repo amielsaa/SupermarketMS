@@ -67,7 +67,7 @@ public class Order {
         Supplier_BN = supplier_BN;
     }
 
-    public HashMap<Pair<String,String>,OrderItem> getItem_Num_To_Quantity() {
+    public HashMap<Pair<String,String>,OrderItem> getItem_Num_To_OrderItem() {
         return item_Num_To_OrderItem;
     }
 

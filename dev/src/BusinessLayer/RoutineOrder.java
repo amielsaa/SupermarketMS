@@ -21,6 +21,10 @@ public class RoutineOrder extends Order{
         super(supplier_bn, order_id, final_price, order_date);
         Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
     }
+    public RoutineOrder(Order o, Set<Integer> days) {
+        super(o.getSupplier_BN(),o.getOrder_Id(),o.getItem_Num_To_OrderItem(),o.getPriceBeforeDiscount(),o.getFinal_Price(),o.getOrder_Date());
+        Days_To_Deliver = setDays_To_Deliver(days);
+    }
 
     public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
         Integer[] days = new Integer[days_To_Deliver.toArray().length];//gets the set to Array
@@ -53,4 +57,10 @@ public class RoutineOrder extends Order{
             throw new IllegalArgumentException("day is not valid");
 
     }
+
+    public Set<Days> getDays_To_Deliver() {
+        return Days_To_Deliver;
+    }
+
+
 }

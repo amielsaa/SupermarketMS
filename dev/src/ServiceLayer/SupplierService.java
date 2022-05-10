@@ -157,6 +157,16 @@ public class SupplierService {
         }
     }
 */
+   public Response<HashMap<Pair<String,String>, Pair<Double,Double>>> makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
+       try {
+           HashMap<Pair<String,String>, Pair<Double,Double>> itemsAfterDiscount = cSupplier.makeOrder(business_num, order);
+           return Response.makeSuccess(itemsAfterDiscount);
+       }
+       catch (Exception e){
+           return Response.makeFailure(e.getMessage());
+       }
+
+   }
 
 
 

@@ -88,6 +88,15 @@ public class OrderController {
 
         }
 
+    public RoutineOrder makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder, Set<Integer> days) throws Exception {
+        Order orderforRoutine=makeOrder(business_num,order,fixedOrder);
+        RoutineOrder routineOrder=new RoutineOrder(orderforRoutine,days);
+        for(Integer i:days){
+            daysToDeliverDAO.insertDaysToDeliver(business_num,routineOrder.getOrder_Id(),i);
+        }
+        return routineOrder;
+    }
+
 
       /*  public void updateOrderDeliveryDays ( int business_num, Set<Integer > days) throws DataFormatException {
             if (!supplierDAO.containsSupplier(business_num))
