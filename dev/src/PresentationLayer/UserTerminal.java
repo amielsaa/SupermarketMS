@@ -15,7 +15,7 @@ public class UserTerminal {
     private Scanner sc;
     private DeliveryService service;
     public UserTerminal(){
-        sc = new Scanner(System.in).useDelimiter("\n");
+        sc = new Scanner(System.in);
         service = new DeliveryService();
     }
 
