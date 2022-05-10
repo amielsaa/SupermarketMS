@@ -12,11 +12,10 @@ public class QuantityAgreement {
     private HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount;
 
 
-    //todo: remove item_Num_To_Name, change Integer to Pair<String,String>
+
 
 
     public QuantityAgreement(HashMap<Pair<String,String>,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
-        //todo: check if there are no items at all
         PriceValidationChecker(item_num_to_price);
         item_To_Price = item_num_to_price;
         DiscountsValidationCheck(item_num_to_discount);
@@ -90,6 +89,8 @@ public class QuantityAgreement {
     }
     private void PriceValidationChecker(HashMap<Pair<String,String>,Double> item_num_to_price){
         Set<Pair<String,String>> keys=item_num_to_price.keySet();
+        if(keys.isEmpty())
+            throw new IllegalArgumentException("Quantity agreement cannot be empty");
         //checks if the price is negative
         for(Pair i:keys){
             if (item_num_to_price.get(i)<0)

@@ -54,7 +54,7 @@ public class OrderController {
         //if supplier is deleted.
 
 
-        public Order makeOrder ( int supplierBN, HashMap <Pair<String,String>, Integer > order, HashMap < Pair<String,String>, Pair < Double, Double >> fixedOrder){
+        public Order makeOrder ( int supplierBN, HashMap <Pair<String,String>, Integer > order, HashMap < Pair<String,String>, Pair < Double, Double >> fixedOrder) throws Exception {
 
             Pair<String,String>[] orderKeys = new Pair[order.keySet().toArray().length];// keys of the items in array
             for (int i = 0; i < orderKeys.length; i++) {
@@ -63,18 +63,25 @@ public class OrderController {
             HashMap<Pair<String,String>,OrderItem> Item_Name_To_OrderItem=new HashMap<Pair<String,String>,OrderItem>();
           //  HashMap<Integer, OrderItem> Item_Num_To_OrderItem = new HashMap<Integer, OrderItem>();//the Parameter that will be inserted into the Order
             double finalPrice = 0;
-            double finalPriceBeforeDiscount;
+            double priceBeforeDiscount=0;
+
             for (int i = 0; i < orderKeys.length; i++) {
                 OrderItem orderItem = new OrderItem(supplierBN,getId_Order_Counter(),orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
+                //insert to data
+               if(!orderItemsDAO.insertOrderItem(Id_Order_Counter,orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i])))
+                   throw new DataFormatException("failed to Insert Item to data on makeOrder");
                 //todo: remove supplierBN from orderItem constructor ^^^^
 
                 Item_Name_To_OrderItem.put(orderKeys[i], orderItem);
                 finalPrice = finalPrice + fixedOrder.get(orderKeys[i]).getSecond();
+                priceBeforeDiscount=priceBeforeDiscount+fixedOrder.get(orderKeys[i]).getFirst();
             }
             Date date = new Date(System.currentTimeMillis());
-            Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem, finalPrice, date);
-            //need to add the Order to the Data!
-            //BN_To_Orders.get(supplierBN).put(Id_Order_Counter, newOrder);
+            String dateForData=date.toString();
+            Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem,priceBeforeDiscount, finalPrice, date);
+            //insert to data
+            if(!orderDAO.insertOrders(supplierBN,Id_Order_Counter,finalPrice,dateForData))
+                throw new DataFormatException("cound not insert Order into data on makeOrder");
             Id_Order_Counter++;
 
             return newOrder;

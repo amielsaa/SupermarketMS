@@ -12,8 +12,8 @@ public class RoutineOrder extends Order{
     private Set<Days> Days_To_Deliver;
 
 
-    public RoutineOrder(int supplier_bn, int order_id, HashMap<Pair<String,String>, OrderItem> item_num_to_orderItem, double final_price, Date order_date, Set<Integer> days_To_Deliver) {
-        super(supplier_bn, order_id, item_num_to_orderItem, final_price, order_date);
+    public RoutineOrder(int supplier_bn, int order_id, HashMap<Pair<String,String>, OrderItem> item_num_to_orderItem,double priceBeforeDiscount, double final_price, Date order_date, Set<Integer> days_To_Deliver) {
+        super(supplier_bn, order_id, item_num_to_orderItem,priceBeforeDiscount, final_price, order_date);
         Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
     }
 

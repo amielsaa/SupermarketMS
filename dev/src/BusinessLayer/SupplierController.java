@@ -28,6 +28,7 @@ public class SupplierController {
         Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
+
         return newSupplier;
     }
 
