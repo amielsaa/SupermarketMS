@@ -23,10 +23,9 @@ public class EmployeesMenuPage extends OptionsMenuPage
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
-        // TODO try fetch and display employees
         Response<List<Employee>> res_employees = g.getEmployees();
         if(!res_employees.isSuccess()){
-            System.out.println(res_employees.getMessage());
+            System.out.println(makeErrorMessage(res_employees.getMessage()));
         }
         else {
             List<Employee> employees = res_employees.getData();

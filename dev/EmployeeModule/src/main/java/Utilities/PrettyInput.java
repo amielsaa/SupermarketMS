@@ -1,11 +1,16 @@
 package Utilities;
 
+import BusinessLayer.ShiftId;
+import BusinessLayer.ShiftTime;
+
 import java.io.BufferedReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Predicate;
+
+import static Utilities.PrettyPrint.makeTitle;
 
 public class PrettyInput
 {
@@ -92,7 +97,18 @@ public class PrettyInput
         }
         return res.getData();
     }
-
+    public static ShiftId printAndWaitForLegalShiftId(Scanner s, String prompt) {
+        int branchId = printAndWaitForLegalInt(s, "Please provide the branch id: ", (x) -> (x > 0), "Illegal branch id. ");
+        return printAndWaitForLegalShiftId(s, prompt, branchId);
+    }
+    public static ShiftId printAndWaitForLegalShiftId(Scanner s, String prompt, int branchId) {
+            System.out.println(makeTitle("Shift Date"));
+            LocalDateTime date = getDateInput(s);
+            System.out.println("");
+            String _sh_time = printAndWaitForLegalString(s, "Please provide the shift time (DAY/NIGHT): ", (String str) -> (str.equals("DAY") || str.equals("NIGHT")), "Wrong input. ");
+            ShiftTime time = _sh_time.equals("DAY") ? ShiftTime.DAY : (_sh_time.equals("NIGHT") ? ShiftTime.NIGHT : null);
+            return new ShiftId(branchId, date, time);
+    }
     public static Response<Integer> tryNextInt(Scanner s) {
         try {
             return Response.makeSuccess(Integer.parseInt(s.nextLine()));

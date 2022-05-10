@@ -67,6 +67,7 @@ public class Gateway
         Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner");
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager");
+        Qualification qualificationDriver = qualificationController.addQualification("Driver");
 
         qualificationController.addPermissionToQualification("ManageShift", "ShiftManager");
 
