@@ -36,7 +36,7 @@ public class Supplier  {
 
     }
 
-    public Supplier(int business_num, String name, int bank_acc_num, String payment_details, int delivery_By_Days, int self_delivery_or_pickup) {
+    public Supplier(int business_num, String name, int bank_acc_num, String payment_details, int self_delivery_or_pickup) {
         //DAL constructor
         Name = name;
         Business_Num = business_num;

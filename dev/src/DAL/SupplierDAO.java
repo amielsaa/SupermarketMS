@@ -18,8 +18,8 @@ public class SupplierDAO extends DalController {
     }
 
 
-    public boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails,int deliverybydays, int selfdelivery)  {
-        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, deliverybydays, selfdelivery) VALUES(?,?,?,?,?,?)";
+    public boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
+        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
@@ -28,7 +28,6 @@ public class SupplierDAO extends DalController {
             pstmt.setString(2, name);
             pstmt.setInt(3, bankaccount);
             pstmt.setString(4, paymentdetails);
-            pstmt.setInt(5, deliverybydays);
             pstmt.setInt(6, selfdelivery);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -53,7 +52,7 @@ public class SupplierDAO extends DalController {
 
 
     public boolean addNewSupplier(Supplier supplier){
-        return insertSupplier(supplier.getBusiness_Num(), supplier.getName(), supplier.getBank_Acc_Num(), supplier.getPayment_Details().toString(), boolToInt(supplier.isDelivery_By_Days()), boolToInt(supplier.isSelf_Delivery_Or_Pickup()));
+        return insertSupplier(supplier.getBusiness_Num(), supplier.getName(), supplier.getBank_Acc_Num(), supplier.getPayment_Details().toString(), boolToInt(supplier.isSelf_Delivery_Or_Pickup()));
     }
 
     public Supplier getSupplier(int bn){
@@ -98,7 +97,7 @@ public class SupplierDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Supplier supp = null;
             while (rs.next()) {
-                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("deliverybydays"),rs.getInt("selfdelivery"));
+                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"));
 
             }
             return supp; //we know its not null because of containsSupplier() function
