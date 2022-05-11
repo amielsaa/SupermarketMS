@@ -3,6 +3,7 @@ package BusinessLayer;
 import DAL.DaysToDeliverDAO;
 import DAL.OrderDAO;
 import DAL.OrderItemsDAO;
+import misc.Days;
 import misc.Pair;
 import BusinessLayer.*;
 import java.sql.Date;
@@ -97,6 +98,17 @@ public class OrderController {
         return routineOrder;
     }
 
+    public RoutineOrder addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data) throws DataFormatException {
+        if (!orderDAO.containsOrder(business_num, orderId))
+            throw new DataFormatException("Order does not exists");
+        if(daysToDeliverDAO.getBN_to_routineOrder().contains(business_num)){
+            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId))
+                {
+
+                }
+            }
+    }
+
 
       /*  public void updateOrderDeliveryDays ( int business_num, Set<Integer > days) throws DataFormatException {
             if (!supplierDAO.containsSupplier(business_num))
@@ -128,6 +140,17 @@ public class OrderController {
     }
 
        */
+
+
+    private RoutineOrder buildRoutineOrder(int bn,int orderId){
+        Order order =orderDAO.getOrder(bn,orderId);
+        Collection<Days> days=daysToDeliverDAO.selectAllDays(bn,orderId);
+        Set<Days> setdays=new HashSet<>();
+        for(Days i:days){
+           setdays.add(i);
+        }
+        return new RoutineOrder(order,setdays);
+    }
     }
 
 

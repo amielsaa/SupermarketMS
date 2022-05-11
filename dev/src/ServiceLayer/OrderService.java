@@ -72,4 +72,15 @@ public class OrderService {
             return Response.makeFailure(e.getMessage());
         }
     }
+
+    public Response<RoutineOrder> addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data) {
+        try{
+            RoutineOrder updatedRoutineOrder=cOrder.addOrUpdateRoutineOrder(business_num,orderId,data);
+            return Response.makeSuccess(updatedRoutineOrder);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+        }
+    }
 }

@@ -196,9 +196,19 @@ public class SupplierController {
     }
     return toreturn;
     }
+
+    public HashMap<Pair<String, String>, Pair<Double, Double>> addOrUpdateRoutineOrder(int business_num, String itemName, String itemProducer, int quantity) {
+        if(!supplierDAO.containsSupplier(business_num))
+            throw new IllegalArgumentException("Supplier was not found");
+        Supplier supplier=buildSupplier(business_num);
+        HashMap<Pair<String,String>,Integer> itemToAdd=new HashMap<>();
+        itemToAdd.put(new Pair<>(itemName,itemProducer),quantity);
+        return supplier.makeOrder(itemToAdd);
+
+    }
     //todo:getAllSuppliers-done
     //todo:Days for supplier-done
-    //todo:make sure every RoutineOrder is included in the supplier days
+    //todo:make sure every RoutineOrder is included in the supplier days-done
     //todo:option to update the routine orders.
     //todo:build the function to get items and make the best deal
 
