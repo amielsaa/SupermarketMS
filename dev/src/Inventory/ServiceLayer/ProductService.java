@@ -65,12 +65,12 @@ public class ProductService {
     }
 
 
-    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
+    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, String categories) {
         try{
             Response<List<Category>> categoriesRes = GetCategories(categories);
             if(!categoriesRes.isSuccess())
                 return Response.makeFailure(categoriesRes.getMessage());
-            Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,categoriesRes.getData());
+            Product product = productController.addProduct(name,producer,buyingPrice,sellingPrice,minquantity,categoriesRes.getData());
             return Response.makeSuccess(product.toString());
         } catch(Exception e) {
             return Response.makeFailure(e.getMessage());

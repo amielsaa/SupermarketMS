@@ -60,9 +60,9 @@ public class ProductController {
      */
 
 
-    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice, List<Category> categories) {
+    public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, List<Category> categories) {
         //TODO: capitalize all categories names
-        return productDAO.InsertProduct(productId++,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,10);
+        return productDAO.InsertProduct(productId++,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,minquantity);
     }
 
 

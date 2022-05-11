@@ -17,6 +17,7 @@ public class Product {
     private int minQuantity;
 
 
+    //add min quantity
     public Product(int Id, String name, String producer,double buyingPrice, double sellingPrice, List<Category> categories) {
         this.Id = Id;
         this.name = name;

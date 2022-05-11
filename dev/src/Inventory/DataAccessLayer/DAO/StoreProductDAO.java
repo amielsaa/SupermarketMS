@@ -17,9 +17,16 @@ public class StoreProductDAO extends DalController {
     }
 
     public StoreProduct InsertStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
-        String sql = "INSERT INTO StoreProducts(productid, storeid,quantityinstore," +
-                "quantityinwarehouse, expdate, locations) " +
-                "VALUES(?,?,?,?,?,?)";
+        String sql;
+        if(storeProductMapper.storeProductsExists(productid,storeid,expdate))
+            sql = "UPDATE StoreProducts SET productid=(?), storeid=(?), quantityinstore=(?)," +
+                    "quantityinwarehouse=(?),expdate=(?),locations=(?)";
+        else
+            sql = "INSERT INTO StoreProducts(productid, storeid,quantityinstore," +
+                    "quantityinwarehouse, expdate, locations) " +
+                    "VALUES(?,?,?,?,?,?)";
+
+
 
         try{
 

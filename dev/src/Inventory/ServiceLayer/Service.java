@@ -46,8 +46,8 @@ public class Service {
     }
 
 
-        public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice, String categories) {
-        return productService.AddProduct(name,producer,buyingPrice,sellingPrice,categories);
+        public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, String categories) {
+        return productService.AddProduct(name,producer,buyingPrice,sellingPrice,minquantity,categories);
     }
 
     public Response<String> AddStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
@@ -103,24 +103,25 @@ public class Service {
     //integration between suppliers
 
     public Response<String> MakeOrderMinQuantity() {
-
+        //
         //MakeOrderToSuppliers()
         throw new NotImplementedException();
     }
 
-    public Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> pairOfBalls) {
+    private Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> orders) {
         throw new NotImplementedException();
     }
 
+
     private void addProducts() {
-        AddProduct("Shampoo","Kef",10.20,12.50, "Wash,Shampoo,Size");
-        AddProduct("Chips","Osem",7.20,10.50,"Snacks,Salty,Weight");
-        AddProduct("Cini Minis","Telma",25,32,"Cereal,Sweets,Weight");
-        AddProduct("Milk","Tnuva",7.50,10,"Diary,Milk,Size");
-        AddProduct("Cottage","Tnuva",4.50,7.90,"Diary,Delicacy,ML");
-        AddProduct("Coffee","Turkey",6.50,11,"Hot Drink,Coffee,Weight");
-        AddProduct("Banana","Perot",5,6,"Fruits,Sweets,Weight");
-        AddProduct("Apple","Perot",4,5,"Fruits,Sweets,Weight");
+        AddProduct("Shampoo","Kef",10.20,12.50,10 ,"Wash,Shampoo,Size");
+        AddProduct("Chips","Osem",7.20,10.50,10,"Snacks,Salty,Weight");
+        AddProduct("Cini Minis","Telma",25,32,10,"Cereal,Sweets,Weight");
+        AddProduct("Milk","Tnuva",7.50,10,10,"Diary,Milk,Size");
+        AddProduct("Cottage","Tnuva",4.50,7.90,10,"Diary,Delicacy,ML");
+        AddProduct("Coffee","Turkey",6.50,11,10,"Hot Drink,Coffee,Weight");
+        AddProduct("Banana","Perot",5,6,10,"Fruits,Sweets,Weight");
+        AddProduct("Apple","Perot",4,5,10,"Fruits,Sweets,Weight");
     }
 
 
