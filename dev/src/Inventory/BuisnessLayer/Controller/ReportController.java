@@ -43,7 +43,7 @@ public class ReportController {
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
             int quantity =0;
             for(StoreProduct storeProduct: mapSet.getValue()){
-                if(!storeProduct.isExpired())
+                if(!storeProduct.isNull()&&!storeProduct.isExpired())
                     quantity+=storeProduct.getQuantityInStore()+storeProduct.getQuantityInWarehouse();
             }
             if(quantity<=mapSet.getKey().getMinQuantity()){
@@ -53,6 +53,25 @@ public class ReportController {
             }
         }
         return report;
+    }
+
+    public CommandLineTable reportMinQuantityTable(Map<Product,List<StoreProduct>> productListMap) {
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("Id","name", "producer" ,"selling price", "buyingPrice", "categories","quantity");
+
+        for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
+            int quantity =0;
+            for(StoreProduct storeProduct: mapSet.getValue()){
+                if(!storeProduct.isNull()&&!storeProduct.isExpired())
+                    quantity+=storeProduct.getQuantityInStore()+storeProduct.getQuantityInWarehouse();
+            }
+            if(quantity<=mapSet.getKey().getMinQuantity()){
+                int orderQuantity = mapSet.getKey().getMinQuantity();
+                table.addRow(mergeArray(mapSet.getKey().toArrayString(),String.valueOf(orderQuantity)));
+            }
+        }
+        return table;
     }
 
     //TODO:
