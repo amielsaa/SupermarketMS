@@ -28,7 +28,7 @@ public class SupplierDAO extends DalController {
             pstmt.setString(2, name);
             pstmt.setInt(3, bankaccount);
             pstmt.setString(4, paymentdetails);
-            pstmt.setInt(6, selfdelivery);
+            pstmt.setInt(5, selfdelivery);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
