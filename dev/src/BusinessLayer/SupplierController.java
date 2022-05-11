@@ -4,6 +4,7 @@ import DAL.*;
 import misc.Pair;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -187,8 +188,18 @@ public class SupplierController {
         HashMap<Pair<String,String>, Pair<Double, Double>> toreturn= buildSupplier(business_num).makerRoutineOrder(order,days);
         return toreturn;
     }
-    //todo:getAllSuppliers
-    //todo:Days for supplier
+
+    public List<Supplier> getAllSuppliers() {
+    supplierDAO.loadAllSuppliers();
+    List<Supplier> suppliersToBuild=supplierDAO.getAllSuppliers();
+    List<Supplier> toreturn=new ArrayList<>();
+    for(Supplier i:suppliersToBuild){
+        toreturn.add(buildSupplier(i.getBusiness_Num()));
+    }
+    return toreturn;
+    }
+    //todo:getAllSuppliers-done
+    //todo:Days for supplier-done
     //todo:make sure every RoutineOrder is included in the supplier days
     //todo:option to update the routine orders.
     //todo:build the function to get items and make the best deal
