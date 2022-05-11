@@ -15,10 +15,11 @@ public class OrderController {
     private OrderDAO orderDAO;
     private OrderItemsDAO orderItemsDAO;
     private DaysToDeliverDAO daysToDeliverDAO;
+
     public OrderController() {
         orderDAO = new OrderDAO();
         orderItemsDAO = new OrderItemsDAO();
-        daysToDeliverDAO=new DaysToDeliverDAO();
+        daysToDeliverDAO = new DaysToDeliverDAO();
     }
 
 
@@ -46,68 +47,110 @@ public class OrderController {
         return orderDAO.getOrder(supplierBN, orderID);
     }
 
-        //when added a new supplier-adds him to the map of the database.
-        public void addSupplier ( int supplierBN){
-            orderDAO.addSupplier(supplierBN);
+    //when added a new supplier-adds him to the map of the database.
+    public void addSupplier(int supplierBN) {
+        orderDAO.addSupplier(supplierBN);
 
+    }
+    //when removing supplier-deletes all his orders from the database.-stupid, needs proof of every order even
+    //if supplier is deleted.
+
+
+    public Order makeOrder(int supplierBN, HashMap<Pair<String, String>, Integer> order, HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder) throws Exception {
+
+        Pair<String, String>[] orderKeys = new Pair[order.keySet().toArray().length];// keys of the items in array
+        for (int i = 0; i < orderKeys.length; i++) {
+            orderKeys[i] = (Pair) order.keySet().toArray()[i];
         }
-        //when removing supplier-deletes all his orders from the database.-stupid, needs proof of every order even
-        //if supplier is deleted.
+        HashMap<Pair<String, String>, OrderItem> Item_Name_To_OrderItem = new HashMap<Pair<String, String>, OrderItem>();
+        //  HashMap<Integer, OrderItem> Item_Num_To_OrderItem = new HashMap<Integer, OrderItem>();//the Parameter that will be inserted into the Order
+        double finalPrice = 0;
+        double priceBeforeDiscount = 0;
 
-
-        public Order makeOrder ( int supplierBN, HashMap <Pair<String,String>, Integer > order, HashMap < Pair<String,String>, Pair < Double, Double >> fixedOrder) throws Exception {
-
-            Pair<String,String>[] orderKeys = new Pair[order.keySet().toArray().length];// keys of the items in array
-            for (int i = 0; i < orderKeys.length; i++) {
-                orderKeys[i] = (Pair) order.keySet().toArray()[i];
-            }
-            HashMap<Pair<String,String>,OrderItem> Item_Name_To_OrderItem=new HashMap<Pair<String,String>,OrderItem>();
-          //  HashMap<Integer, OrderItem> Item_Num_To_OrderItem = new HashMap<Integer, OrderItem>();//the Parameter that will be inserted into the Order
-            double finalPrice = 0;
-            double priceBeforeDiscount=0;
-
-            for (int i = 0; i < orderKeys.length; i++) {
-                OrderItem orderItem = new OrderItem(getId_Order_Counter(),orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
-                //insert to data
-               if(!orderItemsDAO.insertOrderItem(Id_Order_Counter,orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i])))
-                   throw new DataFormatException("failed to Insert Item to data on makeOrder");
-                //todo: remove supplierBN from orderItem constructor ^^^^
-
-                Item_Name_To_OrderItem.put(orderKeys[i], orderItem);
-                finalPrice = finalPrice + fixedOrder.get(orderKeys[i]).getSecond();
-                priceBeforeDiscount=priceBeforeDiscount+fixedOrder.get(orderKeys[i]).getFirst();
-            }
-            Date date = new Date(System.currentTimeMillis());
-            String dateForData=date.toString();
-            Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem,priceBeforeDiscount, finalPrice, date);
+        for (int i = 0; i < orderKeys.length; i++) {
+            OrderItem orderItem = new OrderItem(getId_Order_Counter(), orderKeys[i].getFirst(), orderKeys[i].getSecond(), fixedOrder.get(orderKeys[i]).getFirst(), fixedOrder.get(orderKeys[i]).getSecond(), order.get(orderKeys[i]));
             //insert to data
-            if(!orderDAO.insertOrders(supplierBN,Id_Order_Counter,finalPrice,dateForData,priceBeforeDiscount))
-                throw new DataFormatException("cound not insert Order into data on makeOrder");
-            Id_Order_Counter++;
+            if (!orderItemsDAO.insertOrderItem(Id_Order_Counter, orderKeys[i].getFirst(), orderKeys[i].getSecond(), fixedOrder.get(orderKeys[i]).getFirst(), fixedOrder.get(orderKeys[i]).getSecond(), order.get(orderKeys[i])))
+                throw new DataFormatException("failed to Insert Item to data on makeOrder");
+            //todo: remove supplierBN from orderItem constructor ^^^^
 
-            return newOrder;
-
+            Item_Name_To_OrderItem.put(orderKeys[i], orderItem);
+            finalPrice = finalPrice + fixedOrder.get(orderKeys[i]).getSecond();
+            priceBeforeDiscount = priceBeforeDiscount + fixedOrder.get(orderKeys[i]).getFirst();
         }
+        Date date = new Date(System.currentTimeMillis());
+        String dateForData = date.toString();
+        Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem, priceBeforeDiscount, finalPrice, date);
+        //insert to data
+        if (!orderDAO.insertOrders(supplierBN, Id_Order_Counter, finalPrice, dateForData, priceBeforeDiscount))
+            throw new DataFormatException("cound not insert Order into data on makeOrder");
+        Id_Order_Counter++;
+
+        return newOrder;
+
+    }
 
     public RoutineOrder makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder, Set<Integer> days) throws Exception {
-        Order orderforRoutine=makeOrder(business_num,order,fixedOrder);
-        RoutineOrder routineOrder=new RoutineOrder(orderforRoutine,days);
-        for(Integer i:days){
-            daysToDeliverDAO.insertDaysToDeliver(business_num,routineOrder.getOrder_Id(),i);
+        Order orderforRoutine = makeOrder(business_num, order, fixedOrder);
+        RoutineOrder routineOrder = new RoutineOrder(orderforRoutine, days);
+        for (Integer i : days) {
+            daysToDeliverDAO.insertDaysToDeliver(business_num, routineOrder.getOrder_Id(), i);
         }
         return routineOrder;
     }
 
-    public RoutineOrder addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data) throws DataFormatException {
+    public RoutineOrder addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data, int quantity) throws DataFormatException {
         if (!orderDAO.containsOrder(business_num, orderId))
             throw new DataFormatException("Order does not exists");
-        if(daysToDeliverDAO.getBN_to_routineOrder().contains(business_num)){
-            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId))
-                {
+        if (daysToDeliverDAO.getBN_to_routineOrder().containsKey(business_num)) {
+            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId)) {
+                RoutineOrder routineOrder = buildRoutineOrder(business_num, orderId);
+                Set<Pair<String, String>> key = data.keySet();
+                for (Pair i : key) {
+                    boolean updateOrAdd = routineOrder.addOrUpdateRoutineOrder(i, data.get(i).getFirst(), data.get(i).getSecond(),quantity);
+                    //update
+                    if(!updateOrAdd){
+                        orderItemsDAO.updateItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity);
+                    }
+                    else{
+                        orderItemsDAO.insertOrderItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity);
+                    }
+                    orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price());
 
                 }
-            }
+                return routineOrder;
+
+            } else
+                throw new DataFormatException("Order is not RoutineOrder");
+        } else
+            throw new DataFormatException("Order is not RoutineOrder");
+
+
     }
+    public RoutineOrder deleteItemFromRoutineOrder(int business_num, int orderId, String itemName, String itemProducer) throws DataFormatException {
+        if (!orderDAO.containsOrder(business_num, orderId))
+            throw new DataFormatException("Order does not exists");
+        if (daysToDeliverDAO.getBN_to_routineOrder().containsKey(business_num)) {
+            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId)) {
+                RoutineOrder routineOrder = buildRoutineOrder(business_num, orderId);
+                boolean isSuccess=routineOrder.deleteItemFromRoutineOrder(itemName,itemProducer);
+                if(!isSuccess)
+                    throw new IllegalArgumentException("Could not find the item in the order");
+                else{
+                    orderItemsDAO.deleteOrderItem(orderId,itemName,itemProducer);
+                    orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price());
+                }
+                return routineOrder;
+            }
+            else
+                throw new DataFormatException("Order is not RoutineOrder");
+
+        }
+        else
+            throw new DataFormatException("Order is not RoutineOrder");
+    }
+
+
 
 
       /*  public void updateOrderDeliveryDays ( int business_num, Set<Integer > days) throws DataFormatException {
@@ -144,13 +187,15 @@ public class OrderController {
 
     private RoutineOrder buildRoutineOrder(int bn,int orderId){
         Order order =orderDAO.getOrder(bn,orderId);
-        Collection<Days> days=daysToDeliverDAO.selectAllDays(bn,orderId);
-        Set<Days> setdays=new HashSet<>();
-        for(Days i:days){
+        Collection<Integer> days=daysToDeliverDAO.selectAllDays(bn,orderId);
+        Set<Integer> setdays=new HashSet<>();
+        for(Integer i:days){
            setdays.add(i);
         }
         return new RoutineOrder(order,setdays);
     }
-    }
+
+
+}
 
 

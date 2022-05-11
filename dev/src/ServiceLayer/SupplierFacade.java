@@ -21,7 +21,10 @@ public class SupplierFacade {
         sSupplier = new SupplierService();
         sOrder = new OrderService();
     }
-
+//--------------------------------------------------------Suppliers----------------------------------------------------------
+    public Response<List<DSupplier>> getAllSuppliers(){
+        return sSupplier.getAllSuppliers();
+    }
     public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
          Response<DSupplier> res = sSupplier.addSupplier(name, business_num, bank_acc_num, payment_details,days, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
          if(res.isSuccess()) {
@@ -85,7 +88,7 @@ public class SupplierFacade {
     public Response removeSupplierContact(int bn, String contactPhone){
         return sSupplier.removeSupplierContact(bn, contactPhone);
     }
-
+//--------------------------------------------------------Orders-------------------------------------------------
     public Response<DOrder> getOrder(int bn, int orderID){
         return sOrder.getOrder(bn, orderID);
     }
@@ -99,22 +102,33 @@ public class SupplierFacade {
     }
 
     */
-   public Response makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
-       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeRoutineOrder(business_num, order,days);
-       if(resWithHash.isSuccess()) {
-           Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(),days);
-           return resFromOrder;
-       }
-       return resWithHash;
-   }
-   public Response<List<DSupplier>> getAllSuppliers(){
-       return sSupplier.getAllSuppliers();
+
+
+
+    //----------------------------------------------------------RoutineOrders-----------------------------------------------------------
+    public Response makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
+        Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeRoutineOrder(business_num, order,days);
+        if(resWithHash.isSuccess()) {
+            Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(),days);
+            return resFromOrder;
+        }
+        return resWithHash;
     }
-    public Response<RoutineOrder> addOrUpdateRoutineOrder(int business_num,int OrderId,String itemName,String ItemProducer,int Quantity){
+    public Response addOrUpdateRoutineOrder(int business_num,int OrderId,String itemName,String ItemProducer,int Quantity){
        Response<HashMap<Pair<String,String>, Pair<Double,Double>>> newItemToAdd=sSupplier.addOrUpdateRoutineOrder(business_num,itemName,ItemProducer,Quantity);
        if(newItemToAdd.isSuccess()){
-           Response<RoutineOrder> updatedRoutineOrder=sOrder.addOrUpdateRoutineOrder(business_num,OrderId,newItemToAdd.getData());
+           Response<DRoutineOrder> updatedRoutineOrder=sOrder.addOrUpdateRoutineOrder(business_num,OrderId,newItemToAdd.getData(),Quantity);
+           return updatedRoutineOrder;
        }
+       return newItemToAdd;
+    }
+    public Response deleteItemFromRoutineOrder(int business_num,int OrderId,String ItemName,String ItemProducer){
+       Response<DSupplier> supplierExists=getSupplier(business_num);
+       if(supplierExists.isSuccess()){
+           Response<DRoutineOrder> updatedRoutineOrder=sOrder.deleteItemFromRoutineOrder(business_num,OrderId,ItemName,ItemProducer);
+           return updatedRoutineOrder;
+       }
+       return supplierExists;
     }
 
 

@@ -17,10 +17,7 @@ public class RoutineOrder extends Order{
         Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
     }
 
-    public RoutineOrder(int supplier_bn, int order_id, double final_price, String order_date, Set<Integer> days_To_Deliver) {
-        super(supplier_bn, order_id, final_price, order_date);
-        Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
-    }
+
     public RoutineOrder(Order o, Set<Integer> days) {
         super(o.getSupplier_BN(),o.getOrder_Id(),o.getItem_Num_To_OrderItem(),o.getPriceBeforeDiscount(),o.getFinal_Price(),o.getOrder_Date());
         Days_To_Deliver = setDays_To_Deliver(days);
@@ -63,4 +60,37 @@ public class RoutineOrder extends Order{
     }
 
 
+    public boolean addOrUpdateRoutineOrder(Pair<String,String> i, Double PriceBeforeDiscount, Double FinalPrice,int Quantity) {
+        boolean updateOrAdd=false;//if false-update if true-add
+        if(getItem_Num_To_OrderItem().containsKey(i)){
+            OrderItem orderItem=getItem_Num_To_OrderItem().get(i);
+            double OldPriceBeforeDiscount=orderItem.getItem_Original_Price();
+            double OldPriceAfterDiscount=orderItem.getItem_Price();
+            orderItem.setItem_Original_Price(getPriceBeforeDiscount());
+            orderItem.setItem_Price(FinalPrice);
+            orderItem.setItem_Amount(Quantity);
+            setPriceBeforeDiscount(getPriceBeforeDiscount()-OldPriceBeforeDiscount+PriceBeforeDiscount);
+            setFinal_Price(getFinal_Price()-OldPriceAfterDiscount+FinalPrice);
+            return updateOrAdd;
+        }
+        else{
+            getItem_Num_To_OrderItem().put(i,new OrderItem(getOrder_Id(),i.getFirst(),i.getSecond(),PriceBeforeDiscount,FinalPrice,Quantity));
+            setPriceBeforeDiscount(getPriceBeforeDiscount()+PriceBeforeDiscount);
+            setFinal_Price(getFinal_Price()+FinalPrice);
+            updateOrAdd=true;
+            return updateOrAdd;
+        }
+    }
+
+    public boolean deleteItemFromRoutineOrder(String itemName, String itemProducer) {
+        Pair<String,String> key=new Pair<String,String>(itemName,itemProducer);
+        if(!getItem_Num_To_OrderItem().containsKey(key))
+            return false;
+        else{
+            OrderItem toremove=getItem_Num_To_OrderItem().remove(key);
+            setPriceBeforeDiscount(getPriceBeforeDiscount()-toremove.getItem_Original_Price());
+            setFinal_Price(getFinal_Price()-toremove.getItem_Price());
+            return true;
+        }
+    }
 }
