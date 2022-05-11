@@ -173,4 +173,15 @@ public class SupplierService {
             return Response.makeFailure(e.getMessage());
         }
     }
+
+    public Response<HashMap<Pair<String, String>, Pair<Double, Double>>> addOrUpdateRoutineOrder(int business_num, String itemName, String itemProducer, int quantity) {
+        try{
+            HashMap<Pair<String, String>, Pair<Double, Double>> itemtoAdd=cSupplier.addOrUpdateRoutineOrder(business_num,itemName,itemProducer,quantity);
+            return Response.makeSuccess(itemtoAdd);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+        }
+    }
 }

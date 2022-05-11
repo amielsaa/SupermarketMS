@@ -110,7 +110,18 @@ public class SupplierFacade {
    public Response<List<DSupplier>> getAllSuppliers(){
        return sSupplier.getAllSuppliers();
     }
-    //todo: add a function of RoutineOrder-done
+    public Response<RoutineOrder> addOrUpdateRoutineOrder(int business_num,int OrderId,String itemName,String ItemProducer,int Quantity){
+       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> newItemToAdd=sSupplier.addOrUpdateRoutineOrder(business_num,itemName,ItemProducer,Quantity);
+       if(newItemToAdd.isSuccess()){
+           Response<RoutineOrder> updatedRoutineOrder=sOrder.addOrUpdateRoutineOrder(business_num,OrderId,newItemToAdd.getData());
+       }
+    }
+
+
+
+
+
+    //todo:update RoutineOrder
     //todo:add a function of amielzz
 
 
