@@ -1,12 +1,14 @@
 package DAL;
 
 import BusinessLayer.Supplier;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 public class SupplierDAO extends DalController {
     private HashMap<Integer, Supplier> BN_To_Supplier;
@@ -133,7 +135,16 @@ public class SupplierDAO extends DalController {
         BN_To_Supplier.put(s.getBusiness_Num(),s);
     }
 
+    public void loadAllSuppliers(){
+        //todo
+        //get all BN's and do insertSupplier?
+        throw new NotImplementedException();
+    }
 
+    public List<Supplier> getAllSuppliers(){
+        //todo
+        throw new NotImplementedException();
+    }
 
 
 

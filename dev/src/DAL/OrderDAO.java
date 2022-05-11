@@ -6,8 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
 
 
 public class OrderDAO extends DalController {
@@ -18,6 +20,7 @@ public class OrderDAO extends DalController {
     public OrderDAO(){
         super("Orders");
         BN_To_Orders = new HashMap<Integer,HashMap<Integer,Order>>();
+        //todo all order functions
     }
 
     //put in priceBeforeDiscount as field
@@ -95,6 +98,7 @@ public class OrderDAO extends DalController {
         // select orders with this bn, add orders to HM. return false if none are found.
         // check if each order isn't getting added twice to HM (wasn't there previously)
 
+
         String sql = "select * from Orders where bn = ?";
         boolean ans = false;
         try{
@@ -117,7 +121,9 @@ public class OrderDAO extends DalController {
     }
 
     public Collection<Order> getAllOrders(int bn){
-        return BN_To_Orders.get(bn).values();
+        if(BN_To_Orders.containsKey(bn))
+            return BN_To_Orders.get(bn).values();
+        return new ArrayList<>(); //if there are no orders in HM
     }
 
     public boolean insertOrderToHM(int bn, Order s){
