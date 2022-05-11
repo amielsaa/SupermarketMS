@@ -73,10 +73,21 @@ public class OrderService {
         }
     }
 
-    public Response<RoutineOrder> addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data) {
+    public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data,int quantity) {
         try{
-            RoutineOrder updatedRoutineOrder=cOrder.addOrUpdateRoutineOrder(business_num,orderId,data);
-            return Response.makeSuccess(updatedRoutineOrder);
+            RoutineOrder updatedRoutineOrder=cOrder.addOrUpdateRoutineOrder(business_num,orderId,data,quantity);
+            return Response.makeSuccess(new DRoutineOrder(updatedRoutineOrder));
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+        }
+    }
+
+    public Response<DRoutineOrder> deleteItemFromRoutineOrder(int business_num, int orderId, String itemName, String itemProducer) {
+        try{
+            RoutineOrder updatedRoutineOrder=cOrder.deleteItemFromRoutineOrder(business_num,orderId,itemName,itemProducer);
+            return Response.makeSuccess(new DRoutineOrder(updatedRoutineOrder));
         }
         catch (Exception e){
             return Response.makeFailure(e.getMessage());
