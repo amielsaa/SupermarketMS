@@ -192,4 +192,6 @@ public class SupplierController {
     //todo:make sure every RoutineOrder is included in the supplier days
     //todo:option to update the routine orders.
     //todo:build the function to get items and make the best deal
+
+
 }

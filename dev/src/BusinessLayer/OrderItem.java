@@ -2,7 +2,6 @@ package BusinessLayer;
 
 public class OrderItem {
 //    private Integer Business_Number;
-    private Integer Business_Number;
     private Integer Order_Id;
     private String Item_Name;
     private String Item_Producer;
@@ -10,9 +9,8 @@ public class OrderItem {
     private Double Item_Price;
     private Integer Item_Amount;
 
-    public OrderItem(Integer business_Number, Integer order_id, String item_name, String item_producer,Double item_Original_Price, Double item_price, Integer item_amount) {
-//        business_Number=business_Number;
-        Business_Number=business_Number;
+    public OrderItem(/*Integer business_Number,*/ Integer order_id, String item_name, String item_producer,Double item_Original_Price, Double item_price, Integer item_amount) {
+//        Business_Number=business_Number;
         Order_Id = order_id;
         Item_Name = item_name;
         Item_Producer = item_producer;

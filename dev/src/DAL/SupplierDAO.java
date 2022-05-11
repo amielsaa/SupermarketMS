@@ -20,7 +20,7 @@ public class SupplierDAO extends DalController {
     }
 
 
-    public boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
+    private boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
         String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?)";
 
         try{
@@ -38,7 +38,7 @@ public class SupplierDAO extends DalController {
         return true;
     }
 
-    public boolean deleteSupplier(int bn)  {
+    private boolean deleteSupplier(int bn)  {
         String sql = "DELETE FROM Suppliers WHERE bn = ?";
 
         try{
@@ -136,9 +136,22 @@ public class SupplierDAO extends DalController {
     }
 
     public void loadAllSuppliers(){
-        //todo
-        //get all BN's and do insertSupplier?
-        throw new NotImplementedException();
+        String sql = "select * from Suppliers";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            Supplier supp = null;
+            while (rs.next()) {
+                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"));
+                //todo: use previous functions
+            }
+            return supp; //we know its not null because of containsSupplier() function
+
+        } catch (SQLException e) {
+            return null; //todo
+        }
     }
 
     public List<Supplier> getAllSuppliers(){

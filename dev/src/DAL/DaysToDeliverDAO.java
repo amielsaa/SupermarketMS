@@ -1,20 +1,25 @@
 package DAL;
 
 
+import misc.Days;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 public class DaysToDeliverDAO extends DalController{
+
+    HashMap<Integer,Integer> BN_to_routineOrder;
+
     public DaysToDeliverDAO() {
         super("DaysToDeliver");
+        BN_to_routineOrder = new HashMap<>(); //HM <BN, List<OrderID>>
+        //todo
     }
 
-    //todo: add orderID to DAO
 
     public boolean insertDaysToDeliver(int bn, int orderID, int day)  {
         String sql = "INSERT INTO DaysToDeliver(bn, orderID, day) VALUES(?,?,?)";
@@ -78,7 +83,7 @@ public class DaysToDeliverDAO extends DalController{
     }
 
     //returns days as integers
-    public Collection<Integer> selectAllDays(int bn, int orderID){
+    public Collection<Days> selectAllDays(int bn, int orderID){
         String sql = "select * from DaysToDeliver where bn = ?, orderID = ?";
 
         try{
@@ -87,9 +92,9 @@ public class DaysToDeliverDAO extends DalController{
             pstmt.setInt(1,bn);
             pstmt.setInt(2,orderID);
             ResultSet rs = pstmt.executeQuery();
-            Collection<Integer> cc = new LinkedList<>();
+            Collection<Days> cc = new LinkedList<>();
             while (rs.next()) {
-                cc.add(rs.getInt("day"));
+                cc.add(dayConvertor(rs.getInt("day")));
             }
             return cc;
 
@@ -99,6 +104,30 @@ public class DaysToDeliverDAO extends DalController{
 
     }
 
+    public void loadAllRoutineDays(){
+        //todo
+        throw new NotImplementedException();
+    }
+
+    private Days dayConvertor(int day){
+        if(day==1)
+            return Days.sunday;
+        else if(day==2)
+            return Days.monday;
+        else if(day==3)
+            return Days.tuesday;
+        else if(day==4)
+            return Days.wednesday;
+        else if(day==5)
+            return Days.thursday;
+        else if(day==6)
+            return Days.friday;
+        else if(day==7)
+            return Days.saturday;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
+    }
 
 
 

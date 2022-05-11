@@ -27,12 +27,13 @@ public class Order {
         Order_Date = order_date;
     }
 
-    public Order(int supplier_bn, int order_id, double final_price, String order_date) {
+    public Order(int supplier_bn, int order_id, double final_price, String order_date, double originalprice) {
         //DAL constructor
         Supplier_BN = supplier_bn;
         Order_Id = order_id;
         final_Price = final_price;
         Order_Date = Date.valueOf(order_date);
+        PriceBeforeDiscount = originalprice;
     }
 
     public int getOrder_Id() {

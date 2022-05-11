@@ -12,22 +12,20 @@ import java.util.Set;
 
 public class SupplierDaysDAO extends DalController{
 
-    public SupplierDaysDAO(String tableName) {
-        super(tableName);
-        //todo - check each function!!
+    public SupplierDaysDAO() {
+        super("SupplierDays");
     }
 
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
     public boolean insertSupplierDays(int bn, int day)  {
-        String sql = "INSERT INTO SupplierDays(bn, orderID, day) VALUES(?,?,?)";
+        String sql = "INSERT INTO SupplierDays(bn, day) VALUES(?,?)";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
-            pstmt.setInt(2, orderID);
-            pstmt.setInt(3, day);
+            pstmt.setInt(2, day);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -36,14 +34,13 @@ public class SupplierDaysDAO extends DalController{
     }
 
     public boolean deleteSupplierDays(int bn, int day)  {
-        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?, orderID = ?, day = ?";
+        String sql = "DELETE FROM SupplierDays WHERE bn = ?, day = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
-            pstmt.setInt(2, orderID);
-            pstmt.setInt(3, day);
+            pstmt.setInt(2, day);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -52,7 +49,7 @@ public class SupplierDaysDAO extends DalController{
     }
 
     private boolean deleteAllSupplierDays(int bn)  {
-        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?";
+        String sql = "DELETE FROM SupplierDays WHERE bn = ?";
 
         try{
             Connection conn = this.makeConnection();
@@ -82,23 +79,42 @@ public class SupplierDaysDAO extends DalController{
 
     //returns days as integers
     public Collection<Days> selectAllSupplierDays(int bn){
-        String sql = "select * from DaysToDeliver where bn = ?, orderID = ?";
+        String sql = "select * from SupplierDays where bn = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
-            pstmt.setInt(2,orderID);
             ResultSet rs = pstmt.executeQuery();
-            Collection<Integer> cc = new LinkedList<>();
+            Collection<Days> cc = new LinkedList<>();
             while (rs.next()) {
-                cc.add(rs.getInt("day"));
+                cc.add(dayConvertor(rs.getInt("day")));
             }
             return cc;
 
         } catch (SQLException e) {
             return null; //todo
         }
+
+    }
+
+    public Days dayConvertor(int day){
+        if(day==1)
+            return Days.sunday;
+        else if(day==2)
+            return Days.monday;
+        else if(day==3)
+            return Days.tuesday;
+        else if(day==4)
+            return Days.wednesday;
+        else if(day==5)
+            return Days.thursday;
+        else if(day==6)
+            return Days.friday;
+        else if(day==7)
+            return Days.saturday;
+        else
+            throw new IllegalArgumentException("day is not valid");
 
     }
     //-----------------------------------------------------------------------------------------------------------------------------------------------

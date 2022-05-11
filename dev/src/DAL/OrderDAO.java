@@ -20,12 +20,11 @@ public class OrderDAO extends DalController {
     public OrderDAO(){
         super("Orders");
         BN_To_Orders = new HashMap<Integer,HashMap<Integer,Order>>();
-        //todo all order functions
     }
 
     //put in priceBeforeDiscount as field
-    public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate ) throws Exception {
-        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate ) VALUES(?,?,?,?)";
+    public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice ) {
+        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, finalprice ) VALUES(?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
@@ -34,6 +33,7 @@ public class OrderDAO extends DalController {
             pstmt.setInt(2, orderID);
             pstmt.setDouble(3, finalprice);
             pstmt.setString(4, orderdate);
+            pstmt.setDouble(5, originalprice);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class OrderDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Order order = null;
             while (rs.next()) {
-                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getInt("finalprice"),rs.getString("orderdate"));
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"));
                 insertOrderToHM(bn, order);
             }
             return getOrder(bn, orderId);
@@ -108,7 +108,7 @@ public class OrderDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Order order = null;
             while (rs.next()) {
-                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getInt("finalprice"),rs.getString("orderdate"));
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"));
                 if(insertOrderToHM(bn, order)) ans = true;
             }
 
