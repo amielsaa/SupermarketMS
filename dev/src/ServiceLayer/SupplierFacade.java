@@ -3,6 +3,7 @@ package ServiceLayer;
 import BusinessLayer.*;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
+import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -21,8 +22,8 @@ public class SupplierFacade {
         sOrder = new OrderService();
     }
 
-    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
-         Response<DSupplier> res = sSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
+    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean delivery_by_days, boolean self_delivery_or_pickup, Set<Integer> days_to_deliver){
+         Response<DSupplier> res = sSupplier.addSupplier(name, business_num, bank_acc_num, payment_details,days, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
          if(res.isSuccess()) {
              //todo: pass on only BN
              sOrder.addSupplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, delivery_by_days, self_delivery_or_pickup, days_to_deliver);
@@ -30,8 +31,8 @@ public class SupplierFacade {
          return res;
     }
 
-    public Response makeOrder(int business_num, HashMap<Integer,Integer> order){
-        Response<HashMap<Integer, Pair<String,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
+    public Response makeOrder(int business_num, HashMap<Pair<String,String>,Integer> order){
+        Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
         if(resWithHash.isSuccess()) {
             Response<DOrder> resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
             return resFromOrder;
@@ -51,7 +52,7 @@ public class SupplierFacade {
         return sSupplier.removeSupplier(bn);
     }
 
-    public Response addSupplierDeliveryDay(int bn, int day){
+   /* public Response addSupplierDeliveryDay(int bn, int day){
         return sSupplier.addSupplierDeliveryDay(bn, day);
     }
 
@@ -62,6 +63,8 @@ public class SupplierFacade {
     public Response updateSupplierDeliveryDays(int bn, Set<Integer> days){
         return sSupplier.updateSupplierDeliveryDays(bn, days);
     }
+
+    */
 
     public Response updateSupplierPaymentDetails(int bn, String payment){
         return sSupplier.updateSupplierPaymentDetails(bn, payment);
@@ -91,11 +94,21 @@ public class SupplierFacade {
         return sOrder.getAllOrdersFromSupplier(bn);
     }
 
-    public Response<List<DOrder>> updateContactPhoneNumber(int bn, String oldPhone, String newPhone){
+   /* public Response<List<DOrder>> updateContactPhoneNumber(int bn, String oldPhone, String newPhone){
         return sSupplier.updateContactPhoneNumber(bn, oldPhone, newPhone);
     }
 
-
+    */
+   public Response makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
+       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeRoutineOrder(business_num, order,days);
+       if(resWithHash.isSuccess()) {
+           Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(),days);
+           return resFromOrder;
+       }
+       return resWithHash;
+   }
+    //todo: add a function of RoutineOrder
+    //todo:add a function of amielzz
 
 
 

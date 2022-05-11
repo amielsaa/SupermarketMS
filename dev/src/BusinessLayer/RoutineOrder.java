@@ -1,6 +1,7 @@
 package BusinessLayer;
 
 import misc.Days;
+import misc.Pair;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -11,14 +12,18 @@ public class RoutineOrder extends Order{
     private Set<Days> Days_To_Deliver;
 
 
-    public RoutineOrder(int supplier_bn, int order_id, HashMap<Integer, OrderItem> item_num_to_orderItem, double final_price, Date order_date, Set<Integer> days_To_Deliver) {
-        super(supplier_bn, order_id, item_num_to_orderItem, final_price, order_date);
+    public RoutineOrder(int supplier_bn, int order_id, HashMap<Pair<String,String>, OrderItem> item_num_to_orderItem,double priceBeforeDiscount, double final_price, Date order_date, Set<Integer> days_To_Deliver) {
+        super(supplier_bn, order_id, item_num_to_orderItem,priceBeforeDiscount, final_price, order_date);
         Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
     }
 
     public RoutineOrder(int supplier_bn, int order_id, double final_price, String order_date, Set<Integer> days_To_Deliver) {
         super(supplier_bn, order_id, final_price, order_date);
         Days_To_Deliver = setDays_To_Deliver(days_To_Deliver);
+    }
+    public RoutineOrder(Order o, Set<Integer> days) {
+        super(o.getSupplier_BN(),o.getOrder_Id(),o.getItem_Num_To_OrderItem(),o.getPriceBeforeDiscount(),o.getFinal_Price(),o.getOrder_Date());
+        Days_To_Deliver = setDays_To_Deliver(days);
     }
 
     public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
@@ -52,4 +57,10 @@ public class RoutineOrder extends Order{
             throw new IllegalArgumentException("day is not valid");
 
     }
+
+    public Set<Days> getDays_To_Deliver() {
+        return Days_To_Deliver;
+    }
+
+
 }

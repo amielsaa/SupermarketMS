@@ -3,7 +3,9 @@ package BusinessLayer;
 import DAL.*;
 import misc.Pair;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
@@ -22,12 +24,14 @@ public class SupplierController {
         discountsDAO=new DiscountsDAO();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) throws Exception {
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) throws Exception {
         if (supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
-        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
+        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details,days, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
+        if(!insertQAAndContacts(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts()))
+        throw new DataFormatException("Error In Database on addSupplier on adding QA and contacts");
         return newSupplier;
     }
 
@@ -68,10 +72,10 @@ public class SupplierController {
             throw new DataFormatException("Error In Database on removeSupplierContact");
     }
 
-    public HashMap<Integer, Pair<String, Double>> makeOrder(int business_num, HashMap<Integer, Integer> order) {
+    public HashMap<Pair<String,String>, Pair<Double, Double>> makeOrder(int business_num, HashMap<Pair<String,String>, Integer> order) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
-        HashMap<Integer, Pair<String, Double>> toreturn= buildSupplier(business_num).makeOrder(order);
+        HashMap<Pair<String,String>, Pair<Double, Double>> toreturn= buildSupplier(business_num).makeOrder(order);
         return toreturn;
     }
 
@@ -126,7 +130,7 @@ public class SupplierController {
     //------------------------------ForTests---------------------------------------------//
     public boolean HasSupplier(int businessNum){
         return supplierDAO.containsSupplier(businessNum);
-
+    //------------------------------------------------------------------------------------//
 
     }
     private Supplier buildSupplier(int businessNum){
@@ -138,4 +142,54 @@ public class SupplierController {
         supplier.setContacts(contactDAO.selectAllContacts(businessNum));
         return supplier;
     }
+    private boolean insertQAAndContacts (int bn,QuantityAgreement quantityAgreement, List<Contact> contacts) throws DataFormatException {
+
+            //setting to get the item-price in data.
+            HashMap<Pair<String,String>, Double> item_To_Price=quantityAgreement.getItem_To_Price();
+            Pair<String,String>[] itemKeys = new Pair[item_To_Price.keySet().toArray().length];
+            for(int i=0; i<itemKeys.length;i++) {
+                itemKeys[i] = (Pair) item_To_Price.keySet().toArray()[i];
+            }
+            //gets in the data
+            for (Pair i:itemKeys) {
+                if(!quantityAgreementDAO.insertQuantityAgreement(bn,i.getFirst().toString(),i.getSecond().toString(),item_To_Price.get(i)))
+                return false;
+            }
+            //setting to get item-discounts in data.
+            //first is the keys to the discounts
+             HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount=quantityAgreement.getItem_Num_To_Discount();
+             Pair<String,String>[] discountKeys = new Pair[item_Num_To_Quantity_To_Discount.keySet().toArray().length];
+             for(int i=0; i<itemKeys.length;i++) {
+                 discountKeys[i] = (Pair) item_Num_To_Quantity_To_Discount.keySet().toArray()[i];
+             }
+             for(Pair i:discountKeys){
+                     //getting all the discounts for the pair key.
+                 Integer[] discounts=new Integer[item_Num_To_Quantity_To_Discount.get(i).keySet().toArray().length];
+                 for(int j=0; j<discounts.length;j++) {
+                     discounts[j] = (Integer) item_Num_To_Quantity_To_Discount.get(i).keySet().toArray()[j];
+                     //gets in the data.
+                     if (!discountsDAO.insertDiscount(bn,i.getFirst().toString(),i.getSecond().toString(),discounts[j],item_Num_To_Quantity_To_Discount.get(i).get(discounts[j])))
+                         return false;
+                 }
+
+             }
+             for(Contact i:contacts){
+                 if(!contactDAO.insertContact(bn,i.getName(),i.getPhone_Num()))
+                     return false;
+             }
+
+    return true;
+    }
+
+    public HashMap<Pair<String, String>, Pair<Double, Double>> makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
+        if(!supplierDAO.containsSupplier(business_num))
+            throw new IllegalArgumentException("Supplier was not found");
+        HashMap<Pair<String,String>, Pair<Double, Double>> toreturn= buildSupplier(business_num).makerRoutineOrder(order,days);
+        return toreturn;
+    }
+    //todo:getAllSuppliers
+    //todo:Days for supplier
+    //todo:make sure every RoutineOrder is included in the supplier days
+    //todo:option to update the routine orders.
+    //todo:build the function to get items and make the best deal
 }

@@ -7,19 +7,22 @@ import java.util.Set;
 
 
 import BusinessLayer.*;
+import misc.Pair;
 
 public class Order {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Integer, OrderItem> item_Num_To_OrderItem;//item to its order details
+    private HashMap<Pair<String,String>, OrderItem> item_Num_To_OrderItem;//item to its order details
+    private double PriceBeforeDiscount;
     private double final_Price;
     private Date Order_Date;
 
 
-    public Order(int supplier_bn, int order_id, HashMap<Integer, OrderItem> item_num_to_orderItem,double final_price, Date order_date) {
+    public Order(int supplier_bn, int order_id, HashMap<Pair<String,String>, OrderItem> item_num_to_orderItem,double priceBeforeDiscount,double final_price, Date order_date) {
         Supplier_BN = supplier_bn;
         Order_Id = order_id;
         item_Num_To_OrderItem = item_num_to_orderItem;
+        PriceBeforeDiscount=priceBeforeDiscount;
         final_Price = final_price;
         Order_Date = order_date;
     }
@@ -64,13 +67,20 @@ public class Order {
         Supplier_BN = supplier_BN;
     }
 
-    public HashMap<Integer,OrderItem> getItem_Num_To_Quantity() {
+    public HashMap<Pair<String,String>,OrderItem> getItem_Num_To_OrderItem() {
         return item_Num_To_OrderItem;
     }
 
-    public void setItem_Num_To_Quantity(HashMap<Integer, OrderItem> item_Num_To_Quantity) {
+    public void setItem_Num_To_Quantity(HashMap<Pair<String,String>, OrderItem> item_Num_To_Quantity) {
         this.item_Num_To_OrderItem = item_Num_To_Quantity;
     }
 
 
+    public double getPriceBeforeDiscount() {
+        return PriceBeforeDiscount;
+    }
+
+    public void setPriceBeforeDiscount(double priceBeforeDiscount) {
+        this.PriceBeforeDiscount = priceBeforeDiscount;
+    }
 }

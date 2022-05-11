@@ -13,7 +13,7 @@ public class QuantityAgreementDAO extends DalController{
         super("QuantityAgreement");
     }
 
-    public boolean insertQuantityAgreement(int bn, String itemname, String producer, int price)  {
+    public boolean insertQuantityAgreement(int bn, String itemname, String producer, double price)  {
         String sql = "INSERT INTO QuantityAgreement(bn, itemname, producer, price) VALUES(?,?,?,?)";
 
         try{

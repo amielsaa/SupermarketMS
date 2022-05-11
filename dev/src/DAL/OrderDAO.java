@@ -20,8 +20,8 @@ public class OrderDAO extends DalController {
         BN_To_Orders = new HashMap<Integer,HashMap<Integer,Order>>();
     }
 
-
-    public void insertOrders(int bn, int orderID, int finalprice, String orderdate ) throws Exception {
+    //put in priceBeforeDiscount as field
+    public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate ) throws Exception {
         String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate ) VALUES(?,?,?,?)";
 
         try{
@@ -29,11 +29,12 @@ public class OrderDAO extends DalController {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
-            pstmt.setInt(3, finalprice);
+            pstmt.setDouble(3, finalprice);
             pstmt.setString(4, orderdate);
             pstmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            throw new Exception(e.getMessage());
+            return false;
         }
     }
 
@@ -130,6 +131,9 @@ public class OrderDAO extends DalController {
             return true;
         }
         return false;
+    }
+    public void addSupplier(int bn){
+        BN_To_Orders.put(bn,new HashMap<>());
     }
 
 

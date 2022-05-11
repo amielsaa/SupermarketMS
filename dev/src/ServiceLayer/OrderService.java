@@ -2,8 +2,10 @@ package ServiceLayer;
 
 import BusinessLayer.Order;
 import BusinessLayer.OrderController;
+import BusinessLayer.RoutineOrder;
 import BusinessLayer.Supplier;
 import ServiceLayer.DummyObjects.DOrder;
+import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
@@ -26,7 +28,7 @@ public class OrderService {
 
     }
 
-    public Response<DOrder> makeOrder(int supplierBN,HashMap <Integer,Integer> order,HashMap<Integer, Pair<String,Double>> fixedOrder){
+    public Response<DOrder> makeOrder(int supplierBN,HashMap <Pair<String,String>,Integer> order,HashMap<Pair<String,String>, Pair<Double,Double>> fixedOrder){
         try {
             Order actualOrder = cOrder.makeOrder(supplierBN, order, fixedOrder);
             return Response.makeSuccess(new DOrder(actualOrder));
@@ -61,6 +63,13 @@ public class OrderService {
     }
 
 
-
-
+    public Response<DRoutineOrder> makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder, Set<Integer> days) {
+        try {
+            RoutineOrder actualOrder = cOrder.makeRoutineOrder(business_num, order, fixedOrder,days);
+            return Response.makeSuccess(new DRoutineOrder(actualOrder));
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 }

@@ -2,27 +2,30 @@ package ServiceLayer.DummyObjects;
 
 import BusinessLayer.Order;
 import BusinessLayer.OrderItem;
+import BusinessLayer.RoutineOrder;
+import misc.Days;
 import misc.Pair;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
-public class DOrder {
+public class DRoutineOrder {
     private int Supplier_BN;
     private int Order_Id;
-    private HashMap<Pair<String,String>,  OrderItem> item_Num_To_OrderItem;
+    private HashMap<Pair<String,String>, OrderItem> item_Num_To_OrderItem;
     private double final_Price;
     private Date Order_Date;
-    //todo: edit
+    private Set<Days> days;
 
 
-    public DOrder(Order o) {
+    public DRoutineOrder(RoutineOrder o) {
         Supplier_BN = o.getSupplier_BN();
         Order_Id = o.getOrder_Id();
         item_Num_To_OrderItem = o.getItem_Num_To_OrderItem();
         final_Price = o.getFinal_Price();
         Order_Date = o.getOrder_Date();
+        days=o.getDays_To_Deliver();
     }
 
     public int getSupplier_BN() {
