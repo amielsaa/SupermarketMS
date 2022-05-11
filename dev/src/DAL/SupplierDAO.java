@@ -19,7 +19,7 @@ public class SupplierDAO extends DalController {
 
 
     public boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
-        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
