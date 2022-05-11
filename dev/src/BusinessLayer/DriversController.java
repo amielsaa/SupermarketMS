@@ -34,4 +34,12 @@ public class DriversController {
     }
 
 
+    public void deleteDriver(int id) throws Exception{
+    }
+
+    public void changeName(int id, String name) {
+    }
+
+    public void ChangeLicenseType(int id, String licenseType) {
+    }
 }

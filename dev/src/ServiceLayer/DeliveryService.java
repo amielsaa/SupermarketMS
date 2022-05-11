@@ -387,5 +387,42 @@ public class DeliveryService {
             return Response.makeFailure(e.getMessage());
         }
     }
+
+    //FOR WORKERS MOODLE
+    public Response addDriver(int id, String name, String licenseType){
+        try{
+            driversController.addDriver(id, name, licenseType);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
     }
+
+    public Response deleteDriver(int id){
+        try{
+            driversController.deleteDriver(id);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDriverName(int id, String name){
+        try{
+            driversController.changeName(id, name);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDriverLicenseType(int id, String licenseType){
+        try{
+            driversController.ChangeLicenseType(id, licenseType);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+}
 
