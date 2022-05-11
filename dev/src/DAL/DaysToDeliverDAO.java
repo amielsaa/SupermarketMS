@@ -12,7 +12,7 @@ import java.util.*;
 
 public class DaysToDeliverDAO extends DalController{
 
-    HashMap<Integer,Integer> BN_to_routineOrder;
+    HashMap<Integer,List<Integer>> BN_to_routineOrder;
 
     public DaysToDeliverDAO() {
         super("DaysToDeliver");
@@ -20,6 +20,9 @@ public class DaysToDeliverDAO extends DalController{
         //todo
     }
 
+    public HashMap<Integer, List<Integer>> getBN_to_routineOrder() {
+        return BN_to_routineOrder;
+    }
 
     public boolean insertDaysToDeliver(int bn, int orderID, int day)  {
         String sql = "INSERT INTO DaysToDeliver(bn, orderID, day) VALUES(?,?,?)";
@@ -83,7 +86,7 @@ public class DaysToDeliverDAO extends DalController{
     }
 
     //returns days as integers
-    public Collection<Days> selectAllDays(int bn, int orderID){
+    public Collection<Integer> selectAllDays(int bn, int orderID){
         String sql = "select * from DaysToDeliver where bn = ?, orderID = ?";
 
         try{
@@ -92,9 +95,9 @@ public class DaysToDeliverDAO extends DalController{
             pstmt.setInt(1,bn);
             pstmt.setInt(2,orderID);
             ResultSet rs = pstmt.executeQuery();
-            Collection<Days> cc = new LinkedList<>();
+            Collection<Integer> cc = new LinkedList<>();
             while (rs.next()) {
-                cc.add(dayConvertor(rs.getInt("day")));
+                cc.add(rs.getInt("day"));
             }
             return cc;
 
@@ -109,25 +112,6 @@ public class DaysToDeliverDAO extends DalController{
         throw new NotImplementedException();
     }
 
-    private Days dayConvertor(int day){
-        if(day==1)
-            return Days.sunday;
-        else if(day==2)
-            return Days.monday;
-        else if(day==3)
-            return Days.tuesday;
-        else if(day==4)
-            return Days.wednesday;
-        else if(day==5)
-            return Days.thursday;
-        else if(day==6)
-            return Days.friday;
-        else if(day==7)
-            return Days.saturday;
-        else
-            throw new IllegalArgumentException("day is not valid");
-
-    }
 
 
 

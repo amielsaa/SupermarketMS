@@ -74,8 +74,23 @@ public class OrderItemsDAO extends DalController{
     }
 
     public boolean updateItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount){
-        //todo
-        throw new NotImplementedException();
+        String sql = "update ? set itemprice = ?, itemoriginalprice = ?, itemamount = ? where orderID = ?,itemname = ?,itemproducer = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, tableName);
+            pstmt.setDouble(2, itemprice);
+            pstmt.setDouble(3, itemoriginalprice);
+            pstmt.setInt(4, itemamount);
+            pstmt.setInt(5, orderID);
+            pstmt.setString(6, itemname);
+            pstmt.setString(7, itemproducer);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
 
     }
 
