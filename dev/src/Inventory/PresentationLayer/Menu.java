@@ -303,11 +303,11 @@ public class Menu {
 
     private void printMenu() {
         System.out.println(
-                "1-Add Product                  <--->   6-Report By Categories              <--->   11-Change Category\n" +
-                "2-Add Store Product            <--->   7-Report By Expired Products        <--->   12-Add Discount By Category\n" +
-                "3-Add Category                 <--->   8-Report By Defective Products      <--->   13-Add Discount To Product\n" +
-                "4-Add Defective Product        <--->   9-Report By Shortage Products       <--->   14-Delete Product\n" +
-                "5-Print All Store Products     <--->   10-Make Order Of Minimum Quantity   <--->   15-Not implemented\n" +
+                "1-Add Product                         <--->   6-Report By Categories              <--->   11-Change Category\n" +
+                "2-Add/Update Store Product            <--->   7-Report By Expired Products        <--->   12-Add Discount By Category\n" +
+                "3-Add Category                        <--->   8-Report By Defective Products      <--->   13-Add Discount To Product\n" +
+                "4-Add Defective Product               <--->   9-Report By Shortage Products       <--->   14-Delete Product\n" +
+                "5-Print All Store Products            <--->   10-Make Order Of Minimum Quantity   <--->   15-Not implemented\n" +
                 "0-Exit");
     }
 

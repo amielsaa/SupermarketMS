@@ -46,9 +46,8 @@ public class ReportDAO extends DalController{
                 Product p = new Product(rs.getInt("id"),rs.getString("name"),
                         rs.getString("producer"),rs.getDouble("buyingprice"),
                         rs.getDouble("sellingprice"),
-                        stringToCategoryList(rs.getString("categories")));
+                        stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
                 p.setDiscount(rs.getInt("discount"),rs.getDate("discountDate"));
-                p.setMinQuantity(rs.getInt("minquantity"));
                 products.add(p);
             }
             return products;

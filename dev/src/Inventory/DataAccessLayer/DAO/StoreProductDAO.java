@@ -49,6 +49,8 @@ public class StoreProductDAO extends DalController {
     }
 
     public Map<Integer,List<StoreProduct>> SelectAll() {
+        if(storeProductMapper.isPulled_all_data())
+            return storeProductMapper.getStoreProductsMap();
         String sql = "SELECT * FROM StoreProducts";
         Map<Integer,List<StoreProduct>> spMap = new HashMap<>();
         try {
@@ -64,6 +66,7 @@ public class StoreProductDAO extends DalController {
                         ,getDateByString(rs.getString("expdate")),getLocationListByString(rs.getString("locations")));
                 spMap.put(prodid,storeProductMapper.addStoreProduct(prodid,sp));
             }
+            storeProductMapper.setPulled_all_data(true);
             return spMap;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

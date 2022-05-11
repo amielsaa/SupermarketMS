@@ -45,7 +45,7 @@ public class ProductDAO extends DalController {
 
             pstmt.executeUpdate();
 
-            return productMapper.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories));
+            return productMapper.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories,minQuantity));
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
             throw new IllegalArgumentException("Product insertion to database failed, please try again.");
@@ -70,9 +70,8 @@ public class ProductDAO extends DalController {
                 p = new Product(rs.getInt("id"),rs.getString("name"),
                         rs.getString("producer"),rs.getDouble("buyingprice"),
                         rs.getDouble("sellingprice"),
-                        stringToCategoryList(rs.getString("categories")));
+                        stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
                 p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
-                p.setMinQuantity(rs.getInt("minquantity"));
             }
             return productMapper.addProduct(p);
         } catch (SQLException e) {
@@ -82,6 +81,8 @@ public class ProductDAO extends DalController {
     }
 
     public List<Product> SelectAll() {
+        if(productMapper.isPulled_all_data())
+            return productMapper.getProducts();
         String sql = "SELECT * FROM Products";
         List<Product> products = new ArrayList<>();
         try {
@@ -94,11 +95,11 @@ public class ProductDAO extends DalController {
                 Product p = new Product(rs.getInt("id"),rs.getString("name"),
                         rs.getString("producer"),rs.getDouble("buyingprice"),
                         rs.getDouble("sellingprice"),
-                        stringToCategoryList(rs.getString("categories")));
+                        stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
                 p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
-                p.setMinQuantity(rs.getInt("minquantity"));
                 products.add(productMapper.addProduct(p));
             }
+            productMapper.setPulled_all_data(true);
             return products;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -18,7 +18,7 @@ public class Product {
 
 
     //add min quantity
-    public Product(int Id, String name, String producer,double buyingPrice, double sellingPrice, List<Category> categories) {
+    public Product(int Id, String name, String producer,double buyingPrice, double sellingPrice, List<Category> categories,int minQuantity) {
         this.Id = Id;
         this.name = name;
         this.producer = producer;
@@ -27,7 +27,7 @@ public class Product {
         this.discount = 0;
         this.discountExpDate = null;
         this.categories = categories;
-        this.minQuantity = -1;
+        this.minQuantity = minQuantity;
     }
 
 
