@@ -107,7 +107,10 @@ public class SupplierFacade {
        }
        return resWithHash;
    }
-    //todo: add a function of RoutineOrder
+   public Response<List<DSupplier>> getAllSuppliers(){
+       return sSupplier.getAllSuppliers();
+    }
+    //todo: add a function of RoutineOrder-done
     //todo:add a function of amielzz
 
 
