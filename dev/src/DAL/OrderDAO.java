@@ -1,6 +1,7 @@
 package DAL;
 
 import BusinessLayer.Order;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -142,5 +143,9 @@ public class OrderDAO extends DalController {
         BN_To_Orders.put(bn,new HashMap<>());
     }
 
+    public boolean updateOrderPrice(int bn, int orderID, int originalPrice, int finalPrice){
+        //todo
+        throw new NotImplementedException();
+    }
 
 }
