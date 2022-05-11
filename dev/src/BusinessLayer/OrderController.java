@@ -66,7 +66,7 @@ public class OrderController {
             double priceBeforeDiscount=0;
 
             for (int i = 0; i < orderKeys.length; i++) {
-                OrderItem orderItem = new OrderItem(supplierBN,getId_Order_Counter(),orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
+                OrderItem orderItem = new OrderItem(getId_Order_Counter(),orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i]));
                 //insert to data
                if(!orderItemsDAO.insertOrderItem(Id_Order_Counter,orderKeys[i].getFirst(),orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getFirst(),fixedOrder.get(orderKeys[i]).getSecond(),order.get(orderKeys[i])))
                    throw new DataFormatException("failed to Insert Item to data on makeOrder");
@@ -80,7 +80,7 @@ public class OrderController {
             String dateForData=date.toString();
             Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem,priceBeforeDiscount, finalPrice, date);
             //insert to data
-            if(!orderDAO.insertOrders(supplierBN,Id_Order_Counter,finalPrice,dateForData))
+            if(!orderDAO.insertOrders(supplierBN,Id_Order_Counter,finalPrice,dateForData,priceBeforeDiscount))
                 throw new DataFormatException("cound not insert Order into data on makeOrder");
             Id_Order_Counter++;
 
