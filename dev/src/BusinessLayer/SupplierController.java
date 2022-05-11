@@ -180,6 +180,13 @@ public class SupplierController {
 
     return true;
     }
+
+    public HashMap<Pair<String, String>, Pair<Double, Double>> makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
+        if(!supplierDAO.containsSupplier(business_num))
+            throw new IllegalArgumentException("Supplier was not found");
+        HashMap<Pair<String,String>, Pair<Double, Double>> toreturn= buildSupplier(business_num).makerRoutineOrder(order,days);
+        return toreturn;
+    }
     //todo:getAllSuppliers
     //todo:Days for supplier
     //todo:make sure every RoutineOrder is included in the supplier days

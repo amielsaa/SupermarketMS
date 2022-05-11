@@ -3,7 +3,7 @@ package BusinessLayer;
 import misc.Days;
 import misc.Pair;
 import misc.PaymentDetails;
-import javax.print.attribute.SetOfIntegerSyntax;
+
 import java.util.*;
 
 
@@ -219,5 +219,14 @@ public class Supplier  {
     }
 
 
+    public HashMap<Pair<String, String>, Pair<Double, Double>> makerRoutineOrder(HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
+        Set<Days> daysForCheck = setDays_To_Deliver(days);
+        for (Days i : daysForCheck) {
+            if (!Days_To_Deliver.contains(i)) {
+                throw new IllegalArgumentException("cannot give supplier a day he doesnt deliver in");
+            }
 
+        }
+        return makeOrder(order);
+    }
 }

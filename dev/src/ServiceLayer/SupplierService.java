@@ -159,7 +159,7 @@ public class SupplierService {
 */
    public Response<HashMap<Pair<String,String>, Pair<Double,Double>>> makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
        try {
-           HashMap<Pair<String,String>, Pair<Double,Double>> itemsAfterDiscount = cSupplier.makeOrder(business_num, order);
+           HashMap<Pair<String,String>, Pair<Double,Double>> itemsAfterDiscount = cSupplier.makeRoutineOrder(business_num, order,days);
            return Response.makeSuccess(itemsAfterDiscount);
        }
        catch (Exception e){

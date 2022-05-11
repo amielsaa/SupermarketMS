@@ -100,7 +100,7 @@ public class SupplierFacade {
 
     */
    public Response makeRoutineOrder(int business_num, HashMap<Pair<String,String>,Integer> order,Set<Integer> days){
-       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
+       Response<HashMap<Pair<String,String>, Pair<Double,Double>>> resWithHash = sSupplier.makeRoutineOrder(business_num, order,days);
        if(resWithHash.isSuccess()) {
            Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(),days);
            return resFromOrder;
