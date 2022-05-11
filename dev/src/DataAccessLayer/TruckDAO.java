@@ -68,7 +68,7 @@ public class TruckDAO extends DataAccessObject {
 
     public boolean Update(Truck truck) {
         int plateNum = truck.getPlateNum();
-        String sql = "UPDATE trucks SET model = (?), maxWeight = (?), WHERE plateNum = (?)";
+        String sql = "UPDATE trucks SET model = (?), maxWeight = (?) WHERE plateNum = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
