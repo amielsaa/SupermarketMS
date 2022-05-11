@@ -15,6 +15,14 @@ public abstract class Site {
         this.id = id;
     }
 
+    public Site(int id, String address, DeliveryZone deliveryZone, String phoneNumber, String contactName) throws Exception {
+        this.address = address;
+        this.deliveryZone = deliveryZone;
+        this.phoneNumber = phoneNumber;
+        this.contactName = contactName;
+        this.id = id;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -35,7 +43,7 @@ public abstract class Site {
         this.deliveryZone = stringToDeliveryZone(deliveryZone);
     }
 
-    protected String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -70,4 +78,6 @@ public abstract class Site {
     }
 
     public abstract boolean canBeADestination();
+
+    public abstract String getType();
 }
