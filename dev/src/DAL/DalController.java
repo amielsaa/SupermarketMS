@@ -4,6 +4,7 @@ import BusinessLayer.Supplier;
 import java.io.File;
 import java.sql.*;
 
+
 public abstract class DalController {
     public final String tableName;
     private String connString;
@@ -15,7 +16,10 @@ public abstract class DalController {
     }
 
     public Connection makeConnection(){
-        path = ":/database.db";
+
+//        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+
+        path =":database.db";
         connString = "jdbc:sqlite".concat(path);
         Connection conn = null;
         try{

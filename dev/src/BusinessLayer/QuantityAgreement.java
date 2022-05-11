@@ -83,7 +83,7 @@ public class QuantityAgreement {
     }
     private void CheckIfItemExists(Pair itemName){
         if(!item_To_Price.containsKey(itemName))
-            throw new IllegalArgumentException("item name "+itemName.getFirst()+"from the producer"+itemName.getSecond()+"is not in the supplier catalog");
+            throw new IllegalArgumentException("Item name '"+itemName.getFirst()+"' from the producer '"+itemName.getSecond()+"' is not in the supplier catalog");
     }
     private void PriceValidationChecker(HashMap<Pair<String,String>,Double> item_num_to_price){
         Set<Pair<String,String>> keys=item_num_to_price.keySet();

@@ -59,7 +59,8 @@ public class DSupplier {
 
 
     public String toString(){
-        return "Supplier name: " + getName() + " ,Business number: " + getBusiness_Num() +" ,Is self delivering: " + isSelf_Delivery_Or_Pickup() + "\nContacts: " + getContacts().toString() + "\nQuantity Agreement: " + getQuantity_Agreement();
+        return "Supplier name: " + getName() + " ,Business number: " + getBusiness_Num() +" ,Is self delivering: " + isSelf_Delivery_Or_Pickup() + "\nContacts: " + getContacts().toString() + "\nQuantity Agreement: " + getQuantity_Agreement() + "\nDays of delivery: " + getDays();
+        //todo: check days print
     }
 
     public Set<misc.Days> getDays() {
