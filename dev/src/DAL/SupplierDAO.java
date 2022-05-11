@@ -1,7 +1,6 @@
 package DAL;
 
 import BusinessLayer.Supplier;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
