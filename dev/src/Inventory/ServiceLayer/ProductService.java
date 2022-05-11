@@ -114,16 +114,6 @@ public class ProductService {
         }
     }
 
-
-    public Response<String> AddDefectiveProduct(int productId) {
-        try{
-            Product product = productController.addDefectiveProduct(productId);
-            return Response.makeSuccess(product.toString());
-        }catch (Exception e) {
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
     public Response<String> DeleteProduct(int productId) {
         try{
             String res = productController.deleteProduct(productId);
@@ -147,6 +137,14 @@ public class ProductService {
             String s = productController.addDiscountByCategory(categoryName,discount,date);
             return Response.makeSuccess(s.toString());
         }catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Integer> GetStoreId() {
+        try{
+            return Response.makeSuccess(productController.getStoreId());
+        } catch(Exception e) {
             return Response.makeFailure(e.getMessage());
         }
     }

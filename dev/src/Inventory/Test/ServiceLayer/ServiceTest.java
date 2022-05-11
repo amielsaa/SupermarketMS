@@ -86,14 +86,14 @@ class ServiceTest {
         Assertions.assertEquals(expected,res.getData());
     }
 
-    @Test
-    void addDefectiveProduct() {
-        Response<String> res = productService.AddDefectiveProduct(0);
-
-        String expected = "Shampoo : Kef : 12.50 : 10.20 : Wash,Shampoo,Size";
-
-        Assertions.assertEquals(expected,res.getData());
-    }
+//    @Test
+//    void addDefectiveProduct() {
+//        Response<String> res = .AddDefectiveProduct(0);
+//
+//        String expected = "Shampoo : Kef : 12.50 : 10.20 : Wash,Shampoo,Size";
+//
+//        Assertions.assertEquals(expected,res.getData());
+//    }
 
     @Test
     void deleteProduct() {

@@ -31,6 +31,7 @@ public class ReportDAO extends DalController{
 //        }
 //    }
 //
+    //TODO: fix that it doesnt fetch data from Products table
     public List<Product> SelectDefectiveProducts() {
         String sql = "SELECT * FROM  Products,Reports "+
                 "WHERE reported = 0 "+
@@ -69,9 +70,9 @@ public class ReportDAO extends DalController{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,productID);
-            pstmt.setInt(1,storeID);
-            pstmt.setInt(1,1);
-            pstmt.setInt(1,0);
+            pstmt.setInt(2,storeID);
+            pstmt.setInt(3,1);
+            pstmt.setInt(4,0);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {

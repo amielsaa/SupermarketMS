@@ -31,19 +31,16 @@ public class ReportController {
         reportDAO = new ReportDAO("Reports");
     }
 
-    //TODO: change return type to whatever
     public void addDefectiveProduct(int productId, int storeId) {
         reportDAO.InsertDefectiveProducts(productId,storeId);
     }
 
-    //TODO: change return type to whatever <name & producer , quantity>
-    // done.
     public Map<Pair<String,String>,Integer> reportByMinimumQuantity(Map<Product,List<StoreProduct>> productListMap) {
         Map<Pair<String, String>, Integer> report = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
             int quantity =0;
             for(StoreProduct storeProduct: mapSet.getValue()){
-                if(!storeProduct.isExpired())
+                if(!storeProduct.isNull()&&!storeProduct.isExpired())
                     quantity+=storeProduct.getQuantityInStore()+storeProduct.getQuantityInWarehouse();
             }
             if(quantity<=mapSet.getKey().getMinQuantity()){
@@ -55,8 +52,26 @@ public class ReportController {
         return report;
     }
 
-    //TODO:
-    // done.
+    public CommandLineTable reportMinQuantityTable(Map<Product,List<StoreProduct>> productListMap) {
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("Id","name", "producer" ,"selling price", "buyingPrice", "categories","quantity");
+
+        for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
+            int quantity =0;
+            for(StoreProduct storeProduct: mapSet.getValue()){
+                if(!storeProduct.isNull()&&!storeProduct.isExpired())
+                    quantity+=storeProduct.getQuantityInStore()+storeProduct.getQuantityInWarehouse();
+            }
+            if(quantity<=mapSet.getKey().getMinQuantity()){
+                int orderQuantity = mapSet.getKey().getMinQuantity();
+                table.addRow(mergeArray(mapSet.getKey().toArrayString(),String.valueOf(orderQuantity)));
+            }
+        }
+        return table;
+    }
+
+
     public CommandLineTable reportByCategories(Map<Product,List<StoreProduct>> productListMap, List<Category> categories){
 
             CommandLineTable table = new CommandLineTable();
@@ -75,8 +90,7 @@ public class ReportController {
            return table;
     }
 
-    //TODO:
-    // done.
+
     public CommandLineTable reportByExpired(Map<Product,List<StoreProduct>> productListMap){
 
         CommandLineTable table = new CommandLineTable();
@@ -94,9 +108,8 @@ public class ReportController {
         return table;
     }
 
-    //TODO:
-    // done.
-    public CommandLineTable reportByDefective(){
+
+    public CommandLineTable reportByDefective(Map<Product,List<StoreProduct>> productListMap){
         List<Product> defList = reportDAO.SelectDefectiveProducts();
         CommandLineTable table = new CommandLineTable();
         table.setShowVerticalLines(true);

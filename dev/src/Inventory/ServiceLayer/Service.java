@@ -64,7 +64,7 @@ public class Service {
 
 
     public Response<String> AddDefectiveProduct(int productId) {
-        return productService.AddDefectiveProduct(productId);
+        return reportService.AddDefectiveProduct(productId,GetStoreId().getData());
     }
 
     public Response<String> DeleteProduct(int productId) {
@@ -79,6 +79,10 @@ public class Service {
         return productService.AddDiscountByCategory(categoryName,discount,date);
     }
 
+    public Response<Integer> GetStoreId() {
+        return productService.GetStoreId();
+    }
+
 
     //report service
 
@@ -87,14 +91,14 @@ public class Service {
     }
 
     public Response<Report> ReportByDefective() {
-        return reportService.ReportByDefective();
+        return reportService.ReportByDefective(GetAllProductsMap().getData());
     }
 
     public Response<Report> ReportStockByCategory(List<String> categories) {
         return reportService.ReportStockByCategories(GetAllProductsMap().getData(),GetCategories(String.join(",",categories)).getData());
     }
 
-    public Response<Map<Pair<String,String>,Integer>> ReportMinQuantity() {
+    public Response<Report> ReportMinQuantity() {
         return reportService.ReportMinQuantity(GetAllProductsMap().getData());
     }
 
@@ -103,9 +107,7 @@ public class Service {
     //integration between suppliers
 
     public Response<String> MakeOrderMinQuantity() {
-        //
-        //MakeOrderToSuppliers()
-        throw new NotImplementedException();
+        return MakeOrderToSuppliers(reportService.MakeOrderMinQuantity(GetAllProductsMap().getData()).getData());
     }
 
     private Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> orders) {
