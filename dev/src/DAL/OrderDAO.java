@@ -143,7 +143,7 @@ public class OrderDAO extends DalController {
         BN_To_Orders.put(bn,new HashMap<>());
     }
 
-    public boolean updateOrderPrice(int bn, int orderID, int originalPrice, int finalPrice){
+    public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
         String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ?,orderID = ?";
 
         try{

@@ -65,12 +65,6 @@ public class OrderItem {
     }
 
 
-
-
-    public Double getItem_Original_Price() {
-        return Item_Original_Price;
-    }
-
     public void setItem_Original_Price(Double item_Original_Price) {
         Item_Original_Price = item_Original_Price;
     }
