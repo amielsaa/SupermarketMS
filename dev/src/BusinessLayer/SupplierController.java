@@ -24,10 +24,10 @@ public class SupplierController {
         discountsDAO=new DiscountsDAO();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) throws Exception {
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) throws Exception {
         if (supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
-        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
+        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details,days, contactName, contactPhone, item_num_to_price, item_num_to_discount, item_num_to_name, self_delivery_or_pickup);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
         if(!insertQAAndContacts(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts()))
@@ -130,7 +130,7 @@ public class SupplierController {
     //------------------------------ForTests---------------------------------------------//
     public boolean HasSupplier(int businessNum){
         return supplierDAO.containsSupplier(businessNum);
-
+    //------------------------------------------------------------------------------------//
 
     }
     private Supplier buildSupplier(int businessNum){
@@ -178,8 +178,11 @@ public class SupplierController {
                      return false;
              }
 
-
-
     return true;
     }
+    //todo:getAllSuppliers
+    //todo:Days for supplier
+    //todo:make sure every RoutineOrder is included in the supplier days
+    //todo:option to update the routine orders.
+    //todo:build the function to get items and make the best deal
 }

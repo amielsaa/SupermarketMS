@@ -3,7 +3,6 @@ package BusinessLayer;
 import misc.Days;
 import misc.Pair;
 import misc.PaymentDetails;
-
 import javax.print.attribute.SetOfIntegerSyntax;
 import java.util.*;
 
@@ -13,6 +12,7 @@ public class Supplier  {
     private int Business_Num;
     private int Bank_Acc_Num;
     private PaymentDetails Payment_Details;
+    private Set<Days> Days_To_Deliver;
     private List<Contact> Contacts;
     private QuantityAgreement Quantity_Agreement;
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
@@ -20,7 +20,7 @@ public class Supplier  {
 
 
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name, boolean self_delivery_or_pickup) {
         Name = name;
         CheckLegalNumber(business_num);
         CheckLengthOfBusinessNumber(business_num);
@@ -28,6 +28,7 @@ public class Supplier  {
         CheckLegalNumber(bank_acc_num);
         Bank_Acc_Num = bank_acc_num;
         Payment_Details =setPayment_Details(payment_details);
+        Days_To_Deliver=setDays_To_Deliver(days);
         Contacts = new LinkedList<Contact>();
         Contacts.add(new Contact(contactName, contactPhone));
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
@@ -181,7 +182,41 @@ public class Supplier  {
             throw new IllegalArgumentException("contact was not found");
         }
     }
+    public Set<Days> setDays_To_Deliver(Set<Integer> days_To_Deliver) {
+        Integer[] days = new Integer[days_To_Deliver.toArray().length];//gets the set to Array
+        Set<Days> daysSet=new LinkedHashSet<Days>();
+        for(int i=0; i<days.length;i++){
+            days[i] = (Integer)days_To_Deliver.toArray()[i];
+        }
+        for (int i:days){
+            daysSet.add(dayConvertor(i));
+        }
+        return daysSet;
+    }
 
+    private Days dayConvertor(int day){
+        if(day==1)
+            return Days.sunday;
+        else if(day==2)
+            return Days.monday;
+        else if(day==3)
+            return Days.tuesday;
+        else if(day==4)
+            return Days.wednesday;
+        else if(day==5)
+            return Days.thursday;
+        else if(day==6)
+            return Days.friday;
+        else if(day==7)
+            return Days.saturday;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
+    }
+
+    public Set<Days> getDays_To_Deliver() {
+        return Days_To_Deliver;
+    }
 
 
 
