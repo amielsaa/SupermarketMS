@@ -2,6 +2,7 @@ package Inventory.BuisnessLayer.Objects;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class StoreProduct {
 
@@ -59,6 +60,15 @@ public class StoreProduct {
             return false;
         else
             return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StoreProduct)) return false;
+        StoreProduct that = (StoreProduct) o;
+        return getStoreId() == that.getStoreId() &&
+                Objects.equals(getExpDate(), that.getExpDate());
     }
 
     public String toString() {

@@ -263,12 +263,12 @@ public class Menu {
     private void addProductAction() {
         printDivider();
         System.out.println("Adding a product should be as the following scheme: \n" +
-                "product-name # producer # buying-price # selling-price # categories-[...] \n" +
-                "Example: Cottage 5% # Tnuva # 10.90 # 15.90 # Diary,Milk,Size\n");
+                "product-name # producer # buying-price # selling-price # min-quantity #categories-[...] \n" +
+                "Example: Cottage 5% # Tnuva # 10.90 # 15.90 # 20 # Diary,Milk,Size\n");
         printDivider();
         String input = enterStringInput();
-        String[] inputArray = trimProductArray(input,5,true);
-        Response<String> res = service.AddProduct(inputArray[0],inputArray[1],Double.parseDouble(inputArray[2]),Double.parseDouble(inputArray[3]),inputArray[4]);
+        String[] inputArray = trimProductArray(input,6,true);
+        Response<String> res = service.AddProduct(inputArray[0],inputArray[1],Double.parseDouble(inputArray[2]),Double.parseDouble(inputArray[3]),Integer.parseInt(inputArray[4]),inputArray[5]);
         if(res.isSuccess())
             System.out.println(res.getData());
         else

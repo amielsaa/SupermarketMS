@@ -42,7 +42,7 @@ class ServiceTest {
     @Test
     void addProduct() {
 
-        Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,"Diary,Milk,Size");
+        Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,10,"Diary,Milk,Size");
 
 
         Assertions.assertEquals("Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
