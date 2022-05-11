@@ -27,14 +27,13 @@ public class ReportController {
      */
     private ReportDAO reportDAO;
 
-    public ReportController(DataController data) {
-        //this.data = data;
-        reportDAO = new ReportDAO("Report");
+    public ReportController() {
+        reportDAO = new ReportDAO("Reports");
     }
 
     //TODO: change return type to whatever
-    public void addDefectiveProduct(int productId) {
-        throw new NotImplementedException();
+    public void addDefectiveProduct(int productId, int storeId) {
+        reportDAO.InsertDefectiveProducts(productId,storeId);
     }
 
     //TODO: change return type to whatever <name & producer , quantity>

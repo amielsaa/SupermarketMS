@@ -17,7 +17,7 @@ public class ReportService {
     private ReportController reportController;
 
     public ReportService(DataController data) {
-        this.reportController = new ReportController(data);
+        this.reportController = new ReportController();
     }
 
     public Response<Report> ReportByExpired(Map<Product,List<StoreProduct>> productListMap) {

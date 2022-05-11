@@ -8,7 +8,6 @@ import Inventory.DataAccessLayer.Mappers.ProductMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,5 +138,6 @@ public class ProductDAO extends DalController {
     public void UpdateMapper(Product product) {
         productMapper.addProduct(product);
     }
+
 
 }
