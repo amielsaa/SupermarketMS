@@ -160,19 +160,21 @@ public class SupplierController {
             //first is the keys to the discounts
              HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount=quantityAgreement.getItem_Num_To_Discount();
              Pair<String,String>[] discountKeys = new Pair[item_Num_To_Quantity_To_Discount.keySet().toArray().length];
-             for(int i=0; i<itemKeys.length;i++) {
-                 discountKeys[i] = (Pair) item_Num_To_Quantity_To_Discount.keySet().toArray()[i];
-             }
-             for(Pair i:discountKeys){
-                     //getting all the discounts for the pair key.
-                 Integer[] discounts=new Integer[item_Num_To_Quantity_To_Discount.get(i).keySet().toArray().length];
-                 for(int j=0; j<discounts.length;j++) {
-                     discounts[j] = (Integer) item_Num_To_Quantity_To_Discount.get(i).keySet().toArray()[j];
-                     //gets in the data.
-                     if (!discountsDAO.insertDiscount(bn,i.getFirst().toString(),i.getSecond().toString(),discounts[j],item_Num_To_Quantity_To_Discount.get(i).get(discounts[j])))
-                         return false;
+             if(discountKeys.length!=0) {
+                 for (int i = 0; i < itemKeys.length; i++) {
+                     discountKeys[i] = (Pair) item_Num_To_Quantity_To_Discount.keySet().toArray()[i];
                  }
+                 for (Pair i : discountKeys) {
+                     //getting all the discounts for the pair key.
+                     Integer[] discounts = new Integer[item_Num_To_Quantity_To_Discount.get(i).keySet().toArray().length];
+                     for (int j = 0; j < discounts.length; j++) {
+                         discounts[j] = (Integer) item_Num_To_Quantity_To_Discount.get(i).keySet().toArray()[j];
+                         //gets in the data.
+                         if (!discountsDAO.insertDiscount(bn, i.getFirst().toString(), i.getSecond().toString(), discounts[j], item_Num_To_Quantity_To_Discount.get(i).get(discounts[j])))
+                             return false;
+                     }
 
+                 }
              }
              for(Contact i:contacts){
                  if(!contactDAO.insertContact(bn,i.getName(),i.getPhone_Num()))
@@ -212,10 +214,6 @@ public class SupplierController {
         return supplier.makeOrder(itemToAdd);
 
     }
-    //todo:getAllSuppliers-done
-    //todo:Days for supplier-done
-    //todo:make sure every RoutineOrder is included in the supplier days-done
-    //todo:option to update the routine orders.
     //todo:build the function to get items and make the best deal
 
 
