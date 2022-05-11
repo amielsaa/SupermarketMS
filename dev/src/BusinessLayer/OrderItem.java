@@ -64,11 +64,5 @@ public class OrderItem {
         return "Item name: "+getItem_Name() + " ,Producer: "+ getItem_Producer() + " ,Item amount: "+getItem_Amount() + " ,Item price: " + getItem_Price();
     }
 
-    public Integer getBusiness_Number() {
-        return Business_Number;
-    }
 
-    public void setBusiness_Number(Integer business_Number) {
-        Business_Number = business_Number;
-    }
 }

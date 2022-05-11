@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -145,18 +146,17 @@ public class SupplierDAO extends DalController {
             Supplier supp = null;
             while (rs.next()) {
                 supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"));
-                //todo: use previous functions
+                if(!BN_To_Supplier.containsKey(supp.getBusiness_Num()))
+                    insertSupplierToHM(supp);
             }
-            return supp; //we know its not null because of containsSupplier() function
 
         } catch (SQLException e) {
-            return null; //todo
+
         }
     }
 
-    public List<Supplier> getAllSuppliers(){
-        //todo
-        throw new NotImplementedException();
+    public Collection<Supplier> getAllSuppliers(){
+        return BN_To_Supplier.values();
     }
 
 

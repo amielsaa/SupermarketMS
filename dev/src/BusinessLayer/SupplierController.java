@@ -4,10 +4,8 @@ import DAL.*;
 import misc.Pair;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 import java.util.zip.DataFormatException;
 
 public class SupplierController {
@@ -191,7 +189,7 @@ public class SupplierController {
 
     public List<Supplier> getAllSuppliers() {
     supplierDAO.loadAllSuppliers();
-    List<Supplier> suppliersToBuild=supplierDAO.getAllSuppliers();
+    Collection<Supplier> suppliersToBuild=supplierDAO.getAllSuppliers();
     List<Supplier> toreturn=new ArrayList<>();
     for(Supplier i:suppliersToBuild){
         toreturn.add(buildSupplier(i.getBusiness_Num()));
