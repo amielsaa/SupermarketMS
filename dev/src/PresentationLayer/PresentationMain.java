@@ -20,6 +20,9 @@ public class PresentationMain {
         fSupplier = new SupplierFacade();
     }
 
+    //todo:Presentation bugs
+    //todo:Create supplier-when you're not entering discounts, days and contacts are not saved in the database and there's a wierd print.
+
     public void main() {
         Boolean running = true;
         Scanner s = new Scanner(System.in);

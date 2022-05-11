@@ -25,7 +25,7 @@ public class OrderDAO extends DalController {
 
     //put in priceBeforeDiscount as field
     public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice ) {
-        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, finalprice ) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice ) VALUES(?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();

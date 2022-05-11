@@ -14,6 +14,7 @@ public class SupplierController {
     private DaysToDeliverDAO daysToDeliverDAO;
     private QuantityAgreementDAO quantityAgreementDAO;
     private DiscountsDAO discountsDAO;
+    private SupplierDaysDAO supplierDaysDAO;
 
     public SupplierController() {
         supplierDAO = new SupplierDAO();
@@ -21,6 +22,7 @@ public class SupplierController {
         daysToDeliverDAO=new DaysToDeliverDAO();
         quantityAgreementDAO=new QuantityAgreementDAO();
         discountsDAO=new DiscountsDAO();
+        supplierDaysDAO=new SupplierDaysDAO();
     }
 
     public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup) throws Exception {
@@ -29,7 +31,7 @@ public class SupplierController {
         Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
-        if(!insertQAAndContacts(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts()))
+        if(!insertQAAndContactsAndDays(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts(),days))
         throw new DataFormatException("Error In Database on addSupplier on adding QA and contacts");
         return newSupplier;
     }
@@ -141,7 +143,7 @@ public class SupplierController {
         supplier.setContacts(contactDAO.selectAllContacts(businessNum));
         return supplier;
     }
-    private boolean insertQAAndContacts (int bn,QuantityAgreement quantityAgreement, List<Contact> contacts) throws DataFormatException {
+    private boolean insertQAAndContactsAndDays (int bn,QuantityAgreement quantityAgreement, List<Contact> contacts,Set<Integer> days) throws DataFormatException {
 
             //setting to get the item-price in data.
             HashMap<Pair<String,String>, Double> item_To_Price=quantityAgreement.getItem_To_Price();
@@ -174,6 +176,10 @@ public class SupplierController {
              }
              for(Contact i:contacts){
                  if(!contactDAO.insertContact(bn,i.getName(),i.getPhone_Num()))
+                     return false;
+             }
+             for(Integer i:days){
+                 if(!supplierDaysDAO.insertSupplierDays(bn,i))
                      return false;
              }
 

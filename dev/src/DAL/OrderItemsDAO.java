@@ -17,7 +17,7 @@ public class OrderItemsDAO extends DalController{
 
 
     public boolean insertOrderItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount) {
-        String sql = "INSERT INTO OrderItems(orderID, itemname, itemproducer, itemprice, itemamount) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO OrderItems(orderID, itemname, itemproducer, itemprice,itemoriginalprice, itemamount) VALUES(?,?,?,?,?,?)";
 
         try{
             Connection conn = this.makeConnection();
