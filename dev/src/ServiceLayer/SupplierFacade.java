@@ -10,6 +10,7 @@ import misc.Pair;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class SupplierFacade {
@@ -21,7 +22,7 @@ public class SupplierFacade {
         sSupplier = new SupplierService();
         sOrder = new OrderService();
     }
-//--------------------------------------------------------Suppliers----------------------------------------------------------
+//--------------------------------------------------------Suppliers----------------------------------------------------------//
     public Response<List<DSupplier>> getAllSuppliers(){
         return sSupplier.getAllSuppliers();
     }
@@ -88,7 +89,7 @@ public class SupplierFacade {
     public Response removeSupplierContact(int bn, String contactPhone){
         return sSupplier.removeSupplierContact(bn, contactPhone);
     }
-//--------------------------------------------------------Orders-------------------------------------------------
+//--------------------------------------------------------Orders------------------------------------------------------------//
     public Response<DOrder> getOrder(int bn, int orderID){
         return sOrder.getOrder(bn, orderID);
     }
@@ -130,12 +131,16 @@ public class SupplierFacade {
        }
        return supplierExists;
     }
+    //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
+    public Response MakeOrderToSuppliers(Map<Pair<String,String>,Integer> DemandedSupplies){
+
+    }
 
 
 
 
 
-    //todo:update RoutineOrder
+
     //todo:add a function of amielzz
 
 
