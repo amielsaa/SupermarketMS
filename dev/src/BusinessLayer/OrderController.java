@@ -101,7 +101,7 @@ public class OrderController {
     public RoutineOrder addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data) throws DataFormatException {
         if (!orderDAO.containsOrder(business_num, orderId))
             throw new DataFormatException("Order does not exists");
-        if(daysToDeliverDAO.getBN_to_routineOrder().contains(business_num)){
+        if(daysToDeliverDAO.getBN_to_routineOrder().containsKey(business_num)){
             if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId))
                 {
 

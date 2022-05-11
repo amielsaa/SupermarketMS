@@ -144,8 +144,21 @@ public class OrderDAO extends DalController {
     }
 
     public boolean updateOrderPrice(int bn, int orderID, int originalPrice, int finalPrice){
-        //todo
-        throw new NotImplementedException();
+        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ?,orderID = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, tableName);
+            pstmt.setDouble(2, originalPrice);
+            pstmt.setDouble(3, finalPrice);
+            pstmt.setInt(4, bn);
+            pstmt.setInt(5, orderID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 
 }

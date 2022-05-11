@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
+import BusinessLayer.RoutineOrder;
 import BusinessLayer.Supplier;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
@@ -28,6 +29,8 @@ public class PresentationMain {
             System.out.println("(6 - Update Supplier Delivery Day, 7 - Update Supplier Payment Details, 8 - Update Supplier Bank Account, 9 - Update Supplier Self Delivery)");
             System.out.println("(10 - Add Supplier Contact, 11 - Remove Supplier Contact, 12 - Update Contact Phone Number)");
             System.out.println("(13 - Make Order, 14 - Get Order, 15 - Get All Orders From Supplier, 16 - Load Test Data)");
+            System.out.println("PRINT THE CORRECT COMMANDS!!!\nPRINT THE CORRECT COMMANDS!!!\nPRINT THE CORRECT COMMANDS!!!");
+
 
             System.out.print("Enter command: ");
             String input = s.nextLine();
@@ -51,15 +54,21 @@ public class PresentationMain {
                     break;
                 }
                 case("4"): {
-                    addSupplierDeliveryDay(s);
+                    //todo: delete case
+                    System.out.println("Function was removed from the system.");
+//                    addSupplierDeliveryDay(s);
                     break;
                 }
                 case("5"): {
-                    removeSupplierDeliveryDay(s);
+                    //todo: delete case
+                    System.out.println("Function was removed from the system.");
+//                    removeSupplierDeliveryDay(s);
                     break;
                 }
                 case("6"): {
-                    updateSupplierDeliveryDays(s);
+                    //todo: delete case
+                    System.out.println("Function was removed from the system.");
+//                    updateSupplierDeliveryDays(s);
                     break;
                 }
                 case("7"): {
@@ -83,7 +92,9 @@ public class PresentationMain {
                     break;
                 }
                 case("12"): {
-                    updateContactPhoneNumber(s);
+                    //todo: delete case
+                    System.out.println("Function was removed from the system.");
+//                    updateContactPhoneNumber(s);
                     break;
                 }
                 case("13"): {
@@ -100,6 +111,10 @@ public class PresentationMain {
                 }
                 case("16"): {
                     loadData();
+                    break;
+                }
+                case("17"): {
+                    makeRoutineOrder(s);
                     break;
                 }
 
@@ -125,13 +140,12 @@ public class PresentationMain {
         String contactName = s.nextLine();
         System.out.print("Enter contact phone number: ");
         String contactNumber = s.nextLine();
-
         boolean selfDelivery = getBooleanFromUser(s,"Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
-
+        Set<Integer> days = deliveryDaysLoop(s);
         HashMap<Pair<String,String>, Double> item_to_price = new HashMap<Pair<String,String>, Double>();
         HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Pair<String,String>,HashMap<Integer,Integer>>();
         createQuantityAgreement(s, item_to_price, item_Num_To_Discount);
-        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail,contactName, contactNumber, item_num_to_price,item_Num_To_Discount , item_num_to_name, deliveryDays, selfDelivery, daysToDeliver);
+        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail, days, contactName, contactNumber, item_to_price, item_Num_To_Discount, selfDelivery);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -160,7 +174,6 @@ public class PresentationMain {
         Set<Integer> days = new HashSet<Integer>();
         System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
         System.out.println("Type the number of the day you want to select and when you selected them all - type '0'");
-        System.out.println("(If you selected 'No' for days to deliver - insert '0')");
         String day = "-1";
         boolean running = true;
         while(running) {
@@ -264,17 +277,15 @@ public class PresentationMain {
 
     }
 
-    private void makeOrder(Scanner s){
-        String businessnumString;
+    private Response<Pair<Integer, HashMap>> orderBaseInfo(Scanner s){
         int businessNumber = getIntFromUser(s,"supplier business number");
 
-        Response printItemsResponse = printSupplierItems(businessNumber);
+        Response<HashMap<Integer, Pair<String,String>>> printItemsResponse = printSupplierItems(businessNumber);
         if(!printItemsResponse.isSuccess()){
-            System.out.println(printItemsResponse.getMessage());
-            return;
+            return Response.makeFailure(printItemsResponse.getMessage());
         }
 
-        HashMap<Integer,Integer> order = new HashMap<>();
+        HashMap<Pair<String,String>,Integer> order = new HashMap<>();
         System.out.println("Add items to the order. Type item ID and quantity of it.\nWhen you are done, type 'STOP' for the item name.");
         while(true) {
             System.out.print("Item ID: ");
@@ -288,22 +299,45 @@ public class PresentationMain {
             try{
                 int itemIdNumber = Integer.parseInt(itemIdString);
                 int itemQuantity = Integer.parseInt(itemQuantityString);
-                if(itemIdNumber<0 || itemQuantity<0)
-                    System.out.println("Illegal item ID/quantity, try again.");
+                if(itemIdNumber<0 || itemQuantity<0 || !printItemsResponse.getData().containsKey(itemIdNumber)) //todo: check the last check
+                    System.out.println("Illegal item name/producer/quantity, try again.");
                 else{
-                    order.put(itemIdNumber, itemQuantity);
+                    order.put(printItemsResponse.getData().get(itemIdNumber), itemQuantity);
                 }
 
             }
             catch (Exception E){
-                System.out.println("Illegal item ID/quantity, try again.");
+                System.out.println("Illegal item name/producer/quantity, try again.");
             }
         }
+        return Response.makeSuccess(new Pair<>(businessNumber, order));
 
-        Response res = fSupplier.makeOrder(businessNumber, order);
-        if(res.isSuccess())
-            System.out.println("Order created successfully.");
-        else System.out.println(res.getMessage());
+    }
+
+    private void makeOrder(Scanner s){
+        Response<Pair<Integer, HashMap>> baseInfo = orderBaseInfo(s);
+        if(baseInfo.isSuccess()) {
+            Response res = fSupplier.makeOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond());
+            if(res.isSuccess())
+                System.out.println("Order created successfully.");
+            else System.out.println(res.getMessage());
+        }
+        else System.out.println(baseInfo.getMessage());
+
+    }
+
+    private void makeRoutineOrder(Scanner s) {
+        Response<Pair<Integer, HashMap>> baseInfo = orderBaseInfo(s);
+        if(baseInfo.isSuccess()) {
+            System.out.println("Select days for the routine order to be delivered.\nDays must be included in the supplier's delivery days.");
+            Set<Integer> days = deliveryDaysLoop(s);
+            Response res = fSupplier.makeRoutineOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond(), days);
+            if(res.isSuccess())
+                System.out.println("Routine Order created successfully.");
+            else System.out.println(res.getMessage());
+        }
+        else System.out.println(baseInfo.getMessage());
+
     }
 
     private boolean legalNumberCheck(String input){
@@ -315,15 +349,18 @@ public class PresentationMain {
         return x != -1;
     }
 
-    private Response printSupplierItems(int businessNumber){
+    private Response<HashMap<Integer, Pair<String,String>>> printSupplierItems(int businessNumber){
         Response<DQuantityAgreement> qa = fSupplier.getSupplierQuantityAgreement(businessNumber);
         if(qa.isSuccess()) {
-            HashMap<Integer, String> item_Num_To_Name = qa.getData().getItem_Num_To_Name();
-            HashMap<Integer, Double> item_Num_To_Price = qa.getData().getItem_Num_To_Price();
-            for (int x : item_Num_To_Name.keySet()) {
-                System.out.println("Item ID: " + x + ", Item name: " + item_Num_To_Name.get(x) + ", Item price: " + item_Num_To_Price.get(x));
+            int runningIndex=0;
+            HashMap<Integer, Pair<String,String>> items = new HashMap<>();
+            HashMap<Pair<String,String>, Double> item_Num_To_Price = qa.getData().getItem_Num_To_Price();
+            for (Pair<String,String> x : item_Num_To_Price.keySet()) {
+                System.out.println("#: " + runningIndex + ", Item name: " + x.getFirst() + ", Item producer: " + x.getSecond() + ", Item price: " + item_Num_To_Price.get(x));
+                items.put(runningIndex,x);
+                runningIndex++;
             }
-            return Response.makeSuccess(null);
+            return Response.makeSuccess(items);
         }
         return Response.makeFailure("Supplier isn't found.");
     }
@@ -356,34 +393,34 @@ public class PresentationMain {
         else System.out.println(newsupplier.getMessage());
     }
 
-    private void addSupplierDeliveryDay(Scanner s) {
-        int businessNumber = getIntFromUser(s, "supplier business number");
-        System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
-        int dayNumber = getIntFromUser(s, "day");
-        Response res = fSupplier.addSupplierDeliveryDay(businessNumber, dayNumber);
-        if(res.isSuccess())
-            System.out.println("Day added successfully.");
-        else System.out.println(res.getMessage());
-    }
-
-    private void removeSupplierDeliveryDay(Scanner s) {
-        int businessNumber = getIntFromUser(s, "supplier business number");
-        System.out.println("Select a day to remove.\nInstructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
-        int dayNumber = getIntFromUser(s, "day");
-        Response res = fSupplier.removeSupplierDeliveryDay(businessNumber, dayNumber);
-        if(res.isSuccess())
-            System.out.println("Day removed successfully.");
-        else System.out.println(res.getMessage());
-    }
-
-    private void updateSupplierDeliveryDays(Scanner s) {
-        int businessNumber = getIntFromUser(s, "supplier business number");
-        Set<Integer> days = deliveryDaysLoop(s);
-        Response res = fSupplier.updateSupplierDeliveryDays(businessNumber, days);
-        if(res.isSuccess())
-            System.out.println("Days updated successfully.");
-        else System.out.println(res.getMessage());
-    }
+//    private void addSupplierDeliveryDay(Scanner s) {
+//        int businessNumber = getIntFromUser(s, "supplier business number");
+//        System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
+//        int dayNumber = getIntFromUser(s, "day");
+//        Response res = fSupplier.addSupplierDeliveryDay(businessNumber, dayNumber);
+//        if(res.isSuccess())
+//            System.out.println("Day added successfully.");
+//        else System.out.println(res.getMessage());
+//    }
+//
+//    private void removeSupplierDeliveryDay(Scanner s) {
+//        int businessNumber = getIntFromUser(s, "supplier business number");
+//        System.out.println("Select a day to remove.\nInstructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
+//        int dayNumber = getIntFromUser(s, "day");
+//        Response res = fSupplier.removeSupplierDeliveryDay(businessNumber, dayNumber);
+//        if(res.isSuccess())
+//            System.out.println("Day removed successfully.");
+//        else System.out.println(res.getMessage());
+//    }
+//
+//    private void updateSupplierDeliveryDays(Scanner s) {
+//        int businessNumber = getIntFromUser(s, "supplier business number");
+//        Set<Integer> days = deliveryDaysLoop(s);
+//        Response res = fSupplier.updateSupplierDeliveryDays(businessNumber, days);
+//        if(res.isSuccess())
+//            System.out.println("Days updated successfully.");
+//        else System.out.println(res.getMessage());
+//    }
 
     private void updateSupplierPaymentDetails(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
@@ -451,17 +488,18 @@ public class PresentationMain {
         else System.out.println(res.getMessage());
     }
 
-    private void updateContactPhoneNumber(Scanner s) {
-        int businessNumber = getIntFromUser(s, "supplier business number");
-        System.out.print("Enter old phone number: ");
-        String oldPhone = s.nextLine();
-        System.out.print("Enter new phone number: ");
-        String newPhone = s.nextLine();
-        Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
-        if(res.isSuccess())
-            System.out.println(printOrderList(res.getData()));
-        else System.out.println(res.getMessage());
-    }
+
+//    private void updateContactPhoneNumber(Scanner s) {
+//        int businessNumber = getIntFromUser(s, "supplier business number");
+//        System.out.print("Enter old phone number: ");
+//        String oldPhone = s.nextLine();
+//        System.out.print("Enter new phone number: ");
+//        String newPhone = s.nextLine();
+//        Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
+//        if(res.isSuccess())
+//            System.out.println(printOrderList(res.getData()));
+//        else System.out.println(res.getMessage());
+//    }
 
 
 
@@ -518,13 +556,14 @@ public class PresentationMain {
         Set<Integer> daysSet = new HashSet<>();
         daysSet.add(1);
         daysSet.add(3);
-        Response<DSupplier> newsupplier = fSupplier.addSupplier("Feliks Kablan",111111111,123456789,"credit","Ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, item_Num_To_Name, true, true, daysSet);
+        //String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup
+        Response<DSupplier> newsupplier = fSupplier.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, true);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
 
-        HashMap<Integer,Integer> orderMap = new HashMap<>();
-        orderMap.put(0,100);
+        HashMap<Pair<String,String>,Integer> orderMap = new HashMap<>();
+        orderMap.put(new Pair<>("milk","tnuva"),100);
         Response<DOrder> neworder = fSupplier.makeOrder(111111111, orderMap);
         if(neworder.isSuccess())
             System.out.println("Order created successfully.");

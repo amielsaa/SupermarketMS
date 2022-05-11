@@ -15,13 +15,11 @@ public class QuantityAgreement {
 
 
 
-    public QuantityAgreement(HashMap<Pair<String,String>,Double> item_num_to_price, HashMap item_num_to_discount, HashMap item_num_to_name) {
+    public QuantityAgreement(HashMap<Pair<String,String>,Double> item_num_to_price, HashMap item_num_to_discount) {
         PriceValidationChecker(item_num_to_price);
         item_To_Price = item_num_to_price;
         DiscountsValidationCheck(item_num_to_discount);
         item_Num_To_Quantity_To_Discount = item_num_to_discount;
-
-
     }
 
     public QuantityAgreement(){}//only for DAL constructor!

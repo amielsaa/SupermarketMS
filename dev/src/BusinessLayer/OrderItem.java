@@ -20,6 +20,10 @@ public class OrderItem {
 
     }
 
+    public Double getItem_Original_Price() {
+        return Item_Original_Price;
+    }
+
     public double getItem_Price() {
         return Item_Price;
     }
@@ -60,9 +64,7 @@ public class OrderItem {
         Order_Id = order_Id;
     }
 
-    public String toStringForOrderPrint(){
-        return "Item name: "+getItem_Name() + " ,Producer: "+ getItem_Producer() + " ,Item amount: "+getItem_Amount() + " ,Item price: " + getItem_Price();
-    }
+
 
 
 }
