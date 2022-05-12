@@ -80,6 +80,13 @@ public class DeliveriesController {
         if(!trucksController.isAbleToDrive(driver.getLicenseType(),truckId)){
             throw new Exception(String.format("Driver whose id number is %d is not permitted to drive the truck %d",driverId,truckId));
         }
+        LocalDateTime midDay=startTime.withMinute(0).withHour(12);
+        LocalDateTime midNight=startTime.withMinute(59).withHour(23);
+        if(startTime.isBefore(midDay) && !endTime.isBefore(midDay)){
+            throw new Exception(String.format("Delivery must be between %s and %s..",startTime.format(dateTimeFormatter),midDay.format(dateTimeFormatter)));
+        }else if(startTime.isAfter(midDay) && endTime.isAfter(midNight)){
+            throw new Exception(String.format("Delivery must be between %s and %s..",startTime.format(dateTimeFormatter),midNight.format(dateTimeFormatter)));
+        }
         checkAvailability(startTime,endTime,truckId,driverId);
         Truck truck= trucksController.getTruck(truckId);
         Site origin=sitesController.getSite(originId);
