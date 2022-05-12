@@ -6,6 +6,9 @@ import java.util.*;
 import java.sql.*;
 import BusinessLayer.*;
 import BusinessLayer.Driver;
+import javafx.util.Pair;
+
+import javax.print.attribute.standard.Destination;
 
 
 public class DeliveryDAO extends DataAccessObject {
@@ -61,6 +64,7 @@ public class DeliveryDAO extends DataAccessObject {
             Driver driver = null;
             Site origin = null;
             Set<Branch> destinations = null;
+            LinkedHashMap<Branch, HashMap<String,Integer>> products = null;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
@@ -73,9 +77,10 @@ public class DeliveryDAO extends DataAccessObject {
                 driver = driverDAO.Read(rs.getInt("driverId"));
                 origin = siteDAO.Read(rs.getInt("originId"));
 
-                //TODO insert destinations
+                destinations = getDestinations(id);
+                products = getProducts(id, destinations);
                 //TODO insert products
-                delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations);
+                delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations, products);
 
             }
             rs.close();
@@ -84,6 +89,34 @@ public class DeliveryDAO extends DataAccessObject {
         }
         deliveryCache.put(id, delivery);
         return delivery;
+    }
+
+
+    private Set<Branch> getDestinations(int deliveryId) {
+        DestinationsDAO destinationsDAO = new DestinationsDAO("Destinations");
+        SiteDAO siteDAO = new SiteDAO("Sites");
+        Set<Integer> idlst = destinationsDAO.ReadSitesPerDeliveryId(deliveryId);
+        Set<Branch> rslt = new HashSet<>();
+        for (int siteId: idlst) {
+            Site s = siteDAO.Read(siteId);
+            if (s instanceof Branch)
+                rslt.add((Branch) s);
+        }
+        return rslt;
+    }
+
+    private LinkedHashMap<Branch, HashMap<String, Integer>> getProducts(int deliveryId, Set<Branch> destinations) {
+        LinkedHashMap<Branch, HashMap<String, Integer>> res = new LinkedHashMap<>();
+        DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO("DeliveredProducts");
+        for (Branch branch : destinations)
+        {
+            HashMap<String, Integer> items = new HashMap<>();
+            Set<Pair<String,Integer>> readItems = deliveredProductsDAO.Read(branch.getId(), deliveryId);
+            for (Pair<String,Integer> item : readItems)
+                items.put(item.getKey(), item.getValue());
+            res.put(branch, items);
+        }
+        return res;
     }
 
 

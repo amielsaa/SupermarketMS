@@ -1,5 +1,7 @@
 package BusinessLayer;
 
+import javafx.util.Pair;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class Delivery {
     }
 
     //for loading from the db
-    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int weight ,Driver driver,Truck truck, Site origin, Set<Branch> destinations)
+    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int weight , Driver driver, Truck truck, Site origin, Set<Branch> destinations, LinkedHashMap<Branch, HashMap<String,Integer>> products)
     {
         this.id = id;
         this.startTime = startTime;
