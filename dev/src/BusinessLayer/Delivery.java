@@ -16,6 +16,8 @@ public class Delivery {
     private Site origin;
     private LinkedHashMap<Branch, HashMap<String,Integer>> destinationItems;
     private int weight;
+
+    //for creating a new delivery
     public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime ,Driver driver,Truck truck, Site origin, Branch destination)
     {
         this.id = id;
@@ -27,6 +29,21 @@ public class Delivery {
         this.destinationItems=new LinkedHashMap<>();
         destinationItems.put(destination,new HashMap<>());
         this.weight=0;
+    }
+
+    //for loading from the db
+    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int weight ,Driver driver,Truck truck, Site origin, Set<Branch> destinations)
+    {
+        this.id = id;
+        this.startTime = startTime;
+        this.driver = driver;
+        this.endTime = endTime;
+        this.truck = truck;
+        this.origin = origin;
+        this.destinationItems=new LinkedHashMap<>();
+        for (Branch destination : destinations)
+            destinationItems.put(destination,new HashMap<>());
+        this.weight=weight;
     }
 
     public int getId() {

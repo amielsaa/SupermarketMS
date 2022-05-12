@@ -32,7 +32,9 @@ public class CreateTables {
 
         createTable("CREATE TABLE IF NOT EXISTS Deliveries ("+
                 "id INTEGER not null, "+
+                "startDate DATETIME not null, "+
                 "startTime DATETIME not null, "+
+                "endDate DATETIME not null, "+
                 "endTime DATETIME not null, "+
                 "weight INTEGER not null, "+
                 "truckPlateNum INTEGER not null, "+
