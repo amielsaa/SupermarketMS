@@ -11,7 +11,7 @@ public class Qualification
     private String name;
     private List<Permission> permissions;
     //the name would be unique for every qualification object
-    protected Qualification(String name, List<Permission> permissions) {
+    public Qualification(String name, List<Permission> permissions) {
         this.name = name;
         this.permissions = permissions;
     }
@@ -36,7 +36,15 @@ public class Qualification
         permissions.remove(permission);
     }
 
-    protected boolean hasPermission(Permission permission) { return this.permissions.contains(permission); }
+    public boolean hasPermission(Permission permission) { return this.permissions.contains(permission); }
+
+    public boolean hasPermission(String name) {
+        for (Permission permission : permissions) {
+            if(permission.getName().equals(name))
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

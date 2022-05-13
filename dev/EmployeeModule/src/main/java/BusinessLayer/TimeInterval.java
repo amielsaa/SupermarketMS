@@ -10,7 +10,7 @@ public class TimeInterval
     private LocalDateTime start;
     private LocalDateTime end;
 
-    protected TimeInterval(LocalDateTime start, LocalDateTime end) throws LegalTimeException {
+    public TimeInterval(LocalDateTime start, LocalDateTime end) throws LegalTimeException {
         if(start.isAfter(end)){
             throw new LegalTimeException("The start of the interval can't be after the end");
         }

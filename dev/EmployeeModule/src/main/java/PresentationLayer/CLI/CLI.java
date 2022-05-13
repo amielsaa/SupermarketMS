@@ -1,3 +1,4 @@
+
 package PresentationLayer.CLI;
 
 
@@ -373,6 +374,7 @@ public class CLI {
 
 
     private void shiftManagement(){
+        /*
         System.out.println("Choose from the menu:\n" +
                            "1.Add shift\n" +
                            "2.Remove shift\n" +
@@ -500,6 +502,8 @@ public class CLI {
                 shiftManagement();
                 break;
         }
+
+         */
     }
 
     private ShiftId getShiftIdInput(BufferedReader sc){

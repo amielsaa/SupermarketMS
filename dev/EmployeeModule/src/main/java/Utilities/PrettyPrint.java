@@ -6,6 +6,7 @@ import PresentationLayer.CLI.LineSeparator;
 import PresentationLayer.CLI.SeparatorSet;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static Utilities.Pair.getKeys;
@@ -156,16 +157,10 @@ public class PrettyPrint
 
         // Working conditions data
         WorkingConditions wc = e.getWorkingConditions();
+        String[] qualificationNames = wc.getQualifications().toArray(new String[wc.getQualifications().size()]);
 
-        if(wc.getQualifications().size() > 0)
+        if(qualificationNames.length > 0)
         {
-            String[] qualificationNames = new String[wc.getQualifications().size()];
-            int i = 0;
-            for (Qualification q : wc.getQualifications())
-            {
-                qualificationNames[i] = q.getName();
-                i++;
-            }
             Pair[] optionPairs = makeIndexedEntries(qualificationNames, 1);
             System.out.println(makeListWithTitle("Qualifications", optionPairs));
         } else {

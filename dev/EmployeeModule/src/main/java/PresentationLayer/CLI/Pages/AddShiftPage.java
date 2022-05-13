@@ -3,21 +3,18 @@ package PresentationLayer.CLI.Pages;
 import BusinessLayer.*;
 import ServiceLayer.Gateway;
 import Utilities.CLIException;
-import Utilities.Pair;
 import Utilities.PrettyTable;
 import Utilities.Response;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static Utilities.Pair.getValues;
 import static Utilities.PrettyInput.*;
 import static Utilities.PrettyPrint.*;
 
 public class AddShiftPage extends ResponsePage<Boolean>
 {
-    private int branchId;
+    private final int branchId;
 
     public AddShiftPage(int branchId) {
         this.branchId = branchId;
@@ -31,7 +28,7 @@ public class AddShiftPage extends ResponsePage<Boolean>
             ShiftId shiftId = printAndWaitForLegalShiftId(input, makeTitle("Enter the new shift's information"), this.branchId);
             List<String> qualifications_required = Arrays.asList("Cashier", "WarehouseWorker", "StockClerk", "TruckDriver");
             List<String> qualifications_required_day = Arrays.asList("Cashier", "WarehouseWorker", "StockClerk", "TruckDriver", "Branch" + shiftId.getBranchId() + "Manager", "InventoryManager");
-            Map<Employee, List<Qualification>> shift_workers = new HashMap<>();
+            Map<Integer, List<String>> shift_workers = new HashMap<>();
             if(shiftId.getShiftTime() == ShiftTime.DAY) {
                 //Arrays.asList(qualifications_required, qualifications_required_day);
                 qualifications_required = qualifications_required_day;
@@ -40,13 +37,13 @@ public class AddShiftPage extends ResponsePage<Boolean>
             for (String s : qualifications_required) {
                 Qualification q = g.getQualification(s).getData();
                 Employee e = chooseWorkerWithQualification(input, g, q, shiftId.getShiftTime(), shiftId.getBranchId());
-                if(shift_workers.containsKey(e)){
-                    shift_workers.get(e).add(q);
+                if(shift_workers.containsKey(e.getId())){
+                    shift_workers.get(e.getId()).add(q.getName());
                 }
                 else{
-                    ArrayList<Qualification> l = new ArrayList<Qualification>();
-                    l.add(q);
-                    shift_workers.put(e, l);
+                    ArrayList<String> l = new ArrayList<>();
+                    l.add(q.getName());
+                    shift_workers.put(e.getId(), l);
                 }
             }
             Qualification q = g.getQualification("ShiftManager").getData();
@@ -62,10 +59,8 @@ public class AddShiftPage extends ResponsePage<Boolean>
 
         } catch (Exception e) {
             System.out.println(makeErrorMessage("Failed to add new shift, " + e.getMessage()));
-        } finally
-        {
-            return true;
         }
+        return true;
     }
 
     private Employee chooseWorkerWithQualification(Scanner input, Gateway g, Qualification q, ShiftTime s, int branchId){

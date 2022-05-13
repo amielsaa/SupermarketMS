@@ -41,14 +41,16 @@ public class ShiftsMenuPage extends OptionsMenuPage
             System.out.println(makeBigTitle("Shifts for Branch #" + branchId));
             PrettyTable table = new PrettyTable("Date", "Time", "Manager Id", "Manager Name", "Workers");
             for(Shift s : shifts) {
-                Map<Employee, List<Qualification>> workers = s.getWorkers();
+                Map<Integer, List<String>> workers = s.getWorkers();
                 String workersString = "";
-                for (Employee e : workers.keySet())
+                for (Integer eId : workers.keySet())
                 {
+                    Employee e = g.getEmployee(eId).getData();
                     workersString += e.getName() + ": [";
                     int i = 0;
-                    List<Qualification> qs = workers.get(e);
-                    for(Qualification q : qs) {
+                    List<String> qs = workers.get(e.getId());
+                    for(String qName : qs) {
+                        Qualification q = g.getQualification(qName).getData();
                         workersString += q.getName();
                         if(i < qs.size() - 1)
                         {
@@ -58,7 +60,7 @@ public class ShiftsMenuPage extends OptionsMenuPage
                     }
                     workersString += "], ";
                 }
-                table.insert(s.getId().getDate().toLocalDate().toString(), s.getId().getShiftTime() == ShiftTime.DAY ? "DAY" : "NIGHT", Integer.toString(s.getShiftManager().getId()), s.getShiftManager().getName(), workersString);
+                table.insert(s.getId().getDate().toLocalDate().toString(), s.getId().getShiftTime() == ShiftTime.DAY ? "DAY" : "NIGHT", Integer.toString(s.getShiftManager()), g.getEmployee(s.getShiftManager()).getData().getName(), workersString);
             }
             System.out.println(table.toString());
         }
@@ -104,15 +106,15 @@ public class ShiftsMenuPage extends OptionsMenuPage
                         throw new CLIException(get_employee_res.getMessage());
                     }
                     Employee employee = get_employee_res.getData();
-                    ArrayList<Qualification> qualifications_list = new ArrayList<Qualification>();
-                    List<Qualification> e_qualifications_list = employee.getWorkingConditions().getQualifications();
+                    ArrayList<String> qualifications_list = new ArrayList<String>();
+                    List<String> e_qualifications_list = employee.getWorkingConditions().getQualifications();
                     int user_input = -2;
                     int counter = 0;
                     boolean done = false;
                     PrettyTable table = new PrettyTable("Index", "Qualification");
-                    for (Qualification qualification : e_qualifications_list)
+                    for (String qualificationName : e_qualifications_list)
                     {
-                        table.insert(Integer.toString(counter), qualification.getName());
+                        table.insert(Integer.toString(counter), qualificationName);
                         counter++;
                     }
                     System.out.println(makeTitle("Please choose the qualifications indexes to add from the list above; to return insert -1: "));
