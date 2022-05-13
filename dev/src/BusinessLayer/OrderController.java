@@ -140,8 +140,7 @@ public class OrderController {
     public RoutineOrder deleteItemFromRoutineOrder(int business_num, int orderId, String itemName, String itemProducer) throws DataFormatException {
         if (!orderDAO.containsOrder(business_num, orderId))
             throw new DataFormatException("Order does not exists");
-        if (daysToDeliverDAO.getBN_to_routineOrder().containsKey(business_num)) {
-            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId)) {
+        if (daysToDeliverDAO.CheckIfOrderIsRoutineOrder(business_num,orderId)) {
                 RoutineOrder routineOrder = buildRoutineOrder(business_num, orderId);
                 boolean isSuccess=routineOrder.deleteItemFromRoutineOrder(itemName,itemProducer);
                 if(!isSuccess)
@@ -155,9 +154,8 @@ public class OrderController {
 
                 }
                 return routineOrder;
-            }
-            else
-                throw new DataFormatException("Order is not RoutineOrder");
+
+
 
         }
         else

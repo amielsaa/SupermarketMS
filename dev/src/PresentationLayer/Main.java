@@ -35,7 +35,7 @@ public class Main {
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         order.put(pair,500);
         supplierFacade.makeRoutineOrder(111111111,order,a);
-        Response<DRoutineOrder> response=supplierFacade.addOrUpdateRoutineOrder(111111111,0,"banana","tnuva",700);
+        Response<DRoutineOrder> response=supplierFacade.deleteItemFromRoutineOrder(111111111,0,"banana","tnuva");
 
 
 

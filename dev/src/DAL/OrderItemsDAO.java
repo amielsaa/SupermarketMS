@@ -36,7 +36,7 @@ public class OrderItemsDAO extends DalController{
     }
 
     public boolean deleteOrderItem(int orderID, String itemname, String itemproducer) {
-        String sql = "DELETE FROM OrderItems WHERE orderID = ?, itemname = ?, itemproducer = ?";
+        String sql = "DELETE FROM OrderItems WHERE orderID = ? and  itemname = ? and itemproducer = ?";
 
         try{
             Connection conn = this.makeConnection();
@@ -62,7 +62,7 @@ public class OrderItemsDAO extends DalController{
             Collection<OrderItem> cc = new LinkedList<>();
             OrderItem item;
             while (rs.next()) {
-                item = new OrderItem(rs.getInt("orderID"),rs.getString("itemname"),rs.getString("itemproducer"),rs.getDouble("itemprice"),rs.getDouble("itemoriginalprice"),rs.getInt("itemamount"));
+                item = new OrderItem(rs.getInt("orderID"),rs.getString("itemname"),rs.getString("itemproducer"),rs.getDouble("itemoriginalprice"),rs.getDouble("itemprice"),rs.getInt("itemamount"));
                 cc.add(item);
             }
             return cc;
