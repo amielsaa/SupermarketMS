@@ -66,6 +66,25 @@ public class DeliveriesController {
     }
 
     public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId,int destinationId) throws Exception{
+
+        validateDeliveryTime(startTime,endTime);
+        Driver driver=driversController.getDriver(driverId);
+        if(!trucksController.isAbleToDrive(driver.getLicenseType(),truckId)){
+            throw new Exception(String.format("Driver whose id number is %d is not permitted to drive the truck %d",driverId,truckId));
+        }
+
+        checkAvailability(startTime,endTime,truckId,driverId);
+        Truck truck= trucksController.getTruck(truckId);
+        Site origin=sitesController.getSite(originId);
+        Site destination=sitesController.getSite(destinationId);
+        if(!destination.canBeADestination()){
+            throw new Exception(String.format("Site %d is not a destination...",destinationId));
+        }
+        upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
+        nextDeliveryId++;
+    }
+
+    private void validateDeliveryTime(LocalDateTime startTime,LocalDateTime endTime) throws Exception {
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         if(startTime.isBefore(LocalDateTime.now())){
             throw new Exception(String.format("%s has passed",startTime.format(dateTimeFormatter)));
@@ -76,10 +95,6 @@ public class DeliveriesController {
         if(endTime.isBefore(startTime)){
             throw new Exception("end time cant be earlier than the start time");
         }
-        Driver driver=driversController.getDriver(driverId);
-        if(!trucksController.isAbleToDrive(driver.getLicenseType(),truckId)){
-            throw new Exception(String.format("Driver whose id number is %d is not permitted to drive the truck %d",driverId,truckId));
-        }
         LocalDateTime midDay=startTime.withMinute(0).withHour(12);
         LocalDateTime midNight=startTime.withMinute(59).withHour(23);
         if(startTime.isBefore(midDay) && !endTime.isBefore(midDay)){
@@ -87,16 +102,6 @@ public class DeliveriesController {
         }else if(startTime.isAfter(midDay) && endTime.isAfter(midNight)){
             throw new Exception(String.format("Delivery must be between %s and %s..",startTime.format(dateTimeFormatter),midNight.format(dateTimeFormatter)));
         }
-        checkAvailability(startTime,endTime,truckId,driverId);
-        Truck truck= trucksController.getTruck(truckId);
-        Site origin=sitesController.getSite(originId);
-        Site destination=sitesController.getSite(destinationId);
-        if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site %d is not a destination...",destinationId));
-        }
-
-        upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
-        nextDeliveryId++;
     }
     public String getCompletedDelivery(int deliveryId) throws Exception {
         if(!deliveryArchive.containsKey(deliveryId)){
