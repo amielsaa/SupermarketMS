@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-class DeliveriesControllerTest {
+public class DeliveriesControllerTest {
     private SitesController sitesController;
     private TrucksController trucksController;
     private DriversController driversController;
@@ -21,7 +21,7 @@ class DeliveriesControllerTest {
     private LocalDateTime time6;
 
     @Before
-    void setUp() {
+    public void setUp() {
         try {
             sitesController = new SitesController();
             trucksController = new TrucksController();
@@ -49,7 +49,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void addDelivery() {
+    public void addDelivery() {
         try{
             deliveriesController.addDelivery(time2, time1, 1111111,1,1,2);
             fail();
@@ -99,7 +99,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void getCompletedDelivery() {
+    public void getCompletedDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,1,1,2);
             deliveriesController.addDelivery(time3, time4, 1111111,1,1,2);
@@ -120,7 +120,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void getUpcomingDelivery() {
+    public void getUpcomingDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,1,1,2);
             deliveriesController.addDelivery(time3, time4, 2222222,1,1,2);
@@ -141,7 +141,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void getUpcomingDeliveries() {
+    public void getUpcomingDeliveries() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
@@ -157,7 +157,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void getDeliveryArchive() {
+    public void getDeliveryArchive() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
@@ -175,7 +175,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void addDestination() {
+    public void addDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addDestination(1,3);
@@ -211,7 +211,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void removeDestination() {
+    public void removeDestination() {
         try{
         deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
         deliveriesController.addDestination(1,3);
@@ -230,7 +230,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void addItemToDestination() {
+    public void addItemToDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
@@ -248,7 +248,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void removeItemFromDestination() {
+    public void removeItemFromDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
@@ -273,7 +273,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void editItemQuantity() {
+    public void editItemQuantity() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
             deliveriesController.addItemToDestination(1,2,"name",1);
@@ -292,7 +292,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void editStartTime() {
+    public void editStartTime() {
         try{
             deliveriesController.addDelivery(time1, time3, 2222222,1,1,2);
             deliveriesController.editStartTime(1,time2);
@@ -310,7 +310,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void editEndTime() {
+    public void editEndTime() {
         try{
             deliveriesController.addDelivery(time2, time4, 2222222,1,1,2);
             deliveriesController.editEndTime(1,time3);
@@ -328,7 +328,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void editDriver() {
+    public void editDriver() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.addDelivery(time3, time4, 2222222,1,1,2);
@@ -362,7 +362,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void editTruck() {
+    public void editTruck() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.addDelivery(time3, time4, 2222222,1,1,2);
@@ -396,7 +396,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void setOrigin() {
+    public void setOrigin() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.setOrigin(1,2);
@@ -414,7 +414,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void setWeight() {
+    public void setWeight() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.setWeight(1,9000);
@@ -432,7 +432,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void completeDelivery() {
+    public void completeDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.setWeight(1,5000);
@@ -446,7 +446,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void checkTruckHasUpcomingDelivery() {
+    public void checkTruckHasUpcomingDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.addDelivery(time1, time2, 2222222,1,2,2);
@@ -468,7 +468,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void checkSiteHasUpcomingDelivery() {
+    public void checkSiteHasUpcomingDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.addDelivery(time1, time2, 2222222,1,2,2);
@@ -489,7 +489,7 @@ class DeliveriesControllerTest {
     }
 
     @Test
-    void checkDriverHasUpcomingDelivery() {
+    public void checkDriverHasUpcomingDelivery() {
         try{
             deliveriesController.addDelivery(time1, time2, 1111111,2,1,2);
             deliveriesController.addDelivery(time1, time2, 2222222,1,2,2);

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-class TrucksControllerTest {
+public class TrucksControllerTest {
 
     @Test
-    void addTruck() {
+    public void addTruck() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(1111111, "a", 10000);
@@ -36,7 +36,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void editPlateNum() {
+    public void editPlateNum() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(11111111, "a", 10000);
@@ -66,7 +66,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void editModel() {
+    public void editModel() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(11111111, "a", 10000);
@@ -86,7 +86,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void editMaxWeight() {
+    public void editMaxWeight() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(11111111, "a", 10000);
@@ -107,7 +107,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void deleteTruck() {
+    public void deleteTruck() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(11111111, "a", 10000);
@@ -128,7 +128,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void isAbleToDrive() {
+    public void isAbleToDrive() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(11111111, "a", 10000);
@@ -144,7 +144,7 @@ class TrucksControllerTest {
     }
 
     @Test
-    void getTrucks() {
+    public void getTrucks() {
         TrucksController tc = new TrucksController();
         try{
             tc.addTruck(1111111, "a", 60000);

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.sql.*;
-import BusinessLayer.*;
+import DeliveryModule.BusinessLayer.*;
 
 
 public class TruckDAO extends DataAccessObject {

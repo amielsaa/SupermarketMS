@@ -5,6 +5,7 @@ import EmployeeModule.BusinessLayer.Employee;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
 import Utilities.Response;
+import Utilities.ResponsePage;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;

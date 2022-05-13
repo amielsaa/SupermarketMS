@@ -1,5 +1,6 @@
 package EmployeeModule.ServiceLayer;
 
+import DeliveryModule.ServiceLayer.DeliveryService;
 import EmployeeModule.BusinessLayer.*;
 import EmployeeModule.DataAccessLayer.DALController;
 import Utilities.Response;
@@ -10,6 +11,8 @@ import java.util.*;
 
 public class Gateway
 {
+    private DeliveryService deliveryService;
+
     private int loggedEmployeeId;
     private EmployeeController employeeController;
     private ShiftController shiftController;
@@ -19,6 +22,10 @@ public class Gateway
     private final int ADMIN_UID = 580083434;
 
     public Gateway() {
+        // INITIALIZE OTHER SERVICES
+        this.deliveryService = new DeliveryService(this);
+        // -------------------------
+
         this.loggedEmployeeId = -1;
 
         this.dalController = new DALController();
@@ -520,4 +527,10 @@ public class Gateway
     }
 
     // -----------------------------
+
+    // DeliverySystem Functions
+    public DeliveryService getDeliveryService() {
+        return this.deliveryService;
+    }
+    // --------------- --------------
 }

@@ -1,4 +1,4 @@
-package EmployeeModule.PresentationLayer.CLI.Pages;
+package Utilities;
 
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;

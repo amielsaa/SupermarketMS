@@ -1,8 +1,7 @@
-package EmployeeModule.PresentationLayer.CLI.Pages;
+package Utilities;
 
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
-import Utilities.Pair;
 
 import java.util.Scanner;
 import java.util.function.Function;

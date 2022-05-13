@@ -1,7 +1,9 @@
 package EmployeeModule.PresentationLayer.CLI.Pages;
 
+import DeliveryModule.PresentationLayer.UserTerminal;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
+import Utilities.ResponsePage;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,6 +28,8 @@ public class MenuPage extends OptionsMenuPage
         }
     };
 
+    UserTerminal deliverySystemTerminal = new UserTerminal();
+
     @Override
     public Map<String, ResponsePage<Boolean>> getOptionsMap()
     {
@@ -34,6 +38,7 @@ public class MenuPage extends OptionsMenuPage
             put("Manage Employees", pgEmployeesMenu);
             put("Manage Shifts", pgShiftsMenu);
             put("Manage Qualifications", pgQualificationsMenu);
+            put("Open Delivery System", deliverySystemTerminal);
         }};
     }
 

@@ -7,6 +7,7 @@ import Utilities.Exceptions.CLIException;
 import Utilities.Pair;
 import Utilities.CLIUtil.PrettyTable;
 import Utilities.Response;
+import Utilities.ResponsePage;
 
 import java.util.LinkedHashMap;
 import java.util.List;

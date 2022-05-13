@@ -1,26 +1,34 @@
 package DeliveryModule.PresentationLayer;
 
-import BusinessLayer.Delivery;
-import BusinessLayer.Site;
-import BusinessLayer.Truck;
-import ServiceLayer.DeliveryService;
-import ServiceLayer.Response;
+import DeliveryModule.BusinessLayer.Delivery;
+import DeliveryModule.BusinessLayer.Site;
+import DeliveryModule.BusinessLayer.Truck;
+import DeliveryModule.ServiceLayer.DeliveryService;
+import EmployeeModule.ServiceLayer.Gateway;
+import Utilities.Exceptions.CLIException;
+import Utilities.Response;
+import Utilities.ResponsePage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class UserTerminal {
+public class UserTerminal extends ResponsePage<Boolean>
+{
     private Scanner sc;
     private DeliveryService service;
     public UserTerminal(){
-        sc = new Scanner(System.in);
-        service = new DeliveryService();
+
     }
 
     //############################# Main Menu ###################################################
-    public void runMainMenu() {
+    @Override
+    public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
+    {
+        sc = input;
+        service = g.getDeliveryService();
+
         printWelcomeMessage();
         boolean isUserFinished = false;
         while (!isUserFinished){
@@ -43,7 +51,9 @@ public class UserTerminal {
                     printIllegalOptionMessage();
             }
         }
-        sc.close();
+
+        // This is for the parent page that openes this page, true indicates the system will not quit after calling this page
+        return true;
     }
 
     private void printWelcomeMessage()
@@ -727,5 +737,4 @@ public class UserTerminal {
         else
             print(res.getMessage());
     }
-
 }

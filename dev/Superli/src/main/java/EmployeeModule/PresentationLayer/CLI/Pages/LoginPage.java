@@ -3,6 +3,8 @@ package EmployeeModule.PresentationLayer.CLI.Pages;
 import EmployeeModule.BusinessLayer.Employee;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
+import Utilities.Page;
+import Utilities.ResponsePage;
 
 import java.util.Scanner;
 

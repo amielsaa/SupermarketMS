@@ -8,16 +8,16 @@ import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
-class SitesControllerTest {
+public class SitesControllerTest {
     private SitesController sitesController;
 
     @Before
-    void setUp() {
+    public void setUp() {
         sitesController=new SitesController();
     }
 
     @Test
-    void addSupplierWarehouse() {
+    public void addSupplierWarehouse() {
         try {
             sitesController.addSupplierWarehouse("address1",0,"000000","name");
             assertEquals(1,sitesController.getAllSites().size());
@@ -29,7 +29,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void addBranch() {
+    public void addBranch() {
         try {
             sitesController.addBranch("address1",0,"000000","name");
             assertEquals(1,sitesController.getAllSites().size());
@@ -42,7 +42,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void editSiteAddress() {
+    public void editSiteAddress() {
         try {
             sitesController.addBranch("address1",0,"000000","name");
             sitesController.editSiteAddress(sitesController.getSiteId("address1"),"address2");
@@ -59,7 +59,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void editSiteDeliveryZone() {
+    public void editSiteDeliveryZone() {
         try {
             sitesController.addBranch("address1",0,"000000","name");
             assertEquals("North",sitesController.getSite("address1").getDeliveryZone().name());
@@ -72,7 +72,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void editSitePhoneNumber() {
+    public void editSitePhoneNumber() {
         try {
             sitesController.addBranch("address1",0,"000000","name");
             assertEquals("000000",sitesController.getSite("address1").getPhoneNumber());
@@ -85,7 +85,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void editSiteContactName() {
+    public void editSiteContactName() {
         try {
             sitesController.addBranch("address1",0,"000000","name1");
             assertEquals("name1",sitesController.getSite("address1").getContactName());
@@ -99,7 +99,7 @@ class SitesControllerTest {
 
 
     @Test
-    void viewSitesPerZone() {
+    public void viewSitesPerZone() {
         try {
             sitesController.addBranch(
                     "address1", 0, "000000", "name1");
@@ -136,7 +136,7 @@ class SitesControllerTest {
     }
 
     @Test
-    void deleteSite() {
+    public void deleteSite() {
         try {
             sitesController.addBranch("address1",0,"000000","name1");
             sitesController.addBranch("address2",0,"000000","name1");

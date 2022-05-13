@@ -1,7 +1,7 @@
 package EmployeeModule.PresentationLayer.CLI;
 
 import EmployeeModule.PresentationLayer.CLI.Pages.LoginPage;
-import EmployeeModule.PresentationLayer.CLI.Pages.Page;
+import Utilities.Page;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
 

@@ -5,6 +5,7 @@ import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
 import Utilities.CLIUtil.PrettyTable;
 import Utilities.Response;
+import Utilities.ResponsePage;
 
 import java.util.*;
 import java.util.stream.Collectors;

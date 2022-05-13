@@ -1,16 +1,26 @@
 package DeliveryModule.ServiceLayer;
-import BusinessLayer.*;
+import DeliveryModule.BusinessLayer.*;
+import EmployeeModule.ServiceLayer.Gateway;
+import Utilities.Response;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class DeliveryService {
+
+    private Gateway gateway;
+
     private SitesController sitesController;
     private TrucksController trucksController;
     private DriversController driversController;
     private DeliveriesController deliveriesController;
 
-    public DeliveryService(){
+    public DeliveryService(Gateway gateway){
+        // INIT OTHER SERVICES
+        this.gateway = gateway;
+        // -------------------
+
         sitesController = new SitesController();
         trucksController =new TrucksController();
         driversController = new DriversController();

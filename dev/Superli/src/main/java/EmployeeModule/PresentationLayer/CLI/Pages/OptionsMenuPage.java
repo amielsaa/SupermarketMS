@@ -2,6 +2,7 @@ package EmployeeModule.PresentationLayer.CLI.Pages;
 
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
+import Utilities.ResponsePage;
 
 import java.util.Map;
 import java.util.Scanner;
