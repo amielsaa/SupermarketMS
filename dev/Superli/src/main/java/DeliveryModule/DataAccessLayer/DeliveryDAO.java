@@ -11,11 +11,21 @@ import javafx.util.Pair;
 public class DeliveryDAO extends DataAccessObject {
 
     private HashMap<Integer, Delivery> deliveryCache;
+    private TruckDAO truckDAO;
+    private DriverDAO driverDAO;
+    private SiteDAO siteDAO;
+    private DestinationsDAO destinationsDAO;
+    private DeliveredProductsDAO deliveredProductsDAO;
 
-
-    public DeliveryDAO(String tableName) {
-        super(tableName);
+    public DeliveryDAO(TruckDAO truckDAO, DriverDAO driverDAO, SiteDAO siteDAO, DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO)
+    {
+        super("Deliveries");
         deliveryCache = new HashMap<>();
+        this.truckDAO = truckDAO;
+        this.driverDAO = driverDAO;
+        this.siteDAO = siteDAO;
+        this.destinationsDAO = destinationsDAO;
+        this.deliveredProductsDAO = deliveredProductsDAO;
     }
 
     public boolean Create(Delivery delivery) {
@@ -35,6 +45,13 @@ public class DeliveryDAO extends DataAccessObject {
             if (pstmt.executeUpdate() != 1) {
                 return false;
             }
+            /*Set<Branch> destinations = delivery.getDestinations();
+            for (Branch dest : destinations) {
+                destinationsDAO.Create(dest.getId(), delivery.getId());
+                HashMap<String,Integer> products = delivery.getProductsPerDestination(dest);
+                for (Map.Entry pair:products.entrySet())
+                    deliveredProductsDAO.Create(dest.getId(), delivery.getId(), (String) pair.getKey(), (Integer) pair.getValue());
+            }*/
         } catch (SQLException e) {
             return false;
         }
@@ -67,16 +84,12 @@ public class DeliveryDAO extends DataAccessObject {
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
                 endTime = rs.getDate("endDate").toLocalDate().atTime(rs.getTime("endTime").toLocalTime());
                 weight = rs.getInt("weight");
-                TruckDAO truckDAO = new TruckDAO("Trucks");
-                DriverDAO driverDAO = new DriverDAO("Drivers");
-                SiteDAO siteDAO = new SiteDAO("Sites");
                 truck = truckDAO.Read(rs.getInt("truckPlateNum"));
                 driver = driverDAO.Read(rs.getInt("driverId"));
                 origin = siteDAO.Read(rs.getInt("originId"));
 
                 destinations = getDestinations(id);
                 products = getProducts(id, destinations);
-                //TODO insert products
                 delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations, products);
 
             }
@@ -90,8 +103,6 @@ public class DeliveryDAO extends DataAccessObject {
 
 
     private Set<Branch> getDestinations(int deliveryId) {
-        DestinationsDAO destinationsDAO = new DestinationsDAO("Destinations");
-        SiteDAO siteDAO = new SiteDAO("Sites");
         Set<Integer> idlst = destinationsDAO.ReadSitesPerDeliveryId(deliveryId);
         Set<Branch> rslt = new HashSet<>();
         for (int siteId: idlst) {
@@ -104,7 +115,6 @@ public class DeliveryDAO extends DataAccessObject {
 
     private LinkedHashMap<Branch, HashMap<String, Integer>> getProducts(int deliveryId, Set<Branch> destinations) {
         LinkedHashMap<Branch, HashMap<String, Integer>> res = new LinkedHashMap<>();
-        DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO("DeliveredProducts");
         for (Branch branch : destinations)
         {
             HashMap<String, Integer> items = new HashMap<>();

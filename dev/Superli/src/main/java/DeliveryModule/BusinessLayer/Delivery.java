@@ -176,4 +176,8 @@ public class Delivery {
         for (Branch site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
     }
+
+    public HashMap<String,Integer> getProductsPerDestination(Branch destination){
+        return destinationItems.get(destination);
+    }
 }

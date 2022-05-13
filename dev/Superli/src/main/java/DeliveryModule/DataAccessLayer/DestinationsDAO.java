@@ -12,8 +12,8 @@ public class DestinationsDAO extends DataAccessObject {
     //private HashSet<Pair<Integer,Integer>> destinationsCache;
 
 
-    public DestinationsDAO(String tableName) {
-        super(tableName);
+    public DestinationsDAO() {
+        super("Destinations");
         //destinationsCache = new HashSet<>();
     }
 

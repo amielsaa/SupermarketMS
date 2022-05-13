@@ -1,5 +1,10 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.DeliveredProductsDAO;
+import DeliveryModule.DataAccessLayer.DeliveryDAO;
+import DeliveryModule.DataAccessLayer.DestinationsDAO;
+import DeliveryModule.DataAccessLayer.FinishedDeliveriesDAO;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,13 +17,22 @@ public class DeliveriesController {
     private TrucksController trucksController;
     private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
     private LinkedHashMap<Integer,String> deliveryArchive;
+    private DestinationsDAO destinationsDAO;
+    private DeliveredProductsDAO deliveredProductsDAO;
+    private DeliveryDAO deliveryDAO;
+    private FinishedDeliveriesDAO finishedDeliveriesDAO;
 
-    public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController) {
+    public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController,
+                                DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO, DeliveryDAO deliveryDAO, FinishedDeliveriesDAO finishedDeliveriesDAO) {
         this.driversController=driversController;
         this.sitesController=sitesController;
         this.trucksController = trucksController;
         this.upcomingDeliveries=new LinkedHashMap<>();
         this.deliveryArchive=new LinkedHashMap<>();
+        this.destinationsDAO = destinationsDAO;
+        this.deliveredProductsDAO = deliveredProductsDAO;
+        this.deliveryDAO = deliveryDAO;
+        this.finishedDeliveriesDAO = finishedDeliveriesDAO;
         nextDeliveryId=1;
     }
 

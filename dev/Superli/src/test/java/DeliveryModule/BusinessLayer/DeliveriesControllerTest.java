@@ -1,5 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.*;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -23,10 +24,20 @@ public class DeliveriesControllerTest {
     @Before
     public void setUp() {
         try {
-            sitesController = new SitesController();
-            trucksController = new TrucksController();
-            driversController = new DriversController();
-            deliveriesController = new DeliveriesController(driversController, sitesController, trucksController);
+
+            SiteDAO siteDAO = new SiteDAO();
+            TruckDAO truckDAO = new TruckDAO();
+            DriverDAO driverDAO = new DriverDAO();
+            DestinationsDAO destinationsDAO = new DestinationsDAO();
+            DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
+            DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
+            FinishedDeliveriesDAO finishedDeliveriesDAO = new FinishedDeliveriesDAO();
+
+            sitesController = new SitesController(siteDAO);
+            trucksController = new TrucksController(truckDAO);
+            driversController = new DriversController(driverDAO);
+            deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, finishedDeliveriesDAO);
+
             driversController.addDriver(1, "c driver", "C");
             driversController.addDriver(2, "c1 driver", "C1");
             trucksController.addTruck(1111111, "everyone", 10000);

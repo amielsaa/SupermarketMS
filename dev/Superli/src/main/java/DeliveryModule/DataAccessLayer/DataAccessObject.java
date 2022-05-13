@@ -14,7 +14,7 @@ public abstract class DataAccessObject {
     }
 
     public Connection makeConnection(){
-        path =":dev\\src\\database.db";
+        path =":database.db";
         String connString = "jdbc:sqlite".concat(path);
         Connection conn = null;
         try{

@@ -1,14 +1,18 @@
 package DeliveryModule.BusinessLayer;
+import DeliveryModule.DataAccessLayer.SiteDAO;
+
 import java.util.*;
 
 public class SitesController {
     private Map<Integer, Site> sites;
     private HashMap<String,Integer> siteAddressMapper;
     private int nextID;
-    public SitesController(){
+    private SiteDAO siteDAO;
+    public SitesController(SiteDAO siteDAO){
         sites = new HashMap<>();
         siteAddressMapper=new HashMap<>();
         nextID = 1;
+        this.siteDAO = siteDAO;
     }
 
     public void load() throws Exception{

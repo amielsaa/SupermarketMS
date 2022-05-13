@@ -14,8 +14,8 @@ public class SiteDAO extends DataAccessObject {
     private HashMap<Integer, Site> siteCache;
 
 
-    public SiteDAO(String tableName) {
-        super(tableName);
+    public SiteDAO() {
+        super("Sites");
         siteCache = new HashMap<>();
     }
 
@@ -60,7 +60,7 @@ public class SiteDAO extends DataAccessObject {
                 resID = rs.getInt("id");
                 address = rs.getString("address");
                 deliveryZone = DeliveryZone.valueOf(rs.getString("deliveryZone"));
-                phoneNumber = rs.getString("phoneName");
+                phoneNumber = rs.getString("phoneNumber");
                 contactName = rs.getString("contactName");
                 if (rs.getString("Type").equals("Branch"))
                     site = new Branch(resID, address, deliveryZone, phoneNumber, contactName);

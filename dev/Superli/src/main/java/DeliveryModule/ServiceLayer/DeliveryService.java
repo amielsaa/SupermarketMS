@@ -1,5 +1,6 @@
 package DeliveryModule.ServiceLayer;
 import DeliveryModule.BusinessLayer.*;
+import DeliveryModule.DataAccessLayer.*;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Response;
 
@@ -21,10 +22,20 @@ public class DeliveryService {
         this.gateway = gateway;
         // -------------------
 
-        sitesController = new SitesController();
-        trucksController =new TrucksController();
-        driversController = new DriversController();
-        deliveriesController=new DeliveriesController(driversController,sitesController, trucksController);
+        //DAO CREATIONS
+        SiteDAO siteDAO = new SiteDAO();
+        TruckDAO truckDAO = new TruckDAO();
+        DriverDAO driverDAO = new DriverDAO();
+        DestinationsDAO destinationsDAO = new DestinationsDAO();
+        DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
+        DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
+        FinishedDeliveriesDAO finishedDeliveriesDAO = new FinishedDeliveriesDAO();
+        //--------------------
+
+        sitesController = new SitesController(siteDAO);
+        trucksController = new TrucksController(truckDAO);
+        driversController = new DriversController(driverDAO);
+        deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, finishedDeliveriesDAO);
         load();
     }
     //############################# Loading Data ###################################################
@@ -40,7 +51,7 @@ public class DeliveryService {
     private void loadSties() throws Exception {sitesController.load();}
     private void loadTrucks() throws Exception{
         trucksController.load();}
-    private void loadDrivers(){driversController.load();}
+    private void loadDrivers() throws Exception {driversController.load();}
     private void loadDeliveries() throws Exception{deliveriesController.load();}
 
 

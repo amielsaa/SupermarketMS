@@ -14,8 +14,8 @@ public class FinishedDeliveriesDAO extends DataAccessObject {
     private HashMap<Integer, Pair<Integer, String>> FinishedDeliveriesCache;
 
 
-    public FinishedDeliveriesDAO(String tableName) {
-        super(tableName);
+    public FinishedDeliveriesDAO() {
+        super("FinishedDeliveries");
         FinishedDeliveriesCache = new HashMap<>();
     }
 

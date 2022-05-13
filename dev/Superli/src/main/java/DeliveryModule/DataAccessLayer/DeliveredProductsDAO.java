@@ -2,8 +2,6 @@ package DeliveryModule.DataAccessLayer;
 
 import java.util.*;
 import java.sql.*;
-import DeliveryModule.BusinessLayer.*;
-import DeliveryModule.BusinessLayer.Driver;
 import javafx.util.Pair;
 
 
@@ -12,8 +10,8 @@ public class DeliveredProductsDAO extends DataAccessObject {
     private HashMap<Pair<Integer, Integer>, Set<Pair<String, Integer>>> deliveredProductsCache;
 
 
-    public DeliveredProductsDAO(String tableName) {
-        super(tableName);
+    public DeliveredProductsDAO() {
+        super("DeliveredProducts");
         deliveredProductsCache = new HashMap<>();
     }
 

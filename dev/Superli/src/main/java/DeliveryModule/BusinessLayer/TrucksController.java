@@ -1,15 +1,20 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.TruckDAO;
+
 import java.util.*;
 
 public class TrucksController {
     private HashMap<Integer, Truck> trucks;
+    private TruckDAO truckDAO;
+
     private HashMap<LicenseType,Integer> licenseMapper=new HashMap<LicenseType, Integer>(){{
         put(LicenseType.C,Integer.MAX_VALUE);
         put(LicenseType.C1,12000);
     }};
 
-    public TrucksController() {
+    public TrucksController(TruckDAO truckDAO) {
+        this.truckDAO = truckDAO;
         trucks=new HashMap<>();
     }
 

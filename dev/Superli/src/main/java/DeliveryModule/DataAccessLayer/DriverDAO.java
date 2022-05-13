@@ -14,8 +14,8 @@ public class DriverDAO extends DataAccessObject {
     private HashMap<Integer, Driver> driverCache;
 
 
-    public DriverDAO(String tableName) {
-        super(tableName);
+    public DriverDAO() {
+        super("Drivers");
         driverCache = new HashMap<>();
     }
 

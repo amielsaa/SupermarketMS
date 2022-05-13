@@ -13,8 +13,8 @@ public class TruckDAO extends DataAccessObject {
     private HashMap<Integer, Truck> truckCache;
 
 
-    public TruckDAO(String tableName) {
-        super(tableName);
+    public TruckDAO() {
+        super("Trucks");
         truckCache = new HashMap<>();
     }
 
