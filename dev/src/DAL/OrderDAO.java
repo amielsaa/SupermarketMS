@@ -69,7 +69,7 @@ public class OrderDAO extends DalController {
     }
 
     private Order selectOrder(int bn, int orderId) {
-        String sql = "select * from Orders where bn = ?, orderID = ?";
+        String sql = "select * from Orders where bn = ? and  orderID = ?";
 
         try{
             Connection conn = this.makeConnection();

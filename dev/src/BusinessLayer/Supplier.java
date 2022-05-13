@@ -229,4 +229,8 @@ public class Supplier  {
         }
         return makeOrder(order);
     }
+    public void normalDaysSetter(Set<Days> days){
+        this.Days_To_Deliver=days;
+    }
+
 }

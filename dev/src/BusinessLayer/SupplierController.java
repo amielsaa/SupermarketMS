@@ -1,6 +1,7 @@
 package BusinessLayer;
 
 import DAL.*;
+import misc.Days;
 import misc.Pair;
 
 import java.awt.*;
@@ -141,6 +142,12 @@ public class SupplierController {
         quantityAgreement.setItem_Num_To_Discount(discountsDAO.selectAllDiscounts(businessNum));
         supplier.setQuantity_Agreement(quantityAgreement);
         supplier.setContacts(contactDAO.selectAllContacts(businessNum));
+        Collection<Days> days=supplierDaysDAO.selectAllSupplierDays(businessNum);
+        Set<Days> daystoSet=new HashSet<>();
+        for(Days i:days){
+            daystoSet.add(i);
+        }
+        supplier.normalDaysSetter(daystoSet);
         return supplier;
     }
     private boolean insertQAAndContactsAndDays (int bn,QuantityAgreement quantityAgreement, List<Contact> contacts,Set<Integer> days) throws DataFormatException {

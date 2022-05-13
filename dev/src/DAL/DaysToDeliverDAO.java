@@ -87,7 +87,7 @@ public class DaysToDeliverDAO extends DalController{
 
     //returns days as integers
     public Collection<Integer> selectAllDays(int bn, int orderID){
-        String sql = "select * from DaysToDeliver where bn = ?, orderID = ?";
+        String sql = "select * from DaysToDeliver where bn = ? and orderID = ?";
 
         try{
             Connection conn = this.makeConnection();
@@ -111,8 +111,19 @@ public class DaysToDeliverDAO extends DalController{
         //todo
         throw new NotImplementedException();
     }
-
-
-
+    public boolean CheckIfOrderIsRoutineOrder(int bn,int orderId){
+        if(BN_to_routineOrder.containsKey(bn)) {
+            if (BN_to_routineOrder.get(bn).contains(orderId)) {
+                return true;
+            }
+        }
+        Collection<Integer> forcheck=selectAllDays(bn,orderId);
+        if (forcheck==null)
+            return false;
+        if(!BN_to_routineOrder.containsKey(bn))
+            BN_to_routineOrder.put(bn,new ArrayList<>());
+        BN_to_routineOrder.get(bn).add(orderId);
+        return true;
+    }
 
 }

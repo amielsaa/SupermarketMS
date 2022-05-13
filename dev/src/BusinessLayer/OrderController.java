@@ -3,6 +3,7 @@ package BusinessLayer;
 import DAL.DaysToDeliverDAO;
 import DAL.OrderDAO;
 import DAL.OrderItemsDAO;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import misc.Days;
 import misc.Pair;
 import BusinessLayer.*;
@@ -36,7 +37,12 @@ public class OrderController {
     public Collection<Order> getAllOrdersFromSupplier(int supplierBN) {
         if (!orderDAO.setAllOrders(supplierBN))
             return new ArrayList<Order>();
-        return orderDAO.getAllOrders(supplierBN);
+        Collection<Order> preBuiltOrders=orderDAO.getAllOrders(supplierBN);
+        Collection<Order> builtOrders=new ArrayList<>();
+        for (Order i:preBuiltOrders){
+            builtOrders.add(buildOrder(supplierBN,i.getOrder_Id()));
+        }
+        return builtOrders;
 
     }
 
@@ -44,7 +50,7 @@ public class OrderController {
     public Order getOrder(int supplierBN, int orderID) throws DataFormatException {
         if (!orderDAO.containsOrder(supplierBN, orderID))
             throw new DataFormatException("Order does not exists");
-        return orderDAO.getOrder(supplierBN, orderID);
+        return buildOrder(supplierBN, orderID);
     }
 
     //when added a new supplier-adds him to the map of the database.
@@ -70,7 +76,7 @@ public class OrderController {
         for (int i = 0; i < orderKeys.length; i++) {
             OrderItem orderItem = new OrderItem(getId_Order_Counter(), orderKeys[i].getFirst(), orderKeys[i].getSecond(), fixedOrder.get(orderKeys[i]).getFirst(), fixedOrder.get(orderKeys[i]).getSecond(), order.get(orderKeys[i]));
             //insert to data
-            if (!orderItemsDAO.insertOrderItem(Id_Order_Counter, orderKeys[i].getFirst(), orderKeys[i].getSecond(), fixedOrder.get(orderKeys[i]).getFirst(), fixedOrder.get(orderKeys[i]).getSecond(), order.get(orderKeys[i])))
+            if (!orderItemsDAO.insertOrderItem(Id_Order_Counter, orderKeys[i].getFirst(), orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getSecond(), fixedOrder.get(orderKeys[i]).getFirst(),  order.get(orderKeys[i])))
                 throw new DataFormatException("failed to Insert Item to data on makeOrder");
             //todo: remove supplierBN from orderItem constructor ^^^^
 
@@ -102,26 +108,30 @@ public class OrderController {
     public RoutineOrder addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data, int quantity) throws DataFormatException {
         if (!orderDAO.containsOrder(business_num, orderId))
             throw new DataFormatException("Order does not exists");
-        if (daysToDeliverDAO.getBN_to_routineOrder().containsKey(business_num)) {
-            if (daysToDeliverDAO.getBN_to_routineOrder().get(business_num).contains(orderId)) {
+        if (daysToDeliverDAO.CheckIfOrderIsRoutineOrder(business_num,orderId)) {
+
                 RoutineOrder routineOrder = buildRoutineOrder(business_num, orderId);
                 Set<Pair<String, String>> key = data.keySet();
                 for (Pair i : key) {
                     boolean updateOrAdd = routineOrder.addOrUpdateRoutineOrder(i, data.get(i).getFirst(), data.get(i).getSecond(),quantity);
                     //update
                     if(!updateOrAdd){
-                        orderItemsDAO.updateItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity);
+                        if(!orderItemsDAO.updateItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity))
+                            throw new DataFormatException("Error in orderItem update");
                     }
                     else{
-                        orderItemsDAO.insertOrderItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity);
+                        if(!orderItemsDAO.insertOrderItem(orderId,i.getFirst().toString(),i.getSecond().toString(),data.get(i).getSecond(),data.get(i).getFirst(),quantity))
+                            throw new DataFormatException("Error in orderItem insert");
+
                     }
-                    orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price());
+                    if(!orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price()))
+                        throw new DataFormatException("Error in Order update");
+
 
                 }
                 return routineOrder;
 
-            } else
-                throw new DataFormatException("Order is not RoutineOrder");
+
         } else
             throw new DataFormatException("Order is not RoutineOrder");
 
@@ -137,8 +147,12 @@ public class OrderController {
                 if(!isSuccess)
                     throw new IllegalArgumentException("Could not find the item in the order");
                 else{
-                    orderItemsDAO.deleteOrderItem(orderId,itemName,itemProducer);
-                    orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price());
+                   if (!orderItemsDAO.deleteOrderItem(orderId,itemName,itemProducer))
+                       throw new DataFormatException("Error in orderItem delete");
+
+                    if(!orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price()))
+                        throw new DataFormatException("Error in order update");
+
                 }
                 return routineOrder;
             }
@@ -187,7 +201,7 @@ public class OrderController {
 
 
     private RoutineOrder buildRoutineOrder(int bn,int orderId){
-        Order order =orderDAO.getOrder(bn,orderId);
+        Order order =buildOrder(bn,orderId);
         Collection<Integer> days=daysToDeliverDAO.selectAllDays(bn,orderId);
         Set<Integer> setdays=new HashSet<>();
         for(Integer i:days){
@@ -196,7 +210,16 @@ public class OrderController {
         return new RoutineOrder(order,setdays);
     }
 
-
+    private Order buildOrder(int bn,int orderId){
+        Order order= orderDAO.getOrder(bn,orderId);
+        Collection<OrderItem> orderItems=orderItemsDAO.selectAllOrderItems(orderId);
+        HashMap<Pair<String,String>, OrderItem> orderItemHashMap=new HashMap<>();
+        for(OrderItem i:orderItems){
+            orderItemHashMap.put(new Pair(i.getItem_Name(),i.getItem_Producer()),i);
+        }
+        order.setItem_Num_To_Quantity(orderItemHashMap);
+        return order;
+    }
 }
 
 
