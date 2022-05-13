@@ -141,8 +141,14 @@ public class SupplierFacade {
     }
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
     public Response MakeOrderToSuppliers (Map < Pair < String, String >, Integer > DemandedSupplies){
-        throw new NotImplementedException();
-    }
+        //Hashmap{BN-List of pairs-each pair is <quantity,Order>
+        Response<HashMap<Integer,List<Pair<Integer,HashMap<Pair<String, String>, Pair<Double, Double>>>>>> OrdersToExecute=sSupplier.MakeOrderToSuppliers(DemandedSupplies);
+        if(OrdersToExecute.isSuccess()) {
+            Response<List<DOrder>> toreturn = sOrder.MakeOrderToSuppliers(OrdersToExecute.getData());
+            return toreturn;
+        }
+        return OrdersToExecute;
+
 
 
     //todo:add a function of amielzz

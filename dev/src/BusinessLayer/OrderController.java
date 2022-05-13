@@ -137,7 +137,7 @@ public class OrderController {
 
 
     }
-    public RoutineOrder deleteItemFromRoutineOrder(int business_num, int orderId, String itemName, String itemProducer) throws DataFormatException {
+    public RoutineOrder deleteItemFromRoutineOrder(int business_num, int orderId, String itemName, String itemProducer) throws Exception {
         if (!orderDAO.containsOrder(business_num, orderId))
             throw new DataFormatException("Order does not exists");
         if (daysToDeliverDAO.CheckIfOrderIsRoutineOrder(business_num,orderId)) {
@@ -151,6 +151,12 @@ public class OrderController {
 
                     if(!orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price()))
                         throw new DataFormatException("Error in order update");
+                    if(routineOrder.getFinal_Price()==0){
+                        if(!orderDAO.deleteOrders(business_num,orderId)){
+                            if(daysToDeliverDAO.deleteAllDaysToDeliver(business_num,orderId))
+                                throw new DataFormatException("Error in Order delete or in daysToDeliver Delete");
+                        }
+                    }
 
                 }
                 return routineOrder;

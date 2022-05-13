@@ -42,8 +42,8 @@ public class OrderDAO extends DalController {
         }
     }
 
-    public void deleteOrders(int bn, int orderID) throws Exception {
-        String sql = "DELETE FROM Orders WHERE bn = ?, orderID = ?";
+    public boolean deleteOrders(int bn, int orderID) throws Exception {
+        String sql = "DELETE FROM Orders WHERE bn = ? and orderID = ?";
 
         try{
             Connection conn = this.makeConnection();
@@ -52,8 +52,9 @@ public class OrderDAO extends DalController {
             pstmt.setInt(2, orderID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new Exception(e.getMessage());
+            return false;
         }
+        return true;
     }
 
 

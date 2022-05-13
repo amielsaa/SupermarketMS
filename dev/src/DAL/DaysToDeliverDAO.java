@@ -125,5 +125,8 @@ public class DaysToDeliverDAO extends DalController{
         BN_to_routineOrder.get(bn).add(orderId);
         return true;
     }
+    public boolean deleteAllDaysToDeliver(int bn,int orderId){
+        return true;//todo: delete all the days of a specific order
+    }
 
 }
