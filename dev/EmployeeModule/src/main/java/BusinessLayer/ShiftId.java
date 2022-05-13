@@ -14,7 +14,8 @@ public class ShiftId
 
     public ShiftId(int _branchId, LocalDateTime _date, ShiftTime _time){
         branchId = _branchId;
-        date = _date;
+        date = LocalDateTime.parse(_date.toLocalDate().toString() + "T06:00:00");
+        //date = _date;
         time = _time;
     }
 

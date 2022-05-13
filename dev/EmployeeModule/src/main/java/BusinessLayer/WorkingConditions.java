@@ -12,9 +12,21 @@ public class WorkingConditions
 {
         private String description;
         private List<TimeInterval> workingHours;
-        private List<Qualification> qualifications;
+        private List<String> qualifications;
 
-        protected WorkingConditions(String description)
+    /**
+     * New constructor for DAL loading
+      * @param description
+     * @param workingHours
+     * @param qualifications
+     */
+    public WorkingConditions(String description, List<TimeInterval> workingHours, List<String> qualifications) {
+        this.description = description;
+        this.workingHours = workingHours;
+        this.qualifications = qualifications;
+    }
+
+    public WorkingConditions(String description)
         {
             this.description = description;
             this.workingHours = new ArrayList<>();
@@ -40,7 +52,7 @@ public class WorkingConditions
             return Collections.unmodifiableList(workingHours);
         }
 
-        public List<Qualification> getQualifications()
+        public List<String> getQualifications()
         {
             return Collections.unmodifiableList(qualifications);
         }
@@ -89,17 +101,19 @@ public class WorkingConditions
             throw new ObjectNotFoundException("No working hour with this starting time found. ");
         }
 
-        protected Qualification addQualification(Qualification qualification) throws Exception{
+        protected boolean addQualification(String qualification) throws Exception{
             // add by pointer
             if(qualifications.contains(qualification)) {
                 throw new ObjectAlreadyExistsException("This qualification is already in this list. ");
             }
             else {
                 this.qualifications.add(qualification);
-                return qualification;
+                return true;
             }
         }
 
+
+        /*
         protected Qualification removeQualification(String name) throws Exception
         {
             // remove all with the same name
@@ -120,7 +134,7 @@ public class WorkingConditions
             return removedQ;
         }
 
-        protected Qualification getQualification(String name) throws Exception {
+        protected String getQualification(String name) throws Exception {
             for(Qualification q : qualifications) {
                 if(q.getName().equals(name)) {
                     return q;
@@ -128,4 +142,19 @@ public class WorkingConditions
             }
             throw new ObjectNotFoundException("No qualification with this name found. ");
         }
+
+         */
+        protected boolean removeQualification(String name) throws Exception{
+            if(!qualifications.contains(name)){
+                throw new ObjectNotFoundException("No qualification with this name found. ");
+            }
+            qualifications.remove(name);
+            return true;
+        }
+
+        protected boolean hasQualification(String name){
+            return qualifications.contains(name);
+        }
+
+
 }

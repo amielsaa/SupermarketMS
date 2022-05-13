@@ -24,7 +24,7 @@ public class Employee
 
     private WorkingConditions workingConditions;
 
-    protected Employee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, WorkingConditions workingConditions)
+    public Employee(int id, String name, BankAccountDetails bankAccountDetails, double salary, LocalDateTime workStartingDate, WorkingConditions workingConditions)
     {
         this.id = id;
         this.name = name;

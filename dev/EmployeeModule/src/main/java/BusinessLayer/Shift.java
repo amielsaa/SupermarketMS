@@ -9,10 +9,10 @@ import java.util.Map;
 public class Shift
 {
     private ShiftId id;
-    private Map<Employee, List<Qualification>> workers;
-    private Employee shiftManager;
+    private Map<Integer, List<String>> workers;
+    private Integer shiftManager;
 
-    public Shift(ShiftId _id, Map<Employee, List<Qualification>> _workers, Employee _shiftManager){
+    public Shift(ShiftId _id, Map<Integer, List<String>> _workers, Integer _shiftManager){
         id = _id;
         workers = _workers;
         shiftManager = _shiftManager;
@@ -22,11 +22,11 @@ public class Shift
         return id;
     }
 
-    public Map<Employee, List<Qualification>> getWorkers() {
+    public Map<Integer, List<String>> getWorkers() {
         return Collections.unmodifiableMap(workers);
     }
 
-    public Employee getShiftManager() {
+    public Integer getShiftManager() {
         return shiftManager;
     }
 
@@ -39,11 +39,11 @@ public class Shift
                 '}';
     }
 
-    protected void addWorker(Employee employee, List<Qualification> qualifications){
-        workers.put(employee, qualifications);
+    protected void addWorker(Employee employee, List<String> qualifications){
+        workers.put(employee.getId(), qualifications);
     }
 
     protected void removeWorker(Employee employee){
-        workers.remove(employee);
+        workers.remove(employee.getId());
     }
 }

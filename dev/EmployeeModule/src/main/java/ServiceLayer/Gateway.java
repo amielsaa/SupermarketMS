@@ -29,7 +29,9 @@ public class Gateway
 
     public void initDefaultData() throws Exception {
         // TODO DAL make this run once on database init
-
+        employeeController.clearDatabases();
+        shiftController.clearDatabases();
+        qualificationController.clearDatabases();
         // INIT PERMISSIONS AND QUALIFICATIONS
 
         String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift"};
@@ -71,7 +73,7 @@ public class Gateway
         qualificationController.addPermissionToQualification("ManageShift", "ShiftManager");
 
         // INIT EMPLOYEES
-        BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "", "", "");
+        BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "Bank", "Branch", "Bob");
         employeeController.addEmployee(ADMIN_UID, "Admin", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(123, "Admin2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
@@ -130,12 +132,13 @@ public class Gateway
 
     private void checkAuth(String permission) throws Exception
     {
-            if (loggedEmployeeId == -1)
-            {
-                throw new Exception("Not logged in.");
-            }
-            Permission p = qualificationController.getPermission(permission);
-            Permission p2 = employeeController.checkPermission(loggedEmployeeId, p);
+        if (loggedEmployeeId == -1)
+        {
+            throw new Exception("Not logged in.");
+        }
+        List<String> qualNames = employeeController.getEmployee(loggedEmployeeId).getWorkingConditions().getQualifications();
+        Permission p = qualificationController.getPermission(permission);
+        Permission p2 = qualificationController.checkPermission(qualNames, p);
     }
 
     // EMPLOYEE FUNCTIONS
@@ -269,8 +272,9 @@ public class Gateway
         try
         {
             checkAuth("ManageEmployees");
-
-            return Response.makeSuccess(employeeController.employeeRemoveQualification(id, name));
+            Qualification toRemove = qualificationController.getQualification(name);
+            employeeController.employeeRemoveQualification(id, name);
+            return Response.makeSuccess(toRemove);
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }
@@ -292,7 +296,7 @@ public class Gateway
     }
 
     public Response<Shift> addShift(int branchId, @NotNull LocalDateTime date, @NotNull Employee shiftManager,
-                                    @NotNull Map<Employee, List<Qualification>> workers, @NotNull ShiftTime shiftTime) {
+                                    @NotNull Map<Integer, List<String>> workers, @NotNull ShiftTime shiftTime) {
         try
         {
             checkAuth("ManageBranch" + branchId);
@@ -314,7 +318,7 @@ public class Gateway
         }
     }
 
-    public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<Qualification> qualifications){
+    public Response<Employee> addWorker(@NotNull ShiftId shiftId, @NotNull Employee worker, @NotNull List<String> qualifications){
         try
         {
             checkAuth("ManageBranch" + shiftId.getBranchId());
@@ -385,10 +389,8 @@ public class Gateway
 
             Qualification removedQualification = qualificationController.removeQualification(name);
             List<Employee> employees = employeeController.getEmployees();
-            for (Employee e : employees)
-            {
-                employeeController.employeeRemoveQualification(e.getId(), removedQualification.getName());
-            }
+            employeeController.removeQualificationForAll(name);
+            shiftController.removeQualification(name);
             return Response.makeSuccess(removedQualification);
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -482,9 +484,10 @@ public class Gateway
 
             for (Shift s : r3.getData())
             {
-                for (Employee e : s.getWorkers().keySet())
+                for (Integer employeeId : s.getWorkers().keySet())
                 {
-                    int[] a = m.get(e);
+                    Employee employee = employeeController.getEmployee(employeeId);
+                    int[] a = m.get(employee);
                     if (s.getId().getShiftTime() == ShiftTime.DAY)
                     {
                         // DAY

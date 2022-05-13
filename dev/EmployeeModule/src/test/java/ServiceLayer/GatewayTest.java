@@ -94,6 +94,7 @@ public class GatewayTest
         final int NEW_EMPLOYEE_ID = 420;
         g.addEmployee(NEW_EMPLOYEE_ID, "Snoop Dog", bankAccountDetailsGenerator(NEW_EMPLOYEE_ID), 42000, LocalDateTime.now(), "Works in the morning. ");
 
+        List<Employee> employees = g.getEmployees().getData();
         int employeeCount = g.getEmployees().getData().size();
 
         Response<Employee> r = g.removeEmployee(NEW_EMPLOYEE_ID);
@@ -301,9 +302,9 @@ public class GatewayTest
         g.employeeAddQualification(manager.getId(), g.getQualification("Branch1Manager").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData());
-        Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
-            put(w2, Arrays.asList(g.getQualification("Cleaner").getData()));
+        Map<Integer, List<String>> workers  = new HashMap<Integer, List<String>>() {{
+            put(w1.getId(), Arrays.asList("Cashier"));
+            put(w2.getId(), Arrays.asList("Cleaner"));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -333,9 +334,9 @@ public class GatewayTest
         g.employeeAddQualification(manager.getId(), g.getQualification("Branch1Manager").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData());
-        Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
-            put(w2, Arrays.asList(g.getQualification("Cleaner").getData()));
+        Map<Integer, List<String>> workers  = new HashMap<Integer, List<String>>() {{
+            put(w1.getId(), Arrays.asList("Cashier"));
+            put(w2.getId(), Arrays.asList("Cleaner"));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -363,17 +364,17 @@ public class GatewayTest
         g.employeeAddQualification(manager.getId(), g.getQualification("Branch1Manager").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         Qualification qualificationCleaner = g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData()).getData();
-        Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
+        Map<Integer, List<String>> workers  = new HashMap<Integer, List<String>>() {{
+            put(w1.getId(), Arrays.asList("Cashier"));
         }};
         g.logout();
         g.login(ID_MANAGER);
         Shift s1 = g.addShift(1, LocalDateTime.of(2024, Month.MAY, 20, 1, 1), manager, workers, ShiftTime.DAY).getData();
 
-        Response<Employee> r1 = g.addWorker(s1.getId(), w2, Arrays.asList(qualificationCleaner));
+        Response<Employee> r1 = g.addWorker(s1.getId(), w2, Arrays.asList(qualificationCleaner.getName()));
         assertTrue(r1.getMessage(), r1.isSuccess());
 
-        Set<Employee> r2 = s1.getWorkers().keySet();
+        Set<Integer> r2 = s1.getWorkers().keySet();
         assertEquals("There should be 2 employees after this. ", r2.size(), 2);
     }
 
@@ -388,9 +389,9 @@ public class GatewayTest
         g.employeeAddQualification(manager.getId(), g.getQualification("Branch1Manager").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cashier").getData());
         g.employeeAddQualification(w1.getId(), g.getQualification("Cleaner").getData());
-        Map<Employee, List<Qualification>> workers  = new HashMap<Employee, List<Qualification>>() {{
-            put(w1, Arrays.asList(g.getQualification("Cashier").getData()));
-            put(w2, Arrays.asList(g.getQualification("Cleaner").getData()));
+        Map<Integer, List<String>> workers  = new HashMap<Integer, List<String>>() {{
+            put(w1.getId(), Arrays.asList("Cashier"));
+            put(w2.getId(), Arrays.asList("Cleaner"));
         }};
         g.logout();
         g.login(ID_MANAGER);
@@ -402,7 +403,7 @@ public class GatewayTest
         Response<Employee> r2 = g.removeWorker(s1.getId(), w2);
         assertFalse("Employee should already be removed. ", r2.isSuccess());
 
-        Set<Employee> r3 = s1.getWorkers().keySet();
+        Set<Integer> r3 = s1.getWorkers().keySet();
         assertEquals("There should be 1 employees after this. ", r3.size(), 1);
     }
 
