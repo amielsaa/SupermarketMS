@@ -66,7 +66,7 @@ public class RoutineOrder extends Order{
             OrderItem orderItem=getItem_Num_To_OrderItem().get(i);
             double OldPriceBeforeDiscount=orderItem.getItem_Original_Price();
             double OldPriceAfterDiscount=orderItem.getItem_Price();
-            orderItem.setItem_Original_Price(getPriceBeforeDiscount());
+            orderItem.setItem_Original_Price(PriceBeforeDiscount);
             orderItem.setItem_Price(FinalPrice);
             orderItem.setItem_Amount(Quantity);
             setPriceBeforeDiscount(getPriceBeforeDiscount()-OldPriceBeforeDiscount+PriceBeforeDiscount);

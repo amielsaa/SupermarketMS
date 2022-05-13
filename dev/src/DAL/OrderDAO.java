@@ -142,9 +142,9 @@ public class OrderDAO extends DalController {
     public void addSupplier(int bn){
         BN_To_Orders.put(bn,new HashMap<>());
     }
-
+    //todo:syntax error
     public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
-        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ?,orderID = ?";
+        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
 
         try{
             Connection conn = this.makeConnection();

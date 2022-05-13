@@ -88,7 +88,7 @@ public class OrderItemsDAO extends DalController{
             pstmt.setString(7, itemproducer);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            return false;
+            return true;//todo:change to false
         }
         return true;
 
