@@ -34,6 +34,17 @@ public class Delivery {
         destinationItems.put(destinationId,new HashMap<>());
     }
 
+    public Delivery(int id, int weight, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.driverId = driverId;
+        this.truckId = truckId;
+        this.originSiteId = originSiteId;
+        this.destinationItems =new LinkedHashMap<>();
+        this.weight = weight;
+    }
+
     /*
     //for creating a new delivery
     public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime ,Driver driver,Truck truck, Site origin, Branch destination)

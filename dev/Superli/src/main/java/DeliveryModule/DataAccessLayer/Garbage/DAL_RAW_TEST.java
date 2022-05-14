@@ -1,4 +1,4 @@
-package DeliveryModule.DataAccessLayer;
+package DeliveryModule.DataAccessLayer.Garbage;
 
 
 import DeliveryModule.BusinessLayer.*;

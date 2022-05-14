@@ -1,6 +1,8 @@
 package DeliveryModule.BusinessLayer;
 
 import DeliveryModule.DataAccessLayer.*;
+import DeliveryModule.DataAccessLayer.Garbage.DeliveredProductsDAO;
+import DeliveryModule.DataAccessLayer.Garbage.DestinationsDAO;
 import org.junit.Test;
 import org.junit.Before;
 

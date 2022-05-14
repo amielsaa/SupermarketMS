@@ -216,7 +216,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.removeItemFromDestination((Branch)destination,item);
-        deliveryDestinationItemsDAO.removeItemFromDestination(siteId,item);
+        deliveryDestinationItemsDAO.removeItemFromDestination(deliveryId,siteId,item);
     }
 
     public void editItemQuantity(int deliveryId,int siteId, String item, int quantity) throws Exception{
@@ -299,7 +299,7 @@ public class DeliveriesController {
                     String.format("Actual weight exceeds the max weight of truck %d..",
                             truck.getMaxWeight()));
         delivery.setWeight(weight);
-        upcomingDeliveryDAO.setWeight(weight);
+        upcomingDeliveryDAO.setWeight(deliveryId, weight);
     }
 
     public void completeDelivery(int deliveryId) throws Exception{

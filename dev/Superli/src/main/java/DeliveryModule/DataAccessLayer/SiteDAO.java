@@ -13,12 +13,14 @@ public class SiteDAO extends DataAccessObject {
 
     private HashMap<Integer, Site> siteCache;
     private HashMap<String,Integer> siteAddressMapper;
+    int maxId;
 
 
     public SiteDAO() {
         super("Sites");
         siteCache = new HashMap<>();
         siteAddressMapper=new HashMap<>();
+        maxId = -1;
     }
 
     public boolean Create(Site site) {
@@ -40,6 +42,7 @@ public class SiteDAO extends DataAccessObject {
         }
         siteCache.put(site.getId(), site);
         siteAddressMapper.put(site.getAddress(),site.getId());
+        maxId = Math.max(site.getId(), maxId);
         return true;
     }
 
@@ -115,12 +118,79 @@ public class SiteDAO extends DataAccessObject {
         return true;
     }
 
-    public Site getSite(String address){return null;}
-    public Site getSite(Integer siteId){return null;}
-    public ArrayList<Site> getAllSites(){return null;}
-    public void editSiteAddress(int id, String address){}
-    public void setDeliveryZone(int id, int zone){}
-    public void setPhoneNumber(int id, String phoneNumber){}
-    public void setContactName(int id, String name){}
+    public Site getSite(String address){
+        for (Site site : siteCache.values()) {
+            if (site.getAddress().equals(address))
+                return site;
+        }
+        String sql = "SELECT id FROM Sites WHERE address = (?)";
+        Site site = null;
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                site = getSite(rs.getInt("id"));
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return site;
+    }
+    public Site getSite(Integer siteId){return Read(siteId);}
+
+    public ArrayList<Site> getAllSites(){
+        String sql = "SELECT * FROM Sites";
+        ArrayList<Site> sites = new ArrayList();
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            Site site = null;
+            while (rs.next()) {
+                int resID = rs.getInt("id");
+                String address = rs.getString("address");
+                DeliveryZone deliveryZone = DeliveryZone.valueOf(rs.getString("deliveryZone"));
+                String phoneNumber = rs.getString("phoneNumber");
+                String contactName = rs.getString("contactName");
+                if (rs.getString("Type").equals("Branch"))
+                    site = new Branch(resID, address, deliveryZone, phoneNumber, contactName);
+                else
+                    site = new SupplierWarehouse(resID, address, deliveryZone, phoneNumber, contactName);
+                sites.add(site);
+                if (!siteCache.containsKey(resID))
+                    siteCache.put(resID, site);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sites;
+    }
+    public void editSiteAddress(int id, String address){Update(Read(id));}
+    public void setDeliveryZone(int id, int zone){Update(Read(id));}
+    public void setPhoneNumber(int id, String phoneNumber){Update(Read(id));}
+    public void setContactName(int id, String name){Update(Read(id));}
+
+    public int getMaxId()
+    {
+        if (maxId != -1)
+            return maxId;
+        int result = 0;
+        String sql = "SELECT Max(id) FROM Sites";
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt("id");
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
 

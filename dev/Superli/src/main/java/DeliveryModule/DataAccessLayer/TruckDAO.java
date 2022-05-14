@@ -100,11 +100,18 @@ public class TruckDAO extends DataAccessObject {
         return true;
     }
 
-    public void setPlateNum(int oldPlateNum, int newPlateNum){}
+    public void setPlateNum(int oldPlateNum, int newPlateNum) throws Exception {
+        Truck t = Read(oldPlateNum);
+        if (t != null) {
+            Delete(oldPlateNum);
+            t.setPlateNum(newPlateNum);
+            Create(t);
+        }
+    }
 
-    public void setModel(int plateNum, String newModel){}
+    public void setModel(int plateNum, String newModel){Update(Read(plateNum));}
 
-    public void setMaxWeight(int maxWeight){}
+    public void setMaxWeight(int plateNum, int maxWeight){Update(Read(plateNum));}
 
     public ArrayList<Truck> getAllTrucks(){return null;}
 
