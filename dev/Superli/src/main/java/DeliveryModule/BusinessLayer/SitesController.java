@@ -4,26 +4,13 @@ import DeliveryModule.DataAccessLayer.SiteDAO;
 import java.util.*;
 
 public class SitesController {
-   // private Map<Integer, Site> sites;
-  //  private HashMap<String,Integer> siteAddressMapper;
     private int nextID;
     private SiteDAO siteDAO;
 
     public SitesController() {
-        this.nextID=1;
         this.siteDAO=new SiteDAO();
+        nextID=getNextID();
     }
-    /*
-    public SitesController(){
-        sites = new HashMap<>();
-        siteAddressMapper=new HashMap<>();
-        nextID = 1;
-        this.siteDAO = siteDAO;
-    }
-
-
-     */
-
 
     public void load() throws Exception{
         addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
@@ -34,13 +21,13 @@ public class SitesController {
         addBranch("Dimona", 2,"054-0000006","branch4");
     }
 
+    private int getNextID(){
+        return siteDAO.getMaxId()+1;
+    }
     public void addSupplierWarehouse(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
         if(siteDAO.getSite(address)!=null){
             throw new Exception(String.format("A site with address %s already exists..",address));
         }
-
-        //siteAddressMapper.put(address,nextID);
-       // sites.put(nextID, new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
         siteDAO.Create(new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
@@ -49,8 +36,6 @@ public class SitesController {
         if(siteDAO.getSite(address)!=null){
             throw new Exception(String.format("A site with address %s already exists..",address));
         }
-        //siteAddressMapper.put(address,nextID);
-        //sites.put(nextID, new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
         siteDAO.Create(new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
@@ -61,12 +46,6 @@ public class SitesController {
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setAddress(address);
         siteDAO.editSiteAddress(id,address);
-        /*
-        siteAddressMapper.remove(toBeEdited.getAddress());
-        toBeEdited.setAddress(address);
-        siteAddressMapper.put(address,id);
-
-         */
     }
 
     public void editSiteDeliveryZone(int id, int zone) throws Exception {
@@ -101,34 +80,22 @@ public class SitesController {
     }
     public Site getSite(String address) {
         return siteDAO.getSite(address);
-        //return sites.get(siteAddressMapper.get(address));
     }
-
 
     public ArrayList<Site> getAllSites() {
         return siteDAO.getAllSites();
     }
 
     public Collection<Site> viewSitesPerZone(int zone) throws Exception {
-        //DeliveryZone deliveryZone = Site.stringToDeliveryZone(zone);
-
         Collection<Site> output = new ArrayList<>();
         Collection<Site> site_list = siteDAO.getAllSites();
         for (Site site: site_list)
             if (site.getDeliveryZone() == Site.stringToDeliveryZone(zone))
                 output.add(site);
         return output;
-
-
     }
 
     public int getSiteId(String address) throws Exception{
-        /*
-        if(!siteAddressMapper.containsKey(address)){
-            throw new Exception(String.format("A site with address %s does not exist",address));
-        }
-        return siteAddressMapper.get(address);
-         */
         Site site=getSite(address);
         if(site==null){
             throw new Exception(String.format("A site with address %s does not exist",address));
@@ -141,11 +108,6 @@ public class SitesController {
         Site site=getSite(id);
         if(site==null)
             throw new Exception(String.format("A site with id %d does not exist",id));
-        /*
-        siteAddressMapper.remove(site.getAddress());
-        sites.remove(id);
-
-         */
         siteDAO.Delete(id);
     }
 

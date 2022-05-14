@@ -10,13 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class DeliveriesController {
-    //todo: think about how to auto generate ids
-    private int nextDeliveryId=1;
+    private int nextDeliveryId;
     private DriversController driversController;
     private SitesController sitesController;
     private TrucksController trucksController;
-    //private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
-    //private LinkedHashMap<Integer,String> deliveryArchive;
 
     private UpcomingDeliveryDAO upcomingDeliveryDAO;
     private DeliveryArchiveDAO deliveryArchiveDAO;
@@ -32,28 +29,8 @@ public class DeliveriesController {
         this.deliveryArchiveDAO=new DeliveryArchiveDAO();
         this.deliveryDestinationItemsDAO=new DeliveryDestinationItemsDAO();
         this.deliveryDestinationsDAO= new DeliveryDestinationsDAO();
+        nextDeliveryId=getNextDeliveryId();
     }
-
-    //  private DestinationsDAO destinationsDAO;
-   // private DeliveredProductsDAO deliveredProductsDAO;
-  //  private DeliveryDAO deliveryDAO;
-   // private FinishedDeliveriesDAO finishedDeliveriesDAO;
-/*
-    public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController,
-                                DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO, DeliveryDAO deliveryDAO, DeliveryArchiveDAO deliveryArchiveDAO) {
-        this.driversController=driversController;
-        this.sitesController=sitesController;
-        this.trucksController = trucksController;
-        this.upcomingDeliveries=new LinkedHashMap<>();
-        this.deliveryArchive=new LinkedHashMap<>();
-        this.destinationsDAO = destinationsDAO;
-        this.deliveredProductsDAO = deliveredProductsDAO;
-        this.deliveryDAO = deliveryDAO;
-        this.finishedDeliveriesDAO = deliveryArchiveDAO;
-        nextDeliveryId=1;
-    }
- */
-
 
     public void load() throws Exception {
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -73,26 +50,11 @@ public class DeliveriesController {
         addItemToDestination(2,6,"milk",30);
         addItemToDestination(2,4,"coffee",30);
         addItemToDestination(2,4,"tea",30);
-
-        //completeDelivery(2);
     }
 
 
 
     private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {
-        /*
-        for(Delivery delivery: upcomingDeliveries.values()){
-            if((delivery.getTruck().getPlateNum()==truckId &&
-                    isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime()))){
-                throw new Exception(String.format("Tuck %d is not available",truckId));
-            }
-            if(delivery.getDriver().getId()==driverId &&
-                            isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime())){
-                throw new Exception(String.format("Driver %d is not available",driverId));
-            }
-        }
-
-         */
         //todo: maybe use select query for truckId instead of using getUpcomingDeliveries
         for(Delivery delivery:upcomingDeliveryDAO.getUpcomingDeliveries()){
             if((delivery.getTruckId()==truckId &&
@@ -113,9 +75,11 @@ public class DeliveriesController {
                 startTime1.isBefore(startTime2) && endTime1.isAfter(endTime2) ||
                 startTime1.isAfter(startTime2) && endTime1.isBefore(endTime2);
     }
+    private int getNextDeliveryId(){
+        return Integer.max(deliveryArchiveDAO.getMaxId(),upcomingDeliveryDAO.getMaxId())+1;
+    }
 
     public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId,int destinationId) throws Exception{
-
         validateDeliveryTime(startTime,endTime);
         Driver driver=driversController.getDriver(driverId);
         if(!trucksController.isAbleToDrive(driver.getLicenseType(),truckId)){
@@ -123,14 +87,14 @@ public class DeliveriesController {
         }
 
         checkAvailability(startTime,endTime,truckId,driverId);
-        Truck truck= trucksController.getTruck(truckId);
-        Site origin=sitesController.getSite(originId);
+        trucksController.getTruck(truckId);
+        sitesController.getSite(originId);
         Site destination=sitesController.getSite(destinationId);
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-       // upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
         upcomingDeliveryDAO.addUpcomingDelivery(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,destinationId));
+        addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
 
@@ -241,14 +205,6 @@ public class DeliveriesController {
     }
 
     public HashMap<String,Integer> getItemsOfDest(int deliveryId,int siteId) {
-        /*
-        Delivery delivery=getUpcomingDelivery(deliveryId);
-        Site destination=sitesController.getSite(siteId);
-        if(!destination.canBeADestination()){
-            throw new Exception(String.format("Site id %d is not a destination...",siteId));
-        }
-        return delivery.toStringItemsOfDest(siteId);
-         */
         HashMap<String,Integer> items=deliveryDestinationItemsDAO.getItemsOfDest(deliveryId,siteId);
         return items;
     }

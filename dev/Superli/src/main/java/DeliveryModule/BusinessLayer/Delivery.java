@@ -11,14 +11,9 @@ public class Delivery {
     private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    //private Driver driver;
     private int driverId;
-    //private Truck truck;
     private int truckId;
-    //private Site origin;
     private int originSiteId;
-
-    // private LinkedHashMap<Branch, HashMap<String,Integer>> destinationItems;
     private LinkedHashMap<Integer, HashMap<String,Integer>> destinationItems;
     private int weight;
 
@@ -31,7 +26,7 @@ public class Delivery {
         this.truckId = truckId;
         this.originSiteId = originSiteId;
         this.destinationItems =new LinkedHashMap<>();
-        destinationItems.put(destinationId,new HashMap<>());
+       // destinationItems.put(destinationId,new HashMap<>());
     }
 
     public Delivery(int id, int weight, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId) {
@@ -45,36 +40,6 @@ public class Delivery {
         this.weight = weight;
     }
 
-    /*
-    //for creating a new delivery
-    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime ,Driver driver,Truck truck, Site origin, Branch destination)
-    {
-        this.id = id;
-        this.startTime = startTime;
-        this.driver = driver;
-        this.endTime = endTime;
-        this.truck = truck;
-        this.origin = origin;
-        this.destinationItems=new LinkedHashMap<>();
-        destinationItems.put(destination,new HashMap<>());
-        this.weight=0;
-    }
-
-    //for loading from the db
-    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int weight , Driver driver, Truck truck, Site origin, Set<Branch> destinations, LinkedHashMap<Branch, HashMap<String,Integer>> products)
-    {
-        this.id = id;
-        this.startTime = startTime;
-        this.driver = driver;
-        this.endTime = endTime;
-        this.truck = truck;
-        this.origin = origin;
-        this.destinationItems=new LinkedHashMap<>();
-        for (Branch destination : destinations)
-            destinationItems.put(destination,new HashMap<>());
-        this.weight=weight;
-    }
-*/
     public int getId() {
         return id;
     }
@@ -119,34 +84,6 @@ public class Delivery {
         return destinationItems;
     }
 
-
-
-    /*
-    public Truck getTruck() {
-        return truck;
-    }
-
-    protected void setTruck(Truck truck) {
-        this.truck = truck;
-    }
-
-    public Site getOrigin() {
-        return origin;
-    }
-
-    protected void setOrigin(Site origin) {
-        this.origin = origin;
-    }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
- */
     public int getDriverId() {
       return driverId;
     }
@@ -171,39 +108,24 @@ public class Delivery {
         this.originSiteId = originSiteId;
     }
 
-
-
-
-    protected boolean isDeliveryTime(LocalDateTime time)
-    {
-        return time.compareTo(endTime) < 0 && time.compareTo(startTime) > 0;
-    }
-
     public void addDestination(Branch branch) throws Exception {
-        /*
-        if(!destinationItems.containsKey(branch)){
-            destinationItems.put(branch,new HashMap<>());
-        }
-        else
-            throw new Exception(String.format("%s is already a destination of delivery number %d",branch.getAddress(),id));
-
-         */
         if(!destinationItems.containsKey(branch.getId())){
             destinationItems.put(branch.getId(),new HashMap<>());
         }
         else
             throw new Exception(String.format("%s is already a destination of delivery number %d",branch.getAddress(),id));
     }
+
     public void removeDestination(Branch branch) throws Exception {
         if(destinationItems.containsKey(branch.getId())){
             if(destinationItems.size()>1)
                 destinationItems.remove(branch.getId());
             else throw new Exception(String.format("Delivery %d contains a single destination...",id));
-
         }
         else
             throw new Exception(String.format("%s is not a destination of delivery number %d",branch.getAddress(),id));
     }
+
     public void addItemToDestination(Branch branch, String item, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch.getId())){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
@@ -213,6 +135,7 @@ public class Delivery {
         }
         destinationItems.get(branch.getId()).put(item,quantity);
     }
+
     public void removeItemFromDestination(Branch branch, String item) throws Exception {
         if(!destinationItems.containsKey(branch.getId())){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
@@ -250,8 +173,10 @@ public class Delivery {
         for (Integer site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
     }
-
+/*
     public HashMap<String,Integer> getProductsPerDestination(Branch destination){
         return destinationItems.get(destination);
     }
+
+ */
 }

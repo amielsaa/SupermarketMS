@@ -5,9 +5,7 @@ import DeliveryModule.DataAccessLayer.TruckDAO;
 import java.util.*;
 
 public class TrucksController {
-  //  private HashMap<Integer, Truck> trucks;
     private TruckDAO truckDAO;
-
     private HashMap<LicenseType,Integer> licenseMapper=new HashMap<LicenseType, Integer>(){{
         put(LicenseType.C,Integer.MAX_VALUE);
         put(LicenseType.C1,12000);
@@ -15,7 +13,6 @@ public class TrucksController {
 
     public TrucksController() {
         this.truckDAO = new TruckDAO();
-       // trucks=new HashMap<>();
     }
 
     public void load() throws Exception{
@@ -30,7 +27,6 @@ public class TrucksController {
         if(truckDAO.Read(plateNum)!=null){
             throw new Exception(String.format("A truck with plate number %d already exists..",plateNum));
         }
-        //trucks.put(plateNum,new Truck(plateNum,model,maxWeight));
         truckDAO.Create(new Truck(plateNum,model,maxWeight));
     }
     public void editPlateNum(int oldPlateNum, int newPlateNum) throws Exception {
@@ -44,13 +40,6 @@ public class TrucksController {
 
         truck.setPlateNum(newPlateNum);
         truckDAO.setPlateNum(oldPlateNum,newPlateNum);
-
-        /*
-        trucks.get(oldPlateNum).setPlateNum(newPlateNum);
-        trucks.put(newPlateNum, trucks.get(oldPlateNum));
-        trucks.remove(oldPlateNum);
-
-         */
     }
 
     public void editModel(int plateNum, String newModel) throws Exception {
