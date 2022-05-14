@@ -15,12 +15,12 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
     LinkedHashMap<Pair<Integer,Integer>,HashMap<String,Integer>> deliveryDestinationItemsCache;
 
     public DeliveryDestinationItemsDAO(){
-        super("DeliveredProducts");
+        super("DeliveryDestinationItems");
         deliveryDestinationItemsCache = new LinkedHashMap<>();
     }
 
     public void addItemToDeliveryDestination(int deliveryId, int siteId, String item, int quantity) {
-        String sql = "INSERT INTO DeliveredProducts(siteId, deliveryId, name, count) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO DeliveryDestinationItems(siteId, deliveryId, name, count) VALUES(?,?,?,?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
 
     public void removeItemFromDestination(int deliveryId, int siteId, String name) {
 
-        String sql = "DELETE FROM DeliveredProducts WHERE siteId = (?) and deliveryId = (?) and name = (?)";
+        String sql = "DELETE FROM DeliveryDestinationItems WHERE siteId = (?) and deliveryId = (?) and name = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
     }
 
     public void removeItemsOfDestination(int deliveryId, int siteId) {
-        String sql = "DELETE FROM DeliveredProducts WHERE siteId = (?) and deliveryId = (?)";
+        String sql = "DELETE FROM DeliveryDestinationItems WHERE siteId = (?) and deliveryId = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
     }
 
     public void editItemQuantity(int deliveryId, int siteId, String item, int quantity) {
-        String sql = "UPDATE DeliveredProducts SET count = (?) WHERE siteId = (?) and deliveryId = (?) and name = (?)";
+        String sql = "UPDATE DeliveryDestinationItems SET count = (?) WHERE siteId = (?) and deliveryId = (?) and name = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -95,7 +95,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
         for (Pair<Integer,Integer> key : keys)
             if ((key.getKey().equals(deliveryId) && key.getValue().equals(siteId)))
                 return deliveryDestinationItemsCache.get(key);
-        String sql = "SELECT * FROM DeliveredProducts WHERE siteId = (?) and deliveryId = (?)";
+        String sql = "SELECT * FROM DeliveryDestinationItems WHERE siteId = (?) and deliveryId = (?)";
         HashMap<String, Integer> products = new HashMap<>();
         try {
             Connection conn = this.makeConnection();

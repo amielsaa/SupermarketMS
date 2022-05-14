@@ -1,27 +1,24 @@
 package DeliveryModule.DataAccessLayer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.sql.*;
-import DeliveryModule.BusinessLayer.*;
-import DeliveryModule.BusinessLayer.Driver;
+
 import javafx.util.Pair;
 
 public class DeliveryArchiveDAO extends DataAccessObject {
 
-    private HashMap<Integer, String> FinishedDeliveriesCache;
+    private HashMap<Integer, String> DeliveryArchiveCache;
     int maxId;
 
     public DeliveryArchiveDAO() {
         super("DeliveryArchive");
-        FinishedDeliveriesCache = new HashMap<>();
+        DeliveryArchiveCache = new HashMap<>();
         maxId = -1;
     }
 
     public boolean addUpcomingDelivery(int id, String details) {
-        String sql = "INSERT INTO FinishedDeliveries(id, details) VALUES(?,?)";
+        String sql = "INSERT INTO DeliveryArchive(id, details) VALUES(?,?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -34,15 +31,15 @@ public class DeliveryArchiveDAO extends DataAccessObject {
             return false;
         }
         maxId = Math.max(id, maxId);
-        FinishedDeliveriesCache.put(id, details);
+        DeliveryArchiveCache.put(id, details);
         return true;
     }
 
     public Pair<Integer, String> Read(int id) {
-        if (FinishedDeliveriesCache.containsKey(id)) {
-            return new Pair<>(id, FinishedDeliveriesCache.get(id));
+        if (DeliveryArchiveCache.containsKey(id)) {
+            return new Pair<>(id, DeliveryArchiveCache.get(id));
         }
-        String sql = "SELECT * FROM FinishedDeliveries WHERE id = (?)";
+        String sql = "SELECT * FROM DeliveryArchive WHERE id = (?)";
         Pair<Integer, String> data = null;
         try {
             Connection conn = this.makeConnection();
@@ -61,7 +58,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FinishedDeliveriesCache.put(id, data.getValue());
+        DeliveryArchiveCache.put(id, data.getValue());
         return data;
     }
 
@@ -80,7 +77,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
     //ToDo
     public ArrayList<String> getDeliveryArchive(){
 
-        String sql = "SELECT * FROM FinishedDeliveries";
+        String sql = "SELECT * FROM DeliveryArchive";
         ArrayList<String> archive = new ArrayList<String>();
         try {
             Connection conn = this.makeConnection();
@@ -91,8 +88,8 @@ public class DeliveryArchiveDAO extends DataAccessObject {
                 int resID = rs.getInt("id");
                 String details = rs.getString("details");
                 archive.add(details);
-                if (!FinishedDeliveriesCache.containsKey(resID))
-                    FinishedDeliveriesCache.put(resID, details);
+                if (!DeliveryArchiveCache.containsKey(resID))
+                    DeliveryArchiveCache.put(resID, details);
             }
             rs.close();
         } catch (Exception e) {
@@ -106,7 +103,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         if (maxId != -1)
             return maxId;
         int result = 0;
-        String sql = "SELECT Max(id) FROM FinishedDeliveries";
+        String sql = "SELECT Max(id) FROM DeliveryArchive";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);

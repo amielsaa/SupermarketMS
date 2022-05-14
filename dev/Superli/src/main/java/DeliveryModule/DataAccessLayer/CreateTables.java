@@ -30,7 +30,7 @@ public class CreateTables {
                 "type VARCHAR(128) not null, "+
                 "PRIMARY KEY (id) );");
 
-        createTable("CREATE TABLE IF NOT EXISTS Deliveries ("+
+        createTable("CREATE TABLE IF NOT EXISTS UpcomingDeliveries ("+
                 "id INTEGER not null, "+
                 "startDate DATETIME not null, "+
                 "startTime DATETIME not null, "+
@@ -45,22 +45,22 @@ public class CreateTables {
                 "FOREIGN KEY (driverId) REFERENCES Drivers(id)," +
                 "FOREIGN KEY (originId) REFERENCES Sites(id));");
 
-        createTable("CREATE TABLE IF NOT EXISTS Destinations ("+
+        createTable("CREATE TABLE IF NOT EXISTS DeliveryDestinations ("+
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "PRIMARY KEY (siteId, deliveryId)," +
                 "FOREIGN KEY (siteId) REFERENCES Sites(id)," +
-                "FOREIGN KEY (deliveryId) REFERENCES Deliveries(id));");
+                "FOREIGN KEY (deliveryId) REFERENCES UpcomingDeliveries(id));");
 
-        createTable("CREATE TABLE IF NOT EXISTS DeliveredProducts ("+
+        createTable("CREATE TABLE IF NOT EXISTS DeliveryDestinationItems ("+
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "name VARCHAR(255) not null, "+
                 "count INTEGER not null, "+
                 "PRIMARY KEY (siteId, deliveryId, name)," +
-                "FOREIGN KEY (siteId, deliveryId) REFERENCES Destinations(siteId, deliveryId));");
+                "FOREIGN KEY (siteId, deliveryId) REFERENCES DeliveryDestinations(siteId, deliveryId));");
 
-        createTable("CREATE TABLE IF NOT EXISTS FinishedDeliveries ("+
+        createTable("CREATE TABLE IF NOT EXISTS DeliveryArchive ("+
                 "id INTEGER not null, "+
                 "details VARCHAR(65535) not null, "+
                 "PRIMARY KEY (id) );");

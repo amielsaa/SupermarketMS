@@ -16,7 +16,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
     public UpcomingDeliveryDAO()
     {
-        super("Deliveries");
+        super("UpcomingDeliveries");
         upcomingDeliveryCache = new HashMap<>();
         maxId = -1;
     }
