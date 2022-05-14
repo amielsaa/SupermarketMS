@@ -1,6 +1,5 @@
 package DeliveryModule.ServiceLayer;
 import DeliveryModule.BusinessLayer.*;
-import DeliveryModule.DataAccessLayer.*;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Response;
 
@@ -198,6 +197,45 @@ public class DeliveryService {
         return Response.makeSuccess(driverList);
     }
 
+    public Response addDriver(int id, String name, String licenseType){
+        try{
+            driversController.addDriver(id, name, licenseType);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response deleteDriver(int id){
+        try{
+            deliveriesController.checkDriverHasUpcomingDelivery(id);
+            driversController.deleteDriver(id);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDriverName(int id, String name){
+        try{
+            driversController.changeName(id, name);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response editDriverLicenseType(int id, String licenseType){
+        try{
+            deliveriesController.validateLicenseTypeChange(id,licenseType);
+            driversController.ChangeLicenseType(id, licenseType);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+
     //############################# Truck Logic ###################################################
     public Response addTruck(int plateNum, String model, int maxWeight){
         try{
@@ -227,6 +265,7 @@ public class DeliveryService {
     }
     public Response editMaxWeight(int plateNum, int maxWeight){
         try{
+            deliveriesController.validateMaxWeightChange(plateNum,maxWeight);
             trucksController.editMaxWeight(plateNum, maxWeight);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -260,6 +299,7 @@ public class DeliveryService {
     //#############################Delivery Logic###################################################
     public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId, int destinationId){
         try{
+            //todo: add check of driver shift
             deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId,destinationId);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -346,6 +386,7 @@ public class DeliveryService {
 
     public Response editDeliveryStartTime(int deliveryId,LocalDateTime newStartTime){
         try {
+            //todo: add check of driver shift
             deliveriesController.editStartTime(deliveryId,newStartTime);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -355,6 +396,7 @@ public class DeliveryService {
 
     public Response editDeliveryEndTime(int deliveryId,LocalDateTime newEndTime){
         try {
+            //todo: add check of driver shift
             deliveriesController.editEndTime(deliveryId,newEndTime);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -364,6 +406,7 @@ public class DeliveryService {
 
     public Response editDeliveryDriver(int deliveryId,int newDriverId){
         try {
+            //todo: add check of driver shift
             deliveriesController.editDriver(deliveryId,newDriverId);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -417,41 +460,5 @@ public class DeliveryService {
         }
     }
 
-    //FOR WORKERS MOODLE
-    public Response addDriver(int id, String name, String licenseType){
-        try{
-            driversController.addDriver(id, name, licenseType);
-            return Response.makeSuccess(0);
-        }catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
-    public Response deleteDriver(int id){
-        try{
-            driversController.deleteDriver(id);
-            return Response.makeSuccess(0);
-        }catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
-    public Response editDriverName(int id, String name){
-        try{
-            driversController.changeName(id, name);
-            return Response.makeSuccess(0);
-        }catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-    }
-
-    public Response editDriverLicenseType(int id, String licenseType){
-        try{
-            driversController.ChangeLicenseType(id, licenseType);
-            return Response.makeSuccess(0);
-        }catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-    }
 }
 

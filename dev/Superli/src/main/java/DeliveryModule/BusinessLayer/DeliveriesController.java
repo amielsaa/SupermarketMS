@@ -345,4 +345,21 @@ public class DeliveriesController {
         upcomingDeliveryDAO.deleteUpcomingDelivery(deliveryId);
     }
 
+    public void validateLicenseTypeChange(int id, String licenseType) throws Exception {
+        for(Delivery delivery:upcomingDeliveryDAO.getUpcomingDeliveries()){
+            if(delivery.getDriverId()==id && !trucksController.isAbleToDrive(LicenseType.valueOf(licenseType),delivery.getTruckId())){
+                throw new Exception(String.format("New license type does not permit driving the truck assigned to delivery id %s..",delivery.getId()));
+            }
+        }
+    }
+
+    public void validateMaxWeightChange(int truckId , int maxWeight) throws Exception {
+        for(Delivery delivery:getUpcomingDeliveries()){
+            if(delivery.getTruckId()==truckId){
+                Driver driver=driversController.getDriver(delivery.getDriverId());
+                if(!trucksController.isAbleToDriveWeight(driver.getLicenseType(),maxWeight))
+                    throw new Exception(String.format("New max weight is higher than the license type of the driver of delivery id %s permits..",delivery.getId()));
+            }
+        }
+    }
 }

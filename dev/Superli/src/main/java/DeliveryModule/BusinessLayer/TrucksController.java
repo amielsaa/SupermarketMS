@@ -91,6 +91,13 @@ public class TrucksController {
         return false;
     }
 
+    protected boolean isAbleToDriveWeight(LicenseType licenseType, int maxWeight){
+        if(licenseMapper.containsKey(licenseType)){
+            return maxWeight<=licenseMapper.get(licenseType);
+        }
+        return false;
+    }
+
     public ArrayList<Truck> getTrucks(){
         ArrayList<Truck> list=truckDAO.getAllTrucks();
         list.sort(Comparator.comparingInt(Truck::getMaxWeight));
@@ -104,4 +111,5 @@ public class TrucksController {
         }
         return truck;
     }
+
 }
