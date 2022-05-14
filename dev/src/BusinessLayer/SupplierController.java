@@ -221,6 +221,64 @@ public class SupplierController {
         return supplier.makeOrder(itemToAdd);
 
     }
+
+    public HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>> MakeOrderToSuppliers(Map<Pair<String, String>, Integer> demandedSupplies) {
+        //complicated function needs an Explanation by steps
+        //1.getting all the suppliers in a List--------------------------------------
+        Collection<Supplier> UnbulitSuppliers=supplierDAO.getAllSuppliers();
+        List<Supplier> builtSuppliers=new ArrayList<>();
+        for(Supplier i:UnbulitSuppliers){
+            builtSuppliers.add(buildSupplier(i.getBusiness_Num()));
+        }
+        //---------------------------------------------------------------------------
+        //2.building a List of all the keys of demanded supplies
+        Pair[] orderKeys = new Pair[demandedSupplies.keySet().toArray().length];// array of the keys of the order
+        for(int i=0; i<orderKeys.length;i++) {
+            orderKeys[i] = (Pair) demandedSupplies.keySet().toArray()[i];
+        }
+        //----------------------------------------------------------------------------
+        //3.bullding a Hashmap of <Item,List of suppliers>
+        HashMap<Pair<String,String>,List<Supplier>> itemToSuppliers=new HashMap<>();
+        for(Pair i:orderKeys){
+            List<Supplier> suppliersForItem=new ArrayList<>();
+            for(Supplier j:builtSuppliers){
+                if(j.getQuantity_Agreement().getItem_To_Price().containsKey(i))
+                    suppliersForItem.add(j);
+            }
+            itemToSuppliers.put(i,suppliersForItem);
+        }
+        //----------------------------------------------------------------------------
+        //4.Making a hashmap of <Supplier,List of Hashmap Orders he will preform>
+        HashMap<Integer,HashMap<Pair<String, String>, Pair<Double, Double>>> suplliertoTheirOrder=new HashMap<>();
+        for(Pair i:orderKeys){
+            Double finalPrice=Double.MAX_VALUE;
+            int supplierBn=0;
+            HashMap<Pair<String, String>, Pair<Double, Double>> currentLeadingOrder=new HashMap<>();
+            List<Supplier> suppliersThatDeliver=itemToSuppliers.get(i);
+            //4.1 finding the Best supplier to supply a specific item
+            for(Supplier j:suppliersThatDeliver){
+                HashMap<Pair<String,String>,Integer> HashmapforOrderCheck=new HashMap<>();
+                HashmapforOrderCheck.put(i,demandedSupplies.get(i));
+                HashMap<Pair<String, String>, Pair<Double, Double>> order=j.makeOrder(HashmapforOrderCheck);
+                if(order.get(i).getSecond()<finalPrice){
+                    finalPrice=order.get(i).getSecond();
+                    supplierBn=j.getBusiness_Num();
+                    currentLeadingOrder=order;
+                }
+            }
+            //4.2 after finding the best supplier adding him to  supplierToTheirOrder Hashmap
+            if(!suplliertoTheirOrder.containsKey(supplierBn)){
+                suplliertoTheirOrder.put(supplierBn,currentLeadingOrder);
+            }
+            else{
+                suplliertoTheirOrder.get(supplierBn).put(i,currentLeadingOrder.get(i));
+            }
+
+        }
+        return suplliertoTheirOrder;
+
+
+    }
     //todo:build the function to get items and make the best deal
 
 

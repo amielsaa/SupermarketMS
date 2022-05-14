@@ -3,10 +3,8 @@ package BusinessLayer;
 import DAL.DaysToDeliverDAO;
 import DAL.OrderDAO;
 import DAL.OrderItemsDAO;
-import com.sun.org.apache.xpath.internal.operations.Or;
-import misc.Days;
 import misc.Pair;
-import BusinessLayer.*;
+
 import java.sql.Date;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -223,6 +221,22 @@ public class OrderController {
         }
         order.setItem_Num_To_Quantity(orderItemHashMap);
         return order;
+    }
+
+    public List<Order> MakeOrderToSuppliers(HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>> data, Map<Pair<String, String>, Integer> demandedSupplies) throws Exception {
+        List<Order> OrderList=new ArrayList<>();
+        Set<Integer> keysetOfBN=data.keySet();
+        for(Integer i: keysetOfBN){
+            //preparing the Order
+            HashMap<Pair<String, String>, Integer> order=new HashMap<>();
+            Set<Pair<String, String>> OrderKeys=data.get(i).keySet();
+            for(Pair j:OrderKeys){
+                order.put(j,demandedSupplies.get(j));
+            }
+            Order completeOrder= makeOrder(i, order, data.get(i));
+            OrderList.add(completeOrder);
+        }
+        return OrderList;
     }
 }
 

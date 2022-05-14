@@ -6,10 +6,7 @@ import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SupplierService {
     private SupplierController cSupplier = new SupplierController();
@@ -178,6 +175,17 @@ public class SupplierService {
         try{
             HashMap<Pair<String, String>, Pair<Double, Double>> itemtoAdd=cSupplier.addOrUpdateRoutineOrder(business_num,itemName,itemProducer,quantity);
             return Response.makeSuccess(itemtoAdd);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+        }
+    }
+
+    public Response<HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>>> MakeOrderToSuppliers(Map<Pair<String, String>, Integer> demandedSupplies) {
+        try{
+            HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>> Orders=cSupplier.MakeOrderToSuppliers(demandedSupplies);
+            return Response.makeSuccess(Orders);
         }
         catch (Exception e){
             return Response.makeFailure(e.getMessage());

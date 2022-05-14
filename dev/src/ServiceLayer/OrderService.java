@@ -94,4 +94,20 @@ public class OrderService {
 
         }
     }
+
+    public Response<List<DOrder>> MakeOrderToSuppliers(HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>> data, Map<Pair<String, String>, Integer> demandedSupplies) {
+        try{
+            List<Order> Orders=cOrder.MakeOrderToSuppliers(data,demandedSupplies);
+            List<DOrder> OrdersForService=new ArrayList<>();
+            for(Order i:Orders){
+                OrdersForService.add(new DOrder(i));
+            }
+            return Response.makeSuccess(OrdersForService);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+        }
+
+    }
 }
