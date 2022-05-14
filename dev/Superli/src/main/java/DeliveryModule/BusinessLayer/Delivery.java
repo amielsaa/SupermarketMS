@@ -48,7 +48,7 @@ public class Delivery {
         return endTime;
     }
 
-    protected void setEndTime(LocalDateTime endTime) throws Exception {
+    public void setEndTime(LocalDateTime endTime) throws Exception {
         if (endTime.isBefore(startTime))
             throw new Exception("end time cant be earlier than the start time");
         if(endTime.isBefore(LocalDateTime.now()))

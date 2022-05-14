@@ -4,22 +4,23 @@ import DeliveryModule.BusinessLayer.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 public class DAOTests {
     //CHECK MANUALLY THE DB FOR SOME TEST RESULTS, NOT EVERYTHING CAN BE TESTED
 
-    //TESTS MUST BE DONE IN ORDER
 
     @Before
     public void setup(){
         //CreateTables.createTables();
-        //CreateTables.clearTables();
+        CreateTables.clearTables();
     }
 
     @Test
     public void TruckDAOTest(){
-        CreateTables.clearTables();
         TruckDAO dao = new TruckDAO();
         try {
             Truck t1 = new Truck(1234567, "a", 1);
@@ -101,18 +102,21 @@ public class DAOTests {
             createTruckData();
             createSiteData();
             createDriverData();
-            /*Delivery d1 = new Delivery(100100100, "a", LicenseType.C);
-            Delivery d2 = new Delivery(200200200, "b", LicenseType.C1);
-            Delivery d3 = new Delivery(300300300, "c", LicenseType.C);
-            dao.Create(d1);
-            dao.Create(d2);
-            dao.Create(d3);
-            dao.Delete(300300300);
-            d2.setLicenseType(LicenseType.C);
+            LocalDateTime now = LocalDateTime.now();
+            Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0);
+            Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0);
+            Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0);
+            dao.addUpcomingDelivery(d1);
+            dao.addUpcomingDelivery(d2);
+            dao.addUpcomingDelivery(d3);
+            dao.deleteUpcomingDelivery(3);
+            d2.setEndTime(now.plusHours(100));
             dao.Update(d2);
-            assertEquals(LicenseType.C, dao.Read(200200200).getLicenseType());
-            assertEquals(2, dao.readAll().size());
-            assertEquals("a", new DriverDAO().Read(100100100).getName());*/
+            assertEquals(now.plusHours(100).toString().substring(0, 18), dao.getUpcomingDelivery(2).getEndTime().toString().substring(0, 18));
+            assertEquals(2, dao.getUpcomingDeliveries().size());
+            assertEquals(2, new UpcomingDeliveryDAO().getUpcomingDelivery(2).getOriginSiteId());
+            assertEquals(3, dao.getMaxId());
+            assertEquals(2, new UpcomingDeliveryDAO().getMaxId());
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -122,16 +126,67 @@ public class DAOTests {
 
     @Test
     public void DeliveryDestinationsDAOTest(){
-        TruckDAO dao = new TruckDAO();
+        DeliveryDestinationsDAO dao1 = new DeliveryDestinationsDAO();
+        DeliveryDestinationsDAO dao2 = new DeliveryDestinationsDAO();
+        try {
+            createUpcomingDeliveryData();
+            dao1.addDeliveryDestination(1,2);
+            dao1.addDeliveryDestination(2,3);
+            dao1.addDeliveryDestination(3,3);
+            dao2.addDeliveryDestination(1,3);
+            dao2.addDeliveryDestination(3,2);
+            dao1.removeDeliveryDestination(3, 2);
+            assertEquals(2, dao1.getDeliveryDestinations(1).size());
+            assertEquals(2, dao2.getDeliveryDestinations(1).size());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
     }
 
     @Test
     public void DeliveryDestinationsItemsDAOTest(){
-        TruckDAO dao = new TruckDAO();
+        DeliveryDestinationItemsDAO dao1 = new DeliveryDestinationItemsDAO();
+        DeliveryDestinationItemsDAO dao2 = new DeliveryDestinationItemsDAO();
+        try {
+            createDeliveryDestinations();
+            dao1.addItemToDeliveryDestination(1, 3, "a", 1);
+            dao1.addItemToDeliveryDestination(1, 3, "b", 2);
+            dao1.addItemToDeliveryDestination(1, 3, "c", 3);
+            dao1.addItemToDeliveryDestination(3, 2, "a", 1);
+            dao1.addItemToDeliveryDestination(3, 3, "b", 4);
+            dao1.addItemToDeliveryDestination(3, 3, "e", 4);
+            dao2.removeItemFromDestination(3,3,"b");
+            dao2.removeItemFromDestination(3,3,"e");
+            dao2.editItemQuantity(1, 3, "a", 10);
+            dao2.editItemQuantity(1, 3, "b", 20);
+            assertEquals(3, dao2.getItemsOfDest(1, 3).keySet().size());
+            assertEquals(10, dao2.getItemsOfDest(1, 3).get("a").intValue());
+            assertEquals(20, dao2.getItemsOfDest(1, 3).get("b").intValue());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
     }
     @Test
     public void DeliveryArchiveDAOTest(){
-        TruckDAO dao = new TruckDAO();
+        DeliveryArchiveDAO dao = new DeliveryArchiveDAO();
+        try {
+            dao.addUpcomingDelivery(1,"a");
+            dao.addUpcomingDelivery(2,"b");
+            assertEquals(2, dao.getDeliveryArchive().size());
+            assertEquals(dao.getDeliveryRecord(1), "a");
+            assertEquals(2, dao.getMaxId());
+            assertEquals(2, new DeliveryArchiveDAO().getMaxId());
+
+
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
     }
 
     private void createTruckData() throws Exception {
@@ -162,5 +217,29 @@ public class DAOTests {
         dao.Create(s1);
         dao.Create(s2);
         dao.Create(s3);
+    }
+
+    private void createUpcomingDeliveryData() throws Exception {
+        UpcomingDeliveryDAO dao = new UpcomingDeliveryDAO();
+        createTruckData();
+        createSiteData();
+        createDriverData();
+        LocalDateTime now = LocalDateTime.now();
+        Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0);
+        Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0);
+        Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0);
+        dao.addUpcomingDelivery(d1);
+        dao.addUpcomingDelivery(d2);
+        dao.addUpcomingDelivery(d3);
+    }
+
+    private void createDeliveryDestinations() throws Exception {
+        DeliveryDestinationsDAO dao = new DeliveryDestinationsDAO();
+        createUpcomingDeliveryData();
+        dao.addDeliveryDestination(1,2);
+        dao.addDeliveryDestination(2,3);
+        dao.addDeliveryDestination(3,3);
+        dao.addDeliveryDestination(1,3);
+        dao.addDeliveryDestination(3,2);
     }
 }

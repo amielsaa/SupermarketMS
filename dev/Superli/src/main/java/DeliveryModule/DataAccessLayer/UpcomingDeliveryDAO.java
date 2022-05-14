@@ -23,7 +23,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
     //ToDo
     public ArrayList<Delivery> getUpcomingDeliveries() {
-        String sql = "SELECT * FROM Deliveries";
+        String sql = "SELECT * FROM UpcomingDeliveries";
         ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
         try {
             Connection conn = this.makeConnection();
@@ -69,7 +69,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         if (upcomingDeliveryCache.containsKey(deliveryId)) {
             return upcomingDeliveryCache.get(deliveryId);
         }
-        String sql = "SELECT * FROM Deliveries WHERE id = (?)";
+        String sql = "SELECT * FROM UpcomingDeliveries WHERE id = (?)";
         Delivery delivery = null;
         try {
             Connection conn = this.makeConnection();
@@ -109,7 +109,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
     }
 
     public Integer addUpcomingDelivery(Delivery delivery){
-        String sql = "INSERT INTO Deliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO UpcomingDeliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId) VALUES(?,?,?,?,?,?,?,?,?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -146,7 +146,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
     public boolean Update(Delivery delivery) {
         int id = delivery.getId();
-        String sql = "UPDATE Deliveries SET startDate = (?) ,startTime = (?) , endDate = (?) , endTime = (?) , weight = (?) , truckPlateNum = (?) , driverId = (?) , originId = (?)  WHERE id = (?)";
+        String sql = "UPDATE UpcomingDeliveries SET startDate = (?) ,startTime = (?) , endDate = (?) , endTime = (?) , weight = (?) , truckPlateNum = (?) , driverId = (?) , originId = (?)  WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -177,7 +177,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
     }
 
     public void deleteUpcomingDelivery(int deliveryId) {
-        String sql = "DELETE FROM Deliveries WHERE plateNum = (?)";
+        String sql = "DELETE FROM UpcomingDeliveries WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -196,7 +196,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         if (maxId != -1)
             return maxId;
         int result = 0;
-        String sql = "SELECT Max(id) as max FROM Deliveries";
+        String sql = "SELECT Max(id) as max FROM UpcomingDeliveries";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
