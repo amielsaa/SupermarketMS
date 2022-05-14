@@ -104,6 +104,11 @@ public class Delivery {
         this.destinationItems = destinationItems;
     }
 
+    public LinkedHashMap<Integer, HashMap<String, Integer>> getDestinationItems() {
+        return destinationItems;
+    }
+
+
 
     /*
     public Truck getTruck() {

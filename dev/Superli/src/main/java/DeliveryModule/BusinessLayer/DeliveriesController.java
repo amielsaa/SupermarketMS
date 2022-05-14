@@ -165,11 +165,17 @@ public class DeliveriesController {
         if(delivery==null){
             throw new Exception(String.format("Delivery %d was not found",deliveryId));
         }
+        if(delivery.getDestinationItems()==null)
+            loadDeliveryDestinations(deliveryId);
         return delivery;
     }
     public ArrayList<Delivery> getUpcomingDeliveries(){
-        return upcomingDeliveryDAO.getUpcomingDeliveries();
-        //return new ArrayList<>(upcomingDeliveries.values());
+        ArrayList<Delivery> deliveries=upcomingDeliveryDAO.getUpcomingDeliveries();
+        for(Delivery delivery:deliveries) {
+            if (delivery.getDestinationItems() == null)
+                loadDeliveryDestinations(delivery.getId());
+        }
+        return deliveries;
     }
     public ArrayList<String> getDeliveryArchive(){
         return deliveryArchiveDAO.getDeliveryArchive();
@@ -223,7 +229,7 @@ public class DeliveriesController {
         deliveryDestinationItemsDAO.editItemQuantity(deliveryId,siteId,item,quantity);
     }
 
-    public void loadDeliveryDestination(int deliveryId){
+    public void loadDeliveryDestinations(int deliveryId){
         Delivery delivery=upcomingDeliveryDAO.getUpcomingDelivery(deliveryId);
         LinkedList<Integer> destinations=deliveryDestinationsDAO.getDeliveryDestinations(deliveryId);
         LinkedHashMap<Integer, HashMap<String, Integer>> deliveryDestinations=new LinkedHashMap<>();
@@ -231,6 +237,7 @@ public class DeliveriesController {
             HashMap<String,Integer> items=getItemsOfDest(deliveryId,destination);
             deliveryDestinations.put(destination,items);
         }
+        delivery.setDestinationItems(deliveryDestinations);
     }
 
     public HashMap<String,Integer> getItemsOfDest(int deliveryId,int siteId) {

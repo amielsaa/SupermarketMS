@@ -6,7 +6,7 @@ import DeliveryModule.BusinessLayer.*;
 import DeliveryModule.BusinessLayer.Driver;
 import javafx.util.Pair;
 
-
+//todo: take whatever you need to DeliveryDestinationDAO!
 public class DestinationsDAO extends DataAccessObject {
 
     //private HashSet<Pair<Integer,Integer>> destinationsCache;

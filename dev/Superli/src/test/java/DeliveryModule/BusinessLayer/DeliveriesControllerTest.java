@@ -30,8 +30,8 @@ public class DeliveriesControllerTest {
             DriverDAO driverDAO = new DriverDAO();
             DestinationsDAO destinationsDAO = new DestinationsDAO();
             DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
-            DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-            DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
+            //DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
+            //DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
 
             sitesController = new SitesController();
             trucksController = new TrucksController();

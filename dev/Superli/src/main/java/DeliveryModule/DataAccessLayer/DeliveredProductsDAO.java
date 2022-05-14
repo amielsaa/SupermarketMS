@@ -4,7 +4,7 @@ import java.util.*;
 import java.sql.*;
 import javafx.util.Pair;
 
-
+//todo: take whatever you need to DeliveryArchiveDAO!
 public class DeliveredProductsDAO extends DataAccessObject {
 
     private HashMap<Pair<Integer, Integer>, Set<Pair<String, Integer>>> deliveredProductsCache;
