@@ -7,6 +7,7 @@ import java.util.*;
 public class StoreProductMapper {
 
     private Map<Integer, List<StoreProduct>> storeProductsMap;
+    private boolean pulled_all_data = false;
 
     public StoreProductMapper() {
         this.storeProductsMap = new HashMap<>();
@@ -40,6 +41,15 @@ public class StoreProductMapper {
         return storeProductsMap.containsKey(productid) && !storeProductsMap.get(productid).isEmpty() && storeProductsMap.get(productid).stream().anyMatch((s)->!s.isNull() &&  s.getStoreId()==storeid && s.getExpDate().equals(expDate));
     }
 
+    public boolean isPulled_all_data() {
+        return pulled_all_data;
+    }
 
+    public void setPulled_all_data(boolean pulled_all_data) {
+        this.pulled_all_data = pulled_all_data;
+    }
 
+    public Map<Integer, List<StoreProduct>> getStoreProductsMap() {
+        return storeProductsMap;
+    }
 }

@@ -102,15 +102,6 @@ public class ProductController {
     }
 
 
-    //TODO: should be deleted
-    public Product addDefectiveProduct(int productId) {
-        Product product = data.findProductById(productId);
-        if(data.getDefectiveProducts().contains(product))
-            throw new IllegalArgumentException("Product already reported as defective.");
-        data.getDefectiveProducts().add(product);
-        return product;
-    }
-
     /**
      *
      * @param productId
@@ -140,7 +131,8 @@ public class ProductController {
 
     public String addDiscountByCategory(String categoryName, int discount, String date){
         List<Product> products = productDAO.SelectAll();
-        for(Product p : products) {
+        for(int i=0;i<products.size();i++) {
+            Product p = products.get(i);
             Category c = p.getCategories().stream().filter(cat->cat.getCategoryName().equals(categoryName)).findFirst().orElse(null);
             if(c!=null)
                 addDiscountByName(p.getId(),discount,date);
@@ -191,5 +183,10 @@ public class ProductController {
             throw new IllegalArgumentException("Store doesn't exists.");
         this.storeId = storeId;
     }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
     public String turnOffTimer(){return data.turnOffTimer();}
 }

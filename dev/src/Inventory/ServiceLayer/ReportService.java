@@ -39,20 +39,38 @@ public class ReportService {
     }
 
 
-    public Response<Report> ReportByDefective() {
+    public Response<Report> ReportByDefective(Map<Product,List<StoreProduct>> productListMap) {
         try {
-            Report report = new Report("Defective products report", reportController.reportByDefective());
+            Report report = new Report("Defective products report", reportController.reportByDefective(productListMap));
             return Response.makeSuccess(report);
         } catch (Exception e ) {
             return Response.makeFailure(e.getMessage());
         }
     }
 
-    public Response<Map<Pair<String,String>,Integer>> ReportMinQuantity(Map<Product,List<StoreProduct>> productListMap) {
+    public Response<Report> ReportMinQuantity(Map<Product,List<StoreProduct>> productListMap) {
+        try {
+            Report report = new Report("Shortage products report", reportController.reportMinQuantityTable(productListMap));
+            return Response.makeSuccess(report);
+        } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Map<Pair<String,String>,Integer>> MakeOrderMinQuantity(Map<Product,List<StoreProduct>> productListMap) {
         try {
             Map<Pair<String,String>,Integer> mappedProducts = reportController.reportByMinimumQuantity(productListMap);
             return Response.makeSuccess(mappedProducts);
         } catch (Exception e ) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> AddDefectiveProduct(int productId, int storeid) {
+        try{
+            reportController.addDefectiveProduct(productId,storeid);
+            return Response.makeSuccess(String.format("Product with ID:%d added successfully",productId));
+        }catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }
     }

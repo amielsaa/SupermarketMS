@@ -63,21 +63,25 @@ public class Menu {
                 case 8:
                     reportByDefectiveAction();
                     break;
-                case 9:
-                    changeCategoryAction();
-                    break;
-                case 10:
-                    addDiscountByCategoryAction();
-                    break;
-                case 11:
-                    addDiscountByNameAction();
-                    break;
-                case 12:
-                    deleteProductAction();
-                    break;
-                case 13:
+                case 9://report
                     reportByMinQuantity();
                     break;
+                case 10:
+                    makeOrderMinQuantity();
+                    break;
+                case 11:
+                    changeCategoryAction();
+                    break;
+                case 12:
+                    addDiscountByCategoryAction();
+                    break;
+                case 13:
+                    addDiscountByNameAction();
+                    break;
+                case 14:
+                    deleteProductAction();
+                    break;
+
 
             }
         }catch(Exception e) {
@@ -93,14 +97,10 @@ public class Menu {
         printDivider();
     }
 
-    private void reportByMinQuantity() {
-        Response<Map<Pair<String,String>,Integer>> res = service.ReportMinQuantity();
-        if(res.isSuccess()) {
-            for(Map.Entry<Pair<String,String>,Integer> entry : res.getData().entrySet()) {
-                System.out.println(entry.getKey().getFirst() +" "+entry.getKey().getSecond() + " : "+entry.getValue());
-            }
-        } else
-            System.out.println(res.getMessage());
+
+
+    private void makeOrderMinQuantity() {
+        service.MakeOrderMinQuantity();
     }
 
     private void deleteProductAction() {
@@ -115,7 +115,9 @@ public class Menu {
         else
             System.out.println(res.getMessage());
     }
-    //TODO: remove //
+
+
+    //REPORTS
     private void reportByCategoriesAction() {
         printDivider();
         System.out.println("Enter category names.\n" +
@@ -131,9 +133,29 @@ public class Menu {
         else
             System.out.println(res.getMessage());
     }
-    //TODO: remove //
+
     private void reportByDefectiveAction() {
         Response<Report> res = service.ReportByDefective();
+        if(res.isSuccess()) {
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+        } else
+            System.out.println(res.getMessage());
+    }
+
+    private void reportByExpiredAction() {
+        Response<Report> res = service.ReportByExpired();
+        if(res.isSuccess()){
+            System.out.println( res.getData().getHeadline());
+            res.getData().getTable().print();
+        }
+        else
+            System.out.println(res.getMessage());
+
+    }
+
+    private void reportByMinQuantity() {
+        Response<Report> res = service.ReportMinQuantity();
         if(res.isSuccess()) {
             System.out.println(res.getData().getHeadline());
             res.getData().getTable().print();
@@ -214,17 +236,7 @@ public class Menu {
     }
 
 
-    //TODO: remove //
-    private void reportByExpiredAction() {
-        Response<Report> res = service.ReportByExpired();
-        if(res.isSuccess()){
-            System.out.println( res.getData().getHeadline());
-            res.getData().getTable().print();
-        }
-        else
-            System.out.println(res.getMessage());
 
-    }
 
     private void addStoreProductAction() {
         getAllStoreProductsAction();
@@ -291,10 +303,11 @@ public class Menu {
 
     private void printMenu() {
         System.out.println(
-                "1-Add Product                  <--->   5-Print All Store Products        <--->   9-Change Category\n" +
-                "2-Add Store Product            <--->   6-Report By Categories            <--->   10-Add Discount By Category\n" +
-                "3-Add Category                 <--->   7-Report By Expired Products      <--->   11-Add Discount To Product\n" +
-                "4-Add Defective Product        <--->   8-Report By Defective Products    <--->   12-Delete Product\n" +
+                "1-Add Product                         <--->   6-Report By Categories              <--->   11-Change Category\n" +
+                "2-Add/Update Store Product            <--->   7-Report By Expired Products        <--->   12-Add Discount By Category\n" +
+                "3-Add Category                        <--->   8-Report By Defective Products      <--->   13-Add Discount To Product\n" +
+                "4-Add Defective Product               <--->   9-Report By Shortage Products       <--->   14-Delete Product\n" +
+                "5-Print All Store Products            <--->   10-Make Order Of Minimum Quantity   <--->   15-Not implemented\n" +
                 "0-Exit");
     }
 

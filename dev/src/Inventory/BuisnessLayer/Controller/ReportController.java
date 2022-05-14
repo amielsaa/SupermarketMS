@@ -93,8 +93,7 @@ public class ReportController {
            return table;
     }
 
-    //TODO:
-    // done.
+
     public CommandLineTable reportByExpired(Map<Product,List<StoreProduct>> productListMap){
 
         CommandLineTable table = new CommandLineTable();
@@ -112,9 +111,8 @@ public class ReportController {
         return table;
     }
 
-    //TODO:
-    // done.
-    public CommandLineTable reportByDefective(){
+
+    public CommandLineTable reportByDefective(Map<Product,List<StoreProduct>> productListMap){
         List<Product> defList = reportDAO.SelectDefectiveProducts();
         CommandLineTable table = new CommandLineTable();
         table.setShowVerticalLines(true);
