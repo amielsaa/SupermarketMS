@@ -103,17 +103,41 @@ public class DriverDAO extends DataAccessObject {
 
     //Todo
     public boolean updateLicenseType(int id, String newLicenseType){
-        return false;
+        return Update(Read(id));
     }
 
     //ToDo
     public boolean updateName(int id, String newName){
-        return false;
+        return Update(Read(id));
     }
 
     //ToDo
     public ArrayList<Driver> readAll(){
-        return null;
+
+        String sql = "SELECT * FROM Drivers";
+        ArrayList<Driver> drivers = new ArrayList();
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            int resID = 0;
+            String name = null;
+            LicenseType licenseType = null;
+            while (rs.next()) {
+                resID = rs.getInt("id");
+                name = rs.getString("name");
+                licenseType = LicenseType.valueOf(rs.getString("licenseType"));
+
+                Driver driver = new Driver(resID, name, licenseType);
+                drivers.add(driver);
+                if (!driverCache.containsKey(resID))
+                    driverCache.put(resID, driver);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return drivers;
     }
 
 }

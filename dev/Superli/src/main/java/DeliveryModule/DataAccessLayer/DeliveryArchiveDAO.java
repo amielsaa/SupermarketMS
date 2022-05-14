@@ -11,12 +11,13 @@ import javafx.util.Pair;
 
 public class DeliveryArchiveDAO extends DataAccessObject {
 
-    private HashMap<Integer, Pair<Integer, String>> FinishedDeliveriesCache;
-
+    private HashMap<Integer, String> FinishedDeliveriesCache;
+    int maxId;
 
     public DeliveryArchiveDAO() {
         super("DeliveryArchive");
         FinishedDeliveriesCache = new HashMap<>();
+        maxId = -1;
     }
 
     public boolean addUpcomingDelivery(int id, String details) {
@@ -32,13 +33,14 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         } catch (SQLException e) {
             return false;
         }
-        FinishedDeliveriesCache.put(id, new Pair(id, details));
+        maxId = Math.max(id, maxId);
+        FinishedDeliveriesCache.put(id, details);
         return true;
     }
 
     public Pair<Integer, String> Read(int id) {
         if (FinishedDeliveriesCache.containsKey(id)) {
-            return FinishedDeliveriesCache.get(id);
+            return new Pair<>(id, FinishedDeliveriesCache.get(id));
         }
         String sql = "SELECT * FROM FinishedDeliveries WHERE id = (?)";
         Pair<Integer, String> data = null;
@@ -59,7 +61,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FinishedDeliveriesCache.put(id, data);
+        FinishedDeliveriesCache.put(id, data.getValue());
         return data;
     }
 
@@ -73,11 +75,49 @@ public class DeliveryArchiveDAO extends DataAccessObject {
     }*/
 
 
-    //Todo
-    public String getDeliveryRecord(int deliveryId){return null;}
+    public String getDeliveryRecord(int deliveryId){return Read(deliveryId).getValue();}
 
     //ToDo
     public ArrayList<String> getDeliveryArchive(){
-        return null;
+
+        String sql = "SELECT * FROM FinishedDeliveries";
+        ArrayList<String> archive = new ArrayList<String>();
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int resID = rs.getInt("id");
+                String details = rs.getString("details");
+                archive.add(details);
+                if (!FinishedDeliveriesCache.containsKey(resID))
+                    FinishedDeliveriesCache.put(resID, details);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return archive;
+    }
+
+    public int getMaxId()
+    {
+        if (maxId != -1)
+            return maxId;
+        int result = 0;
+        String sql = "SELECT Max(id) FROM FinishedDeliveries";
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt("id");
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

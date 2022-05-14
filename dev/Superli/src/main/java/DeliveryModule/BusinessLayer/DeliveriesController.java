@@ -299,7 +299,7 @@ public class DeliveriesController {
                     String.format("Actual weight exceeds the max weight of truck %d..",
                             truck.getMaxWeight()));
         delivery.setWeight(weight);
-        upcomingDeliveryDAO.setWeight(weight);
+        upcomingDeliveryDAO.setWeight(deliveryId, weight);
     }
 
     public void completeDelivery(int deliveryId) throws Exception{

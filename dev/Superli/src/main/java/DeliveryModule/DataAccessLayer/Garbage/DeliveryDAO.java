@@ -1,4 +1,4 @@
-package DeliveryModule.DataAccessLayer;
+/*package DeliveryModule.DataAccessLayer;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class DeliveryDAO extends DataAccessObject {
                 HashMap<String,Integer> products = delivery.getProductsPerDestination(dest);
                 for (Map.Entry pair:products.entrySet())
                     deliveredProductsDAO.Create(dest.getId(), delivery.getId(), (String) pair.getKey(), (Integer) pair.getValue());
-            }*/
+            }
         } catch (SQLException e) {
             return false;
         }
@@ -114,7 +114,7 @@ public class DeliveryDAO extends DataAccessObject {
         }
         return result;
     }
-    /*private Set<Branch> getDestinations(int deliveryId) {
+    private Set<Branch> getDestinations(int deliveryId) {
         Set<Integer> idlst = destinationsDAO.ReadSitesPerDeliveryId(deliveryId);
         Set<Branch> rslt = new HashSet<>();
         for (int siteId: idlst) {
@@ -136,7 +136,7 @@ public class DeliveryDAO extends DataAccessObject {
             res.put(branch, items);
         }
         return res;
-    }*/
+    }
 
 
     public boolean Update(Delivery delivery) {
@@ -179,4 +179,4 @@ public class DeliveryDAO extends DataAccessObject {
         return true;
     }
 
-}
+}*/

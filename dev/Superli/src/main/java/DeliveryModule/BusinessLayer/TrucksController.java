@@ -71,7 +71,7 @@ public class TrucksController {
             throw new Exception("Weight of a truck cannot be negative..");
         }
         truck.setMaxWeight(maxWeight);
-        truckDAO.setMaxWeight(maxWeight);
+        truckDAO.setMaxWeight(plateNum, maxWeight);
     }
 
     public void deleteTruck(int plateNum) throws Exception{
