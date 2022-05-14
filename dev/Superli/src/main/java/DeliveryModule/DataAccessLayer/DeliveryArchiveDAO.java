@@ -103,13 +103,13 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         if (maxId != -1)
             return maxId;
         int result = 0;
-        String sql = "SELECT Max(id) FROM DeliveryArchive";
+        String sql = "SELECT Max(id) as max FROM DeliveryArchive";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                result = rs.getInt("id");
+                result = rs.getInt("max");
             }
             rs.close();
         } catch (Exception e) {

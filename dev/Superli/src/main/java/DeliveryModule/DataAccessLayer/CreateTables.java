@@ -7,21 +7,29 @@ import java.sql.SQLException;
 
 
 public class CreateTables {
+
+
     public static void main(String[] args)
     {
-        createTable("CREATE TABLE IF NOT EXISTS Trucks ("+
+        clearTables();
+        createTables();
+    }
+
+    public static void createTables()
+    {
+        exeQuarry("CREATE TABLE IF NOT EXISTS Trucks ("+
                 "plateNum INTEGER not null, "+
                 "model VARCHAR(255) not null, "+
                 "maxWeight INTEGER  not null, "+
                 "PRIMARY KEY (plateNum) );");
 
-        createTable("CREATE TABLE IF NOT EXISTS Drivers ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS Drivers ("+
                 "id INTEGER not null, "+
                 "name VARCHAR(255) not null, "+
                 "licenseType VARCHAR(16) not null, "+
                 "PRIMARY KEY (id) );");
 
-        createTable("CREATE TABLE IF NOT EXISTS Sites ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS Sites ("+
                 "id INTEGER not null, "+
                 "address VARCHAR(255) not null, "+
                 "deliveryZone VARCHAR(16) not null, "+
@@ -30,7 +38,7 @@ public class CreateTables {
                 "type VARCHAR(128) not null, "+
                 "PRIMARY KEY (id) );");
 
-        createTable("CREATE TABLE IF NOT EXISTS UpcomingDeliveries ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS UpcomingDeliveries ("+
                 "id INTEGER not null, "+
                 "startDate DATETIME not null, "+
                 "startTime DATETIME not null, "+
@@ -45,14 +53,14 @@ public class CreateTables {
                 "FOREIGN KEY (driverId) REFERENCES Drivers(id)," +
                 "FOREIGN KEY (originId) REFERENCES Sites(id));");
 
-        createTable("CREATE TABLE IF NOT EXISTS DeliveryDestinations ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS DeliveryDestinations ("+
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "PRIMARY KEY (siteId, deliveryId)," +
                 "FOREIGN KEY (siteId) REFERENCES Sites(id)," +
                 "FOREIGN KEY (deliveryId) REFERENCES UpcomingDeliveries(id));");
 
-        createTable("CREATE TABLE IF NOT EXISTS DeliveryDestinationItems ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS DeliveryDestinationItems ("+
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "name VARCHAR(255) not null, "+
@@ -60,14 +68,24 @@ public class CreateTables {
                 "PRIMARY KEY (siteId, deliveryId, name)," +
                 "FOREIGN KEY (siteId, deliveryId) REFERENCES DeliveryDestinations(siteId, deliveryId));");
 
-        createTable("CREATE TABLE IF NOT EXISTS DeliveryArchive ("+
+        exeQuarry("CREATE TABLE IF NOT EXISTS DeliveryArchive ("+
                 "id INTEGER not null, "+
                 "details VARCHAR(65535) not null, "+
                 "PRIMARY KEY (id) );");
     }
 
+    public static void clearTables()
+    {
+        exeQuarry("DELETE FROM Trucks");
+        exeQuarry("DELETE FROM Drivers");
+        exeQuarry("DELETE FROM Sites");
+        exeQuarry("DELETE FROM UpcomingDeliveries");
+        exeQuarry("DELETE FROM DeliveryDestinations");
+        exeQuarry("DELETE FROM DeliveryDestinationItems");
+        exeQuarry("DELETE FROM DeliveryArchive");
+    }
 
-    public static void createTable(String sql)
+    public static void exeQuarry(String sql)
     {
         try {
             String path =":database.db";

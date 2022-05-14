@@ -103,7 +103,7 @@ public class SiteDAO extends DataAccessObject {
     }
 
     public boolean Delete(int id) {
-        String sql = "DELETE FROM Sites WHERE plateNum = (?)";
+        String sql = "DELETE FROM Sites WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -178,13 +178,13 @@ public class SiteDAO extends DataAccessObject {
         if (maxId != -1)
             return maxId;
         int result = 0;
-        String sql = "SELECT Max(id) FROM Sites";
+        String sql = "SELECT Max(id) as max FROM Sites";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                result = rs.getInt("id");
+                result = rs.getInt("max");
             }
             rs.close();
         } catch (Exception e) {

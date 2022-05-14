@@ -69,7 +69,7 @@ public class DriverDAO extends DataAccessObject {
 
     public boolean Update(Driver driver) {
         int id = driver.getId();
-        String sql = "UPDATE Drivers SET name = (?), licenseType = (?), WHERE id = (?)";
+        String sql = "UPDATE Drivers SET name = (?), licenseType = (?) WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class DriverDAO extends DataAccessObject {
     }
 
     public boolean Delete(int id) {
-        String sql = "DELETE FROM Drivers WHERE plateNum = (?)";
+        String sql = "DELETE FROM Drivers WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);

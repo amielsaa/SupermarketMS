@@ -113,7 +113,33 @@ public class TruckDAO extends DataAccessObject {
 
     public void setMaxWeight(int plateNum, int maxWeight){Update(Read(plateNum));}
 
-    public ArrayList<Truck> getAllTrucks(){return null;}
+    public ArrayList<Truck> getAllTrucks(){
+        String sql = "SELECT * FROM Trucks";
+        ArrayList<Truck> trucks = new ArrayList<>();
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            int resPlateNum = 0;
+            String model = null;
+            int maxWeight = 0;
+            while (rs.next()) {
+                resPlateNum = rs.getInt("plateNum");
+                model = rs.getString("model");
+                maxWeight = rs.getInt("maxWeight");
+
+                Truck truck = new Truck(resPlateNum, model, maxWeight);
+                trucks.add(truck);
+                if (!truckCache.containsKey(resPlateNum))
+                    truckCache.put(resPlateNum, truck);
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return trucks;
+    }
 
 }
 
