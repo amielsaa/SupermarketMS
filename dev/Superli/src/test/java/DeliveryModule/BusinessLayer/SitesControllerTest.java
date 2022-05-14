@@ -14,7 +14,7 @@ public class SitesControllerTest {
 
     @Before
     public void setUp() {
-        sitesController=new SitesController(new SiteDAO());
+        sitesController=new SitesController();
     }
 
     @Test

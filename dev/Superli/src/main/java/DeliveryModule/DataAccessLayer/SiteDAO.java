@@ -12,11 +12,13 @@ import DeliveryModule.BusinessLayer.Driver;
 public class SiteDAO extends DataAccessObject {
 
     private HashMap<Integer, Site> siteCache;
+    private HashMap<String,Integer> siteAddressMapper;
 
 
     public SiteDAO() {
         super("Sites");
         siteCache = new HashMap<>();
+        siteAddressMapper=new HashMap<>();
     }
 
     public boolean Create(Site site) {
@@ -37,6 +39,7 @@ public class SiteDAO extends DataAccessObject {
             return false;
         }
         siteCache.put(site.getId(), site);
+        siteAddressMapper.put(site.getAddress(),site.getId());
         return true;
     }
 
@@ -112,5 +115,12 @@ public class SiteDAO extends DataAccessObject {
         return true;
     }
 
+    public Site getSite(String address){return null;}
+    public Site getSite(Integer siteId){return null;}
+    public ArrayList<Site> getAllSites(){return null;}
+    public void editSiteAddress(int id, String address){}
+    public void setDeliveryZone(int id, int zone){}
+    public void setPhoneNumber(int id, String phoneNumber){}
+    public void setContactName(int id, String name){}
 }
 

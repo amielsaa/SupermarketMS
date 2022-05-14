@@ -31,12 +31,12 @@ public class DeliveriesControllerTest {
             DestinationsDAO destinationsDAO = new DestinationsDAO();
             DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
             DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-            FinishedDeliveriesDAO finishedDeliveriesDAO = new FinishedDeliveriesDAO();
+            DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
 
-            sitesController = new SitesController(siteDAO);
-            trucksController = new TrucksController(truckDAO);
-            driversController = new DriversController(driverDAO);
-            deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, finishedDeliveriesDAO);
+            sitesController = new SitesController();
+            trucksController = new TrucksController();
+            driversController = new DriversController();
+            deliveriesController = new DeliveriesController(driversController,sitesController, trucksController);
 
             driversController.addDriver(1, "c driver", "C");
             driversController.addDriver(2, "c1 driver", "C1");
@@ -137,7 +137,7 @@ public class DeliveriesControllerTest {
             deliveriesController.addDelivery(time3, time4, 2222222,1,1,2);
             deliveriesController.setWeight(1,5000);
             deliveriesController.completeDelivery(1);
-            assertEquals(2222222, deliveriesController.getUpcomingDelivery(2).getTruck().getPlateNum());
+            assertEquals(2222222, deliveriesController.getUpcomingDelivery(2).getTruckId());
         }
         catch (Exception e){
             System.out.println(e.getMessage());

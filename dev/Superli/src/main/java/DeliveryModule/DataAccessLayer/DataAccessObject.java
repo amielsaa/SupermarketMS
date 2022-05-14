@@ -1,8 +1,13 @@
 package DeliveryModule.DataAccessLayer;
 
+import DeliveryModule.BusinessLayer.Driver;
+import DeliveryModule.BusinessLayer.Site;
+import DeliveryModule.BusinessLayer.Truck;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DataAccessObject {
@@ -34,8 +39,4 @@ public abstract class DataAccessObject {
     public void setPath(String path) {
         this.path = path;
     }
-
-
-
-
 }

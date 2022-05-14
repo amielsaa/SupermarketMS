@@ -9,17 +9,17 @@ import DeliveryModule.BusinessLayer.*;
 import DeliveryModule.BusinessLayer.Driver;
 import javafx.util.Pair;
 
-public class FinishedDeliveriesDAO extends DataAccessObject {
+public class DeliveryArchiveDAO extends DataAccessObject {
 
     private HashMap<Integer, Pair<Integer, String>> FinishedDeliveriesCache;
 
 
-    public FinishedDeliveriesDAO() {
-        super("FinishedDeliveries");
+    public DeliveryArchiveDAO() {
+        super("DeliveryArchive");
         FinishedDeliveriesCache = new HashMap<>();
     }
 
-    public boolean Create(int id, String details) {
+    public boolean addUpcomingDelivery(int id, String details) {
         String sql = "INSERT INTO FinishedDeliveries(id, details) VALUES(?,?)";
         try {
             Connection conn = this.makeConnection();
@@ -72,4 +72,12 @@ public class FinishedDeliveriesDAO extends DataAccessObject {
 
     }*/
 
+
+    //Todo
+    public String getDeliveryRecord(int deliveryId){return null;}
+
+    //ToDo
+    public ArrayList<String> getDeliveryArchive(){
+        return null;
+    }
 }

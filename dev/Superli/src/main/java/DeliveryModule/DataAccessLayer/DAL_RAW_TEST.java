@@ -3,14 +3,13 @@ package DeliveryModule.DataAccessLayer;
 
 import DeliveryModule.BusinessLayer.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 //move me to tests folder with junits!
 public class DAL_RAW_TEST {
+    /*
     public static void main(String[] args) throws Exception {
+
         CreateTables.main(new String[0]);
         SiteDAO siteDAO = new SiteDAO();
         TruckDAO truckDAO = new TruckDAO();
@@ -18,7 +17,7 @@ public class DAL_RAW_TEST {
         DestinationsDAO destinationsDAO = new DestinationsDAO();
         DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
         DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-        FinishedDeliveriesDAO finishedDeliveriesDAO = new FinishedDeliveriesDAO();
+        DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
 
         SupplierWarehouse s1 = new SupplierWarehouse(1, "Haifa", 0, "054-0000001", "supplier1");
         Branch b1 = new Branch(3, "Tiberias", 0,"054-0000003","branch1");
@@ -57,7 +56,7 @@ public class DAL_RAW_TEST {
         DestinationsDAO destinationsDAO2 = new DestinationsDAO();
         DeliveredProductsDAO deliveredProductsDAO2 = new DeliveredProductsDAO();
         DeliveryDAO deliveryDAO2 = new DeliveryDAO(truckDAO2, driverDAO, siteDAO2, destinationsDAO2, deliveredProductsDAO2);
-        FinishedDeliveriesDAO finishedDeliveriesDAO2 = new FinishedDeliveriesDAO();
+        DeliveryArchiveDAO deliveryArchiveDAO2 = new DeliveryArchiveDAO();
 
         System.out.println(deliveryDAO2.Read(1));
     }
@@ -67,4 +66,6 @@ public class DAL_RAW_TEST {
     {
 
     }
+
+         */
 }

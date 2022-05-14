@@ -5,7 +5,7 @@ import DeliveryModule.DataAccessLayer.TruckDAO;
 import java.util.*;
 
 public class TrucksController {
-    private HashMap<Integer, Truck> trucks;
+  //  private HashMap<Integer, Truck> trucks;
     private TruckDAO truckDAO;
 
     private HashMap<LicenseType,Integer> licenseMapper=new HashMap<LicenseType, Integer>(){{
@@ -13,9 +13,9 @@ public class TrucksController {
         put(LicenseType.C1,12000);
     }};
 
-    public TrucksController(TruckDAO truckDAO) {
-        this.truckDAO = truckDAO;
-        trucks=new HashMap<>();
+    public TrucksController() {
+        this.truckDAO = new TruckDAO();
+       // trucks=new HashMap<>();
     }
 
     public void load() throws Exception{
@@ -27,65 +27,81 @@ public class TrucksController {
     }
 
     public void addTruck(int plateNum, String model, int maxWeight)throws Exception{
-        if(trucks.containsKey(plateNum)){
+        if(truckDAO.Read(plateNum)!=null){
             throw new Exception(String.format("A truck with plate number %d already exists..",plateNum));
         }
-        trucks.put(plateNum,new Truck(plateNum,model,maxWeight));
+        //trucks.put(plateNum,new Truck(plateNum,model,maxWeight));
+        truckDAO.Create(new Truck(plateNum,model,maxWeight));
     }
     public void editPlateNum(int oldPlateNum, int newPlateNum) throws Exception {
-        if(!trucks.containsKey(oldPlateNum)){
+        Truck truck=truckDAO.Read(oldPlateNum);
+        if(truck==null){
             throw new Exception(String.format("A truck with plate number %d does not exist..",oldPlateNum));
         }
-        if(trucks.containsKey(newPlateNum)){
+        if(truckDAO.Read(newPlateNum)!=null){
             throw new Exception(String.format("A truck with plate number %d already exists..",newPlateNum));
         }
+
+        truck.setPlateNum(newPlateNum);
+        truckDAO.setPlateNum(oldPlateNum,newPlateNum);
+
+        /*
         trucks.get(oldPlateNum).setPlateNum(newPlateNum);
         trucks.put(newPlateNum, trucks.get(oldPlateNum));
         trucks.remove(oldPlateNum);
+
+         */
     }
 
     public void editModel(int plateNum, String newModel) throws Exception {
-        if(!trucks.containsKey(plateNum)){
+        Truck truck=getTruck(plateNum);
+        if(truck==null){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
-        trucks.get(plateNum).setModel(newModel);
+        truck.setModel(newModel);
+        truckDAO.setModel(plateNum,newModel);
     }
 
     public void editMaxWeight(int plateNum, int maxWeight) throws Exception {
-        if(!trucks.containsKey(plateNum)){
+        Truck truck=getTruck(plateNum);
+        if(truck==null){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         if(maxWeight<0){
             throw new Exception("Weight of a truck cannot be negative..");
         }
-        trucks.get(plateNum).setMaxWeight(maxWeight);
+        truck.setMaxWeight(maxWeight);
+        truckDAO.setMaxWeight(maxWeight);
     }
 
     public void deleteTruck(int plateNum) throws Exception{
-        if(!trucks.containsKey(plateNum)){
+        Truck truck=getTruck(plateNum);
+        if(truck==null){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
-        trucks.remove(plateNum);
+        truckDAO.Delete(plateNum);
     }
 
     //change to protected before submitting
     protected boolean isAbleToDrive(LicenseType licenseType, int plateNum){
-        if(trucks.containsKey(plateNum) && licenseMapper.containsKey(licenseType)){
-            return trucks.get(plateNum).getMaxWeight()<=licenseMapper.get(licenseType);
+        Truck truck=truckDAO.Read(plateNum);
+        if(truck!=null && licenseMapper.containsKey(licenseType)){
+            return truck.getMaxWeight()<=licenseMapper.get(licenseType);
         }
         return false;
     }
 
     public ArrayList<Truck> getTrucks(){
-        ArrayList<Truck> list=new ArrayList<>(trucks.values());
+        ArrayList<Truck> list=truckDAO.getAllTrucks();
         list.sort(Comparator.comparingInt(Truck::getMaxWeight));
         return list;
     }
 
     public Truck getTruck(int plateNum) throws Exception{
-        if(!trucks.containsKey(plateNum)){
+        Truck truck=truckDAO.Read(plateNum);
+        if(truck==null){
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
-        return trucks.get(plateNum);
+        return truck;
     }
 }

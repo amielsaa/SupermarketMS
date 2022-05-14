@@ -4,16 +4,26 @@ import DeliveryModule.DataAccessLayer.SiteDAO;
 import java.util.*;
 
 public class SitesController {
-    private Map<Integer, Site> sites;
-    private HashMap<String,Integer> siteAddressMapper;
+   // private Map<Integer, Site> sites;
+  //  private HashMap<String,Integer> siteAddressMapper;
     private int nextID;
     private SiteDAO siteDAO;
-    public SitesController(SiteDAO siteDAO){
+
+    public SitesController() {
+        this.nextID=1;
+        this.siteDAO=new SiteDAO();
+    }
+    /*
+    public SitesController(){
         sites = new HashMap<>();
         siteAddressMapper=new HashMap<>();
         nextID = 1;
         this.siteDAO = siteDAO;
     }
+
+
+     */
+
 
     public void load() throws Exception{
         addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
@@ -25,20 +35,23 @@ public class SitesController {
     }
 
     public void addSupplierWarehouse(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
-        if(siteAddressMapper.containsKey(address)){
+        if(siteDAO.getSite(address)!=null){
             throw new Exception(String.format("A site with address %s already exists..",address));
         }
-        siteAddressMapper.put(address,nextID);
-        sites.put(nextID, new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
+
+        //siteAddressMapper.put(address,nextID);
+       // sites.put(nextID, new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
+        siteDAO.Create(new SupplierWarehouse(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
 
     public void addBranch(String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
-        if(siteAddressMapper.containsKey(address)){
+        if(siteDAO.getSite(address)!=null){
             throw new Exception(String.format("A site with address %s already exists..",address));
         }
-        siteAddressMapper.put(address,nextID);
-        sites.put(nextID, new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
+        //siteAddressMapper.put(address,nextID);
+        //sites.put(nextID, new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
+        siteDAO.Create(new Branch(nextID, address, deliveryZone, phoneNumber, contactName));
         nextID++;
     }
 
@@ -46,9 +59,14 @@ public class SitesController {
         Site toBeEdited = getSite(id);
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
+        toBeEdited.setAddress(address);
+        siteDAO.editSiteAddress(id,address);
+        /*
         siteAddressMapper.remove(toBeEdited.getAddress());
         toBeEdited.setAddress(address);
         siteAddressMapper.put(address,id);
+
+         */
     }
 
     public void editSiteDeliveryZone(int id, int zone) throws Exception {
@@ -56,6 +74,7 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setDeliveryZone(zone);
+        siteDAO.setDeliveryZone(id,zone);
     }
 
     public void editSitePhoneNumber(int id, String phoneNumber) throws Exception {
@@ -63,6 +82,7 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setPhoneNumber(phoneNumber);
+        siteDAO.setPhoneNumber(id,phoneNumber);
     }
 
     public void editSiteContactName(int id, String name) throws Exception {
@@ -70,38 +90,50 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("The site id has not been found, so nothing changed");
         toBeEdited.setContactName(name);
+        siteDAO.setContactName(id,name);
     }
 
     public Site getSite(int id) throws Exception {
-        Site site = sites.get(id);
+        Site site = siteDAO.getSite(id);
         if (site == null)
             throw new Exception(String.format("The site id %d does not exist",id));
         return site;
     }
     public Site getSite(String address) {
-        return sites.get(siteAddressMapper.get(address));
+        return siteDAO.getSite(address);
+        //return sites.get(siteAddressMapper.get(address));
     }
 
 
-    public Collection<Site> getAllSites() {
-        return sites.values();
+    public ArrayList<Site> getAllSites() {
+        return siteDAO.getAllSites();
     }
 
     public Collection<Site> viewSitesPerZone(int zone) throws Exception {
         //DeliveryZone deliveryZone = Site.stringToDeliveryZone(zone);
+
         Collection<Site> output = new ArrayList<>();
-        Collection<Site> site_list = sites.values();
+        Collection<Site> site_list = siteDAO.getAllSites();
         for (Site site: site_list)
             if (site.getDeliveryZone() == Site.stringToDeliveryZone(zone))
                 output.add(site);
         return output;
+
+
     }
 
     public int getSiteId(String address) throws Exception{
+        /*
         if(!siteAddressMapper.containsKey(address)){
             throw new Exception(String.format("A site with address %s does not exist",address));
         }
         return siteAddressMapper.get(address);
+         */
+        Site site=getSite(address);
+        if(site==null){
+            throw new Exception(String.format("A site with address %s does not exist",address));
+        }
+        return site.getId();
     }
 
 
@@ -109,12 +141,16 @@ public class SitesController {
         Site site=getSite(id);
         if(site==null)
             throw new Exception(String.format("A site with id %d does not exist",id));
+        /*
         siteAddressMapper.remove(site.getAddress());
         sites.remove(id);
+
+         */
+        siteDAO.Delete(id);
     }
 
     public ArrayList<Site> getAllDestinations(){
-        Collection<Site> siteList=sites.values();
+        ArrayList<Site> siteList=siteDAO.getAllSites();
         ArrayList<Site> destList=new ArrayList<>();
         for(Site site:siteList){
             if(site.canBeADestination()){destList.add(site);}

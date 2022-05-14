@@ -21,7 +21,7 @@ public class DeliveryService {
         // INIT OTHER SERVICES
         this.gateway = gateway;
         // -------------------
-
+/*
         //DAO CREATIONS
         SiteDAO siteDAO = new SiteDAO();
         TruckDAO truckDAO = new TruckDAO();
@@ -29,14 +29,22 @@ public class DeliveryService {
         DestinationsDAO destinationsDAO = new DestinationsDAO();
         DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
         DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-        FinishedDeliveriesDAO finishedDeliveriesDAO = new FinishedDeliveriesDAO();
+        DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
         //--------------------
 
         sitesController = new SitesController(siteDAO);
         trucksController = new TrucksController(truckDAO);
         driversController = new DriversController(driverDAO);
-        deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, finishedDeliveriesDAO);
+        deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, deliveryArchiveDAO);
         load();
+
+ */
+        sitesController = new SitesController();
+        trucksController = new TrucksController();
+        driversController = new DriversController();
+        deliveriesController = new DeliveriesController(driversController,sitesController, trucksController);
+
+
     }
     //############################# Loading Data ###################################################
     private void load(){

@@ -39,9 +39,9 @@ public class DeliveryDAO extends DataAccessObject {
             pstmt.setDate(4, Date.valueOf(delivery.getEndTime().toLocalDate()));
             pstmt.setTime(5, Time.valueOf(delivery.getEndTime().toLocalTime()));
             pstmt.setInt(6, delivery.getWeight());
-            pstmt.setInt(7, delivery.getTruck().getPlateNum());
-            pstmt.setInt(8, delivery.getDriver().getId());
-            pstmt.setInt(9, delivery.getOrigin().getId());
+            pstmt.setInt(7, delivery.getTruckId());
+            pstmt.setInt(8, delivery.getDriverId());
+            pstmt.setInt(9, delivery.getOriginSiteId());
             if (pstmt.executeUpdate() != 1) {
                 return false;
             }
@@ -90,7 +90,7 @@ public class DeliveryDAO extends DataAccessObject {
 
                 destinations = getDestinations(id);
                 products = getProducts(id, destinations);
-                delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations, products);
+              //  delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations, products);
 
             }
             rs.close();
@@ -138,9 +138,9 @@ public class DeliveryDAO extends DataAccessObject {
             pstmt.setDate(3, Date.valueOf(delivery.getEndTime().toLocalDate()));
             pstmt.setTime(4, Time.valueOf(delivery.getEndTime().toLocalTime()));
             pstmt.setInt(5, delivery.getWeight());
-            pstmt.setInt(6, delivery.getTruck().getPlateNum());
-            pstmt.setInt(7, delivery.getDriver().getId());
-            pstmt.setInt(8, delivery.getOrigin().getId());
+            pstmt.setInt(6, delivery.getTruckId());
+            pstmt.setInt(7, delivery.getDriverId());
+            pstmt.setInt(8, delivery.getOriginSiteId());
             pstmt.setInt(9, delivery.getId());
             if (pstmt.executeUpdate() != 1) {
                 return false;

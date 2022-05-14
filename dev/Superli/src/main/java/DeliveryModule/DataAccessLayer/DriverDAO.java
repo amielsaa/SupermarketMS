@@ -101,5 +101,20 @@ public class DriverDAO extends DataAccessObject {
         return true;
     }
 
+    //Todo
+    public boolean updateLicenseType(int id, String newLicenseType){
+        return false;
+    }
+
+    //ToDo
+    public boolean updateName(int id, String newName){
+        return false;
+    }
+
+    //ToDo
+    public ArrayList<Driver> readAll(){
+        return null;
+    }
+
 }
 

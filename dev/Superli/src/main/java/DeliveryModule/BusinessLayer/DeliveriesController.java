@@ -1,29 +1,46 @@
 package DeliveryModule.BusinessLayer;
 
-import DeliveryModule.DataAccessLayer.DeliveredProductsDAO;
-import DeliveryModule.DataAccessLayer.DeliveryDAO;
-import DeliveryModule.DataAccessLayer.DestinationsDAO;
-import DeliveryModule.DataAccessLayer.FinishedDeliveriesDAO;
+import DeliveryModule.DataAccessLayer.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class DeliveriesController {
-    private int nextDeliveryId;
+    //todo: think about how to auto generate ids
+    private int nextDeliveryId=1;
     private DriversController driversController;
     private SitesController sitesController;
     private TrucksController trucksController;
-    private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
-    private LinkedHashMap<Integer,String> deliveryArchive;
-    private DestinationsDAO destinationsDAO;
-    private DeliveredProductsDAO deliveredProductsDAO;
-    private DeliveryDAO deliveryDAO;
-    private FinishedDeliveriesDAO finishedDeliveriesDAO;
+    //private LinkedHashMap<Integer,Delivery> upcomingDeliveries;
+    //private LinkedHashMap<Integer,String> deliveryArchive;
 
+    private UpcomingDeliveryDAO upcomingDeliveryDAO;
+    private DeliveryArchiveDAO deliveryArchiveDAO;
+    private DeliveryDestinationItemsDAO deliveryDestinationItemsDAO;
+    private DeliveryDestinationsDAO deliveryDestinationsDAO;
+
+
+    public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController) {
+        this.driversController = driversController;
+        this.sitesController = sitesController;
+        this.trucksController = trucksController;
+        this.upcomingDeliveryDAO=new UpcomingDeliveryDAO();
+        this.deliveryArchiveDAO=new DeliveryArchiveDAO();
+        this.deliveryDestinationItemsDAO=new DeliveryDestinationItemsDAO();
+        this.deliveryDestinationsDAO= new DeliveryDestinationsDAO();
+    }
+
+    //  private DestinationsDAO destinationsDAO;
+   // private DeliveredProductsDAO deliveredProductsDAO;
+  //  private DeliveryDAO deliveryDAO;
+   // private FinishedDeliveriesDAO finishedDeliveriesDAO;
+/*
     public DeliveriesController(DriversController driversController, SitesController sitesController, TrucksController trucksController,
-                                DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO, DeliveryDAO deliveryDAO, FinishedDeliveriesDAO finishedDeliveriesDAO) {
+                                DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO, DeliveryDAO deliveryDAO, DeliveryArchiveDAO deliveryArchiveDAO) {
         this.driversController=driversController;
         this.sitesController=sitesController;
         this.trucksController = trucksController;
@@ -32,9 +49,11 @@ public class DeliveriesController {
         this.destinationsDAO = destinationsDAO;
         this.deliveredProductsDAO = deliveredProductsDAO;
         this.deliveryDAO = deliveryDAO;
-        this.finishedDeliveriesDAO = finishedDeliveriesDAO;
+        this.finishedDeliveriesDAO = deliveryArchiveDAO;
         nextDeliveryId=1;
     }
+ */
+
 
     public void load() throws Exception {
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -58,7 +77,10 @@ public class DeliveriesController {
         //completeDelivery(2);
     }
 
+
+
     private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {
+        /*
         for(Delivery delivery: upcomingDeliveries.values()){
             if((delivery.getTruck().getPlateNum()==truckId &&
                     isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime()))){
@@ -66,6 +88,19 @@ public class DeliveriesController {
             }
             if(delivery.getDriver().getId()==driverId &&
                             isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime())){
+                throw new Exception(String.format("Driver %d is not available",driverId));
+            }
+        }
+
+         */
+        //todo: maybe use select query for truckId instead of using getUpcomingDeliveries
+        for(Delivery delivery:upcomingDeliveryDAO.getUpcomingDeliveries()){
+            if((delivery.getTruckId()==truckId &&
+                    isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime()))){
+                throw new Exception(String.format("Tuck %d is not available",truckId));
+            }
+            if(delivery.getDriverId()==driverId &&
+                    isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime())){
                 throw new Exception(String.format("Driver %d is not available",driverId));
             }
         }
@@ -94,7 +129,8 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
+       // upcomingDeliveries.put(nextDeliveryId,new Delivery(nextDeliveryId,startTime,endTime,driver,truck,origin,(Branch)destination));
+        upcomingDeliveryDAO.addUpcomingDelivery(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,destinationId));
         nextDeliveryId++;
     }
 
@@ -118,22 +154,25 @@ public class DeliveriesController {
         }
     }
     public String getCompletedDelivery(int deliveryId) throws Exception {
-        if(!deliveryArchive.containsKey(deliveryId)){
+        String deliveryRecord=deliveryArchiveDAO.getDeliveryRecord(deliveryId);
+        if(deliveryRecord==null){
             throw new Exception(String.format("Delivery %d was not found",deliveryId));
         }
-        return deliveryArchive.get(deliveryId);
+        return deliveryRecord;
     }
     public Delivery getUpcomingDelivery(int deliveryId) throws Exception {
-        if(!upcomingDeliveries.containsKey(deliveryId)){
+        Delivery delivery=upcomingDeliveryDAO.getUpcomingDelivery(deliveryId);
+        if(delivery==null){
             throw new Exception(String.format("Delivery %d was not found",deliveryId));
         }
-        return upcomingDeliveries.get(deliveryId);
+        return delivery;
     }
     public ArrayList<Delivery> getUpcomingDeliveries(){
-        return new ArrayList<>(upcomingDeliveries.values());
+        return upcomingDeliveryDAO.getUpcomingDeliveries();
+        //return new ArrayList<>(upcomingDeliveries.values());
     }
     public ArrayList<String> getDeliveryArchive(){
-        return new ArrayList<>(deliveryArchive.values());
+        return deliveryArchiveDAO.getDeliveryArchive();
     }
     public void addDestination(int deliveryId,int siteId) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
@@ -142,6 +181,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.addDestination((Branch) destination);
+        deliveryDestinationsDAO.addDeliveryDestination(deliveryId,siteId);
     }
 
 
@@ -150,6 +190,8 @@ public class DeliveriesController {
         Site destination=sitesController.getSite(siteId);
         if(!(destination instanceof Branch)) throw new Exception(String.format("Site id %d is not a destination...",siteId));
         delivery.removeDestination((Branch) destination);
+        deliveryDestinationItemsDAO.removeItemsOfDestination(deliveryId,siteId);
+        deliveryDestinationsDAO.removeDeliveryDestination(deliveryId,siteId);
     }
 
     public void addItemToDestination(int deliveryId,int siteId, String item, int quantity) throws Exception {
@@ -159,6 +201,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.addItemToDestination((Branch)destination,item,quantity);
+        deliveryDestinationItemsDAO.addItemToDeliveryDestination(deliveryId,siteId,item,quantity);
     }
     public void removeItemFromDestination(int deliveryId,int siteId, String item) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
@@ -167,6 +210,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.removeItemFromDestination((Branch)destination,item);
+        deliveryDestinationItemsDAO.removeItemFromDestination(siteId,item);
     }
 
     public void editItemQuantity(int deliveryId,int siteId, String item, int quantity) throws Exception{
@@ -176,16 +220,30 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.editItemQuantity((Branch)destination,item,quantity);
+        deliveryDestinationItemsDAO.editItemQuantity(deliveryId,siteId,item,quantity);
     }
 
-    //why did i to this?
-    public String getItemsOfDest(int deliveryId,int siteId) throws Exception {
+    public void loadDeliveryDestination(int deliveryId){
+        Delivery delivery=upcomingDeliveryDAO.getUpcomingDelivery(deliveryId);
+        LinkedList<Integer> destinations=deliveryDestinationsDAO.getDeliveryDestinations(deliveryId);
+        LinkedHashMap<Integer, HashMap<String, Integer>> deliveryDestinations=new LinkedHashMap<>();
+        for(Integer destination: destinations){
+            HashMap<String,Integer> items=getItemsOfDest(deliveryId,destination);
+            deliveryDestinations.put(destination,items);
+        }
+    }
+
+    public HashMap<String,Integer> getItemsOfDest(int deliveryId,int siteId) {
+        /*
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
-        return delivery.toStringItemsOfDest((Branch) destination);
+        return delivery.toStringItemsOfDest(siteId);
+         */
+        HashMap<String,Integer> items=deliveryDestinationItemsDAO.getItemsOfDest(deliveryId,siteId);
+        return items;
     }
 
     public void editStartTime(int deliveryId,LocalDateTime newStartTime)throws Exception{
@@ -201,35 +259,40 @@ public class DeliveriesController {
         Driver driver = driversController.getDriver(newDriverId);
         Delivery delivery=getUpcomingDelivery(deliveryId);
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
-        if (!trucksController.isAbleToDrive(driver.getLicenseType(),delivery.getTruck().getPlateNum()))
-            throw new Exception("The truck is not free at this date...");
-        delivery.setDriver(driver);
+        if (!trucksController.isAbleToDrive(driver.getLicenseType(),delivery.getTruckId()))
+            throw new Exception("The driver cannot drive the truck...");
+        delivery.setDriverId(newDriverId);
+        upcomingDeliveryDAO.setDriverId(deliveryId,newDriverId);
     }
 
     public void editTruck(int deliveryId,int newTruckId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        Truck truck= trucksController.getTruck(newTruckId);
+        trucksController.getTruck(newTruckId);
+        Driver driver=driversController.getDriver(delivery.getDriverId());
         checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
-        if (!trucksController.isAbleToDrive(delivery.getDriver().getLicenseType(),truck.getPlateNum()))
-            throw new Exception("The driver is not free at this date...");
-        delivery.setTruck(truck);
+        if (!trucksController.isAbleToDrive(driver.getLicenseType(),newTruckId))
+            throw new Exception("The driver cannot drive the truck...");
+        delivery.setTruckId(newTruckId);
+        upcomingDeliveryDAO.setTruck(deliveryId,newTruckId);
     }
 
     public void setOrigin(int deliveryId,int newOriginId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        Site origin=sitesController.getSite(newOriginId);
-        delivery.setOrigin(origin);
+        sitesController.getSite(newOriginId);
+        delivery.setOriginSiteId(newOriginId);
     }
 
     public void setWeight(int deliveryId,int weight) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
+        Truck truck=trucksController.getTruck(delivery.getTruckId());
         if(weight<0)
             throw new Exception("invalid weight...");
-        if(weight > delivery.getTruck().getMaxWeight())
+        if(weight > truck.getMaxWeight())
             throw new Exception(
                     String.format("Actual weight exceeds the max weight of truck %d..",
-                            delivery.getTruck().getMaxWeight()));
+                            truck.getMaxWeight()));
         delivery.setWeight(weight);
+        upcomingDeliveryDAO.setWeight(weight);
     }
 
     public void completeDelivery(int deliveryId) throws Exception{
@@ -237,12 +300,12 @@ public class DeliveriesController {
         if(delivery.getWeight()<=0){
             throw new Exception(String.format("Before completing delivery num. %d, truck's weight must be updated...",deliveryId));
         }
-        upcomingDeliveries.remove(deliveryId);
-        deliveryArchive.put(deliveryId,delivery.toString());
+        upcomingDeliveryDAO.deleteUpcomingDelivery(deliveryId);
+        deliveryArchiveDAO.addUpcomingDelivery(deliveryId,delivery.toString());
     }
     public void checkTruckHasUpcomingDelivery(int truckId) throws Exception {
-        for (Delivery delivery: upcomingDeliveries.values()){
-            if(delivery.getTruck().getPlateNum()==truckId){
+        for (Delivery delivery: upcomingDeliveryDAO.getUpcomingDeliveries()){
+            if(delivery.getTruckId()==truckId){
                 throw new Exception(String.format("Truck id %d has upcoming deliveries...",truckId));
             }
         }
@@ -250,29 +313,29 @@ public class DeliveriesController {
 
     public void checkSiteHasUpcomingDelivery(int siteId) throws Exception {
         String site=sitesController.getSite(siteId).getAddress();
-        for (Delivery delivery: upcomingDeliveries.values()){
-            if(delivery.getOrigin().getId()==siteId){
+        for (Delivery delivery: upcomingDeliveryDAO.getUpcomingDeliveries()){
+            if(delivery.getOriginSiteId()==siteId){
                 throw new Exception(String.format("Site %s has upcoming deliveries...",site));
             }
-            for (Branch branch: delivery.getDestinations())
-                if(branch.getId()==siteId)
+            for (Integer branch: delivery.getDestinations())
+                if(branch==siteId)
                     throw new Exception(String.format("Site %s has upcoming deliveries...",site));
         }
     }
 
     public void checkDriverHasUpcomingDelivery(int driverId) throws Exception {
-        for (Delivery delivery: upcomingDeliveries.values()){
-            if(delivery.getDriver().getId()==driverId){
+        for (Delivery delivery: upcomingDeliveryDAO.getUpcomingDeliveries()){
+            if(delivery.getDriverId()==driverId){
                 throw new Exception(String.format("Driver id %d has upcoming deliveries...",driverId));
             }
         }
     }
 
     public void deleteDelivery(int deliveryId) throws Exception{
-        if(!upcomingDeliveries.containsKey(deliveryId)){
+        if(upcomingDeliveryDAO.getUpcomingDelivery(deliveryId)==null){
             throw new Exception(String.format("Delivery %d was not found...",deliveryId));
         }
-        upcomingDeliveries.remove(deliveryId);
+        upcomingDeliveryDAO.deleteUpcomingDelivery(deliveryId);
     }
 
 }
