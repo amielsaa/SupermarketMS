@@ -248,7 +248,7 @@ public class SupplierController {
             itemToSuppliers.put(i,suppliersForItem);
         }
         //----------------------------------------------------------------------------
-        //4.Making a hashmap of <Supplier,List of Hashmap Orders he will preform>
+        //4.Making a hashmap of <Supplier,Hashmap Order he will preform>
         HashMap<Integer,HashMap<Pair<String, String>, Pair<Double, Double>>> suplliertoTheirOrder=new HashMap<>();
         for(Pair i:orderKeys){
             Double finalPrice=Double.MAX_VALUE;
