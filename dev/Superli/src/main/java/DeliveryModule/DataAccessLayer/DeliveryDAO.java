@@ -12,21 +12,13 @@ import javafx.util.Pair;
 public class DeliveryDAO extends DataAccessObject {
 
     private HashMap<Integer, Delivery> deliveryCache;
-    private TruckDAO truckDAO;
-    private DriverDAO driverDAO;
-    private SiteDAO siteDAO;
-    private DestinationsDAO destinationsDAO;
-    private DeliveredProductsDAO deliveredProductsDAO;
+    private int maxId;
 
-    public DeliveryDAO(TruckDAO truckDAO, DriverDAO driverDAO, SiteDAO siteDAO, DestinationsDAO destinationsDAO, DeliveredProductsDAO deliveredProductsDAO)
+    public DeliveryDAO()
     {
         super("Deliveries");
         deliveryCache = new HashMap<>();
-        this.truckDAO = truckDAO;
-        this.driverDAO = driverDAO;
-        this.siteDAO = siteDAO;
-        this.destinationsDAO = destinationsDAO;
-        this.deliveredProductsDAO = deliveredProductsDAO;
+        maxId = -1;
     }
 
     public boolean Create(Delivery delivery) {
@@ -56,6 +48,7 @@ public class DeliveryDAO extends DataAccessObject {
         } catch (SQLException e) {
             return false;
         }
+        maxId = Math.max(delivery.getId(), maxId);
         deliveryCache.put(delivery.getId(), delivery);
         return true;
     }
@@ -75,9 +68,9 @@ public class DeliveryDAO extends DataAccessObject {
             LocalDateTime startTime = null;
             LocalDateTime endTime = null;
             int weight = 0;
-            Truck truck = null;
-            Driver driver = null;
-            Site origin = null;
+            int truckId;
+            int driverId;
+            int originId;
             Set<Branch> destinations = null;
             LinkedHashMap<Branch, HashMap<String,Integer>> products = null;
             while (rs.next()) {
@@ -85,13 +78,13 @@ public class DeliveryDAO extends DataAccessObject {
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
                 endTime = rs.getDate("endDate").toLocalDate().atTime(rs.getTime("endTime").toLocalTime());
                 weight = rs.getInt("weight");
-                truck = truckDAO.Read(rs.getInt("truckPlateNum"));
-                driver = driverDAO.Read(rs.getInt("driverId"));
-                origin = siteDAO.Read(rs.getInt("originId"));
+                truckId = rs.getInt("truckPlateNum");
+                driverId = rs.getInt("driverId");
+                originId = rs.getInt("originId");
 
-                destinations = getDestinations(id);
-                products = getProducts(id, destinations);
-              //  delivery = new Delivery(resID, startTime, endTime, weight, driver, truck, origin, destinations, products);
+                //destinations = getDestinations(id);
+                //products = getProducts(id, destinations);
+                delivery = new Delivery(resID, weight, startTime, endTime, driverId, truckId, originId);
 
             }
             rs.close();
@@ -102,8 +95,26 @@ public class DeliveryDAO extends DataAccessObject {
         return delivery;
     }
 
-
-    private Set<Branch> getDestinations(int deliveryId) {
+    public int getMaxId()
+    {
+        if (maxId != -1)
+            return maxId;
+        int result = 0;
+        String sql = "SELECT Max(id) FROM Deliveries";
+        try {
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                result = rs.getInt("id");
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    /*private Set<Branch> getDestinations(int deliveryId) {
         Set<Integer> idlst = destinationsDAO.ReadSitesPerDeliveryId(deliveryId);
         Set<Branch> rslt = new HashSet<>();
         for (int siteId: idlst) {
@@ -125,7 +136,7 @@ public class DeliveryDAO extends DataAccessObject {
             res.put(branch, items);
         }
         return res;
-    }
+    }*/
 
 
     public boolean Update(Delivery delivery) {

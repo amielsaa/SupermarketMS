@@ -216,7 +216,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
         delivery.removeItemFromDestination((Branch)destination,item);
-        deliveryDestinationItemsDAO.removeItemFromDestination(siteId,item);
+        deliveryDestinationItemsDAO.removeItemFromDestination(deliveryId,siteId,item);
     }
 
     public void editItemQuantity(int deliveryId,int siteId, String item, int quantity) throws Exception{
