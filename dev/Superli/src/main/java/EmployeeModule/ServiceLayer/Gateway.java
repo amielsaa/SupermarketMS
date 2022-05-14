@@ -4,10 +4,14 @@ import DeliveryModule.ServiceLayer.DeliveryService;
 import EmployeeModule.BusinessLayer.*;
 import EmployeeModule.DataAccessLayer.DALController;
 import Utilities.Response;
+//import com.sun.istack.internal.NotNull;
 import org.jetbrains.annotations.NotNull;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Gateway
 {
@@ -531,6 +535,10 @@ public class Gateway
     // DeliverySystem Functions
     public DeliveryService getDeliveryService() {
         return this.deliveryService;
+    }
+
+    public boolean driverAvailableOnShift(LocalDateTime shiftDate, int employeeId){
+        throw new NotImplementedException();
     }
     // --------------- --------------
 }
