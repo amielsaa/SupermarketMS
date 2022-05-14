@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class ReportController {
 
-    //private DataController data;
 
     /**
      * this dao contains following functions:

@@ -1,8 +1,6 @@
-package Inventory.PresentationLayer;
+package Inventory.ServiceLayer.Objects.PresentationLayer;
 
 import Inventory.ServiceLayer.Service;
-
-import java.util.Scanner;
 
 public class InventoryProgram {
     public static void main(String[] args) {

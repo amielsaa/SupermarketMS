@@ -32,9 +32,8 @@ public class ReportDAO extends DalController{
 //    }
 //
     public List<Product> SelectDefectiveProducts() {
-        String sql = "SELECT * FROM  Products,Reports "+
-                "WHERE reported = 0 "+
-                "AND Reports.productid= Products.id";
+        String sql = "SELECT productid, storeid FROM  Reports "+
+                "WHERE reported = 0 ";
         List<Product> products = new ArrayList<>();
         try{
             Connection conn = this.makeConnection();

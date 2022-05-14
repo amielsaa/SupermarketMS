@@ -1,4 +1,4 @@
-package Inventory.PresentationLayer;
+package Inventory.ServiceLayer.Objects.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
