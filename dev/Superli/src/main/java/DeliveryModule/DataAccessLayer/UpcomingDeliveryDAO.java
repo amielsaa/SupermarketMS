@@ -49,7 +49,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
                 //destinations = getDestinations(id);
                 //products = getProducts(id, destinations);
-                Delivery delivery = new Delivery(resID, weight, startTime, endTime, driverId, truckId, originId);
+                Delivery delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
+                delivery.setDestinationItems(null);
                 deliveries.add(delivery);
                 if (!upcomingDeliveryCache.containsKey(resID))
                     upcomingDeliveryCache.put(resID, delivery);
@@ -95,7 +96,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
                 //destinations = getDestinations(id);
                 //products = getProducts(id, destinations);
-                delivery = new Delivery(resID, weight, startTime, endTime, driverId, truckId, originId);
+                delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
+                delivery.setDestinationItems(null);
 
             }
             rs.close();
@@ -106,7 +108,6 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         return delivery;
     }
 
-    //ToDo: auto generate ids
     public Integer addUpcomingDelivery(Delivery delivery){
         String sql = "INSERT INTO Deliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId) VALUES(?,?,?,?,?,?,?,?,?)";
         try {
