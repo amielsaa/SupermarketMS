@@ -17,19 +17,7 @@ public class Delivery {
     private LinkedHashMap<Integer, HashMap<String,Integer>> destinationItems;
     private int weight;
 
-    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId,
-                    int destinationId) {
-        this.id = id;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.driverId = driverId;
-        this.truckId = truckId;
-        this.originSiteId = originSiteId;
-        this.destinationItems =new LinkedHashMap<>();
-       // destinationItems.put(destinationId,new HashMap<>());
-    }
-
-    public Delivery(int id, int weight, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId) {
+    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId,int weight) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;

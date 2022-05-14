@@ -93,7 +93,7 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveryDAO.addUpcomingDelivery(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,destinationId));
+        upcomingDeliveryDAO.addUpcomingDelivery(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
@@ -153,7 +153,6 @@ public class DeliveriesController {
         delivery.addDestination((Branch) destination);
         deliveryDestinationsDAO.addDeliveryDestination(deliveryId,siteId);
     }
-
 
     public void removeDestination(int deliveryId,int siteId) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
