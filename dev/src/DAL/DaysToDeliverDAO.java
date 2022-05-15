@@ -128,5 +128,7 @@ public class DaysToDeliverDAO extends DalController{
     public boolean deleteAllDaysToDeliver(int bn,int orderId){
         return true;//todo: delete all the days of a specific order
     }
-
+    public void setAllRoutineOrders(){
+        //todo: set all the routineOrderId in the Hashmap
+    }
 }

@@ -161,5 +161,8 @@ public class OrderDAO extends DalController {
         }
         return true;
     }
-
+    public int  getMaxOrderId(){
+        //todo:
+        return 1;
+    }
 }

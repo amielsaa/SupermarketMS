@@ -238,6 +238,11 @@ public class OrderController {
         }
         return OrderList;
     }
+
+    public void setStartingValues() {
+        setId_Order_Counter(orderDAO.getMaxOrderId());
+        daysToDeliverDAO.setAllRoutineOrders();
+    }
 }
 
 

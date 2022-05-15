@@ -110,4 +110,8 @@ public class OrderService {
         }
 
     }
+
+    public void setStartingValues() {
+        cOrder.setStartingValues();
+    }
 }

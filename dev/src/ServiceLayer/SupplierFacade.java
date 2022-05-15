@@ -151,9 +151,8 @@ public class SupplierFacade {
         }
         return OrdersToExecute;
 
-
-
-
-
+    }
+    public void SetStartingValues () {
+        sOrder.setStartingValues();
     }
 }
