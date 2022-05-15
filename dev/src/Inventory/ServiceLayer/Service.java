@@ -30,8 +30,10 @@ public class Service {
     // product service
 
     public Response<Integer> SelectStore(int storeId) {
+        reportService.setStoreId(storeId);
         return productService.SelectStore(storeId);
     }
+
 
     public Response<List<ProductSL>> GetAllProducts() {
         return productService.GetAllProducts();

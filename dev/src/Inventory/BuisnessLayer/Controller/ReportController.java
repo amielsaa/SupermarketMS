@@ -8,10 +8,7 @@ import Inventory.DataAccessLayer.DAO.ReportDAO;
 import Inventory.ServiceLayer.Objects.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReportController {
 
@@ -25,15 +22,17 @@ public class ReportController {
      *
      */
     private ReportDAO reportDAO;
+    private int storeId;
 
     public ReportController() {
         reportDAO = new ReportDAO("Reports");
     }
-
+    public void setStoreId(int storeId){this.storeId =storeId;}
     //TODO: change return type to whatever
     public void addDefectiveProduct(int productId, int storeId) {
         reportDAO.InsertDefectiveProducts(productId,storeId);
     }
+
 
     //TODO: change return type to whatever <name & producer , quantity>
     // done.
@@ -113,11 +112,16 @@ public class ReportController {
 
 
     public CommandLineTable reportByDefective(Map<Product,List<StoreProduct>> productListMap){
-        List<Product> defList = reportDAO.SelectDefectiveProducts();
+        List<Integer> defList = reportDAO.SelectDefectiveProducts(storeId);
+        List<Product> defProdList = new ArrayList<>();
+        for (Map.Entry<Product,List<StoreProduct>> mapset: productListMap.entrySet()){
+            if(defList.contains(mapset.getKey().getId()))
+                defProdList.add(mapset.getKey());
+        }
         CommandLineTable table = new CommandLineTable();
         table.setShowVerticalLines(true);
         table.setHeaders("Id", "name", "producer" ,"selling price", "buyingPrice", "categories");
-        for(Product defective:defList)
+        for(Product defective:defProdList)
         {
             table.addRow(defective.toArrayString().split("\\:"));
         }

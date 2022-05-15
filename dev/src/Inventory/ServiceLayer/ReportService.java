@@ -28,7 +28,9 @@ public class ReportService {
             return Response.makeFailure(e.getMessage());
         }
     }
-
+    public void setStoreId(int storeId){
+        reportController.setStoreId(storeId);
+    }
     public Response<Report> ReportStockByCategories(Map<Product,List<StoreProduct>> productListMap, List<Category> categories) {
         try {
             Report report = new Report("Products by Categories report", reportController.reportByCategories(productListMap,categories));

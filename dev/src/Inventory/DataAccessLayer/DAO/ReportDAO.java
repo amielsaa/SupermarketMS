@@ -32,22 +32,19 @@ public class ReportDAO extends DalController{
 //    }
 //
     //TODO: fix that it doesnt fetch data from Products table
-    public List<Product> SelectDefectiveProducts() {
-        String sql = "SELECT productid, storeid FROM  Reports "+
-                "WHERE reported = 0 ";
-        List<Product> products = new ArrayList<>();
+    public List<Integer> SelectDefectiveProducts(int storeId) {
+        String sql = "SELECT productid FROM  Reports "+
+                "WHERE reported = 0 "+
+                "AND storeid =(?) ";
+        List<Integer> products = new ArrayList<>();
         try{
             Connection conn = this.makeConnection();
-            Statement stmt  = conn.createStatement();
-            ResultSet rs    = stmt.executeQuery(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,storeId);
+            ResultSet rs    = pstmt.executeQuery(sql);
 
             while (rs.next()) {
-                Product p = new Product(rs.getInt("id"),rs.getString("name"),
-                        rs.getString("producer"),rs.getDouble("buyingprice"),
-                        rs.getDouble("sellingprice"),
-                        stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
-                p.setDiscount(rs.getInt("discount"),rs.getDate("discountDate"));
-                products.add(p);
+                products.add(rs.getInt("productid"));
             }
             return products;
 
