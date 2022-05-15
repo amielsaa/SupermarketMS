@@ -30,7 +30,10 @@ public class OrderController {
         Id_Order_Counter = id_Order_Counter;
     }
 
-
+    public void setStartingValues() {
+        setId_Order_Counter(orderDAO.getMaxOrderId());
+        daysToDeliverDAO.setAllRoutineOrders();
+    }
     //return all the Orders from the specific supplier
     public Collection<Order> getAllOrdersFromSupplier(int supplierBN) {
         if (!orderDAO.setAllOrders(supplierBN))
@@ -239,9 +242,19 @@ public class OrderController {
         return OrderList;
     }
 
-    public void setStartingValues() {
-        setId_Order_Counter(orderDAO.getMaxOrderId());
-        daysToDeliverDAO.setAllRoutineOrders();
+
+
+    public List<RoutineOrder> getAllRoutineOrders() {
+        HashMap<Integer,List<Integer>> BN_To_listOfRountineOrdersId=daysToDeliverDAO.getBN_to_routineOrder();
+        List<RoutineOrder> toreturn=new ArrayList<>();
+        Set<Integer> keySet=BN_To_listOfRountineOrdersId.keySet();
+        for(Integer i:keySet){
+            List<Integer> RountineOrderList=BN_To_listOfRountineOrdersId.get(i);
+            for(Integer j:RountineOrderList){
+                toreturn.add(buildRoutineOrder(i,j));
+            }
+        }
+        return toreturn;
     }
 }
 
