@@ -4,8 +4,10 @@ import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Response;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 public class DeliveryService {
 
@@ -284,7 +286,9 @@ public class DeliveryService {
     //#############################Delivery Logic###################################################
     public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId, int destinationId){
         try{
-            //todo: add check of driver shift
+            Response driverAvailable=checkDriverAvailability(driverId,startTime);
+            if(!driverAvailable.isSuccess())
+                return driverAvailable;
             deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId,destinationId);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -371,7 +375,10 @@ public class DeliveryService {
 
     public Response editDeliveryStartTime(int deliveryId,LocalDateTime newStartTime){
         try {
-            //todo: add check of driver shift
+            Delivery delivery=deliveriesController.getUpcomingDelivery(deliveryId);
+            Response driverAvailable=checkDriverAvailability(delivery.getDriverId(),newStartTime);
+            if(!driverAvailable.isSuccess())
+                return driverAvailable;
             deliveriesController.editStartTime(deliveryId,newStartTime);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -381,7 +388,10 @@ public class DeliveryService {
 
     public Response editDeliveryEndTime(int deliveryId,LocalDateTime newEndTime){
         try {
-            //todo: add check of driver shift
+            Delivery delivery=deliveriesController.getUpcomingDelivery(deliveryId);
+            Response driverAvailable=checkDriverAvailability(delivery.getDriverId(),newEndTime);
+            if(!driverAvailable.isSuccess())
+                return driverAvailable;
             deliveriesController.editEndTime(deliveryId,newEndTime);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -391,7 +401,10 @@ public class DeliveryService {
 
     public Response editDeliveryDriver(int deliveryId,int newDriverId){
         try {
-            //todo: add check of driver shift
+            Delivery delivery=deliveriesController.getUpcomingDelivery(deliveryId);
+            Response driverAvailable=checkDriverAvailability(newDriverId,delivery.getStartTime());
+            if(!driverAvailable.isSuccess())
+                return driverAvailable;
             deliveriesController.editDriver(deliveryId,newDriverId);
             return Response.makeSuccess(0);
         }catch (Exception e){
@@ -443,6 +456,13 @@ public class DeliveryService {
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
+    }
+
+    private Response checkDriverAvailability(int driverId,LocalDateTime date){
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        if(!gateway.driverAvailableOnShift(date,driverId))
+            return Response.makeFailure(String.format("Driver is unavailable at %s...",date.format(dateTimeFormatter)));
+        return Response.makeSuccess(0);
     }
 
 }
