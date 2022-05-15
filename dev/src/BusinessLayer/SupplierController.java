@@ -225,6 +225,7 @@ public class SupplierController {
     public HashMap<Integer, HashMap<Pair<String, String>, Pair<Double, Double>>> MakeOrderToSuppliers(Map<Pair<String, String>, Integer> demandedSupplies) {
         //complicated function needs an Explanation by steps
         //1.getting all the suppliers in a List--------------------------------------
+        supplierDAO.loadAllSuppliers();
         Collection<Supplier> UnbulitSuppliers=supplierDAO.getAllSuppliers();
         List<Supplier> builtSuppliers=new ArrayList<>();
         for(Supplier i:UnbulitSuppliers){

@@ -60,7 +60,7 @@ public class DaysToDeliverDAO extends DalController{
         return true;
     }
 
-    private boolean deleteAllDaysToDeliver(int bn, int orderID)  {
+    public boolean deleteAllDaysToDeliver(int bn, int orderID)  {
         String sql = "DELETE FROM DaysToDeliver WHERE bn = ? and orderID = ?";
 
         try{
