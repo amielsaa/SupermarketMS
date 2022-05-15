@@ -176,11 +176,9 @@ public class DAOTests {
             dao.Create(1,"a");
             dao.Create(2,"b");
             assertEquals(2, dao.getDeliveryArchive().size());
-            assertEquals(dao.getDeliveryRecord(1), "a");
+            assertEquals(dao.Read(1), "a");
             assertEquals(2, dao.getMaxId());
             assertEquals(2, new DeliveryArchiveDAO().getMaxId());
-
-
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

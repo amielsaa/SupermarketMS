@@ -36,9 +36,9 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         return true;
     }
 
-    public Pair<Integer, String> Read(int id) {
+    public String Read(int id) {
         if (DeliveryArchiveCache.containsKey(id)) {
-            return new Pair<>(id, DeliveryArchiveCache.get(id));
+            return DeliveryArchiveCache.get(id);
         }
         String sql = "SELECT * FROM DeliveryArchive WHERE id = (?)";
         Pair<Integer, String> data = null;
@@ -60,7 +60,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
             e.printStackTrace();
         }
         DeliveryArchiveCache.put(id, data.getValue());
-        return data;
+        return data.getValue();
     }
 
 
@@ -73,7 +73,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
     }*/
 
 
-    public String getDeliveryRecord(int deliveryId){return Read(deliveryId).getValue();}
+    //public String getDeliveryRecord(int deliveryId){return Read(deliveryId).getValue();}
 
     //ToDo
     public ArrayList<String> getDeliveryArchive(){

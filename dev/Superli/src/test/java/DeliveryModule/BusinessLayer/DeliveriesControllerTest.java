@@ -37,12 +37,12 @@ public class DeliveriesControllerTest {
             sitesController.addSupplierWarehouse("a", 0, "11111111", "name");
             sitesController.addBranch("b", 1, "11111112", "name2");
             sitesController.addBranch("c", 1, "11111113", "name3");
-            time1 = LocalDateTime.now().plusHours(1);
-            time2 = LocalDateTime.now().plusHours(2);
-            time3 = LocalDateTime.now().plusHours(3);
-            time4 = LocalDateTime.now().plusHours(4);
-            time5 = LocalDateTime.now().plusHours(5);
-            time6 = LocalDateTime.now().plusHours(6);
+            time1 = LocalDateTime.of(2023,11,3,13,12);
+            time2 = time1.plusHours(1);
+            time3 = time1.plusHours(3);
+            time4 = time1.plusHours(4);
+            time5 = time1.plusHours(5);
+            time6 = time1.plusHours(6);
         }
         catch (Exception e)
         {
