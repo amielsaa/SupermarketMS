@@ -118,7 +118,7 @@ public class DeliveriesController {
         }
     }
     public String getCompletedDelivery(int deliveryId) throws Exception {
-        String deliveryRecord=deliveryArchiveDAO.getDeliveryRecord(deliveryId);
+        String deliveryRecord=deliveryArchiveDAO.Read(deliveryId);
         if(deliveryRecord==null){
             throw new Exception(String.format("Delivery %d was not found",deliveryId));
         }

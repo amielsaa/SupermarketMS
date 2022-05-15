@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class UpcomingDeliveryDAO extends DataAccessObject {
     private HashMap<Integer, Delivery> upcomingDeliveryCache;
@@ -25,20 +24,18 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
     //ToDo
     public ArrayList<Delivery> getUpcomingDeliveries() {
         String sql = "SELECT * FROM UpcomingDeliveries";
-        ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
+        ArrayList<Delivery> deliveries = new ArrayList<>();
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-            int resID = 0;
-            LocalDateTime startTime = null;
-            LocalDateTime endTime = null;
-            int weight = 0;
+            int resID;
+            LocalDateTime startTime;
+            LocalDateTime endTime;
+            int weight;
             int truckId;
             int driverId;
             int originId;
-            Set<Branch> destinations = null;
-            LinkedHashMap<Branch, HashMap<String,Integer>> products = null;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
@@ -47,15 +44,11 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
                 truckId = rs.getInt("truckPlateNum");
                 driverId = rs.getInt("driverId");
                 originId = rs.getInt("originId");
-
-                //destinations = getDestinations(id);
-                //products = getProducts(id, destinations);
                 Delivery delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
                 delivery.setDestinationItems(null);
                 deliveries.add(delivery);
                 if (!upcomingDeliveryCache.containsKey(resID))
                     upcomingDeliveryCache.put(resID, delivery);
-
             }
             rs.close();
         } catch (Exception e) {
@@ -77,15 +70,13 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, deliveryId);
             ResultSet rs = pstmt.executeQuery();
-            int resID = 0;
-            LocalDateTime startTime = null;
-            LocalDateTime endTime = null;
-            int weight = 0;
+            int resID;
+            LocalDateTime startTime;
+            LocalDateTime endTime;
+            int weight;
             int truckId;
             int driverId;
             int originId;
-            Set<Branch> destinations = null;
-            LinkedHashMap<Branch, HashMap<String,Integer>> products = null;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
@@ -94,12 +85,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
                 truckId = rs.getInt("truckPlateNum");
                 driverId = rs.getInt("driverId");
                 originId = rs.getInt("originId");
-
-                //destinations = getDestinations(id);
-                //products = getProducts(id, destinations);
                 delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
                 delivery.setDestinationItems(null);
-
             }
             rs.close();
         } catch (Exception e) {
@@ -126,13 +113,6 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             if (pstmt.executeUpdate() != 1) {
                 return -1;
             }
-            /*Set<Branch> destinations = delivery.getDestinations();
-            for (Branch dest : destinations) {
-                destinationsDAO.Create(dest.getId(), delivery.getId());
-                HashMap<String,Integer> products = delivery.getProductsPerDestination(dest);
-                for (Map.Entry pair:products.entrySet())
-                    deliveredProductsDAO.Create(dest.getId(), delivery.getId(), (String) pair.getKey(), (Integer) pair.getValue());
-            }*/
         } catch (SQLException e) {
             return -1;
         }
@@ -140,8 +120,6 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         upcomingDeliveryCache.put(delivery.getId(), delivery);
         return delivery.getId();
     }
-
-    //public void setDriverId(int deliveryId, int newDriverId) {Update(getUpcomingDelivery(deliveryId)); }
 
     public boolean Update(Delivery delivery) {
         int id = delivery.getId();
@@ -166,10 +144,6 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         }
         return true;
     }
-
-    //public void setTruck(int deliveryId, int newTruckId) {Update(getUpcomingDelivery(deliveryId));}
-
-   // public void setWeight(int deliveryId, int weight) { Update(getUpcomingDelivery(deliveryId)); }
 
     public void Delete(int deliveryId) {
         String sql = "DELETE FROM UpcomingDeliveries WHERE id = (?)";

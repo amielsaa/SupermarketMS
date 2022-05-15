@@ -77,7 +77,7 @@ public class SitesController {
     }
 
     public Site getSite(int id) throws Exception {
-        Site site = siteDAO.getSite(id);
+        Site site = siteDAO.Read(id);
         if (site == null)
             throw new Exception(String.format("The site id %d does not exist",id));
         return site;

@@ -10,7 +10,7 @@ import javafx.util.Pair;
 public class DeliveryArchiveDAO extends DataAccessObject {
 
     private HashMap<Integer, String> DeliveryArchiveCache;
-    int maxId;
+    private int maxId;
 
     public DeliveryArchiveDAO() {
         super("DeliveryArchive");
@@ -36,9 +36,9 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         return true;
     }
 
-    public Pair<Integer, String> Read(int id) {
+    public String Read(int id) {
         if (DeliveryArchiveCache.containsKey(id)) {
-            return new Pair<>(id, DeliveryArchiveCache.get(id));
+            return DeliveryArchiveCache.get(id);
         }
         String sql = "SELECT * FROM DeliveryArchive WHERE id = (?)";
         Pair<Integer, String> data = null;
@@ -47,39 +47,29 @@ public class DeliveryArchiveDAO extends DataAccessObject {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
-            int resID = 0;
-            String details = null;
+            int resID;
+            String details;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 details = rs.getString("details");
 
-                data = new Pair(resID, details);
+                data = new Pair<>(resID, details);
             }
             rs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DeliveryArchiveCache.put(id, data.getValue());
-        return data;
+        if(data!=null){
+            DeliveryArchiveCache.put(id, data.getValue());
+            return data.getValue();
+        }
+        return null;
     }
 
-
-    /*public boolean Update(int id, String details) {
-
-    }
-
-    public boolean Delete(int id) {
-
-    }*/
-
-
-    public String getDeliveryRecord(int deliveryId){return Read(deliveryId).getValue();}
-
-    //ToDo
     public ArrayList<String> getDeliveryArchive(){
 
         String sql = "SELECT * FROM DeliveryArchive";
-        ArrayList<String> archive = new ArrayList<String>();
+        ArrayList<String> archive = new ArrayList<>();
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
