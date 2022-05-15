@@ -54,13 +54,15 @@ public class DriversController {
     public void changeName(int id, String name) throws Exception {
         Driver driver=getDriver(id);
         driver.setName(name);
-        driverDAO.updateName(id,name);
+        driverDAO.Update(driver);
+      //  driverDAO.updateName(id,name);
     }
 
     public void ChangeLicenseType(int id, String licenseType) throws Exception {
         Driver driver=getDriver(id);
         validateLicenseType(licenseType);
         driver.setLicenseType(LicenseType.valueOf(licenseType));
-        driverDAO.updateLicenseType(id,licenseType);
+        driverDAO.Update(driver);
+      //  driverDAO.updateLicenseType(id,licenseType);
     }
 }

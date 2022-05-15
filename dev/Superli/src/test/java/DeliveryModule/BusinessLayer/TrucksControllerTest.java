@@ -1,5 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.CreateTables;
 import DeliveryModule.DataAccessLayer.TruckDAO;
 import org.junit.Test;
 
@@ -12,6 +13,8 @@ public class TrucksControllerTest {
     @Test
     public void addTruck() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(1111111, "a", 10000);
             assertEquals(1, tc.getTrucks().size());
@@ -39,6 +42,8 @@ public class TrucksControllerTest {
     @Test
     public void editPlateNum() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(11111111, "a", 10000);
             tc.addTruck(2222222, "b", 20000);
@@ -69,6 +74,8 @@ public class TrucksControllerTest {
     @Test
     public void editModel() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(11111111, "a", 10000);
             tc.addTruck(2222222, "b", 20000);
@@ -89,6 +96,8 @@ public class TrucksControllerTest {
     @Test
     public void editMaxWeight() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(11111111, "a", 10000);
             tc.addTruck(2222222, "b", 20000);
@@ -110,6 +119,8 @@ public class TrucksControllerTest {
     @Test
     public void deleteTruck() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(11111111, "a", 10000);
             assertEquals(1,tc.getTrucks().size());
@@ -131,6 +142,8 @@ public class TrucksControllerTest {
     @Test
     public void isAbleToDrive() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(11111111, "a", 10000);
             tc.addTruck(2222222, "b", 20000);
@@ -147,6 +160,8 @@ public class TrucksControllerTest {
     @Test
     public void getTrucks() {
         TrucksController tc = new TrucksController();
+        CreateTables.createTables();
+        CreateTables.clearTables();
         try{
             tc.addTruck(1111111, "a", 60000);
             tc.addTruck(2222222, "b", 10000);

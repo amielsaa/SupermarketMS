@@ -23,10 +23,11 @@ public class DeliveriesControllerTest {
     private LocalDateTime time5;
     private LocalDateTime time6;
 
+
     @Before
     public void setUp() {
         try {
-
+/*
             SiteDAO siteDAO = new SiteDAO();
             TruckDAO truckDAO = new TruckDAO();
             DriverDAO driverDAO = new DriverDAO();
@@ -35,6 +36,10 @@ public class DeliveriesControllerTest {
             //DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
             //DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
 
+
+ */
+    CreateTables.clearTables();
+    CreateTables.createTables();
             sitesController = new SitesController();
             trucksController = new TrucksController();
             driversController = new DriversController();

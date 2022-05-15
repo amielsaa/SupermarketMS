@@ -100,17 +100,19 @@ public class DriverDAO extends DataAccessObject {
         driverCache.remove(id);
         return true;
     }
+/*
 
-    //Todo
     public boolean updateLicenseType(int id, String newLicenseType){
         return Update(Read(id));
     }
 
-    //ToDo
+
     public boolean updateName(int id, String newName){
         return Update(Read(id));
     }
 
+
+ */
     //ToDo
     public ArrayList<Driver> readAll(){
 

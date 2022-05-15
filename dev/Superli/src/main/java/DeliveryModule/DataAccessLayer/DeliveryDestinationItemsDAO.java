@@ -19,7 +19,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
         deliveryDestinationItemsCache = new LinkedHashMap<>();
     }
 
-    public void addItemToDeliveryDestination(int deliveryId, int siteId, String item, int quantity) {
+    public void Create(int deliveryId, int siteId, String item, int quantity) {
         String sql = "INSERT INTO DeliveryDestinationItems(siteId, deliveryId, name, count) VALUES(?,?,?,?)";
         try {
             Connection conn = this.makeConnection();

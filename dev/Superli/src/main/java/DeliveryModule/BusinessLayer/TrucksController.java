@@ -48,7 +48,8 @@ public class TrucksController {
             throw new Exception(String.format("A truck with plate number %d does not exist..",plateNum));
         }
         truck.setModel(newModel);
-        truckDAO.setModel(plateNum,newModel);
+        truckDAO.Update(truck);
+      //  truckDAO.setModel(plateNum,newModel);
     }
 
     public void editMaxWeight(int plateNum, int maxWeight) throws Exception {
@@ -60,7 +61,8 @@ public class TrucksController {
             throw new Exception("Weight of a truck cannot be negative..");
         }
         truck.setMaxWeight(maxWeight);
-        truckDAO.setMaxWeight(plateNum, maxWeight);
+        truckDAO.Update(truck);
+        //truckDAO.setMaxWeight(plateNum, maxWeight);
     }
 
     public void deleteTruck(int plateNum) throws Exception{

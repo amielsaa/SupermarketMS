@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="database" uuid="c5c4486a-3824-4200-9130-549aa21e9f0e">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Shoval Yarkoni\Desktop\Projects\nitz\ADSS_Group_D\dev\Superli\database.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="database_EMPLOYEE_BACKUP" uuid="3cf4d636-229b-4657-96db-fbde96ba1669">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Shoval Yarkoni\Desktop\Projects\nitz\ADSS_Group_D\dev\Superli\database_EMPLOYEE_BACKUP.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

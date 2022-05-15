@@ -15,7 +15,7 @@ public class DeliveryDestinationsDAO extends DataAccessObject {
         this.deliveryDestinationCache = new LinkedHashMap<>();
     }
 
-    public void addDeliveryDestination(int deliveryId,int siteId) {
+    public void Create(int deliveryId, int siteId) {
         String sql = "INSERT INTO DeliveryDestinations(siteId, deliveryId) VALUES(?,?)";
         try {
             Connection conn = this.makeConnection();
@@ -33,7 +33,7 @@ public class DeliveryDestinationsDAO extends DataAccessObject {
         deliveryDestinationCache.get(deliveryId).add(siteId);
     }
 
-    public void removeDeliveryDestination(int deliveryId,int siteId) {
+    public void Delete(int deliveryId, int siteId) {
         String sql = "DELETE FROM DeliveryDestinations WHERE siteId = (?) and deliveryId = (?)";
         try {
             Connection conn = this.makeConnection();
@@ -51,7 +51,7 @@ public class DeliveryDestinationsDAO extends DataAccessObject {
             deliveryDestinationCache.remove(deliveryId);
     }
 
-    public LinkedList<Integer> getDeliveryDestinations(int deliveryId){
+    public LinkedList<Integer> Read(int deliveryId){
         String sql = "SELECT * FROM DeliveryDestinations WHERE deliveryId = (?)";
         LinkedList<Integer> sites = new LinkedList<>();
         try {

@@ -1,11 +1,11 @@
 package DeliveryModule.BusinessLayer;
 
 public abstract class Site {
+    private int id;
     private String address;
     private DeliveryZone deliveryZone;
     private String phoneNumber;
     private String contactName;
-    private int id;
 
     public Site(int id, String address, int deliveryZone, String phoneNumber, String contactName) throws Exception {
         this.address = address;

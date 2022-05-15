@@ -64,7 +64,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
     }
 
     //ToDo
-    public Delivery getUpcomingDelivery(int deliveryId) {
+    public Delivery Read(int deliveryId) {
 
         if (upcomingDeliveryCache.containsKey(deliveryId)) {
             return upcomingDeliveryCache.get(deliveryId);
@@ -108,7 +108,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         return delivery;
     }
 
-    public Integer addUpcomingDelivery(Delivery delivery){
+    public Integer Create(Delivery delivery){
         String sql = "INSERT INTO UpcomingDeliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId) VALUES(?,?,?,?,?,?,?,?,?)";
         try {
             Connection conn = this.makeConnection();
@@ -140,9 +140,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         return delivery.getId();
     }
 
-    public void setDriverId(int deliveryId, int newDriverId) {
-        Update(getUpcomingDelivery(deliveryId));
-    }
+    //public void setDriverId(int deliveryId, int newDriverId) {Update(getUpcomingDelivery(deliveryId)); }
 
     public boolean Update(Delivery delivery) {
         int id = delivery.getId();
@@ -168,15 +166,11 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         return true;
     }
 
-    public void setTruck(int deliveryId, int newTruckId) {
-        Update(getUpcomingDelivery(deliveryId));
-    }
+    //public void setTruck(int deliveryId, int newTruckId) {Update(getUpcomingDelivery(deliveryId));}
 
-    public void setWeight(int deliveryId, int weight) {
-        Update(getUpcomingDelivery(deliveryId));
-    }
+   // public void setWeight(int deliveryId, int weight) { Update(getUpcomingDelivery(deliveryId)); }
 
-    public void deleteUpcomingDelivery(int deliveryId) {
+    public void Delete(int deliveryId) {
         String sql = "DELETE FROM UpcomingDeliveries WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();

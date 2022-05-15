@@ -1,5 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.CreateTables;
 import DeliveryModule.DataAccessLayer.SiteDAO;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,8 @@ public class SitesControllerTest {
     @Before
     public void setUp() {
         sitesController=new SitesController();
+        CreateTables.clearTables();
+        CreateTables.createTables();
     }
 
     @Test
@@ -142,7 +145,7 @@ public class SitesControllerTest {
             sitesController.addBranch("address1",0,"000000","name1");
             sitesController.addBranch("address2",0,"000000","name1");
             assertEquals(2,sitesController.getAllSites().size());
-            sitesController.deleteSite(1);
+           sitesController.deleteSite(1);
             assertEquals(1,sitesController.getAllSites().size());
             sitesController.deleteSite(2);
             assertEquals(0,sitesController.getAllSites().size());

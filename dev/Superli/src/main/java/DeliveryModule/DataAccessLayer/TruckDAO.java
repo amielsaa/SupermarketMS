@@ -109,9 +109,9 @@ public class TruckDAO extends DataAccessObject {
         }
     }
 
-    public void setModel(int plateNum, String newModel){Update(Read(plateNum));}
+    //public void setModel(int plateNum, String newModel){Update(Read(plateNum));}
 
-    public void setMaxWeight(int plateNum, int maxWeight){Update(Read(plateNum));}
+   // public void setMaxWeight(int plateNum, int maxWeight){Update(Read(plateNum));}
 
     public ArrayList<Truck> getAllTrucks(){
         String sql = "SELECT * FROM Trucks";

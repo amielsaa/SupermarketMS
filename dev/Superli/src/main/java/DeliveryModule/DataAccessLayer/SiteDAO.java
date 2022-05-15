@@ -168,10 +168,10 @@ public class SiteDAO extends DataAccessObject {
         }
         return sites;
     }
-    public void editSiteAddress(int id, String address){Update(Read(id));}
-    public void setDeliveryZone(int id, int zone){Update(Read(id));}
-    public void setPhoneNumber(int id, String phoneNumber){Update(Read(id));}
-    public void setContactName(int id, String name){Update(Read(id));}
+    //public void editSiteAddress(int id, String address){Update(Read(id));}
+    //public void setDeliveryZone(int id, int zone){Update(Read(id));}
+    //public void setPhoneNumber(int id, String phoneNumber){Update(Read(id));}
+    //public void setContactName(int id, String name){Update(Read(id));}
 
     public int getMaxId()
     {

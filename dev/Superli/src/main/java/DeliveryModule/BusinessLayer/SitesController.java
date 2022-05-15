@@ -45,7 +45,8 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setAddress(address);
-        siteDAO.editSiteAddress(id,address);
+        siteDAO.Update(toBeEdited);
+       // siteDAO.editSiteAddress(id,address);
     }
 
     public void editSiteDeliveryZone(int id, int zone) throws Exception {
@@ -53,7 +54,8 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setDeliveryZone(zone);
-        siteDAO.setDeliveryZone(id,zone);
+        siteDAO.Update(toBeEdited);
+        //siteDAO.setDeliveryZone(id,zone);
     }
 
     public void editSitePhoneNumber(int id, String phoneNumber) throws Exception {
@@ -61,7 +63,8 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("the site id has not been found, so nothing changed");
         toBeEdited.setPhoneNumber(phoneNumber);
-        siteDAO.setPhoneNumber(id,phoneNumber);
+        siteDAO.Update(toBeEdited);
+        //siteDAO.setPhoneNumber(id,phoneNumber);
     }
 
     public void editSiteContactName(int id, String name) throws Exception {
@@ -69,7 +72,8 @@ public class SitesController {
         if (toBeEdited == null)
             throw new Exception("The site id has not been found, so nothing changed");
         toBeEdited.setContactName(name);
-        siteDAO.setContactName(id,name);
+        siteDAO.Update(toBeEdited);
+        //siteDAO.setContactName(id,name);
     }
 
     public Site getSite(int id) throws Exception {

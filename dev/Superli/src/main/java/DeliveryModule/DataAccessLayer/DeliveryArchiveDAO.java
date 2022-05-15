@@ -17,7 +17,7 @@ public class DeliveryArchiveDAO extends DataAccessObject {
         maxId = -1;
     }
 
-    public boolean addUpcomingDelivery(int id, String details) {
+    public boolean Create(int id, String details) {
         String sql = "INSERT INTO DeliveryArchive(id, details) VALUES(?,?)";
         try {
             Connection conn = this.makeConnection();
