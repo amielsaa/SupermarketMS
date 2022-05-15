@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.sql.*;
 
+import Utilities.DataAccessObject;
 import javafx.util.Pair;
 
 public class DeliveryArchiveDAO extends DataAccessObject {

@@ -1,11 +1,10 @@
 package DeliveryModule.DataAccessLayer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.sql.*;
 import DeliveryModule.BusinessLayer.*;
+import Utilities.DataAccessObject;
 
 
 public class TruckDAO extends DataAccessObject {

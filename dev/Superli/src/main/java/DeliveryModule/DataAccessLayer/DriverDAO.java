@@ -1,12 +1,11 @@
 package DeliveryModule.DataAccessLayer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.sql.*;
 import DeliveryModule.BusinessLayer.*;
 import DeliveryModule.BusinessLayer.Driver;
+import Utilities.DataAccessObject;
 
 
 public class DriverDAO extends DataAccessObject {
