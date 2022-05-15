@@ -36,7 +36,10 @@ public class DriversController {
     }
 
     public Driver getDriver(int driverId) throws Exception {
-        return driverDAO.Read(driverId);
+        Driver driver=driverDAO.Read(driverId);
+        if(driver==null)
+            throw new Exception(String.format("Driver with id %d does not exist..",driverId));
+        return driver;
     }
 
     public ArrayList<Driver> getAllDrivers(){
@@ -49,13 +52,13 @@ public class DriversController {
     }
 
     public void changeName(int id, String name) throws Exception {
-        Driver driver=driverDAO.Read(id);
+        Driver driver=getDriver(id);
         driver.setName(name);
         driverDAO.updateName(id,name);
     }
 
     public void ChangeLicenseType(int id, String licenseType) throws Exception {
-        Driver driver=driverDAO.Read(id);
+        Driver driver=getDriver(id);
         validateLicenseType(licenseType);
         driver.setLicenseType(LicenseType.valueOf(licenseType));
         driverDAO.updateLicenseType(id,licenseType);
