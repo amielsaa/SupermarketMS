@@ -326,7 +326,7 @@ public class DeliveriesControllerTest {
     public void editEndTime() {
         try{
             deliveriesController.addDelivery(time2, time4, 2222222,1,1,2);
-            deliveriesController.editEndTime(1,time3);
+            deliveriesController.editEndTime(1,time5);
         }
         catch (Exception e){
             System.out.println(e.getMessage());

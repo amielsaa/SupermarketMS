@@ -54,14 +54,14 @@ public class DeliveriesController {
 
 
 
-    private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId) throws Exception {
+    private void checkAvailability(LocalDateTime startTime,LocalDateTime endTime, int truckId, int driverId,int deliveryid) throws Exception {
         //todo: maybe use select query for truckId instead of using getUpcomingDeliveries
         for(Delivery delivery:upcomingDeliveryDAO.getUpcomingDeliveries()){
-            if((delivery.getTruckId()==truckId &&
+            if((deliveryid!=delivery.getId() && delivery.getTruckId()==truckId &&
                     isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime()))){
-                throw new Exception(String.format("Tuck %d is not available",truckId));
+                throw new Exception(String.format("Tuck %d is not available for delivery starting at %s ending at: %s, overlapping delivery: %d  start time: %s  end time: %s",truckId,startTime,endTime,delivery.getId(),delivery.getStartTime(),delivery.getEndTime()));
             }
-            if(delivery.getDriverId()==driverId &&
+            if(deliveryid!=delivery.getId() && delivery.getDriverId()==driverId &&
                     isOverlappedIntervals(startTime,endTime,delivery.getStartTime(),delivery.getEndTime())){
                 throw new Exception(String.format("Driver %d is not available",driverId));
             }
@@ -86,7 +86,7 @@ public class DeliveriesController {
             throw new Exception(String.format("Driver whose id number is %d is not permitted to drive the truck %d",driverId,truckId));
         }
 
-        checkAvailability(startTime,endTime,truckId,driverId);
+        checkAvailability(startTime,endTime,truckId,driverId,-1);
         trucksController.getTruck(truckId);
         sitesController.getSite(originId);
         Site destination=sitesController.getSite(destinationId);
@@ -107,7 +107,7 @@ public class DeliveriesController {
             throw new Exception(String.format("%s has passed",endTime.format(dateTimeFormatter)));
         }
         if(endTime.isBefore(startTime)){
-            throw new Exception("end time cant be earlier than the start time");
+            throw new Exception("end time cant be earlier than the start time...");
         }
         LocalDateTime midDay=startTime.withMinute(0).withHour(12);
         LocalDateTime midNight=startTime.withMinute(59).withHour(23);
@@ -211,14 +211,14 @@ public class DeliveriesController {
     public void editStartTime(int deliveryId,LocalDateTime newStartTime)throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
         validateDeliveryTime(newStartTime,delivery.getEndTime());
-        checkAvailability(newStartTime,delivery.getEndTime(),delivery.getTruckId(),delivery.getDriverId());
+        checkAvailability(newStartTime,delivery.getEndTime(),delivery.getTruckId(),delivery.getDriverId(),deliveryId);
         delivery.setStartTime(newStartTime);
         upcomingDeliveryDAO.Update(delivery);
     }
     public void editEndTime(int deliveryId,LocalDateTime newEndTime)throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        validateDeliveryTime(newEndTime,delivery.getStartTime());
-        checkAvailability(delivery.getStartTime(),newEndTime,delivery.getTruckId(),delivery.getDriverId());
+        validateDeliveryTime(delivery.getStartTime(),newEndTime);
+        checkAvailability(delivery.getStartTime(),newEndTime,delivery.getTruckId(),delivery.getDriverId(),deliveryId);
         delivery.setEndTime(newEndTime);
         upcomingDeliveryDAO.Update(delivery);
     }
@@ -226,7 +226,7 @@ public class DeliveriesController {
     public void editDriver(int deliveryId,int newDriverId) throws Exception{
         Driver driver = driversController.getDriver(newDriverId);
         Delivery delivery=getUpcomingDelivery(deliveryId);
-        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId);
+        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),-1,newDriverId,deliveryId);
         if (!trucksController.isAbleToDrive(driver.getLicenseType(),delivery.getTruckId()))
             throw new Exception("The driver cannot drive the truck...");
         delivery.setDriverId(newDriverId);
@@ -238,7 +238,7 @@ public class DeliveriesController {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         trucksController.getTruck(newTruckId);
         Driver driver=driversController.getDriver(delivery.getDriverId());
-        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1);
+        checkAvailability(delivery.getStartTime(),delivery.getEndTime(),newTruckId,-1,deliveryId);
         if (!trucksController.isAbleToDrive(driver.getLicenseType(),newTruckId))
             throw new Exception("The driver cannot drive the truck...");
         delivery.setTruckId(newTruckId);

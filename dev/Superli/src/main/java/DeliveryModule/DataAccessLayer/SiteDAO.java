@@ -12,14 +12,14 @@ import DeliveryModule.BusinessLayer.Driver;
 public class SiteDAO extends DataAccessObject {
 
     private HashMap<Integer, Site> siteCache;
-    private HashMap<String,Integer> siteAddressMapper;
+    //private HashMap<String,Integer> siteAddressMapper;
     int maxId;
 
 
     public SiteDAO() {
         super("Sites");
         siteCache = new HashMap<>();
-        siteAddressMapper=new HashMap<>();
+        //siteAddressMapper=new HashMap<>();
         maxId = -1;
     }
 
@@ -41,7 +41,7 @@ public class SiteDAO extends DataAccessObject {
             return false;
         }
         siteCache.put(site.getId(), site);
-        siteAddressMapper.put(site.getAddress(),site.getId());
+       // siteAddressMapper.put(site.getAddress(),site.getId());
         maxId = Math.max(site.getId(), maxId);
         return true;
     }
