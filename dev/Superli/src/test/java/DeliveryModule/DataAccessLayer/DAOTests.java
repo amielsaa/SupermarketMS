@@ -15,7 +15,7 @@ public class DAOTests {
     @Before
     public void setup(){
         //CreateTables.createTables();
-        CreateTables.clearTables();
+        CreateClearTables.clearTables();
     }
 
     @Test
