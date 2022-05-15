@@ -42,7 +42,7 @@ public class OrderDAO extends DalController {
         }
     }
 
-    public boolean deleteOrders(int bn, int orderID) throws Exception {
+    public boolean deleteOrders(int bn, int orderID)  {
         String sql = "DELETE FROM Orders WHERE bn = ? and orderID = ?";
 
         try{
@@ -140,10 +140,13 @@ public class OrderDAO extends DalController {
         }
         return false;
     }
+
     public void addSupplier(int bn){
         BN_To_Orders.put(bn,new HashMap<>());
     }
+
     //todo:syntax error
+
     public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
         String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
 
@@ -161,7 +164,8 @@ public class OrderDAO extends DalController {
         }
         return true;
     }
-    public int  getMaxOrderId(){
+
+    public int getMaxOrderId(){
         //todo:
         return 1;
     }

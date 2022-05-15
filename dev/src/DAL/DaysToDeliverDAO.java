@@ -37,6 +37,8 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {
             return false;
         }
+        //todo: add to HM
+//        BN_to_routineOrder.put()
         return true;
     }
 
@@ -53,20 +55,24 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {
             return false;
         }
+        //todo: remove from HM
+
         return true;
     }
 
-    private boolean deleteAllDaysToDeliver(int bn)  {
-        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?";
+    private boolean deleteAllDaysToDeliver(int bn, int orderID)  {
+        String sql = "DELETE FROM DaysToDeliver WHERE bn = ? and orderID = ?";
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
+            pstmt.setInt(2, orderID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
         }
+        //todo: remove from HM
         return true;
     }
 
@@ -74,7 +80,7 @@ public class DaysToDeliverDAO extends DalController{
     //remove old days, insert new ones
     public boolean updateDeliveryDays(int bn, int orderID, Set<Integer> days){
         try{
-            deleteAllDaysToDeliver(bn);
+            deleteAllDaysToDeliver(bn, orderID);
             for(int d : days){
                 insertDaysToDeliver(bn,orderID,d);
             }
@@ -125,9 +131,7 @@ public class DaysToDeliverDAO extends DalController{
         BN_to_routineOrder.get(bn).add(orderId);
         return true;
     }
-    public boolean deleteAllDaysToDeliver(int bn,int orderId){
-        return true;//todo: delete all the days of a specific order
-    }
+
     public void setAllRoutineOrders(){
         //todo: set all the routineOrderId in the Hashmap
     }

@@ -72,7 +72,9 @@ public class OrderItemsDAO extends DalController{
         }
 
     }
+
     //todo:problem in syntax
+
     public boolean updateItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount){
         String sql = "update ? set itemprice = ?, itemoriginalprice = ?, itemamount = ? where orderID = ? and itemname = ? and itemproducer = ?";
 
