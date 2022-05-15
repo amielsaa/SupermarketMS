@@ -1,6 +1,8 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.CreateClearTables;
 import DeliveryModule.DataAccessLayer.TruckDAO;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,6 +10,10 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class TrucksControllerTest {
+
+    @Before
+    public void setUp(){
+        CreateClearTables.clearTables();}
 
     @Test
     public void addTruck() {

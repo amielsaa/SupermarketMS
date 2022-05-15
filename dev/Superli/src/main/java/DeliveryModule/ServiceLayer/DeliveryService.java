@@ -20,24 +20,7 @@ public class DeliveryService {
         // INIT OTHER SERVICES
         this.gateway = gateway;
         // -------------------
-/*
-        //DAO CREATIONS
-        SiteDAO siteDAO = new SiteDAO();
-        TruckDAO truckDAO = new TruckDAO();
-        DriverDAO driverDAO = new DriverDAO();
-        DestinationsDAO destinationsDAO = new DestinationsDAO();
-        DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
-        DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-        DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
-        //--------------------
 
-        sitesController = new SitesController(siteDAO);
-        trucksController = new TrucksController(truckDAO);
-        driversController = new DriversController(driverDAO);
-        deliveriesController = new DeliveriesController(driversController,sitesController, trucksController, destinationsDAO, deliveredProductsDAO, deliveryDAO, deliveryArchiveDAO);
-        load();
-
- */
         sitesController = new SitesController();
         trucksController = new TrucksController();
         driversController = new DriversController();
@@ -46,7 +29,9 @@ public class DeliveryService {
 
     }
     //############################# Loading Data ###################################################
-    private void load(){
+
+    //for tests and init after db removal
+    public void load(){
         try {
             loadSties();
             loadTrucks();

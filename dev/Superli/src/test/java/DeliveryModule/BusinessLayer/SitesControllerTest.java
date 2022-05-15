@@ -1,5 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
+import DeliveryModule.DataAccessLayer.CreateClearTables;
 import DeliveryModule.DataAccessLayer.SiteDAO;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,8 @@ public class SitesControllerTest {
 
     @Before
     public void setUp() {
+
+        CreateClearTables.clearTables();
         sitesController=new SitesController();
     }
 

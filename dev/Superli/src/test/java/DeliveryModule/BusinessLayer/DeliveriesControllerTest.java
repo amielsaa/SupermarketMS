@@ -26,7 +26,7 @@ public class DeliveriesControllerTest {
     @Before
     public void setUp() {
         try {
-
+            CreateClearTables.clearTables();
             SiteDAO siteDAO = new SiteDAO();
             TruckDAO truckDAO = new TruckDAO();
             DriverDAO driverDAO = new DriverDAO();

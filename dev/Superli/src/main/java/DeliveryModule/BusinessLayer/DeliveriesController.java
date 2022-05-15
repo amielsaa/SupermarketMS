@@ -279,7 +279,7 @@ public class DeliveriesController {
             if(delivery.getOriginSiteId()==siteId){
                 throw new Exception(String.format("Site %s has upcoming deliveries...",site));
             }
-            for (Integer branch: delivery.getDestinations())
+            for (Integer branch: deliveryDestinationsDAO.getDeliveryDestinations(delivery.getId()))
                 if(branch==siteId)
                     throw new Exception(String.format("Site %s has upcoming deliveries...",site));
         }
