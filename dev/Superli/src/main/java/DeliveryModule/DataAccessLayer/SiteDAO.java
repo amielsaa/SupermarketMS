@@ -128,7 +128,7 @@ public class SiteDAO extends DataAccessObject {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                site = getSite(rs.getInt("id"));
+                site = Read(rs.getInt("id"));
             }
             rs.close();
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class SiteDAO extends DataAccessObject {
         }
         return site;
     }
-    public Site getSite(Integer siteId){return Read(siteId);}
+    //public Site getSite(Integer siteId){return Read(siteId);}
 
     public ArrayList<Site> getAllSites(){
         String sql = "SELECT * FROM Sites";
