@@ -27,7 +27,11 @@ public class SupplierFacade {
 //    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup) {
 //        return sSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup);
 //    }
-
+        //----------------------------------------------------System---------------------------------------------------------------//
+        public void SetStartingValues () {
+            sOrder.setStartingValues();
+        }
+        //-------------------------------------------------------------------------------------------------------------------------//
     //--------------------------------------------------------Suppliers----------------------------------------------------------//
     public Response<List<DSupplier>> getAllSuppliers() {
         return sSupplier.getAllSuppliers();
@@ -140,6 +144,9 @@ public class SupplierFacade {
         }
         return supplierExists;
     }
+    public Response<List<DRoutineOrder>> getAllRoutineOrders(){
+        return sOrder.getAllRoutineOrders();
+    }
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
     public Response MakeOrderToSuppliers(Map<Pair<String, String>, Integer> DemandedSupplies) {
@@ -152,7 +159,5 @@ public class SupplierFacade {
         return OrdersToExecute;
 
     }
-    public void SetStartingValues () {
-        sOrder.setStartingValues();
-    }
+
 }

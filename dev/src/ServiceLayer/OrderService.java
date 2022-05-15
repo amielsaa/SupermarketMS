@@ -114,4 +114,20 @@ public class OrderService {
     public void setStartingValues() {
         cOrder.setStartingValues();
     }
+
+    public Response<List<DRoutineOrder>> getAllRoutineOrders() {
+        try{
+            List<RoutineOrder> rountineOrders=cOrder.getAllRoutineOrders();
+            List<DRoutineOrder> dRountineOrders=new ArrayList<>();
+            for(RoutineOrder i:rountineOrders){
+                dRountineOrders.add(new DRoutineOrder(i));
+            }
+            return Response.makeSuccess(dRountineOrders);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+
+
+        }
+    }
 }
