@@ -11,7 +11,6 @@ public class TruckDAO extends DataAccessObject {
 
     private HashMap<Integer, Truck> truckCache;
 
-
     public TruckDAO() {
         super("Trucks");
         truckCache = new HashMap<>();
@@ -46,9 +45,9 @@ public class TruckDAO extends DataAccessObject {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, plateNum);
             ResultSet rs = pstmt.executeQuery();
-            int resPlateNum = 0;
-            String model = null;
-            int maxWeight = 0;
+            int resPlateNum;
+            String model;
+            int maxWeight;
             while (rs.next()) {
                 resPlateNum = rs.getInt("plateNum");
                 model = rs.getString("model");
@@ -108,10 +107,6 @@ public class TruckDAO extends DataAccessObject {
         }
     }
 
-    //public void setModel(int plateNum, String newModel){Update(Read(plateNum));}
-
-   // public void setMaxWeight(int plateNum, int maxWeight){Update(Read(plateNum));}
-
     public ArrayList<Truck> getAllTrucks(){
         String sql = "SELECT * FROM Trucks";
         ArrayList<Truck> trucks = new ArrayList<>();
@@ -119,9 +114,9 @@ public class TruckDAO extends DataAccessObject {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-            int resPlateNum = 0;
-            String model = null;
-            int maxWeight = 0;
+            int resPlateNum;
+            String model;
+            int maxWeight;
             while (rs.next()) {
                 resPlateNum = rs.getInt("plateNum");
                 model = rs.getString("model");

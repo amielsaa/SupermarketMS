@@ -10,14 +10,12 @@ import Utilities.DataAccessObject;
 public class SiteDAO extends DataAccessObject {
 
     private HashMap<Integer, Site> siteCache;
-    //private HashMap<String,Integer> siteAddressMapper;
-    int maxId;
+    private int maxId;
 
 
     public SiteDAO() {
         super("Sites");
         siteCache = new HashMap<>();
-        //siteAddressMapper=new HashMap<>();
         maxId = -1;
     }
 
@@ -39,7 +37,6 @@ public class SiteDAO extends DataAccessObject {
             return false;
         }
         siteCache.put(site.getId(), site);
-       // siteAddressMapper.put(site.getAddress(),site.getId());
         maxId = Math.max(site.getId(), maxId);
         return true;
     }
@@ -55,11 +52,11 @@ public class SiteDAO extends DataAccessObject {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
-            int resID = 0;
-            String address = null;
-            DeliveryZone deliveryZone = null;
-            String phoneNumber = null;
-            String contactName = null;
+            int resID;
+            String address;
+            DeliveryZone deliveryZone;
+            String phoneNumber;
+            String contactName;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 address = rs.getString("address");
@@ -136,16 +133,15 @@ public class SiteDAO extends DataAccessObject {
         }
         return site;
     }
-    //public Site getSite(Integer siteId){return Read(siteId);}
 
     public ArrayList<Site> getAllSites(){
         String sql = "SELECT * FROM Sites";
-        ArrayList<Site> sites = new ArrayList();
+        ArrayList<Site> sites = new ArrayList<>();
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-            Site site = null;
+            Site site;
             while (rs.next()) {
                 int resID = rs.getInt("id");
                 String address = rs.getString("address");
@@ -166,10 +162,6 @@ public class SiteDAO extends DataAccessObject {
         }
         return sites;
     }
-    //public void editSiteAddress(int id, String address){Update(Read(id));}
-    //public void setDeliveryZone(int id, int zone){Update(Read(id));}
-    //public void setPhoneNumber(int id, String phoneNumber){Update(Read(id));}
-    //public void setContactName(int id, String name){Update(Read(id));}
 
     public int getMaxId()
     {

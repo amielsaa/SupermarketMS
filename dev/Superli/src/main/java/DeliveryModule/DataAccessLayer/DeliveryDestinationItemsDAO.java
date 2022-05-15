@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class DeliveryDestinationItemsDAO extends DataAccessObject {
-    LinkedHashMap<Pair<Integer,Integer>,HashMap<String,Integer>> deliveryDestinationItemsCache;
+    private LinkedHashMap<Pair<Integer,Integer>,HashMap<String,Integer>> deliveryDestinationItemsCache;
 
     public DeliveryDestinationItemsDAO(){
         super("DeliveryDestinationItems");
@@ -36,7 +36,6 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
         }
         insertItemToCache(deliveryId, siteId, item, quantity);
     }
-
 
     public void removeItemFromDestination(int deliveryId, int siteId, String name) {
 
@@ -121,7 +120,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
             if ((key.getKey().equals(deliveryId) && key.getValue().equals(siteId)))
                 foundKey = key;
         if (foundKey == null) {
-            foundKey = new Pair(deliveryId, siteId);
+            foundKey = new Pair<>(deliveryId, siteId);
             deliveryDestinationItemsCache.put(foundKey, new HashMap<>());
         }
         deliveryDestinationItemsCache.get(foundKey).put(item, quantity);
@@ -155,7 +154,6 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
 
     private void removeItemsFromCache(int deliveryId, int siteId)
     {
-        Pair<Integer, Integer> foundKey = null;
         Set<Pair<Integer,Integer>> keys = deliveryDestinationItemsCache.keySet();
         for (Pair<Integer,Integer> key : keys)
             if ((key.getKey().equals(deliveryId) && key.getValue().equals(siteId)))
