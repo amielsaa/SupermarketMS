@@ -1,8 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
 import DeliveryModule.DataAccessLayer.*;
-import DeliveryModule.DataAccessLayer.Garbage.DeliveredProductsDAO;
-import DeliveryModule.DataAccessLayer.Garbage.DestinationsDAO;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -27,14 +25,6 @@ public class DeliveriesControllerTest {
     public void setUp() {
         try {
             CreateClearTables.clearTables();
-            SiteDAO siteDAO = new SiteDAO();
-            TruckDAO truckDAO = new TruckDAO();
-            DriverDAO driverDAO = new DriverDAO();
-            DestinationsDAO destinationsDAO = new DestinationsDAO();
-            DeliveredProductsDAO deliveredProductsDAO = new DeliveredProductsDAO();
-            //DeliveryDAO deliveryDAO = new DeliveryDAO(truckDAO, driverDAO, siteDAO, destinationsDAO, deliveredProductsDAO);
-            //DeliveryArchiveDAO deliveryArchiveDAO = new DeliveryArchiveDAO();
-
             sitesController = new SitesController();
             trucksController = new TrucksController();
             driversController = new DriversController();

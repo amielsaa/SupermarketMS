@@ -1,7 +1,6 @@
 package DeliveryModule.BusinessLayer;
 
 import DeliveryModule.DataAccessLayer.CreateClearTables;
-import DeliveryModule.DataAccessLayer.TruckDAO;
 import org.junit.Test;
 
 import java.util.ArrayList;
