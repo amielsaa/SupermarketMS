@@ -2,7 +2,6 @@ package EmployeeModule.ServiceLayer;
 
 import DeliveryModule.ServiceLayer.DeliveryService;
 import EmployeeModule.BusinessLayer.*;
-import EmployeeModule.DataAccessLayer.DALController;
 import Utilities.Response;
 import com.sun.istack.internal.NotNull;
 //import org.jetbrains.annotations.NotNull;
@@ -21,7 +20,6 @@ public class Gateway
     private EmployeeController employeeController;
     private ShiftController shiftController;
     private QualificationController qualificationController;
-    private DALController dalController;
 
     private final int ADMIN_UID = 580083434;
 
@@ -32,10 +30,9 @@ public class Gateway
 
         this.loggedEmployeeId = -1;
 
-        this.dalController = new DALController();
-        this.employeeController = new EmployeeController(dalController);
-        this.shiftController = new ShiftController(dalController);
-        this.qualificationController = new QualificationController(dalController);
+        this.employeeController = new EmployeeController();
+        this.shiftController = new ShiftController();
+        this.qualificationController = new QualificationController();
     }
 
     public void initDefaultData() throws Exception {
@@ -211,6 +208,19 @@ public class Gateway
                 checkAuth("ManageEmployees");
             }
 
+            // Check if updating other services is needed
+            Response<Boolean> r1 = employeeHasQualification(id, "Driver");
+            if(!r1.isSuccess()) {
+                return Response.makeFailure(r1.getMessage());
+            }
+            // if is driver
+            if(r1.getData()) {
+                Response r2 = deliveryService.editDriverName(id, newName);
+                if(!r2.isSuccess()) {
+                    return r2;
+                }
+            }
+
             return Response.makeSuccess(employeeController.updateEmployeeName(id, newName));
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -274,6 +284,10 @@ public class Gateway
         try {
             checkAuth("ManageEmployees");
 
+            if(qualification.getName().equals("Driver")) {
+                return Response.makeFailure("Cannot make an employee a driver. ");
+            }
+
             return Response.makeSuccess(employeeController.employeeAddQualification(id, qualification));
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -284,6 +298,11 @@ public class Gateway
         try
         {
             checkAuth("ManageEmployees");
+
+            if(name.equals("Driver")) {
+                return Response.makeFailure("Cannot remove the driver qualification. ");
+            }
+
             Qualification toRemove = qualificationController.getQualification(name);
             employeeController.employeeRemoveQualification(id, name);
             return Response.makeSuccess(toRemove);
@@ -530,17 +549,82 @@ public class Gateway
         }
     }
 
+    public Response<Boolean> employeeHasQualification(int id, String qualName) {
+        try {
+            return Response.makeSuccess(employeeController.getEmployee(id).getWorkingConditions().getQualifications().contains(qualName));
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
     // -----------------------------
 
     // DeliverySystem Functions
-    public DeliveryService getDeliveryService() {
-        return this.deliveryService;
+    public Response<DeliveryService> getDeliveryService() {
+        return Response.makeSuccess(this.deliveryService);
     }
 
-    public boolean driverAvailableOnShift(LocalDateTime shiftDate, int employeeId){
+    public Response<Qualification> driverAddQualification(int id, String licenseType) {
+        try
+        {
+            checkAuth("ManageEmployees");
+
+            Response<Employee> r1 = this.getEmployee(id);
+            if(!r1.isSuccess()) {
+                return Response.makeFailure(r1.getMessage());
+            }
+            Employee e = r1.getData();
+
+
+            Response r2 = this.deliveryService.addDriver(e.getId(), e.getName(), licenseType);
+            if(!r2.isSuccess()) {
+                return r2;
+            }
+
+            Qualification driverQualification = qualificationController.getQualification("Driver");
+            Qualification q = employeeController.employeeAddQualification(id, driverQualification);
+
+            return Response.makeSuccess(q);
+        } catch (Exception e)
+        {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Qualification> driverRemoveQualification(int id) {
+        try {
+            checkAuth("ManageEmployees");
+
+            Response<Employee> r1 = this.getEmployee(id);
+            if(!r1.isSuccess()) {
+                return Response.makeFailure(r1.getMessage());
+            }
+            Employee e = r1.getData();
+
+
+            Response r2 = this.deliveryService.deleteDriver(id);
+            if(!r2.isSuccess()) {
+                return r2;
+            }
+
+            String s = employeeController.employeeRemoveQualification(id, "Driver");
+
+            Response<Qualification> r3 = this.getQualification(s);
+            if(!r3.isSuccess()) {
+                return r3;
+            }
+
+            return Response.makeSuccess(r3.getData());
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Boolean> driverAvailableOnShift(LocalDateTime shiftDate, int employeeId)
+    {
         throw new NotImplementedException();
     }
-    // --------------- --------------
+    // -----------------------------
 
     // DB functions
     public void clearDatabases()

@@ -1,6 +1,5 @@
 package EmployeeModule.BusinessLayer;
 
-import EmployeeModule.DataAccessLayer.DALController;
 import EmployeeModule.DataAccessLayer.QualificationDAO;
 import Utilities.Exceptions.DatabaseAccessException;
 import Utilities.Exceptions.ObjectAlreadyExistsException;
@@ -19,7 +18,7 @@ public class QualificationController
     private List<Permission> permissions;
     private QualificationDAO qDao;
 
-    public QualificationController(@NotNull DALController dalController){
+    public QualificationController(){
         //TODO make a call to DAL to restore the state
         qDao = new QualificationDAO("Qualifications");
         //dalController.execute();

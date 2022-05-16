@@ -121,7 +121,16 @@ public class EditEmployeePage extends OptionsMenuPage
                     System.out.println(q_res_adding.getMessage());
                     return false;
                 }
-                Response<Qualification> add_res = args.getValue().employeeAddQualification(e_id, q_res_adding.getData());
+                Response<Qualification> add_res;
+                if(q_res_adding.equals("Driver"))
+                {
+                    String licenseType = printAndWaitForLegalString(args.getKey(), "License type for driver: ");
+                    add_res = args.getValue().driverAddQualification(e_id, licenseType);
+                }
+                else
+                {
+                    add_res = args.getValue().employeeAddQualification(e_id, q_res_adding.getData());
+                }
                 if(!add_res.isSuccess())
                 {
                     System.out.println(add_res.getMessage());
@@ -132,7 +141,12 @@ public class EditEmployeePage extends OptionsMenuPage
             }));
             put("Remove Qualification", makeResponsePage((Pair<Scanner, Gateway> args) -> {
                 String qual_name = printAndWaitForLegalString(args.getKey(), "Qualification Name: ");
-                Response<Qualification> q_res = args.getValue().employeeRemoveQualification(e_id, qual_name);
+                Response<Qualification> q_res;
+                if(qual_name.equals("Driver")) {
+                    q_res = args.getValue().driverRemoveQualification(e_id);
+                } else {
+                    q_res = args.getValue().employeeRemoveQualification(e_id, qual_name);
+                }
                 if(!q_res.isSuccess()){
                     System.out.println(q_res.getMessage());
                     return false;

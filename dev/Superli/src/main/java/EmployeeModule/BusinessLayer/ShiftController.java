@@ -1,6 +1,5 @@
 package EmployeeModule.BusinessLayer;
 
-import EmployeeModule.DataAccessLayer.DALController;
 import EmployeeModule.DataAccessLayer.ShiftDAO;
 import Utilities.Exceptions.*;
 
@@ -15,7 +14,7 @@ public class ShiftController
     private ShiftDAO sDao;
 
     //TODO: decide when it shouldn't be possible to change the shift
-    public ShiftController(DALController dalController) {
+    public ShiftController() {
         sDao = new ShiftDAO("Shifts");
         shifts = new HashMap<>();
     }

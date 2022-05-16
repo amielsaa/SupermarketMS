@@ -1,6 +1,5 @@
 package EmployeeModule.BusinessLayer;
 
-import EmployeeModule.DataAccessLayer.DALController;
 import EmployeeModule.DataAccessLayer.EmployeeDAO;
 import Utilities.Exceptions.DatabaseAccessException;
 import Utilities.Exceptions.ObjectAlreadyExistsException;
@@ -14,7 +13,7 @@ public class EmployeeController
     private List<Employee> employees;
     private EmployeeDAO eDao;
 
-    public EmployeeController(DALController dalController) {
+    public EmployeeController() {
         eDao = new EmployeeDAO("Employees");
         employees = new ArrayList<Employee>();
     }

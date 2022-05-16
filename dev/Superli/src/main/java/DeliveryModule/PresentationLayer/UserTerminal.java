@@ -27,7 +27,12 @@ public class UserTerminal extends ResponsePage<Boolean>
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
         sc = input;
-        service = g.getDeliveryService();
+        Response<DeliveryService> r1 = g.getDeliveryService();
+        if(!r1.isSuccess()) {
+            System.out.println("Failed to get delivery service. " + r1.getMessage());
+            return true;
+        }
+        service = r1.getData();
 
         printWelcomeMessage();
         boolean isUserFinished = false;

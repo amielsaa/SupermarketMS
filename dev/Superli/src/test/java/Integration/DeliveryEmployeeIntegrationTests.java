@@ -27,7 +27,7 @@ public class DeliveryEmployeeIntegrationTests {
         {
             EmployeeMod.login(ADMIN_UID);
         }
-        DeliveryMod = EmployeeMod.getDeliveryService();
+        DeliveryMod = EmployeeMod.getDeliveryService().getData();
         EmployeeMod.clearDatabases();
         DeliveryMod.clearDatabases();
     }

@@ -461,7 +461,13 @@ public class DeliveryService {
 
     private Response checkDriverAvailability(int driverId,LocalDateTime date){
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        if(!gateway.driverAvailableOnShift(date,driverId))
+
+        Response<Boolean> r1 = gateway.driverAvailableOnShift(date,driverId);
+        if(!r1.isSuccess()) {
+            return r1;
+        }
+
+        if(!r1.getData())
             return Response.makeFailure(String.format("Driver is unavailable at %s...",date.format(dateTimeFormatter)));
         return Response.makeSuccess(0);
     }
