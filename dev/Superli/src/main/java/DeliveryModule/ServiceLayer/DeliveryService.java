@@ -1,5 +1,6 @@
 package DeliveryModule.ServiceLayer;
 import DeliveryModule.BusinessLayer.*;
+import DeliveryModule.DataAccessLayer.CreateClearTables;
 import EmployeeModule.ServiceLayer.Gateway;
 import Utilities.Response;
 
@@ -463,6 +464,13 @@ public class DeliveryService {
         if(!gateway.driverAvailableOnShift(date,driverId))
             return Response.makeFailure(String.format("Driver is unavailable at %s...",date.format(dateTimeFormatter)));
         return Response.makeSuccess(0);
+    }
+
+    // DB functions
+
+    public void clearDatabases()
+    {
+        CreateClearTables.clearTables();
     }
 
 }

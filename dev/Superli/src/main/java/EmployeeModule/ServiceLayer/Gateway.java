@@ -4,8 +4,8 @@ import DeliveryModule.ServiceLayer.DeliveryService;
 import EmployeeModule.BusinessLayer.*;
 import EmployeeModule.DataAccessLayer.DALController;
 import Utilities.Response;
-//import com.sun.istack.internal.NotNull;
-import org.jetbrains.annotations.NotNull;
+import com.sun.istack.internal.NotNull;
+//import org.jetbrains.annotations.NotNull;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDateTime;
@@ -541,4 +541,12 @@ public class Gateway
         throw new NotImplementedException();
     }
     // --------------- --------------
+
+    // DB functions
+    public void clearDatabases()
+    {
+        employeeController.clearDatabases();
+        shiftController.clearDatabases();
+        qualificationController.clearDatabases();
+    }
 }
