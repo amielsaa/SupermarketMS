@@ -35,7 +35,7 @@ public class OrderController {
         daysToDeliverDAO.setAllRoutineOrders();
     }
     //return all the Orders from the specific supplier
-    public Collection<Order> getAllOrdersFromSupplier(int supplierBN) {
+    public Collection<Order> getAllOrdersFromSupplier(int supplierBN) throws DataFormatException {
         if (!orderDAO.setAllOrders(supplierBN))
             return new ArrayList<Order>();
         Collection<Order> preBuiltOrders=orderDAO.getAllOrders(supplierBN);
@@ -205,7 +205,7 @@ public class OrderController {
        */
 
 
-    private RoutineOrder buildRoutineOrder(int bn,int orderId){
+    private RoutineOrder buildRoutineOrder(int bn,int orderId) throws DataFormatException {
         Order order =buildOrder(bn,orderId);
         Collection<Integer> days=daysToDeliverDAO.selectAllDays(bn,orderId);
         Set<Integer> setdays=new HashSet<>();
@@ -215,7 +215,9 @@ public class OrderController {
         return new RoutineOrder(order,setdays);
     }
 
-    private Order buildOrder(int bn,int orderId){
+    private Order buildOrder(int bn,int orderId) throws DataFormatException {
+        if(!orderDAO.containsOrder(bn,orderId))
+            throw new DataFormatException("order was not found");
         Order order= orderDAO.getOrder(bn,orderId);
         Collection<OrderItem> orderItems=orderItemsDAO.selectAllOrderItems(orderId);
         HashMap<Pair<String,String>, OrderItem> orderItemHashMap=new HashMap<>();
@@ -244,7 +246,8 @@ public class OrderController {
 
 
 
-    public List<RoutineOrder> getAllRoutineOrders() {
+    public List<RoutineOrder> getAllRoutineOrders() throws DataFormatException {
+        daysToDeliverDAO.setAllRoutineOrders();
         HashMap<Integer,List<Integer>> BN_To_listOfRountineOrdersId=daysToDeliverDAO.getBN_to_routineOrder();
         List<RoutineOrder> toreturn=new ArrayList<>();
         Set<Integer> keySet=BN_To_listOfRountineOrdersId.keySet();
