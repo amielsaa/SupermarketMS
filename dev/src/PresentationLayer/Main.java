@@ -12,6 +12,7 @@ import ServiceLayer.SupplierFacade;
 import misc.Pair;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,9 +20,11 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
-       // PresentationMain fMain = new PresentationMain();
-       // fMain.main();
+//        System.out.println( (LocalDate.now().getDayOfWeek().getValue() + 1) % 7);
+        PresentationMain fMain = new PresentationMain();
+        fMain.main();
 
+        /*
 
         //supplier 1!
         SupplierFacade supplierFacade=new SupplierFacade();
@@ -70,6 +73,7 @@ public class Main {
         supplierFacade.makeRoutineOrder(111111111,order,a);
         Response<DRoutineOrder> response=supplierFacade.deleteItemFromRoutineOrder(111111111,0,"banana","tnuva");
 */
+
 
 
 

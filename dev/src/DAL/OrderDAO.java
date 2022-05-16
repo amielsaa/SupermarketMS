@@ -166,7 +166,23 @@ public class OrderDAO extends DalController {
     }
 
     public int getMaxOrderId(){
-        //todo:
-        return 1;
+        //todo check if it works
+
+        String sql = "select MAX(orderID) from Orders";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            int maxOrder = 0;
+            while (rs.next()) {
+                maxOrder = rs.getInt(1) + 1;
+            }
+            return maxOrder;
+
+        } catch (SQLException e) {
+            return 0; //todo
+        }
+
     }
 }

@@ -5,14 +5,13 @@ import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
 import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
+import misc.Days;
 import misc.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 public class SupplierFacade {
     private SupplierService sSupplier;
@@ -116,8 +115,7 @@ public class SupplierFacade {
 
 
     //----------------------------------------------------------RoutineOrders-----------------------------------------------------------
-    public Response makeRoutineOrder(int business_num, HashMap<Pair<String, String>,
-            Integer> order, Set<Integer> days) {
+    public Response makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
         Response<HashMap<Pair<String, String>, Pair<Double, Double>>> resWithHash = sSupplier.makeRoutineOrder(business_num, order, days);
         if (resWithHash.isSuccess()) {
             Response<DRoutineOrder> resFromOrder = sOrder.makeRoutineOrder(business_num, order, resWithHash.getData(), days);
@@ -126,23 +124,22 @@ public class SupplierFacade {
         return resWithHash;
     }
 
-    public Response addOrUpdateRoutineOrder(int business_num, int OrderId, String itemName, String ItemProducer,
-                                            int Quantity) {
+    public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int OrderId, String itemName, String ItemProducer, int Quantity) {
         Response<HashMap<Pair<String, String>, Pair<Double, Double>>> newItemToAdd = sSupplier.addOrUpdateRoutineOrder(business_num, itemName, ItemProducer, Quantity);
         if (newItemToAdd.isSuccess()) {
             Response<DRoutineOrder> updatedRoutineOrder = sOrder.addOrUpdateRoutineOrder(business_num, OrderId, newItemToAdd.getData(), Quantity);
             return updatedRoutineOrder;
         }
-        return newItemToAdd;
+        return Response.makeFailure(newItemToAdd.getMessage());
     }
 
-    public Response deleteItemFromRoutineOrder(int business_num, int OrderId, String ItemName, String ItemProducer) {
+    public Response<DRoutineOrder> deleteItemFromRoutineOrder(int business_num, int OrderId, String ItemName, String ItemProducer) {
         Response<DSupplier> supplierExists = getSupplier(business_num);
         if (supplierExists.isSuccess()) {
             Response<DRoutineOrder> updatedRoutineOrder = sOrder.deleteItemFromRoutineOrder(business_num, OrderId, ItemName, ItemProducer);
             return updatedRoutineOrder;
         }
-        return supplierExists;
+        return Response.makeFailure(supplierExists.getMessage());
     }
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
@@ -160,4 +157,7 @@ public class SupplierFacade {
 
     }
 
+    public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
+        return sOrder.getAllRoutineOrdersForTomorrow();
+    }
 }

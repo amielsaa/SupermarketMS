@@ -12,7 +12,7 @@ import java.util.zip.DataFormatException;
 public class SupplierController {
     private SupplierDAO supplierDAO;
     private ContactDAO contactDAO;
-    private DaysToDeliverDAO daysToDeliverDAO;
+//    private DaysToDeliverDAO daysToDeliverDAO;
     private QuantityAgreementDAO quantityAgreementDAO;
     private DiscountsDAO discountsDAO;
     private SupplierDaysDAO supplierDaysDAO;
@@ -20,7 +20,7 @@ public class SupplierController {
     public SupplierController() {
         supplierDAO = new SupplierDAO();
         contactDAO=new ContactDAO();
-        daysToDeliverDAO=new DaysToDeliverDAO();
+//        daysToDeliverDAO=new DaysToDeliverDAO();
         quantityAgreementDAO=new QuantityAgreementDAO();
         discountsDAO=new DiscountsDAO();
         supplierDaysDAO=new SupplierDaysDAO();

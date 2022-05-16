@@ -67,7 +67,7 @@ public class DRoutineOrder {
     }
 
     public String toString(){
-        return "Supplier BN: "+getSupplier_BN() + ", OrderID: " + getOrder_Id() +", Order Date: " + getOrder_Date() + "\nItems: "+ itemsToString() + "\nFinal Price: " + getFinal_Price();
+        return "Supplier BN: "+getSupplier_BN() + ", OrderID: " + getOrder_Id() +", Order Date: " + getOrder_Date() + "\nItems: "+ itemsToString() + "\nFinal Price: " + getFinal_Price() + "\nDays: " + getDays();
     }
 
     private String itemsToString(){

@@ -7,8 +7,10 @@ import BusinessLayer.Supplier;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
+import misc.Days;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class OrderService {
@@ -130,4 +132,43 @@ public class OrderService {
 
         }
     }
+
+    public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
+        try{
+            int day = (LocalDate.now().getDayOfWeek().getValue() + 2) % 7; //todo: check if the number is good
+            Days tomorrow = dayConvertor(day);
+            List<RoutineOrder> allRoutines = cOrder.getAllRoutineOrders();
+            List<DRoutineOrder> newlist = new LinkedList<>();
+            for (RoutineOrder o : allRoutines){
+                if(o.getDays_To_Deliver().contains(tomorrow))
+                    newlist.add(new DRoutineOrder(o));
+            }
+            return Response.makeSuccess(newlist);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+    }
+
+    private Days dayConvertor(int day){
+        if(day==1)
+            return Days.sunday;
+        else if(day==2)
+            return Days.monday;
+        else if(day==3)
+            return Days.tuesday;
+        else if(day==4)
+            return Days.wednesday;
+        else if(day==5)
+            return Days.thursday;
+        else if(day==6)
+            return Days.friday;
+        else if(day==7)
+            return Days.saturday;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
+    }
+
 }

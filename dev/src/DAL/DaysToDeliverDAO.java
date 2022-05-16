@@ -17,7 +17,6 @@ public class DaysToDeliverDAO extends DalController{
     public DaysToDeliverDAO() {
         super("DaysToDeliver");
         BN_to_routineOrder = new HashMap<>(); //HM <BN, List<OrderID>>
-        //todo
     }
 
     public HashMap<Integer, List<Integer>> getBN_to_routineOrder() {
@@ -113,10 +112,6 @@ public class DaysToDeliverDAO extends DalController{
 
     }
 
-    public void loadAllRoutineDays(){
-        //todo
-        throw new NotImplementedException();
-    }
     public boolean CheckIfOrderIsRoutineOrder(int bn,int orderId){
         if(BN_to_routineOrder.containsKey(bn)) {
             if (BN_to_routineOrder.get(bn).contains(orderId)) {
@@ -133,6 +128,22 @@ public class DaysToDeliverDAO extends DalController{
     }
 
     public void setAllRoutineOrders(){
-        //todo: set all the routineOrderId in the Hashmap
+        String sql = "select * from DaysToDeliver";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            Collection<Integer> cc = new LinkedList<>();
+            while (rs.next()) {
+                int bn = rs.getInt("bn");
+                int orderID = rs.getInt("orderID");
+                if(!BN_to_routineOrder.containsKey(bn))
+                    BN_to_routineOrder.put(bn, new LinkedList<>());
+                BN_to_routineOrder.get(bn).add(orderID);
+            }
+
+        } catch (SQLException e) {}
+
     }
 }

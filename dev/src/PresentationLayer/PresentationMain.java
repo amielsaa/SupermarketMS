@@ -4,13 +4,16 @@ import BusinessLayer.Contact;
 import BusinessLayer.QuantityAgreement;
 import BusinessLayer.RoutineOrder;
 import BusinessLayer.Supplier;
+import java.time.DayOfWeek;
 import ServiceLayer.DummyObjects.DOrder;
 import ServiceLayer.DummyObjects.DQuantityAgreement;
+import ServiceLayer.DummyObjects.DRoutineOrder;
 import ServiceLayer.DummyObjects.DSupplier;
 import ServiceLayer.Response;
 import ServiceLayer.SupplierFacade;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class PresentationMain {
@@ -26,6 +29,9 @@ public class PresentationMain {
     public void main() {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
+        fSupplier.SetStartingValues();
+        outOfStock(s);
+
         while(running){ //main program loop
             System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Add Supplier Delivery Day, 5 - Remove Supplier Delivery Day)");
@@ -118,6 +124,10 @@ public class PresentationMain {
                 }
                 case("17"): {
                     makeRoutineOrder(s);
+                    break;
+                }
+                case("18"): {
+                    outOfStock(s);
                     break;
                 }
 
@@ -489,6 +499,61 @@ public class PresentationMain {
         if(res.isSuccess())
             System.out.println(printOrderList(res.getData()));
         else System.out.println(res.getMessage());
+    }
+
+    private void outOfStock(Scanner s) {
+        Response<List<DRoutineOrder>> orders = fSupplier.getAllRoutineOrdersForTomorrow();
+        if(orders.isSuccess()){
+            System.out.println("Routine orders for tomorrow:");
+            int index = 0;
+            HashMap<Integer,DRoutineOrder> mappingOrders = new HashMap<>();
+            for(DRoutineOrder o : orders.getData()){
+                System.out.println("Order " + index + ":\n" + o.toString());
+                mappingOrders.put(index,o);
+                index++;
+            }
+            System.out.println("Would you like to add/alter/remove items from any order?");
+            System.out.println("1 - Add/alter, 2 - remove, 3 - no action (any other key - no action): ");
+            int command = getIntFromUser(s,"command");
+            switch (command){
+                case (1): {
+                    int ordernum = getIntFromUser(s,"order ID");
+                    System.out.print("Enter item name: ");
+                    String itemname = s.nextLine();
+                    System.out.print("Enter item producer: ");
+                    String itemproducer = s.nextLine();
+                    int amount = getIntFromUser(s,"new item amount");
+                    int orderID = mappingOrders.get(ordernum).getOrder_Id();
+                    int bn = mappingOrders.get(ordernum).getSupplier_BN();
+                    Response<DRoutineOrder> updatedOrder = fSupplier.addOrUpdateRoutineOrder(bn,orderID,itemname,itemproducer,amount);
+                    if(updatedOrder.isSuccess()){
+                        System.out.println("Update has been successful. The updated order:");
+                        updatedOrder.getData().toString();
+                    }
+                    else System.out.println(updatedOrder.getMessage());
+                }
+                case (2): {
+                    int ordernum = getIntFromUser(s,"order ID");
+                    System.out.print("Enter item name: ");
+                    String itemname = s.nextLine();
+                    System.out.print("Enter item producer: ");
+                    String itemproducer = s.nextLine();
+                    int orderID = mappingOrders.get(ordernum).getOrder_Id();
+                    int bn = mappingOrders.get(ordernum).getSupplier_BN();
+                    Response<DRoutineOrder> updatedOrder = fSupplier.deleteItemFromRoutineOrder(bn,orderID,itemname,itemproducer);
+                    if(updatedOrder.isSuccess()){
+                        System.out.println("Item has been deleted successfully. The updated order:");
+                        updatedOrder.getData().toString();
+                    }
+                    else System.out.println(updatedOrder.getMessage());
+                }
+                default: {
+                    break;
+                }
+            }
+
+        }
+        else System.out.println("No routine orders for tomorrow.");
     }
 
 
