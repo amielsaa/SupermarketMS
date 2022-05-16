@@ -16,7 +16,7 @@ public abstract class ResponsePage<T> implements Page
         runWithResponse(input, g);
     }
 
-    public static <T> ResponsePage<T> makeResponsePage(Function<Pair<Scanner, Gateway>, T> function) {
+    public static <T> ResponsePage<T> makeResponsePage (Function<Pair<Scanner, Gateway>, T> function) {
         return new ResponsePage<T>() {
             @Override
             public T runWithResponse(Scanner input, Gateway g) throws CLIException {
