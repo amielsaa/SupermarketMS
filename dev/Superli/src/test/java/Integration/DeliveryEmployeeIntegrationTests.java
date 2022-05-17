@@ -71,10 +71,10 @@ public class DeliveryEmployeeIntegrationTests {
     @Test
     public void testEditDriverName()
     {
-
+        EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
         EmployeeMod.driverAddQualification(100100100, "C");
         EmployeeMod.updateEmployeeName(100100100, "driver 2");
-        assertTrue(DeliveryMod.getDriver(100100100).getData().toString().contains("driver 2"));
+        assertTrue(DeliveryMod.getDriver(100100100).getData().contains("driver 2"));
     }
 
     @Test
@@ -84,6 +84,7 @@ public class DeliveryEmployeeIntegrationTests {
         EmployeeMod.driverAddQualification(100100100, "C");
         EmployeeMod.addEmployee(2, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
         EmployeeMod.employeeAddQualification(2, EmployeeMod.addQualification("WarehouseWorker").getData());
+
 
         Map<Integer, List<String>> hashmap  = new HashMap<Integer, List<String>>() {{
             put(100100100, Arrays.asList("Driver"));

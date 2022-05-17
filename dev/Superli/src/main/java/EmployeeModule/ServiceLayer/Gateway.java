@@ -190,7 +190,12 @@ public class Gateway
         try
         {
             checkAuth("ManageEmployees");
-
+            Response<Boolean> r1 = employeeHasQualification(id, "Driver");
+            if(r1.isSuccess() && r1.getData()) {
+                Response r2 = deliveryService.deleteDriver(id);
+                if (!r2.isSuccess())
+                    return Response.makeFailure(r2.getMessage());
+            }
             return Response.makeSuccess(employeeController.removeEmployee(id));
         } catch (Exception e)
         {
