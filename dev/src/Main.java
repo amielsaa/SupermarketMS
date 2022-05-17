@@ -1,4 +1,5 @@
 import Inventory.PresentationLayer.InventoryProgram;
+import SupplierInventory.SIPresentation;
 import Suppliers.PresentationLayer.PresentationMain;
 
 import java.util.Scanner;
@@ -8,28 +9,8 @@ public class Main {
     public static void main(String[] args) {
 //        System.out.println( (LocalDate.now().getDayOfWeek().getValue() + 1) % 7);
 
-        PresentationMain suppliersMain = new PresentationMain();
-        InventoryProgram inventoryMain = new InventoryProgram();
-        Scanner s = new Scanner(System.in);
-        boolean running = true;
-
-        while (running) { //main program loop
-            System.out.print("Suppliers - 1, Inventory - 2\n(else - exit)\n");
-            String input = s.nextLine();
-            switch (input) {
-                case ("1"): {
-                    suppliersMain.main();
-                    break;
-                }
-                case ("2"): {
-                    inventoryMain.main();
-                    break;
-                }
-                default: {
-                    System.out.println("SEE YA");
-                    running = false;
-                    break;
-                }
+        SIPresentation si = new SIPresentation();
+        si.main();
 
 /*
 
@@ -83,9 +64,8 @@ public class Main {
         Response<DRoutineOrder> response=supplierFacade.deleteItemFromRoutineOrder(111111111,0,"banana","tnuva");
 */
 
-            }
-        }
 
-        s.close();
+
+
     }
 }

@@ -1,5 +1,6 @@
 package Suppliers.PresentationLayer;
 
+import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
@@ -11,10 +12,11 @@ import misc.Pair;
 import java.util.*;
 
 public class PresentationMain {
-    SupplierFacade fSupplier;
 
-    public PresentationMain(){
-        fSupplier = new SupplierFacade();
+    SIService service;
+
+    public PresentationMain(SIService s){
+        service=s;
     }
 
     //todo:Presentation bugs
@@ -23,7 +25,8 @@ public class PresentationMain {
     public void main() {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
-        fSupplier.SetStartingValues();
+        service.SetStartingValues();
+        
         outOfStock(s); //todo restore
 
 
@@ -153,7 +156,7 @@ public class PresentationMain {
         HashMap<Pair<String,String>, Double> item_to_price = new HashMap<Pair<String,String>, Double>();
         HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Pair<String,String>,HashMap<Integer,Integer>>();
         createQuantityAgreement(s, item_to_price, item_Num_To_Discount);
-        Response<DSupplier> newsupplier = fSupplier.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail, days, contactName, contactNumber, item_to_price, item_Num_To_Discount, selfDelivery);
+        Response<DSupplier> newsupplier = service.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail, days, contactName, contactNumber, item_to_price, item_Num_To_Discount, selfDelivery);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -325,7 +328,7 @@ public class PresentationMain {
     private void makeOrder(Scanner s){
         Response<Pair<Integer, HashMap>> baseInfo = orderBaseInfo(s);
         if(baseInfo.isSuccess()) {
-            Response res = fSupplier.makeOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond());
+            Response res = service.makeOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond());
             if(res.isSuccess())
                 System.out.println("Order created successfully.");
             else System.out.println(res.getMessage());
@@ -339,7 +342,7 @@ public class PresentationMain {
         if(baseInfo.isSuccess()) {
             System.out.println("Select days for the routine order to be delivered.\nDays must be included in the supplier's delivery days.");
             Set<Integer> days = deliveryDaysLoop(s);
-            Response res = fSupplier.makeRoutineOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond(), days);
+            Response res = service.makeRoutineOrder(baseInfo.getData().getFirst(), baseInfo.getData().getSecond(), days);
             if(res.isSuccess())
                 System.out.println("Routine Order created successfully.");
             else System.out.println(res.getMessage());
@@ -358,7 +361,7 @@ public class PresentationMain {
     }
 
     private Response<HashMap<Integer, Pair<String,String>>> printSupplierItems(int businessNumber){
-        Response<DQuantityAgreement> qa = fSupplier.getSupplierQuantityAgreement(businessNumber);
+        Response<DQuantityAgreement> qa = service.getSupplierQuantityAgreement(businessNumber);
         if(qa.isSuccess()) {
             int runningIndex=0;
             HashMap<Integer, Pair<String,String>> items = new HashMap<>();
@@ -386,7 +389,7 @@ public class PresentationMain {
             else System.out.println("Invalid business number");
         }
 
-        Response<DSupplier> newsupplier = fSupplier.removeSupplier(businessNumber);
+        Response<DSupplier> newsupplier = service.removeSupplier(businessNumber);
         if(newsupplier.isSuccess())
             System.out.println("Supplier removed successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -395,7 +398,7 @@ public class PresentationMain {
 
     private void getSupplier(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
-        Response<DSupplier> newsupplier = fSupplier.getSupplier(businessNumber);
+        Response<DSupplier> newsupplier = service.getSupplier(businessNumber);
         if(newsupplier.isSuccess())
             System.out.println(newsupplier.getData().toString());
         else System.out.println(newsupplier.getMessage());
@@ -405,7 +408,7 @@ public class PresentationMain {
 //        int businessNumber = getIntFromUser(s, "supplier business number");
 //        System.out.println("Instructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
 //        int dayNumber = getIntFromUser(s, "day");
-//        Response res = fSupplier.addSupplierDeliveryDay(businessNumber, dayNumber);
+//        Response res = service.addSupplierDeliveryDay(businessNumber, dayNumber);
 //        if(res.isSuccess())
 //            System.out.println("Day added successfully.");
 //        else System.out.println(res.getMessage());
@@ -415,7 +418,7 @@ public class PresentationMain {
 //        int businessNumber = getIntFromUser(s, "supplier business number");
 //        System.out.println("Select a day to remove.\nInstructions: (1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday, 0 - Stop)");
 //        int dayNumber = getIntFromUser(s, "day");
-//        Response res = fSupplier.removeSupplierDeliveryDay(businessNumber, dayNumber);
+//        Response res = service.removeSupplierDeliveryDay(businessNumber, dayNumber);
 //        if(res.isSuccess())
 //            System.out.println("Day removed successfully.");
 //        else System.out.println(res.getMessage());
@@ -424,7 +427,7 @@ public class PresentationMain {
 //    private void updateSupplierDeliveryDays(Scanner s) {
 //        int businessNumber = getIntFromUser(s, "supplier business number");
 //        Set<Integer> days = deliveryDaysLoop(s);
-//        Response res = fSupplier.updateSupplierDeliveryDays(businessNumber, days);
+//        Response res = service.updateSupplierDeliveryDays(businessNumber, days);
 //        if(res.isSuccess())
 //            System.out.println("Days updated successfully.");
 //        else System.out.println(res.getMessage());
@@ -433,7 +436,7 @@ public class PresentationMain {
     private void updateSupplierPaymentDetails(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
         String payment = getPaymentFromUser(s);
-        Response res = fSupplier.updateSupplierPaymentDetails(businessNumber, payment);
+        Response res = service.updateSupplierPaymentDetails(businessNumber, payment);
         if(res.isSuccess())
             System.out.println("Supplier Payment Details have been updated successfully.");
         else System.out.println(res.getMessage());
@@ -442,7 +445,7 @@ public class PresentationMain {
     private void updateSupplierBankAccount(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
         int bankNumber = getIntFromUser(s, "supplier bank account number");
-        Response res = fSupplier.updateSupplierBankAccount(businessNumber, bankNumber);
+        Response res = service.updateSupplierBankAccount(businessNumber, bankNumber);
         if(res.isSuccess())
             System.out.println("Supplier bank account have been updated successfully.");
         else System.out.println(res.getMessage());
@@ -451,7 +454,7 @@ public class PresentationMain {
     private void updateSupplierSelfDelivery(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
         boolean selfDelivery = getBooleanFromUser(s, "Is the supplier doing self-delivery? (1 - yes, 2 - no, default - no): ");
-        Response res = fSupplier.updateSupplierSelfDelivery(businessNumber, selfDelivery);
+        Response res = service.updateSupplierSelfDelivery(businessNumber, selfDelivery);
         if(res.isSuccess())
             System.out.println("Supplier self-delivery preference has been updated successfully.");
         else System.out.println(res.getMessage());
@@ -463,7 +466,7 @@ public class PresentationMain {
         String contactName = s.nextLine();
         System.out.println("Enter contact phone number: ");
         String contactPhone = s.nextLine();
-        Response res = fSupplier.addSupplierContact(businessNumber, contactName, contactPhone);
+        Response res = service.addSupplierContact(businessNumber, contactName, contactPhone);
         if(res.isSuccess())
             System.out.println("Contact added successfully.");
         else System.out.println(res.getMessage());
@@ -473,7 +476,7 @@ public class PresentationMain {
         int businessNumber = getIntFromUser(s, "supplier business number");
         System.out.println("Enter contact phone number: ");
         String contactPhone = s.nextLine();
-        Response res = fSupplier.removeSupplierContact(businessNumber, contactPhone);
+        Response res = service.removeSupplierContact(businessNumber, contactPhone);
         if(res.isSuccess())
             System.out.println("Contact removed successfully.");
         else System.out.println(res.getMessage());
@@ -482,7 +485,7 @@ public class PresentationMain {
     private void getOrder(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
         int contactPhone = getIntFromUser(s, "orderID");
-        Response<DOrder> res = fSupplier.getOrder(businessNumber, contactPhone);
+        Response<DOrder> res = service.getOrder(businessNumber, contactPhone);
         if(res.isSuccess())
             System.out.println(res.getData().toString());
         else System.out.println(res.getMessage());
@@ -490,14 +493,14 @@ public class PresentationMain {
 
     private void getAllOrdersFromSupplier(Scanner s) {
         int businessNumber = getIntFromUser(s, "supplier business number");
-        Response<List<DOrder>> res = fSupplier.getAllOrdersFromSupplier(businessNumber);
+        Response<List<DOrder>> res = service.getAllOrdersFromSupplier(businessNumber);
         if(res.isSuccess())
             System.out.println(printOrderList(res.getData()));
         else System.out.println(res.getMessage());
     }
 
     private void outOfStock(Scanner s) {
-        Response<List<DRoutineOrder>> orders = fSupplier.getAllRoutineOrdersForTomorrow();
+        Response<List<DRoutineOrder>> orders = service.getAllRoutineOrdersForTomorrow();
         if(orders.isSuccess()){
             System.out.println("Routine orders for tomorrow:");
             int index = 0;
@@ -520,7 +523,7 @@ public class PresentationMain {
                     int amount = getIntFromUser(s,"new item amount");
                     int orderID = mappingOrders.get(ordernum).getOrder_Id();
                     int bn = mappingOrders.get(ordernum).getSupplier_BN();
-                    Response<DRoutineOrder> updatedOrder = fSupplier.addOrUpdateRoutineOrder(bn,orderID,itemname,itemproducer,amount);
+                    Response<DRoutineOrder> updatedOrder = service.addOrUpdateRoutineOrder(bn,orderID,itemname,itemproducer,amount);
                     if(updatedOrder.isSuccess()){
                         System.out.println("Update has been successful. The updated order:");
                         updatedOrder.getData().toString();
@@ -535,7 +538,7 @@ public class PresentationMain {
                     String itemproducer = s.nextLine();
                     int orderID = mappingOrders.get(ordernum).getOrder_Id();
                     int bn = mappingOrders.get(ordernum).getSupplier_BN();
-                    Response<DRoutineOrder> updatedOrder = fSupplier.deleteItemFromRoutineOrder(bn,orderID,itemname,itemproducer);
+                    Response<DRoutineOrder> updatedOrder = service.deleteItemFromRoutineOrder(bn,orderID,itemname,itemproducer);
                     if(updatedOrder.isSuccess()){
                         System.out.println("Item has been deleted successfully. The updated order:");
                         updatedOrder.getData().toString();
@@ -558,7 +561,7 @@ public class PresentationMain {
 //        String oldPhone = s.nextLine();
 //        System.out.print("Enter new phone number: ");
 //        String newPhone = s.nextLine();
-//        Response<List<DOrder>> res = fSupplier.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
+//        Response<List<DOrder>> res = service.updateContactPhoneNumber(businessNumber, oldPhone, newPhone);
 //        if(res.isSuccess())
 //            System.out.println(printOrderList(res.getData()));
 //        else System.out.println(res.getMessage());
@@ -620,14 +623,14 @@ public class PresentationMain {
         daysSet.add(1);
         daysSet.add(3);
         //String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup
-        Response<DSupplier> newsupplier = fSupplier.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, true);
+        Response<DSupplier> newsupplier = service.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, true);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
 
         HashMap<Pair<String,String>,Integer> orderMap = new HashMap<>();
         orderMap.put(new Pair<>("milk","tnuva"),100);
-        Response<DOrder> neworder = fSupplier.makeOrder(111111111, orderMap);
+        Response<DOrder> neworder = service.makeOrder(111111111, orderMap);
         if(neworder.isSuccess())
             System.out.println("Order created successfully.");
         else System.out.println(neworder.getMessage());
