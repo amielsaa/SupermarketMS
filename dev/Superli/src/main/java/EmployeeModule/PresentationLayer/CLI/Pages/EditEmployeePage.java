@@ -122,7 +122,7 @@ public class EditEmployeePage extends OptionsMenuPage
                     return false;
                 }
                 Response<Qualification> add_res;
-                if(q_res_adding.equals("Driver"))
+                if(q_res_adding.getData().getName().equals("Driver"))
                 {
                     String licenseType = printAndWaitForLegalString(args.getKey(), "License type for driver: ");
                     add_res = args.getValue().driverAddQualification(e_id, licenseType);
