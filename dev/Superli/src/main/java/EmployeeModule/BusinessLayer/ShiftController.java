@@ -13,7 +13,6 @@ public class ShiftController
     public Map<ShiftId, Shift> shifts;
     private ShiftDAO sDao;
 
-    //TODO: decide when it shouldn't be possible to change the shift
     public ShiftController() {
         sDao = new ShiftDAO("Shifts");
         shifts = new HashMap<>();
@@ -26,6 +25,22 @@ public class ShiftController
             throw new DatabaseAccessException("Failed to load all shifts from branch " + branchId + " database");
         }
         return sList;
+    }
+
+    public Shift getEmployeeShiftOnDay(int eid, LocalDateTime date, ShiftTime shiftTime) throws Exception {
+        List<Shift> sList = sDao.ReadAll();
+        if(sList == null){
+            throw new DatabaseAccessException("Failed to load all shifts from database");
+        }
+        for(Shift s : sList) {
+            // TODO fix date comparison between shifts to be internal in ShiftId
+            if(s.getId().getShiftTime() == shiftTime &&
+                    date.getDayOfYear() == s.getId().getDate().getDayOfYear() && date.getYear() == s.getId().getDate().getYear() &&
+                    s.getWorkers().containsKey(eid)) {
+                return s;
+            }
+        }
+        return null;
     }
 
     public Shift addShift(int branchId, LocalDateTime date, Employee shiftManager,

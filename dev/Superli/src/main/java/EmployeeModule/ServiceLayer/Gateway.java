@@ -627,7 +627,16 @@ public class Gateway
 
     public Response<Boolean> driverAvailableOnShift(LocalDateTime shiftDate, int employeeId)
     {
-        throw new NotImplementedException();
+        try {
+            Shift dayShift = shiftController.getEmployeeShiftOnDay(employeeId, shiftDate, ShiftTime.DAY);
+            Shift nightShift = shiftController.getEmployeeShiftOnDay(employeeId, shiftDate, ShiftTime.NIGHT);
+            if(dayShift == null && nightShift == null) {
+                return Response.makeSuccess(true);
+            }
+            return Response.makeSuccess(false);
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
     // -----------------------------
 

@@ -25,6 +25,17 @@ public class EmployeeController
         }
         return Collections.unmodifiableList(employeeList);
     }
+    public List<Employee> getEmployeesWithQualification(String qualName) throws DatabaseAccessException {
+        List<Employee> employees = getEmployees();
+        Iterator<Employee> i = employees.iterator();
+        while(i.hasNext()) {
+            Employee e = i.next();
+            if(!e.getWorkingConditions().hasQualification(qualName)) {
+                i.remove();
+            }
+        }
+        return employees;
+    }
     //TODO: make a method for checking if a qualification grants this permission in qualification controller
     public Permission checkPermission(int id, Permission permission) throws Exception
     {   /*
