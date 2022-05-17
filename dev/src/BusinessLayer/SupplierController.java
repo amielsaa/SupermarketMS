@@ -74,7 +74,7 @@ public class SupplierController {
             throw new DataFormatException("Error In Database on removeSupplierContact");
     }
 
-    public HashMap<Pair<String,String>, Pair<Double, Double>> makeOrder(int business_num, HashMap<Pair<String,String>, Integer> order) {
+    public HashMap<Pair<String,String>, Pair<Double, Double>> makeOrder(int business_num, HashMap<Pair<String,String>,Integer> order) {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         HashMap<Pair<String,String>, Pair<Double, Double>> toreturn= buildSupplier(business_num).makeOrder(order);
