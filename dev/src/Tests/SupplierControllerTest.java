@@ -27,9 +27,6 @@ class SupplierControllerTest {
         item_Num_To_Quantity_To_Discount.get(milkTnuva).put(500,20);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-
-
-
         sController.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
 
     }

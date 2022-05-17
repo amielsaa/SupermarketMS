@@ -15,8 +15,8 @@ class OrderControllerTest {
 
     OrderController oController=new OrderController();
     HashMap<Pair<String,String>,Integer> order=new HashMap<>();
-    HashMap<Integer, Pair<String,Double>> fixedOrder=new HashMap<>();
-
+    HashMap<Pair<String,String>, Pair<Double,Double>> fixedOrder=new HashMap<>();
+    Pair<String,String> milk=new Pair("Milk","Tnuva");
 
 
 
@@ -24,11 +24,12 @@ class OrderControllerTest {
     @BeforeEach
     void setUp() {
         oController.addSupplier(123456789);
-        order.put(1,100);
-        order.put(2,200);
+        order.put(milk,100);
+        order.put(milk,200);
         double forp1=70;
         double forp2=200;
-        Pair p1=new Pair("Milk",forp1);
+
+        Pair p1=new Pair(milk,forp1);
         Pair p2=new Pair("glass",forp2);
         fixedOrder.put(1,p1);
         fixedOrder.put(2,p2);
