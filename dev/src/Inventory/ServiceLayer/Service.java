@@ -24,7 +24,7 @@ public class Service {
         this.data = new DataController();
         this.productService = new ProductService(data);
         this.reportService = new ReportService(data);
-        addProducts();
+//        addProducts();
     }
 
     // product service

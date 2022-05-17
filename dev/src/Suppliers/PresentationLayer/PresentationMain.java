@@ -24,7 +24,8 @@ public class PresentationMain {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
         fSupplier.SetStartingValues();
-        outOfStock(s);
+        outOfStock(s); //todo restore
+
 
         while(running){ //main program loop
             System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
@@ -41,7 +42,7 @@ public class PresentationMain {
             switch (input){
                 case ("0"): {
                     running = false;
-                    s.close();
+//                    s.close();
                     break;
                 }
                 case ("1"): {

@@ -1,9 +1,9 @@
-package Inventory.ServiceLayer.Objects.PresentationLayer;
+package Inventory.PresentationLayer;
 
 import Inventory.ServiceLayer.Service;
 
 public class InventoryProgram {
-    public static void main(String[] args) {
+    public void main() {
         // write your code here
         Service service = new Service();
         Menu menu = new Menu(service);
