@@ -6,18 +6,19 @@ import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
 import Inventory.ServiceLayer.Service;
+import SupplierInventory.SIService;
 
 import java.util.*;
 
 public class Menu {
 
     private CommandLineTable clt;
-    private Service service;
+    private SIService service;
     private Scanner sc;
     private boolean menu_on;
 
-    public Menu(Service service) {
-        this.service = service;
+    public Menu(SIService sis) {
+        this.service = sis;
         this.menu_on = true;
         this.sc = new Scanner(System.in);
         this.clt = new CommandLineTable();
@@ -92,7 +93,7 @@ public class Menu {
     private void stopProgram() {
         this.menu_on = false;
         printDivider();
-        System.out.println(service.stopTimer().getData());
+        //System.out.println(service.stopTimer().getData());
         printDivider();
     }
 

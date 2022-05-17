@@ -1,5 +1,10 @@
 package SupplierInventory;
 
+import Inventory.BuisnessLayer.Objects.Category;
+import Inventory.BuisnessLayer.Objects.Product;
+import Inventory.BuisnessLayer.Objects.StoreProduct;
+import Inventory.ServiceLayer.Objects.ProductSL;
+import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Service;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
@@ -8,6 +13,7 @@ import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import Suppliers.ServiceLayer.Response;
 import Suppliers.ServiceLayer.SupplierFacade;
 import misc.Pair;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -147,5 +153,72 @@ public class SIService {
 
 
     //----------------------------------INVENTORY--------INVENTORY--------INVENTORY--------INVENTORY----------------------------------
+
+
+    public Inventory.ServiceLayer.Response<Integer> SelectStore(int storeId) {
+        return fInventory.SelectStore(storeId);
+    }
+
+    public Inventory.ServiceLayer.Response<List<ProductSL>> GetAllProducts() {
+        return fInventory.GetAllProducts();
+    }
+
+
+    public Inventory.ServiceLayer.Response<String> AddProduct(String name, String producer, double buyingPrice, double sellingPrice, int minquantity, String categories) {
+        return fInventory.AddProduct(name,producer,buyingPrice,sellingPrice,minquantity,categories);
+    }
+
+    public Inventory.ServiceLayer.Response<String> AddStoreProduct(int id, int quantityInStore, int quantityInWarehouse, String expDate, String locations) {
+        return fInventory.AddStoreProduct(id,quantityInStore,quantityInWarehouse,expDate,locations);
+    }
+
+    public Inventory.ServiceLayer.Response<Category> AddCategory(String category) {
+        return fInventory.AddCategory(category);
+    }
+
+    public Inventory.ServiceLayer.Response<String> ChangeCategory(int productId, int categoryIndex, String newCategory) {
+        return fInventory.ChangeCategory(productId,categoryIndex,newCategory);
+    }
+
+
+    public Inventory.ServiceLayer.Response<String> AddDefectiveProduct(int productId) {
+        return fInventory.AddDefectiveProduct(productId);
+    }
+
+    public Inventory.ServiceLayer.Response<String> DeleteProduct(int productId) {
+        return fInventory.DeleteProduct(productId);
+    }
+
+    public Inventory.ServiceLayer.Response<String> AddDiscountByName(int productId, int discount, String date) {
+        return fInventory.AddDiscountByName(productId,discount,date);
+    }
+
+    public Inventory.ServiceLayer.Response<String> AddDiscountByCategory(String categoryName, int discount, String date) {
+        return fInventory.AddDiscountByCategory(categoryName,discount,date);
+    }
+
+    public Inventory.ServiceLayer.Response<Report> ReportByExpired() {
+        return fInventory.ReportByExpired();
+    }
+
+    public Inventory.ServiceLayer.Response<Report> ReportByDefective() {
+        return fInventory.ReportByDefective();
+    }
+
+    public Inventory.ServiceLayer.Response<Report> ReportStockByCategory(List<String> categories) {
+        return fInventory.ReportStockByCategory(categories);
+    }
+
+    public Inventory.ServiceLayer.Response<Report> ReportMinQuantity() {
+        return fInventory.ReportMinQuantity();
+    }
+
+    //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
+
+    public Inventory.ServiceLayer.Response<String> MakeOrderMinQuantity() {
+        return fInventory.MakeOrderMinQuantity();
+    }
+
+
 
 }

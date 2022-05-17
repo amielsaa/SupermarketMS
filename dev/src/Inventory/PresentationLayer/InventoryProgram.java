@@ -11,11 +11,9 @@ public class InventoryProgram {
     }
 
     public void main() {
-        // write your code here
-        Service service = new Service();
-        Menu menu = new Menu(service);
+        Menu menu = new Menu(sis);
         StoreSelection ss = new StoreSelection("1-BSStore");
-        while(!service.SelectStore(ss.initStore()).isSuccess());
+        while(!sis.SelectStore(ss.initStore()).isSuccess());
         menu.mainLoop();
 
 
