@@ -1,4 +1,4 @@
-package Inventory.ServiceLayer.Objects.PresentationLayer;
+package Inventory.PresentationLayer;
 
 import Inventory.ServiceLayer.Service;
 

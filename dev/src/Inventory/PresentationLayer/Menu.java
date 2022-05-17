@@ -1,8 +1,7 @@
-package Inventory.ServiceLayer.Objects.PresentationLayer;
+package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
-import Inventory.ServiceLayer.Objects.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;

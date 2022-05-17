@@ -14,7 +14,7 @@ public abstract class DalController {
     }
 
     public Connection makeConnection(){
-        path = ":../ADSS_Group_D/dev/src/Inventory/DataAccessLayer/database.db";
+        path = ":../dev/src/Inventory/DataAccessLayer/database.db";
         connString = "jdbc:sqlite".concat(path);
         Connection conn = null;
         try{
