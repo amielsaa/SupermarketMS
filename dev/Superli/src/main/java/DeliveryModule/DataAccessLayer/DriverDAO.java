@@ -61,7 +61,7 @@ public class DriverDAO extends DataAccessObject {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        driverCache.put(id, driver);
+        if(driver!=null) driverCache.put(id, driver);
         return driver;
     }
 
@@ -94,7 +94,7 @@ public class DriverDAO extends DataAccessObject {
                 return false;
             }
         } catch (SQLException e) {
-            return false; //TODO:send an Exception of the correct kind
+            System.out.println("Error in database");
         }
         driverCache.remove(id);
         return true;

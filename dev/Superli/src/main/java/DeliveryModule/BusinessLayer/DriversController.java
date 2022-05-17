@@ -22,6 +22,9 @@ public class DriversController {
     }
 
     public void addDriver(int id,String name,String licenseType) throws Exception {
+        if(driverDAO.Read(id)!=null){
+            throw new Exception(String.format("Driver with id %d already exists..",id));
+        }
         validateLicenseType(licenseType);
         driverDAO.Create(new Driver(id,name,LicenseType.valueOf(licenseType)));
     }

@@ -92,10 +92,19 @@ public class DeliveryEmployeeIntegrationTests {
         }};
 
         addShift(hashmap, 1000, LocalDateTime.of(2024, Month.MAY, 20, 1, 1), ShiftTime.DAY);
-        DeliveryMod.addTruck(1234567, "a", 10000);
-        DeliveryMod.addSupplierWarehouse("a", 0, "a","a");
-        DeliveryMod.addBranch("b", 0, "b","B");
-        assertTrue(DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2).isSuccess());
+        Response response=DeliveryMod.addTruck(1234567, "a", 10000);
+        if(!response.isSuccess())
+            System.out.println(response.getMessage());
+        Response response2=DeliveryMod.addSupplierWarehouse("a", 0, "a","a");
+        if(!response2.isSuccess())
+            System.out.println(response2.getMessage());
+        Response response3=DeliveryMod.addBranch("b", 0, "b","B");
+        if(!response3.isSuccess())
+            System.out.println(response3.getMessage());
+        Response response4=DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2);
+        if(!response4.isSuccess())
+           System.out.println(response4.getMessage());
+        assertTrue(response4.isSuccess());
     }
 
     @Test
@@ -186,7 +195,7 @@ public class DeliveryEmployeeIntegrationTests {
     {
         EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
         EmployeeMod.driverAddQualification(100100100, "C");
-        DeliveryMod.editDriverLicenseType(1, "C1");
+        DeliveryMod.editDriverLicenseType(100100100, "C1");
         assertTrue(DeliveryMod.getDriver(100100100).getData().toString().contains("C1"));
     }
 
