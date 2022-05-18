@@ -33,15 +33,14 @@ public class ReportDAO extends DalController{
 //
     //TODO: fix that it doesnt fetch data from Products table
     public List<Integer> SelectDefectiveProducts(int storeId) {
-        String sql = "SELECT productid FROM  Reports "+
+        String sql = "SELECT productid FROM Reports "+
                 "WHERE reported = 0 "+
-                "AND storeid =(?) ";
+                "AND storeid = "+storeId;
         List<Integer> products = new ArrayList<>();
         try{
             Connection conn = this.makeConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,storeId);
-            ResultSet rs    = pstmt.executeQuery(sql);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 products.add(rs.getInt("productid"));
@@ -74,7 +73,6 @@ public class ReportDAO extends DalController{
             System.out.println(e.getMessage());
         }
     }
-
 
     private List<Category> stringToCategoryList(String categories) {
         String[] split = categories.split(",");
