@@ -32,11 +32,10 @@ public class PresentationMain {
 
         while(running){ //main program loop
             System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Add Supplier Delivery Day, 5 - Remove Supplier Delivery Day)");
-            System.out.println("(6 - Update Supplier Delivery Day, 7 - Update Supplier Payment Details, 8 - Update Supplier Bank Account, 9 - Update Supplier Self Delivery)");
-            System.out.println("(10 - Add Supplier Contact, 11 - Remove Supplier Contact, 12 - Update Contact Phone Number)");
-            System.out.println("(13 - Make Order, 14 - Get Order, 15 - Get All Orders From Supplier, 16 - Load Test Data)");
-            System.out.println("PRINT THE CORRECT COMMANDS!!!\nPRINT THE CORRECT COMMANDS!!!\nPRINT THE CORRECT COMMANDS!!!");
+            System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Update Supplier Payment Details)");
+            System.out.println("(5 - Update Supplier Bank Account, 6 - Update Supplier Self Delivery, 7 - Add Supplier Contact, 8 - Remove Supplier Contact)");
+            System.out.println("(9 - Make Order, 10 - Make Routine Order, 11 - Get Order, 12 - Get All Orders From Supplier)");
+            System.out.println("(13 - Get All Routine Orders, 14 - Get All Suppliers, 15 - Load Data)");
 
 
             System.out.print("Enter command: ");
@@ -61,73 +60,54 @@ public class PresentationMain {
                     break;
                 }
                 case("4"): {
-                    //todo: delete case
-                    System.out.println("Function was removed from the system.");
-//                    addSupplierDeliveryDay(s);
-                    break;
-                }
-                case("5"): {
-                    //todo: delete case
-                    System.out.println("Function was removed from the system.");
-//                    removeSupplierDeliveryDay(s);
-                    break;
-                }
-                case("6"): {
-                    //todo: delete case
-                    System.out.println("Function was removed from the system.");
-//                    updateSupplierDeliveryDays(s);
-                    break;
-                }
-                case("7"): {
                     updateSupplierPaymentDetails(s);
                     break;
                 }
-                case("8"): {
+                case("5"): {
                     updateSupplierBankAccount(s);
                     break;
                 }
-                case("9"): {
+                case("6"): {
                     updateSupplierSelfDelivery(s);
                     break;
                 }
-                case("10"): {
+                case("7"): {
                     addSupplierContact(s);
                     break;
                 }
-                case("11"): {
+                case("8"): {
                     removeSupplierContact(s);
                     break;
                 }
-                case("12"): {
-                    //todo: delete case
-                    System.out.println("Function was removed from the system.");
-//                    updateContactPhoneNumber(s);
-                    break;
-                }
-                case("13"): {
+                case("9"): {
                     makeOrder(s);
                     break;
                 }
-                case("14"): {
-                    getOrder(s);
-                    break;
-                }
-                case("15"): {
-                    getAllOrdersFromSupplier(s);
-                    break;
-                }
-                case("16"): {
-                    loadData();
-                    break;
-                }
-                case("17"): {
+                case("10"): {
                     makeRoutineOrder(s);
                     break;
                 }
-                case("18"): {
-                    outOfStock(s);
+                case("11"): {
+                    getOrder(s);
                     break;
                 }
+                case("12"): {
+                    getAllOrdersFromSupplier(s);
+                    break;
+                }
+                case("13"): {
+                    getAllRoutineOrders(s);
+                    break;
+                }
+                case("14"): {
+                    getAllSuppliers(s);
+                    break;
+                }
+                case("15"): {
+                    loadData();
+                    break;
+                }
+
 
 
 
@@ -138,6 +118,22 @@ public class PresentationMain {
 
 
 
+    }
+
+    private void getAllSuppliers(Scanner s) {
+        Response<List<DSupplier>> a = service.getAllSuppliers();
+        for(DSupplier sup : a.getData()) {
+            System.out.println(sup.toString());
+            System.out.println("\n-------------------------");
+        }
+    }
+
+    private void getAllRoutineOrders(Scanner s) {
+        Response<List<DRoutineOrder>> a = service.getAllRoutineOrders();
+        for(DRoutineOrder o : a.getData()) {
+            System.out.println(o.toString());
+            System.out.println("\n-------------------------");
+        }
     }
 
 
@@ -609,27 +605,26 @@ public class PresentationMain {
     private void loadData(){
         //This function has some business logic inside, but it's here only for the testers to have some info in the program
         //(that is why it's here and not in business or service)
-        HashMap<Integer, Double> item_Num_To_Price = new HashMap<>();
-        item_Num_To_Price.put(0, 5.0);
-        item_Num_To_Price.put(1, 20.0);
-        HashMap<Integer,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
+        HashMap<Pair<String,String>,Double> item_Num_To_Name = new HashMap<>();
+        Pair first = new Pair<>("Milk","Tnuva");
+        Pair second = new Pair<>("Beef","Zogloveg");
+        item_Num_To_Name.put(first, 5.0);
+        item_Num_To_Name.put(second, 20.0);
+        HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<>();
         HashMap<Integer,Integer> dis1 = new HashMap<>();
         dis1.put(200, 5);
-        item_Num_To_Discount.put(0, dis1);
-        HashMap<Integer,String> item_Num_To_Name = new HashMap<>();
-        item_Num_To_Name.put(0, "milk");
-        item_Num_To_Name.put(1, "beef");
+        item_Num_To_Discount.put(first, dis1);
         Set<Integer> daysSet = new HashSet<>();
         daysSet.add(1);
         daysSet.add(3);
         //String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup
-        Response<DSupplier> newsupplier = service.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Price, item_Num_To_Discount, true);
+        Response<DSupplier> newsupplier = service.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Name, item_Num_To_Discount, true);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
 
         HashMap<Pair<String,String>,Integer> orderMap = new HashMap<>();
-        orderMap.put(new Pair<>("milk","tnuva"),100);
+        orderMap.put(first,100);
         Response<DOrder> neworder = service.makeOrder(111111111, orderMap);
         if(neworder.isSuccess())
             System.out.println("Order created successfully.");
