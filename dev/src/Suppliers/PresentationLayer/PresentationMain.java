@@ -17,6 +17,7 @@ public class PresentationMain {
 
     public PresentationMain(SIService s){
         service=s;
+        service.SetStartingValues();
     }
 
     //todo:Presentation bugs
@@ -25,7 +26,7 @@ public class PresentationMain {
     public void main() {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
-        service.SetStartingValues();
+
         
         outOfStock(s); //todo restore
 
