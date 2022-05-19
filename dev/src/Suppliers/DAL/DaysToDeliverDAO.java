@@ -33,8 +33,10 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {
             return false;
         }
-        //todo: add to HM
-//        BN_to_routineOrder.put()
+        if(!BN_to_routineOrder.containsKey(bn))
+            BN_to_routineOrder.put(bn, new LinkedList<>());
+        if(!BN_to_routineOrder.get(bn).contains(orderID))
+            BN_to_routineOrder.get(bn).add(orderID);
         return true;
     }
 
