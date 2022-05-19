@@ -42,12 +42,11 @@ public class CategoryDAO extends DalController {
         Category c = categoryMapper.getCategoryByName(category);
         if(c != null)
             return c;
-        String sql = "SELECT * FROM Category WHERE name = ?";
+        String sql = "SELECT * FROM Category WHERE name = '" + category+"'";
 
         try {
             Connection conn = this.makeConnection();
-            PreparedStatement stmt  = conn.prepareStatement(sql);
-            stmt.setString(1,category);
+            Statement stmt  = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             return categoryMapper.addCategory(new Category(rs.getString("name")));
 

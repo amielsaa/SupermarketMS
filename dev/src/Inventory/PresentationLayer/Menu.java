@@ -91,7 +91,6 @@ public class Menu {
         
     }
 
-    //TODO:
     private void stopProgram() {
         this.menu_on = false;
         printDivider();
