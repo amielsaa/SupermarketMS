@@ -155,8 +155,8 @@ public class ProductController {
      * @return
      */
     public String deleteProduct(int productId) {
-        productDAO.Delete("id",productId);
-        storeProductDAO.Delete("productid",productId);
+        productDAO.DeleteProduct("id",productId);
+        storeProductDAO.DeleteSP("productid",productId);
         return String.format("Product with ID:%d deleted successfully.",productId);
     }
 

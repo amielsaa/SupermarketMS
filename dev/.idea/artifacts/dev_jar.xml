@@ -15,7 +15,6 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.7.0/junit-platform-engine-1.7.0.jar" path-in-jar="/" />
       <element id="module-source" name="dev" />
-      <element id="library" level="project" name="sqlite-jdbc-3.36.0.3" />
     </root>
   </artifact>
 </component>

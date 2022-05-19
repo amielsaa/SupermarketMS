@@ -6,7 +6,7 @@ import Inventory.BuisnessLayer.Controller.ReportController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
-import Inventory.ServiceLayer.Objects.Pair;
+import misc.Pair;
 import Inventory.ServiceLayer.Objects.Report;
 
 import java.util.List;

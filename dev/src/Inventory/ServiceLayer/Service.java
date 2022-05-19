@@ -4,7 +4,7 @@ import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
-import Inventory.ServiceLayer.Objects.Pair;
+import misc.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -108,8 +108,8 @@ public class Service {
 
     //integration between suppliers
 
-    public Response<String> MakeOrderMinQuantity() {
-        return MakeOrderToSuppliers(reportService.MakeOrderMinQuantity(GetAllProductsMap().getData()).getData());
+    public Response<Map<Pair<String,String>,Integer>> MakeOrderMinQuantity() {
+        return reportService.MakeOrderMinQuantity(GetAllProductsMap().getData());
     }
 
     private Response<String> MakeOrderToSuppliers(Map<Pair<String,String>,Integer> orders) {

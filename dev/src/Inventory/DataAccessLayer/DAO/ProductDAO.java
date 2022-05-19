@@ -22,6 +22,11 @@ public class ProductDAO extends DalController {
     }
 
 
+    public void DeleteProduct(String idColeName,int id) {
+        productMapper.deleteProduct(id);
+        this.Delete(idColeName,id);
+    }
+    //TODO: DELETE PRODUCTS
     public Product InsertProduct(int Id, String name, String producer, double buyingPrice, double sellingPrice, double discount, String discountExpDate, List<Category> categories, int minQuantity) {
         String sql = "INSERT INTO Products(id, name,producer," +
                 "buyingprice, sellingprice, discount,discountDate," +

@@ -34,6 +34,10 @@ public class ProductMapper {
         return products.stream().filter((p)->p.getId()==productid).findFirst().orElse(null);
     }
 
+    public void deleteProduct(int productid) {
+        products.removeIf((s)->s.getId()==productid);
+    }
+
 
     public boolean isPulled_all_data() {
         return pulled_all_data;

@@ -37,6 +37,11 @@ public class StoreProductMapper {
         return storeProductsMap.get(productid);
     }
 
+    public void deleteSP(int id) {
+        if(storeProductsMap.containsKey(id))
+            storeProductsMap.remove(id);
+    }
+
     public boolean storeProductsExists(int productid, int storeid, Date expDate) {
         return storeProductsMap.containsKey(productid) && !storeProductsMap.get(productid).isEmpty() && storeProductsMap.get(productid).stream().anyMatch((s)->!s.isNull() &&  s.getStoreId()==storeid && s.getExpDate().equals(expDate));
     }

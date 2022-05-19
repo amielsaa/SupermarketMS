@@ -16,6 +16,11 @@ public class StoreProductDAO extends DalController {
         this.storeProductMapper = new StoreProductMapper();
     }
 
+    public void DeleteSP(String idColName, int id) {
+        storeProductMapper.deleteSP(id);
+        this.Delete(idColName,id);
+    }
+
     public StoreProduct InsertStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
         String sql;
         if(storeProductMapper.storeProductsExists(productid,storeid,expdate))

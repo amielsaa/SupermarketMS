@@ -7,6 +7,7 @@ import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
 import Inventory.ServiceLayer.Service;
 import SupplierInventory.SIService;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 
 import java.util.*;
 
@@ -63,7 +64,7 @@ public class Menu {
                 case 8:
                     reportByDefectiveAction();
                     break;
-                case 9://report
+                case 9:
                     reportByMinQuantity();
                     break;
                 case 10:
@@ -100,7 +101,11 @@ public class Menu {
 
 
     private void makeOrderMinQuantity() {
-        service.MakeOrderMinQuantity();
+        Suppliers.ServiceLayer.Response<List<DOrder>>  res = service.MakeOrderMinQuantity();
+        List<DOrder> list = res.getData();
+        for(int i=0;i<list.size();i++) {
+            System.out.println(list.toString());
+        }
     }
 
     private void deleteProductAction() {
