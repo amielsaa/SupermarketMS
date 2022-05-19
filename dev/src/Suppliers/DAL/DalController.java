@@ -1,6 +1,8 @@
 package Suppliers.DAL;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public abstract class DalController {
@@ -95,6 +97,24 @@ public abstract class DalController {
             return false;
         }
         return true;
+
+    }
+
+    public void deleteAll(){
+        String[] names = {"Suppliers","Category","Contacts","DaysToDeliver","Discounts","OrderItems","Orders","Products","QuantityAgreement","Reports","StoreProducts","SupplierDays"};
+
+        for(String a : names) {
+            String sql = "delete from " + a;
+
+            try (Connection conn = this.makeConnection()) {
+                //Connection conn = this.makeConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Error deleting all info from " + a);
+            }
+        }
+
 
     }
 

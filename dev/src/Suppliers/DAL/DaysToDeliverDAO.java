@@ -150,4 +150,8 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {}
 
     }
+
+    public void clearAll(){
+        BN_to_routineOrder.clear();
+    }
 }

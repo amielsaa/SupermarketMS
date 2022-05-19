@@ -180,4 +180,9 @@ public class OrderDAO extends DalController {
         }
 
     }
+
+    public void clearAll(){
+        BN_To_Orders.clear();
+    }
+
 }

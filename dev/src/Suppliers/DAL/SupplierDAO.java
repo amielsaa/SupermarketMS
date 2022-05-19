@@ -157,7 +157,9 @@ public class SupplierDAO extends DalController {
         return BN_To_Supplier.values();
     }
 
-
+    public void clearAll(){
+        BN_To_Supplier.clear();
+    }
 
 
 }
