@@ -137,7 +137,8 @@ public class DaysToDeliverDAO extends DalController{
                 int orderID = rs.getInt("orderID");
                 if(!BN_to_routineOrder.containsKey(bn))
                     BN_to_routineOrder.put(bn, new LinkedList<>());
-                BN_to_routineOrder.get(bn).add(orderID);
+                if(!BN_to_routineOrder.get(bn).contains(orderID))
+                    BN_to_routineOrder.get(bn).add(orderID);
             }
 
         } catch (SQLException e) {}
