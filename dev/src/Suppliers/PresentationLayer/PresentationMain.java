@@ -36,7 +36,7 @@ public class PresentationMain {
             System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Update Supplier Payment Details)");
             System.out.println("(5 - Update Supplier Bank Account, 6 - Update Supplier Self Delivery, 7 - Add Supplier Contact, 8 - Remove Supplier Contact)");
             System.out.println("(9 - Make Order, 10 - Make Routine Order, 11 - Get Order, 12 - Get All Orders From Supplier)");
-            System.out.println("(13 - Get All Routine Orders, 14 - Get All Suppliers, 15 - Load Data)");
+            System.out.println("(13 - Get All Routine Orders, 14 - Get All Suppliers, 15 - Load Data, 16 - Update Tomorrow's Routine Order)");
 
 
             System.out.print("Enter command: ");
@@ -106,6 +106,10 @@ public class PresentationMain {
                 }
                 case("15"): {
                     loadData();
+                    break;
+                }
+                case("16"): {
+                    outOfStock(s);
                     break;
                 }
 
@@ -512,7 +516,11 @@ public class PresentationMain {
             int command = getIntFromUser(s,"command");
             switch (command){
                 case (1): {
-                    int ordernum = getIntFromUser(s,"order ID");
+                    int ordernum = getIntFromUser(s,"order number");
+                    while(!mappingOrders.containsKey(ordernum)) {
+                        System.out.println("Order number doesn't exist.");
+                        ordernum = getIntFromUser(s,"order number");
+                    }
                     System.out.print("Enter item name: ");
                     String itemname = s.nextLine();
                     System.out.print("Enter item producer: ");
@@ -526,6 +534,7 @@ public class PresentationMain {
                         updatedOrder.getData().toString();
                     }
                     else System.out.println(updatedOrder.getMessage());
+                    break;
                 }
                 case (2): {
                     int ordernum = getIntFromUser(s,"order ID");
@@ -541,6 +550,7 @@ public class PresentationMain {
                         updatedOrder.getData().toString();
                     }
                     else System.out.println(updatedOrder.getMessage());
+                    break;
                 }
                 default: {
                     break;
