@@ -84,7 +84,7 @@ public class OrderDAO extends DalController {
             return getOrder(bn, orderId);
 
         } catch (SQLException e) {
-            return null; //todo
+            return null;
         }
     }
 
@@ -139,11 +139,14 @@ public class OrderDAO extends DalController {
         return false;
     }
 
+    public void updateOrderInHM(int bn, Order o){
+        BN_To_Orders.get(bn).put(o.getOrder_Id(),o);
+    }
+
     public void addSupplier(int bn){
         BN_To_Orders.put(bn,new HashMap<>());
     }
 
-    //todo:syntax error
 
     public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
 //        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
@@ -159,7 +162,6 @@ public class OrderDAO extends DalController {
     }
 
     public int getMaxOrderId(){
-        //todo check if it works
 
         String sql = "select MAX(orderID) from Orders";
 
@@ -174,7 +176,7 @@ public class OrderDAO extends DalController {
             return maxOrder;
 
         } catch (SQLException e) {
-            return 0; //todo
+            return 0;
         }
 
     }

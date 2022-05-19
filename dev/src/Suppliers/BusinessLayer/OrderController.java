@@ -79,7 +79,7 @@ public class OrderController {
             //insert to data
             if (!orderItemsDAO.insertOrderItem(Id_Order_Counter, orderKeys[i].getFirst(), orderKeys[i].getSecond(),fixedOrder.get(orderKeys[i]).getSecond(), fixedOrder.get(orderKeys[i]).getFirst(),  order.get(orderKeys[i])))
                 throw new DataFormatException("failed to Insert Item to data on makeOrder");
-            //todo: remove supplierBN from orderItem constructor ^^^^
+
 
             Item_Name_To_OrderItem.put(orderKeys[i], orderItem);
             finalPrice = finalPrice + fixedOrder.get(orderKeys[i]).getSecond();
@@ -130,6 +130,7 @@ public class OrderController {
 
 
                 }
+                orderDAO.updateOrderInHM(business_num,routineOrder);
                 return routineOrder;
 
 
@@ -153,10 +154,11 @@ public class OrderController {
                     if(!orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price()))
                         throw new DataFormatException("Error in order update");
                     if(routineOrder.getFinal_Price()==0){
-                        if(!orderDAO.deleteOrders(business_num,orderId)){
-                            if(daysToDeliverDAO.deleteAllDaysToDeliver(business_num,orderId))
+                        if(orderDAO.deleteOrders(business_num,orderId)){
+                            if(!daysToDeliverDAO.deleteAllDaysToDeliver(business_num,orderId))
                                 throw new DataFormatException("Error in Order delete or in daysToDeliver Delete");
                         }
+                        else throw new DataFormatException("Error in Order delete or in Orders Delete");
                     }
 
                 }

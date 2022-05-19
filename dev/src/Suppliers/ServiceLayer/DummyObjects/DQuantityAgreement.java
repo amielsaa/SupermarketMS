@@ -54,6 +54,6 @@ public class DQuantityAgreement {
             ret += ("Item Name: " + x.getFirst() + ", Item Producer: " + x.getSecond() + ", Item price: " + getItem_Num_To_Price().get(x)) + "\n";
         }
         return ret;
-        //todo: add discount print?
+
     }
 }

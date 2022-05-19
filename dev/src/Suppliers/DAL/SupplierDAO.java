@@ -104,7 +104,7 @@ public class SupplierDAO extends DalController {
             return supp; //we know its not null because of containsSupplier() function
 
         } catch (SQLException e) {
-            return null; //todo
+            return null;
         }
 
     }

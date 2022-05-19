@@ -92,7 +92,7 @@ public class SupplierDaysDAO extends DalController{
             return cc;
 
         } catch (SQLException e) {
-            return null; //todo
+            return null;
         }
 
     }

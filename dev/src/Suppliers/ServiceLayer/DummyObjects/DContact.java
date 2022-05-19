@@ -5,7 +5,7 @@ import Suppliers.BusinessLayer.Contact;
 public class DContact {
     private String name;
     private String Phone_Num;
-    //todo: edit
+
 
     public DContact(Contact c) {
         this.name = c.getName();

@@ -76,6 +76,7 @@ public class OrderService {
     public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int orderId, HashMap<Pair<String, String>, Pair<Double, Double>> data,int quantity) {
         try{
             RoutineOrder updatedRoutineOrder=cOrder.addOrUpdateRoutineOrder(business_num,orderId,data,quantity);
+
             return Response.makeSuccess(new DRoutineOrder(updatedRoutineOrder));
         }
         catch (Exception e){
@@ -133,7 +134,7 @@ public class OrderService {
 
     public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
         try{
-            int day = (LocalDate.now().getDayOfWeek().getValue() + 2) % 7; //todo: check if the number is good
+            int day = (LocalDate.now().getDayOfWeek().getValue() + 2) % 7;
             Days tomorrow = dayConvertor(day);
             List<RoutineOrder> allRoutines = cOrder.getAllRoutineOrders();
             List<DRoutineOrder> newlist = new LinkedList<>();

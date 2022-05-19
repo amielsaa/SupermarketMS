@@ -20,15 +20,13 @@ public class PresentationMain {
         service.SetStartingValues();
     }
 
-    //todo:Presentation bugs
-    //todo:Create supplier-when you're not entering discounts, days and contacts are not saved in the database and there's a wierd print.
 
     public void main() {
         Boolean running = true;
         Scanner s = new Scanner(System.in);
 
         
-        outOfStock(s); //todo restore
+        outOfStock(s);
 
 
         while(running){ //main program loop
@@ -311,7 +309,7 @@ public class PresentationMain {
             try{
                 int itemIdNumber = Integer.parseInt(itemIdString);
                 int itemQuantity = Integer.parseInt(itemQuantityString);
-                if(itemIdNumber<0 || itemQuantity<0 || !printItemsResponse.getData().containsKey(itemIdNumber)) //todo: check the last check
+                if(itemIdNumber<0 || itemQuantity<0 || !printItemsResponse.getData().containsKey(itemIdNumber))
                     System.out.println("Illegal item name/producer/quantity, try again.");
                 else{
                     order.put(printItemsResponse.getData().get(itemIdNumber), itemQuantity);
@@ -531,13 +529,13 @@ public class PresentationMain {
                     Response<DRoutineOrder> updatedOrder = service.addOrUpdateRoutineOrder(bn,orderID,itemname,itemproducer,amount);
                     if(updatedOrder.isSuccess()){
                         System.out.println("Update has been successful. The updated order:");
-                        updatedOrder.getData().toString();
+                        System.out.println(updatedOrder.getData().toString());
                     }
                     else System.out.println(updatedOrder.getMessage());
                     break;
                 }
                 case (2): {
-                    int ordernum = getIntFromUser(s,"order ID");
+                    int ordernum = getIntFromUser(s,"order number");
                     System.out.print("Enter item name: ");
                     String itemname = s.nextLine();
                     System.out.print("Enter item producer: ");

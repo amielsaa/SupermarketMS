@@ -53,8 +53,9 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {
             return false;
         }
-        //todo: remove from HM
-
+        BN_to_routineOrder.get(bn).remove(orderID);
+        if(BN_to_routineOrder.get(bn).isEmpty())
+            BN_to_routineOrder.remove(bn);
         return true;
     }
 
@@ -70,7 +71,10 @@ public class DaysToDeliverDAO extends DalController{
         } catch (SQLException e) {
             return false;
         }
-        //todo: remove from HM
+        if(BN_to_routineOrder.get(bn).contains(orderID))
+            BN_to_routineOrder.get(bn).remove(orderID);
+        if(BN_to_routineOrder.get(bn).isEmpty())
+            BN_to_routineOrder.remove(bn);
         return true;
     }
 
@@ -106,7 +110,7 @@ public class DaysToDeliverDAO extends DalController{
             return cc;
 
         } catch (SQLException e) {
-            return null; //todo
+            return null;
         }
 
     }

@@ -62,7 +62,7 @@ public class ContactDAO extends DalController{
             return cc;
 
         } catch (SQLException e) {
-            return null; //todo
+            return null;
         }
 
     }

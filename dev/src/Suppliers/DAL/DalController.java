@@ -98,11 +98,6 @@ public abstract class DalController {
 
     }
 
-    public void deleteAll(){
-        //todo
-
-
-    }
 
 
 
