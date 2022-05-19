@@ -14,6 +14,7 @@ public class InventoryProgram {
         Menu menu = new Menu(sis);
         StoreSelection ss = new StoreSelection("1-BSStore");
         while(!sis.SelectStore(ss.initStore()).isSuccess());
+        //sis.LoadProducts();
         menu.mainLoop();
 
 

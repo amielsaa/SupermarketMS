@@ -158,4 +158,12 @@ public class ProductService {
         }
     }
 
+    public Response<String> LoadProducts() {
+        try{
+            productController.loadProducts();
+            return Response.makeSuccess("Products loaded successfully");
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 }

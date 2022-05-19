@@ -34,6 +34,10 @@ public class Service {
         return productService.SelectStore(storeId);
     }
 
+    public Response<String> LoadProducts() {
+        return productService.LoadProducts();
+    }
+
 
     public Response<List<ProductSL>> GetAllProducts() {
         return productService.GetAllProducts();
@@ -48,7 +52,7 @@ public class Service {
     }
 
 
-        public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, String categories) {
+    public Response<String> AddProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, String categories) {
         return productService.AddProduct(name,producer,buyingPrice,sellingPrice,minquantity,categories);
     }
 

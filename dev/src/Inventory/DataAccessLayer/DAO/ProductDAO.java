@@ -21,6 +21,21 @@ public class ProductDAO extends DalController {
         productMapper = new ProductMapper();
     }
 
+    public int SelectMaxId() {
+        String sql = "SELECT MAX(id) FROM Products";
+        try {
+            Connection conn = this.makeConnection();
+            Statement pstmt = conn.createStatement();
+            ResultSet rs = pstmt.executeQuery(sql);
+            int index = rs.getInt(1);
+            return index;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Products fetch failed.");
+        }
+    }
+
 
     public void DeleteProduct(String idColeName,int id) {
         productMapper.deleteProduct(id);
@@ -51,7 +66,7 @@ public class ProductDAO extends DalController {
 
             return productMapper.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories,minQuantity));
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
             throw new IllegalArgumentException("Product insertion to database failed, please try again.");
         }
     }

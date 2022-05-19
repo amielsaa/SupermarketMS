@@ -24,8 +24,18 @@ public class ProductController {
         this.data = data;
         this.productDAO = new ProductDAO("Products");
         this.storeProductDAO = new StoreProductDAO("StoreProducts");
+        this.loadProductId();
         //addProducts();
 
+    }
+
+    public void loadProducts() {
+        productDAO.SelectAll();
+        storeProductDAO.SelectAll();
+    }
+
+    public void loadProductId() {
+        this.productId = productDAO.SelectMaxId();
     }
 
 
@@ -61,7 +71,7 @@ public class ProductController {
 
     public Product addProduct(String name, String producer, double buyingPrice,double sellingPrice,int minquantity, List<Category> categories) {
         //TODO: capitalize all categories names
-        return productDAO.InsertProduct(productId++,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,minquantity);
+        return productDAO.InsertProduct(++productId,name,producer,buyingPrice,sellingPrice,0,"Unknown",categories,minquantity);
     }
 
 

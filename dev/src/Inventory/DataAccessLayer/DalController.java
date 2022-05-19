@@ -7,6 +7,7 @@ public abstract class DalController {
     private final String tableName;
     private String connString;
     private String path;
+    //private static Connection conn = null;
 
 
     public DalController(String tableName) {
@@ -24,6 +25,11 @@ public abstract class DalController {
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+//        if(conn== null){
+//
+//        } else
+//            return conn;
+
         return conn;
     }
 
