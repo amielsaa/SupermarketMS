@@ -26,9 +26,10 @@ public class SIPresentation {
                     break;
                 }
                 default: {
-                    System.out.println("SEE YA");
+//                    System.out.println("SEE YA");
                     running = false;
-                    break;
+                    s.close();
+//                    break;
                 }
             }
 
@@ -37,6 +38,6 @@ public class SIPresentation {
 
 
 
-        s.close();
+
     }
 }

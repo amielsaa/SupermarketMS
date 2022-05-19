@@ -15,23 +15,6 @@ public class ReportDAO extends DalController{
         super(tableName);
     }
 
-//    public void insert(String name) {
-//        String sql = "INSERT INTO Report(name) " +
-//                "VALUES(?)";
-//
-//        try{
-//
-//            Connection conn = this.makeConnection();
-//            PreparedStatement pstmt = conn.prepareStatement(sql);
-//            pstmt.setString(1,name);
-//
-//            pstmt.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
-//
-    //TODO: fix that it doesnt fetch data from Products table
     public List<Integer> SelectDefectiveProducts(int storeId) {
         String sql = "SELECT productid FROM Reports "+
                 "WHERE reported = 0 "+
