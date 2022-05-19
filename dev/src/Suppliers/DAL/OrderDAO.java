@@ -146,16 +146,11 @@ public class OrderDAO extends DalController {
     //todo:syntax error
 
     public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
-        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
-
+//        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
+        String sql = "update " + tableName + " set originalPrice = " + originalPrice + ", finalPrice = " + finalPrice + " where bn = " + bn + " and orderID = " + orderID;
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, tableName);
-            pstmt.setDouble(2, originalPrice);
-            pstmt.setDouble(3, finalPrice);
-            pstmt.setInt(4, bn);
-            pstmt.setInt(5, orderID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;

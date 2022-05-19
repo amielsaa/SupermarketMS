@@ -247,7 +247,7 @@ public class OrderController {
 
 
     public List<RoutineOrder> getAllRoutineOrders() throws DataFormatException {
-        daysToDeliverDAO.setAllRoutineOrders();
+        //daysToDeliverDAO.setAllRoutineOrders(); //already does this in setStartingValues
         HashMap<Integer,List<Integer>> BN_To_listOfRountineOrdersId=daysToDeliverDAO.getBN_to_routineOrder();
         List<RoutineOrder> toreturn=new ArrayList<>();
         Set<Integer> keySet=BN_To_listOfRountineOrdersId.keySet();

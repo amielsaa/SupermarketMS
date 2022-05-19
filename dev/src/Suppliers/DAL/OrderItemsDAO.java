@@ -75,18 +75,13 @@ public class OrderItemsDAO extends DalController{
     //todo:problem in syntax
 
     public boolean updateItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount){
-        String sql = "update ? set itemprice = ?, itemoriginalprice = ?, itemamount = ? where orderID = ? and itemname = ? and itemproducer = ?";
+//        String sql = "update ? set itemprice = ?, itemoriginalprice = ?, itemamount = ? where orderID = ? and itemname = ? and itemproducer = ?";
+        String sql = "update " + tableName + " set itemprice = " + itemprice + " , itemoriginalprice = " + itemoriginalprice + " , itemamount = " + itemamount + " where orderID = " + orderID + " and itemname = " + itemname + " and itemproducer = " + itemproducer;
 
         try{
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, tableName);
-            pstmt.setDouble(2, itemprice);
-            pstmt.setDouble(3, itemoriginalprice);
-            pstmt.setInt(4, itemamount);
-            pstmt.setInt(5, orderID);
-            pstmt.setString(6, itemname);
-            pstmt.setString(7, itemproducer);
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return true;//todo:change to false
