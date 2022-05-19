@@ -35,7 +35,7 @@ public class DeliveryEmployeeIntegrationTests {
             EmployeeMod.login(ADMIN_UID);
         }
         DeliveryMod = EmployeeMod.getDeliveryService().getData();
-        //EmployeeMod.clearDatabases();
+        EmployeeMod.clearDatabases();
         DeliveryMod.clearDatabases();
         defaultBankAccountDetails = new BankAccountDetails(0, 1, 0, "Bank", "Branch", "Bob");
 
@@ -151,22 +151,9 @@ public class DeliveryEmployeeIntegrationTests {
     }
 
     @Test
-    public void failToMakeDeliveryOnNoWarehouseWorkerTest()
+    public void NEED_A_NEW_TEST_IDEA()
     {
-        EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-        EmployeeMod.driverAddQualification(100100100, "C");
-
-        Map<Integer, List<String>> hashmap  = new HashMap<Integer, List<String>>() {{
-            EmployeeMod.addEmployee(2, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-            EmployeeMod.employeeAddQualification(2, EmployeeMod.addQualification("WarehouseWorker").getData());
-            put(100100100, Arrays.asList("Driver"));
-        }};
-
-        addShift(hashmap, 1000, LocalDateTime.of(2024, Month.MAY, 20, 1, 1), ShiftTime.DAY);
-        DeliveryMod.addTruck(1234567, "a", 10000);
-        DeliveryMod.addSupplierWarehouse("a", 0, "a","a");
-        DeliveryMod.addBranch("b", 0, "b","B");
-        assertFalse(DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2).isSuccess());
+        fail();
     }
 
     @Test

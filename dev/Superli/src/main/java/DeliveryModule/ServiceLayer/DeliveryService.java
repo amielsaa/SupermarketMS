@@ -28,8 +28,6 @@ public class DeliveryService {
         trucksController = new TrucksController();
         driversController = new DriversController();
         deliveriesController = new DeliveriesController(driversController,sitesController, trucksController);
-
-
     }
     //############################# Loading Data ###################################################
 
@@ -38,7 +36,6 @@ public class DeliveryService {
         try {
             loadSties();
             loadTrucks();
-            loadDrivers();
             loadDeliveries();
         }
         catch (Exception e){}
@@ -46,7 +43,6 @@ public class DeliveryService {
     private void loadSties() throws Exception {sitesController.load();}
     private void loadTrucks() throws Exception{
         trucksController.load();}
-    private void loadDrivers() throws Exception {driversController.load();}
     private void loadDeliveries() throws Exception{deliveriesController.load();}
 
 
@@ -477,6 +473,8 @@ public class DeliveryService {
     public void clearDatabases()
     {
         CreateClearTables.clearTables();
+        sitesController.resetNextId();
+        deliveriesController.resetNextId();
     }
 
 }

@@ -8,6 +8,9 @@ import com.sun.istack.internal.NotNull;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,7 @@ public class Gateway
         employeeController.clearDatabases();
         shiftController.clearDatabases();
         qualificationController.clearDatabases();
+        deliveryService.clearDatabases();
         // INIT PERMISSIONS AND QUALIFICATIONS
 
         String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift"};
@@ -118,6 +122,37 @@ public class Gateway
 
         employeeController.employeeAddQualification(ADMIN_UID, qualificationHR);
         employeeController.employeeAddQualification(123, qualificationHR);
+
+        employeeController.addEmployee(200000001, "C1 driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(200000002, "C1 driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(200000003, "C1 driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(200000004, "C driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(200000005, "C driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(200000006, "C driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+
+        loggedEmployeeId = ADMIN_UID;
+        driverAddQualification(200000001, "C1");
+        driverAddQualification(200000002, "C1");
+        driverAddQualification(200000003, "C1");
+        driverAddQualification(200000004, "C");
+        driverAddQualification(200000005, "C");
+        driverAddQualification(200000006, "C");
+        loggedEmployeeId = -1;
+
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        HashMap hm1 = new HashMap<Integer, List<String>>(){{
+            put(200000001, Arrays.asList("Driver"));
+            put(2, Arrays.asList("WarehouseWorker"));
+        }};
+        HashMap hm2 = new HashMap<Integer, List<String>>(){{
+            put(200000004, Arrays.asList("Driver"));
+            put(2, Arrays.asList("WarehouseWorker"));
+        }};
+        shiftController.addShift(1, LocalDateTime.parse("13-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(1), hm1, ShiftTime.DAY);
+        shiftController.addShift(1, LocalDateTime.parse("14-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(4), hm2, ShiftTime.DAY);
+
+        deliveryService.load();
     }
 
     // TODO change to user-pass authentication

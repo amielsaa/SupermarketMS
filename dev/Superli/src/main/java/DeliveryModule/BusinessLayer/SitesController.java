@@ -13,6 +13,7 @@ public class SitesController {
     }
 
     public void load() throws Exception{
+        nextID = 1;
         addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
         addSupplierWarehouse("Beer Sheva", 2, "054-0000002", "supplier2");
         addBranch("Tiberias", 0,"054-0000003","branch1");
@@ -129,5 +130,9 @@ public class SitesController {
             throw new Exception(String.format("Delivery zone %d does not exist",zone));
         }
         return DeliveryZone.values()[zone].name();
+    }
+
+    public void resetNextId() {
+        nextID = 1;
     }
 }

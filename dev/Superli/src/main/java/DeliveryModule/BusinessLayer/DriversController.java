@@ -12,14 +12,14 @@ public class DriversController {
         this.driverDAO = new DriverDAO();
     }
 
-    public void load() throws Exception {
+    /*public void load() throws Exception {
         addDriver(200000001, "c1 driver1", "C1");
         addDriver(200000002, "c1 driver2", "C1");
         addDriver(200000003, "c1 driver3", "C1");
         addDriver(200000004, "c driver1", "C");
         addDriver(200000005, "c driver2", "C");
         addDriver(200000006, "c driver3", "C");
-    }
+    }*/
 
     public void addDriver(int id,String name,String licenseType) throws Exception {
         if(driverDAO.Read(id)!=null){

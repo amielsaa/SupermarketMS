@@ -33,6 +33,7 @@ public class DeliveriesController {
     }
 
     public void load() throws Exception {
+        nextDeliveryId = 1;
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
        addDelivery(LocalDateTime.parse("13-10-2023 13:10",dateTimeFormatter),
                LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter),
@@ -326,5 +327,9 @@ public class DeliveriesController {
                     throw new Exception(String.format("New max weight is higher than the license type of the driver of delivery id %s permits..",delivery.getId()));
             }
         }
+    }
+
+    public void resetNextId() {
+        nextDeliveryId = 1;
     }
 }
