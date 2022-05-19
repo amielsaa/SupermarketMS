@@ -35,8 +35,8 @@ public abstract class DalController {
     public boolean update(String tableName, String keyname, String colname, int key1, int arg1){
         String sql = "update " + tableName + " set " + colname + " = " + arg1 + " where " + keyname + " = " + key1;
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -50,8 +50,8 @@ public abstract class DalController {
     public boolean update(String tableName, String keyname, String colname, int key1, String arg1){
         String sql = "update " + tableName + " set " + colname + " = '" + arg1 + "' where " + keyname + " = " + key1;
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -65,8 +65,8 @@ public abstract class DalController {
     public boolean update(String tableName, int keyname1, int keyname2, String colname, int key1, int key2, int arg1){
         String sql = "update " + tableName + " set " + colname + " = '" + arg1 + "' where " + keyname1 + " = " + key1 + " , " + keyname2 + " = " + key2;
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -80,8 +80,8 @@ public abstract class DalController {
     public boolean update(String tableName, int keyname1, int keyname2, String colname, int key1, int key2, String arg1){
         String sql = "update ? set ? = ? where ? = ?, ? = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, tableName);
             pstmt.setString(2, colname);

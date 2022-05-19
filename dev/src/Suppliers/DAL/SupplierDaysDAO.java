@@ -20,8 +20,8 @@ public class SupplierDaysDAO extends DalController{
     public boolean insertSupplierDays(int bn, int day)  {
         String sql = "INSERT INTO SupplierDays(bn, day) VALUES(?,?)";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, day);
@@ -35,8 +35,8 @@ public class SupplierDaysDAO extends DalController{
     public boolean deleteSupplierDays(int bn, int day)  {
         String sql = "DELETE FROM SupplierDays WHERE bn = ? and day = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, day);
@@ -50,8 +50,8 @@ public class SupplierDaysDAO extends DalController{
     private boolean deleteAllSupplierDays(int bn)  {
         String sql = "DELETE FROM SupplierDays WHERE bn = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.executeUpdate();
@@ -80,8 +80,8 @@ public class SupplierDaysDAO extends DalController{
     public Collection<Days> selectAllSupplierDays(int bn){
         String sql = "select * from SupplierDays where bn = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();

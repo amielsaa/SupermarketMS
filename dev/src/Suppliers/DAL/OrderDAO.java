@@ -25,8 +25,8 @@ public class OrderDAO extends DalController {
     public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice ) {
         String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice ) VALUES(?,?,?,?,?)";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
@@ -43,8 +43,8 @@ public class OrderDAO extends DalController {
     public boolean deleteOrders(int bn, int orderID)  {
         String sql = "DELETE FROM Orders WHERE bn = ? and orderID = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
@@ -70,8 +70,8 @@ public class OrderDAO extends DalController {
     private Order selectOrder(int bn, int orderId) {
         String sql = "select * from Orders where bn = ? and  orderID = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             pstmt.setInt(2,orderId);
@@ -101,8 +101,8 @@ public class OrderDAO extends DalController {
 
         String sql = "select * from Orders where bn = ?";
         boolean ans = false;
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();
@@ -148,8 +148,8 @@ public class OrderDAO extends DalController {
     public boolean updateOrderPrice(int bn, int orderID, double originalPrice, double finalPrice){
 //        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
         String sql = "update " + tableName + " set originalPrice = " + originalPrice + ", finalPrice = " + finalPrice + " where bn = " + bn + " and orderID = " + orderID;
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -163,8 +163,8 @@ public class OrderDAO extends DalController {
 
         String sql = "select MAX(orderID) from Orders";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             int maxOrder = 0;

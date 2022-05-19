@@ -21,19 +21,23 @@ public class ProductDAO extends DalController {
         productMapper = new ProductMapper();
     }
 
+    //TODO: implement
     public int SelectMaxId() {
         String sql = "SELECT MAX(id) FROM Products";
-        try {
-            Connection conn = this.makeConnection();
-            Statement pstmt = conn.createStatement();
-            ResultSet rs = pstmt.executeQuery(sql);
-            int index = rs.getInt(1);
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            int index = 0;
+            while(rs.next())
+                index = rs.getInt(1);
             return index;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Products fetch failed.");
         }
+        //return 9;
     }
 
 
@@ -47,9 +51,9 @@ public class ProductDAO extends DalController {
                 "categories, minquantity) " +
                 "VALUES(?,?,?,?,?,?,?,?,?)";
 
-        try{
+        try(Connection conn = this.makeConnection()){
 
-            Connection conn = this.makeConnection();
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, Id);
             pstmt.setString(2,name);
@@ -78,8 +82,8 @@ public class ProductDAO extends DalController {
         if(pExists!=null)
             return pExists;
         String sql = "SELECT * FROM Products WHERE id=?";
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,productid);
             ResultSet rs = pstmt.executeQuery();
@@ -104,8 +108,8 @@ public class ProductDAO extends DalController {
             return productMapper.getProducts();
         String sql = "SELECT * FROM Products";
         List<Product> products = new ArrayList<>();
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt  = conn.createStatement();
             ResultSet rs    = stmt.executeQuery(sql);
 

@@ -20,8 +20,8 @@ public class ReportDAO extends DalController{
                 "WHERE reported = 0 "+
                 "AND storeid = "+storeId;
         List<Integer> products = new ArrayList<>();
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -42,9 +42,9 @@ public class ReportDAO extends DalController{
     public void InsertDefectiveProducts(Integer productID, Integer storeID) {
         String sql = "INSERT INTO Reports(productid,storeid,defective,reported)" +
                     "VALUES(?,?,?,?)";
-        try{
+        try(Connection conn = this.makeConnection()){
 
-            Connection conn = this.makeConnection();
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,productID);
             pstmt.setInt(2,storeID);
