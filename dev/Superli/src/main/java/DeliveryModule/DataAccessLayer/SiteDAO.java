@@ -36,8 +36,10 @@ public class SiteDAO extends DataAccessObject {
         } catch (SQLException e) {
             return false;
         }
-        siteCache.put(site.getId(), site);
-        maxId = Math.max(site.getId(), maxId);
+        if(site!=null) {
+            siteCache.put(site.getId(), site);
+            maxId = Math.max(site.getId(), maxId);
+        }
         return true;
     }
 

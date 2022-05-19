@@ -27,14 +27,15 @@ public class ServiceTests {
         CreateClearTables.clearTables();
         DeliveryService service = new DeliveryService(new Gateway());
         service.load();
+        service.clearDatabases();
         assertTrue(service.deleteTruck(1000002).isSuccess());
         assertFalse(service.deleteTruck(1000001).isSuccess());
     }
     @Test
     public void deleteSite() {
         //TODO FAILS!!!!!!!!!!!!! NEED TO DEBUG THE REASON AND FIX
-        CreateClearTables.clearTables();
         DeliveryService service = new DeliveryService(new Gateway());
+        service.clearDatabases();
         service.load();
         assertTrue(service.deleteSite(3).isSuccess());
         assertFalse(service.deleteSite(1).isSuccess());

@@ -116,8 +116,10 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
         } catch (SQLException e) {
             return -1;
         }
-        maxId = Math.max(delivery.getId(), maxId);
-        upcomingDeliveryCache.put(delivery.getId(), delivery);
+        if (delivery != null) {
+            maxId = Math.max(delivery.getId(), maxId);
+            upcomingDeliveryCache.put(delivery.getId(), delivery);
+        }
         return delivery.getId();
     }
 

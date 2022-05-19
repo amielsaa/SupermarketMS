@@ -30,7 +30,8 @@ public class TruckDAO extends DataAccessObject {
         } catch (SQLException e) {
             return false;
         }
-        truckCache.put(truck.getPlateNum(), truck);
+        if(truck!=null)
+            truckCache.put(truck.getPlateNum(), truck);
         return true;
     }
 

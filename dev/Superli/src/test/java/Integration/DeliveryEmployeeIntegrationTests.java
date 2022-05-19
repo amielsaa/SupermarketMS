@@ -151,9 +151,37 @@ public class DeliveryEmployeeIntegrationTests {
     }
 
     @Test
-    public void NEED_A_NEW_TEST_IDEA()
+    public void changeDeliveryDriverTest()
     {
-        fail();
+        EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
+        EmployeeMod.driverAddQualification(100100100, "C");
+        EmployeeMod.addEmployee(100100101, "driver 2", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
+        EmployeeMod.driverAddQualification(100100101, "C");
+        EmployeeMod.addEmployee(2, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
+        EmployeeMod.employeeAddQualification(2, EmployeeMod.addQualification("WarehouseWorker").getData());
+
+
+        Map<Integer, List<String>> hashmap  = new HashMap<Integer, List<String>>() {{
+            put(100100100, Arrays.asList("Driver"));
+            put(100100101, Arrays.asList("Driver"));
+            put(2, Arrays.asList("WarehouseWorker"));
+        }};
+
+        addShift(hashmap, 1000, LocalDateTime.of(2024, Month.MAY, 20, 1, 1), ShiftTime.DAY);
+        Response response=DeliveryMod.addTruck(1234567, "a", 10000);
+        if(!response.isSuccess())
+            System.out.println(response.getMessage());
+        Response response2=DeliveryMod.addSupplierWarehouse("a", 0, "a","a");
+        if(!response2.isSuccess())
+            System.out.println(response2.getMessage());
+        Response response3=DeliveryMod.addBranch("b", 0, "b","B");
+        if(!response3.isSuccess())
+            System.out.println(response3.getMessage());
+        Response response4=DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2);
+        if(!response4.isSuccess())
+            System.out.println(response4.getMessage());
+        DeliveryMod.editDeliveryDriver(1, 100100101);
+        assertTrue(DeliveryMod.searchUpcomingDelivery(1).getData().contains("100100101"));
     }
 
     @Test
