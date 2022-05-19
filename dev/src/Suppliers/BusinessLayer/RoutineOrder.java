@@ -61,6 +61,10 @@ public class RoutineOrder extends Order{
 
 
     public boolean addOrUpdateRoutineOrder(Pair<String,String> i, Double PriceBeforeDiscount, Double FinalPrice,int Quantity) {
+        //quantity check
+        if(Quantity==0){
+            throw new IllegalArgumentException("0 cannot be a quantity of an item");
+        }
         boolean updateOrAdd=false;//if false-update if true-add
         if(getItem_Num_To_OrderItem().containsKey(i)){
             OrderItem orderItem=getItem_Num_To_OrderItem().get(i);
