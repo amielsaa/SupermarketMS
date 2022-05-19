@@ -31,7 +31,7 @@ public class ContactDAO extends DalController{
     }
 
     public boolean deleteContact(int bn, String phone)  {
-        String sql = "DELETE FROM Contacts WHERE bn = ?, phone = ?";
+        String sql = "DELETE FROM Contacts WHERE bn = ? and phone = ?";
 
         try{
             Connection conn = this.makeConnection();

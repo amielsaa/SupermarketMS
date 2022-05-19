@@ -53,6 +53,10 @@ public class QuantityAgreement {
 
             }
         }
+        if(orderKeys.length==0){
+            throw new IllegalArgumentException("order cannot be empty");
+        }
+
         for(int i=0;i<orderKeys.length;i++){
             CheckIfItemExists(orderKeys[i]);
             if(item_Num_To_Quantity_To_Discount.containsKey(orderKeys[i])){
