@@ -28,14 +28,11 @@ public class ReportController {
         reportDAO = new ReportDAO("Reports");
     }
     public void setStoreId(int storeId){this.storeId =storeId;}
-    //TODO: change return type to whatever
     public void addDefectiveProduct(int productId, int storeId) {
         reportDAO.InsertDefectiveProducts(productId,storeId);
     }
 
 
-    //TODO: change return type to whatever <name & producer , quantity>
-    // done.
     public Map<Pair<String,String>,Integer> reportByMinimumQuantity(Map<Product,List<StoreProduct>> productListMap) {
         Map<Pair<String, String>, Integer> report = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
@@ -72,8 +69,6 @@ public class ReportController {
         return table;
     }
 
-    //TODO:
-    // done.
     public CommandLineTable reportByCategories(Map<Product,List<StoreProduct>> productListMap, List<Category> categories){
 
             CommandLineTable table = new CommandLineTable();
