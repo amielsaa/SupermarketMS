@@ -348,7 +348,7 @@ public class GatewayTest
 
         Response<List<Shift>> r3 = g.getShifts(1);
         assertTrue(r3.getMessage(), r3.isSuccess());
-        assertEquals("The shift should be removed. ", r3.getData().size(), 0);
+        assertEquals("The shift should be removed. ", r3.getData().size(), 2);
     }
 
     @Test
