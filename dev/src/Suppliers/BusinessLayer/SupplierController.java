@@ -252,27 +252,28 @@ public class SupplierController {
         //4.Making a hashmap of <Supplier,Hashmap Order he will preform>
         HashMap<Integer,HashMap<Pair<String, String>, Pair<Double, Double>>> suplliertoTheirOrder=new HashMap<>();
         for(Pair i:orderKeys){
-            Double finalPrice=Double.MAX_VALUE;
-            int supplierBn=0;
-            HashMap<Pair<String, String>, Pair<Double, Double>> currentLeadingOrder=new HashMap<>();
-            List<Supplier> suppliersThatDeliver=itemToSuppliers.get(i);
-            //4.1 finding the Best supplier to supply a specific item
-            for(Supplier j:suppliersThatDeliver){
-                HashMap<Pair<String,String>,Integer> HashmapforOrderCheck=new HashMap<>();
-                HashmapforOrderCheck.put(i,demandedSupplies.get(i));
-                HashMap<Pair<String, String>, Pair<Double, Double>> order=j.makeOrder(HashmapforOrderCheck);
-                if(order.get(i).getSecond()<finalPrice){
-                    finalPrice=order.get(i).getSecond();
-                    supplierBn=j.getBusiness_Num();
-                    currentLeadingOrder=order;
+            if(!itemToSuppliers.get(i).isEmpty()) {
+                Double finalPrice = Double.MAX_VALUE;
+                int supplierBn = 0;
+                HashMap<Pair<String, String>, Pair<Double, Double>> currentLeadingOrder = new HashMap<>();
+                List<Supplier> suppliersThatDeliver = itemToSuppliers.get(i);
+                //4.1 finding the Best supplier to supply a specific item
+                for (Supplier j : suppliersThatDeliver) {
+                    HashMap<Pair<String, String>, Integer> HashmapforOrderCheck = new HashMap<>();
+                    HashmapforOrderCheck.put(i, demandedSupplies.get(i));
+                    HashMap<Pair<String, String>, Pair<Double, Double>> order = j.makeOrder(HashmapforOrderCheck);
+                    if (order.get(i).getSecond() < finalPrice) {
+                        finalPrice = order.get(i).getSecond();
+                        supplierBn = j.getBusiness_Num();
+                        currentLeadingOrder = order;
+                    }
                 }
-            }
-            //4.2 after finding the best supplier adding him to  supplierToTheirOrder Hashmap
-            if(!suplliertoTheirOrder.containsKey(supplierBn)){
-                suplliertoTheirOrder.put(supplierBn,currentLeadingOrder);
-            }
-            else{
-                suplliertoTheirOrder.get(supplierBn).put(i,currentLeadingOrder.get(i));
+                //4.2 after finding the best supplier adding him to  supplierToTheirOrder Hashmap
+                if (!suplliertoTheirOrder.containsKey(supplierBn)) {
+                    suplliertoTheirOrder.put(supplierBn, currentLeadingOrder);
+                } else {
+                    suplliertoTheirOrder.get(supplierBn).put(i, currentLeadingOrder.get(i));
+                }
             }
 
         }
