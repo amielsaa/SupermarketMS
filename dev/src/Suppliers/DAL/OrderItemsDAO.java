@@ -76,7 +76,7 @@ public class OrderItemsDAO extends DalController{
 
     public boolean updateItem(int orderID, String itemname, String itemproducer, double itemprice, double itemoriginalprice, int itemamount){
 //        String sql = "update ? set itemprice = ?, itemoriginalprice = ?, itemamount = ? where orderID = ? and itemname = ? and itemproducer = ?";
-        String sql = "update " + tableName + " set itemprice = " + itemprice + " , itemoriginalprice = " + itemoriginalprice + " , itemamount = " + itemamount + " where orderID = " + orderID + " and itemname = " + itemname + " and itemproducer = " + itemproducer;
+        String sql = "update " + tableName + " set itemprice = " + itemprice + " , itemoriginalprice = " + itemoriginalprice + " , itemamount = " + itemamount + " where orderID = " + orderID + " and itemname = '" + itemname + "' and itemproducer = '" + itemproducer + "'";
 
         try{
             Connection conn = this.makeConnection();
@@ -84,7 +84,7 @@ public class OrderItemsDAO extends DalController{
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            return true;//todo:change to false
+            return false;
         }
         return true;
 
