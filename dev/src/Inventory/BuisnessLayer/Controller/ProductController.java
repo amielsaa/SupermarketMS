@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private DataController data;
-    private int productId; //TODO: add to diagram
-    private int storeId; //TODO: add to diagram
+    private int productId;
+    private int storeId;
 
     private ProductDAO productDAO;
     private StoreProductDAO storeProductDAO;
@@ -33,7 +33,6 @@ public class ProductController {
      *
      * @return
      */
-    //TODO: need to be changed to List<StoreProduct>
     public Map<Product,List<StoreProduct>> getAllProducts() {
         Map<Product,List<StoreProduct>> products = new HashMap<>();
         Map<Integer, List<StoreProduct>> storeProductMap = storeProductDAO.SelectAll();

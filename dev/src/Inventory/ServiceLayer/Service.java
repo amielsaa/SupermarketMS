@@ -104,7 +104,7 @@ public class Service {
         return reportService.ReportMinQuantity(GetAllProductsMap().getData());
     }
 
-        public Response<String> stopTimer() {return productService.StopTimer();}
+    public Response<String> StopTimer() {return productService.StopTimer();}
 
     //integration between suppliers
 
