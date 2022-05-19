@@ -17,6 +17,11 @@ public class ProductMapper {
         this.products = new ArrayList<>();
     }
 
+    public void deleteAll() {
+        products = new ArrayList<>();
+        pulled_all_data = false;
+    }
+
     public Product addProduct(Product p) {
         if(p==null)
             throw new IllegalArgumentException("Product not found.");

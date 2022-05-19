@@ -21,6 +21,10 @@ public class ProductDAO extends DalController {
         productMapper = new ProductMapper();
     }
 
+    public void deleteStoredData() {
+        productMapper.deleteAll();
+    }
+
     //TODO: implement
     public int SelectMaxId() {
         String sql = "SELECT MAX(id) FROM Products";

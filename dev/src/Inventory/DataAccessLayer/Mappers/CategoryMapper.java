@@ -13,6 +13,10 @@ public class CategoryMapper {
         categoryCache = new ArrayList<>();
     }
 
+    public void deleteAll() {
+        categoryCache = new ArrayList<>();
+    }
+
     public Category addCategory(Category c) {
         categoryCache.add(c);
         return c;

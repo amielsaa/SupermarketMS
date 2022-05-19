@@ -13,6 +13,11 @@ public class StoreProductMapper {
         this.storeProductsMap = new HashMap<>();
     }
 
+    public void deleteAll() {
+        storeProductsMap = new HashMap<>();
+        pulled_all_data = false;
+    }
+
     //TODO: override to update
     public List<StoreProduct> addStoreProduct(int productid, StoreProduct sp) {
         if(storeProductsMap.containsKey(productid)) {

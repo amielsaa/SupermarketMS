@@ -16,6 +16,10 @@ public class StoreProductDAO extends DalController {
         this.storeProductMapper = new StoreProductMapper();
     }
 
+    public void deleteStoredData() {
+        storeProductMapper.deleteAll();
+    }
+
     public void DeleteSP(String idColName, int id) {
         storeProductMapper.deleteSP(id);
         this.Delete(idColName,id);

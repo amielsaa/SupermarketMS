@@ -16,6 +16,10 @@ public class CategoryDAO extends DalController {
         categoryMapper = new CategoryMapper();
     }
 
+    public void deleteStoredData() {
+        categoryMapper.deleteAll();
+    }
+
     public Category InsertCategory(String name) {
         Category c = categoryMapper.getCategoryByName(name);
         if(c != null)
