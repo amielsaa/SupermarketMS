@@ -26,6 +26,10 @@ public class QualificationController
         permissions = new ArrayList<>();
     }
 
+    public void clearCache(){
+        qDao.clearCache();
+    }
+
     public List<Qualification> getQualifications() throws DatabaseAccessException {
         List<Qualification> qualifications = qDao.ReadAllQualifications();
         if(qualifications == null){

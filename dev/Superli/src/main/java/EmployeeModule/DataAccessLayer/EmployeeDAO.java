@@ -16,6 +16,10 @@ public class EmployeeDAO extends DataAccessObject {
         employeeCache = new HashMap<>();
     }
 
+    public void clearCache(){
+        employeeCache = new HashMap<>();
+    }
+
     public boolean Create(Employee employee) {
         String sql = "INSERT INTO Employees(id, name, salary, workStartingDate, workingConditions, qualifications) VALUES(?,?,?,?,?,?)";
         try{

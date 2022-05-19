@@ -18,6 +18,10 @@ public class EmployeeController
         employees = new ArrayList<Employee>();
     }
 
+    public void clearCache(){
+        eDao.clearCache();
+    }
+
     public List<Employee> getEmployees() throws DatabaseAccessException {
         List<Employee> employeeList = eDao.ReadAllEmployees();
         if(employeeList == null){

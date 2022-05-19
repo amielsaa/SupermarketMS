@@ -35,6 +35,13 @@ public class Gateway
         this.qualificationController = new QualificationController();
     }
 
+
+    public void removeAllData(){
+        employeeController.clearCache();
+        shiftController.clearCache();
+        qualificationController.clearCache();
+    }
+
     public void initDefaultData() throws Exception {
         // TODO DAL make this run once on database init and NOT delete the entire database on load.
         employeeController.clearDatabases();
@@ -630,7 +637,11 @@ public class Gateway
         try {
             Shift dayShift = shiftController.getEmployeeShiftOnDay(employeeId, shiftDate, ShiftTime.DAY);
             Shift nightShift = shiftController.getEmployeeShiftOnDay(employeeId, shiftDate, ShiftTime.NIGHT);
-            if(dayShift == null && nightShift == null) {
+            //if(dayShift == null && nightShift == null) {
+            //    return Response.makeSuccess(true);
+            //}
+            //return Response.makeSuccess(false);
+            if(dayShift != null || nightShift != null){
                 return Response.makeSuccess(true);
             }
             return Response.makeSuccess(false);

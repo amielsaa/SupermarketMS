@@ -17,6 +17,11 @@ public class QualificationDAO extends DataAccessObject {
         permissionCache = new HashMap<>();
     }
 
+    public void clearCache(){
+        qualificationCache = new HashMap<>();
+        permissionCache  =new HashMap<>();
+    }
+
     /**
      * The new qualification is added into the cache and into database with default permission
      * @param qualification
@@ -78,7 +83,7 @@ public class QualificationDAO extends DataAccessObject {
                 found = true;
                 String permName = rs.getString("permission");
                 if(!permName.equals("default")){
-                    Permission permission = new Permission(name);
+                    Permission permission = new Permission(permName);
                     permissions.add(permission);
                     permissionCache.put(permName, permission);
                 }
@@ -132,7 +137,8 @@ public class QualificationDAO extends DataAccessObject {
             if(q == null){
                 return null;
             }
-            qualificationCache.put(name, q);
+            //qualificationCache.put(name, q);
+            qualifications.add(q);
         }
         return qualifications;
     }

@@ -21,12 +21,17 @@ public class ShiftDAO extends DataAccessObject {
         shiftsCache = new HashMap<>();
     }
 
+    public void clearCache(){
+        shiftsCache = new HashMap<>();
+    }
+
     public boolean Create(Shift shift){
         String sql = "INSERT INTO Shifts(branchId, date, time, employeeId, job) VALUES(?,?,?,?,?)";
         try{
             Connection conn = this.makeConnection();
             int counter = 0;
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            //Adding each pair of worker and job
             for (Integer employeeId : shift.getWorkers().keySet()) {
                 counter+=shift.getWorkers().get(employeeId).size();
                 for (String job : shift.getWorkers().get(employeeId)) {
@@ -38,6 +43,13 @@ public class ShiftDAO extends DataAccessObject {
                     pstmt.addBatch();
                 }
             }
+            pstmt.setInt   (1 , shift.getId().getBranchId());
+            pstmt.setString(2 , shift.getId().getDate().toString());
+            pstmt.setString(3 , shift.getId().getShiftTime().name());
+            pstmt.setInt   (4 , shift.getShiftManager());
+            pstmt.setString(5 , "ShiftManager");
+            pstmt.addBatch();
+            counter++;
             if(pstmt.executeBatch().length != counter){
                 return false;
             }
@@ -120,7 +132,7 @@ public class ShiftDAO extends DataAccessObject {
     }
 
     private List<ShiftId> getAllShiftIds(){
-        String sql = "SELECT DISTINCT (branchId, date, time) FROM Shifts";
+        String sql = "SELECT DISTINCT branchId, date, time FROM Shifts";
         List<ShiftId> shiftIds = new ArrayList<>();
         try {
             Connection conn = this.makeConnection();
@@ -135,6 +147,7 @@ public class ShiftDAO extends DataAccessObject {
             rs.close();
         }
         catch (SQLException e) {
+            System.out.println(e.getErrorCode());
             e.printStackTrace();
             return null;
         }

@@ -18,6 +18,10 @@ public class ShiftController
         shifts = new HashMap<>();
     }
 
+    public void clearCache(){
+        sDao.clearCache();
+    }
+
     public List<Shift> getShifts(int branchId) throws DatabaseAccessException
     {
         List<Shift> sList = sDao.Read(branchId);

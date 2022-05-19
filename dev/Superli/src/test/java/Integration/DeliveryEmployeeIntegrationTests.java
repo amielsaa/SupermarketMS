@@ -35,7 +35,7 @@ public class DeliveryEmployeeIntegrationTests {
             EmployeeMod.login(ADMIN_UID);
         }
         DeliveryMod = EmployeeMod.getDeliveryService().getData();
-        EmployeeMod.clearDatabases();
+        //EmployeeMod.clearDatabases();
         DeliveryMod.clearDatabases();
         defaultBankAccountDetails = new BankAccountDetails(0, 1, 0, "Bank", "Branch", "Bob");
 
@@ -201,9 +201,12 @@ public class DeliveryEmployeeIntegrationTests {
 
     private void addShift(Map<Integer, List<String>> workers, int ID_MANAGER, LocalDateTime time, ShiftTime shiftTime)
     {
-        Employee manager = EmployeeMod.addEmployee(ID_MANAGER, "Manager", bankAccountDetailsGenerator(ID_MANAGER), 42000, LocalDateTime.now(), "Branch 1 manager").getData();
-        EmployeeMod.logout();
-        EmployeeMod.login(ID_MANAGER);
+        //Employee manager = EmployeeMod.addEmployee(ID_MANAGER, "Manager", bankAccountDetailsGenerator(ID_MANAGER), 42000, LocalDateTime.now(), "Branch 1 manager").getData();
+        //EmployeeMod.addQualification("HR");
+        //EmployeeMod.logout();
+
+        EmployeeMod.login(5);
+        Employee manager = EmployeeMod.getEmployee(1).getData();
         EmployeeMod.addShift(1, time, manager, workers, shiftTime);
         EmployeeMod.logout();
         EmployeeMod.login(ADMIN_UID);
