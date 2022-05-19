@@ -33,9 +33,9 @@ public class StoreProductDAO extends DalController {
 
 
 
-        try{
+        try(Connection conn = this.makeConnection()){
 
-            Connection conn = this.makeConnection();
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, productid);
             pstmt.setInt(2,storeid);
@@ -58,8 +58,8 @@ public class StoreProductDAO extends DalController {
             return storeProductMapper.getStoreProductsMap();
         String sql = "SELECT * FROM StoreProducts";
         Map<Integer,List<StoreProduct>> spMap = new HashMap<>();
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt  = conn.createStatement();
             ResultSet rs    = stmt.executeQuery(sql);
 

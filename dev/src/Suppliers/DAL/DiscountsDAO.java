@@ -17,8 +17,8 @@ public class DiscountsDAO extends DalController{
     public HashMap<Pair<String,String>, HashMap<Integer,Integer>> selectAllDiscounts(int bn){
         String sql = "select * from Discounts where bn = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();

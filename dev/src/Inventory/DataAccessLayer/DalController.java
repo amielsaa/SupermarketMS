@@ -39,8 +39,8 @@ public abstract class DalController {
     public void Update(String idColName,int id,String colName, int value) {
         String sql = "UPDATE " + tableName + " SET "+ colName + "="+value+
                 " WHERE "+idColName+"="+id;
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
         }catch(SQLException e) {
@@ -51,8 +51,8 @@ public abstract class DalController {
     public void Update(String idColName,int id, String colName, String value) {
         String sql = "UPDATE " + tableName + " SET "+ colName + "="+"'"+value+"'"+
                 " WHERE "+idColName+"="+id;
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
         }catch(SQLException e) {
@@ -64,8 +64,8 @@ public abstract class DalController {
 
     public void Delete(String idColeName,int id) {
         String sql = "DELETE FROM "+tableName+" WHERE "+idColeName+"=" +id;
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
         }catch(SQLException e) {

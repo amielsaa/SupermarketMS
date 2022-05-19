@@ -23,8 +23,8 @@ public class DaysToDeliverDAO extends DalController{
     public boolean insertDaysToDeliver(int bn, int orderID, int day)  {
         String sql = "INSERT INTO DaysToDeliver(bn, orderID, day) VALUES(?,?,?)";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
@@ -43,8 +43,8 @@ public class DaysToDeliverDAO extends DalController{
     public boolean deleteDaysToDeliver(int bn, int orderID, int day)  {
         String sql = "DELETE FROM DaysToDeliver WHERE bn = ?, orderID = ?, day = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
@@ -62,8 +62,8 @@ public class DaysToDeliverDAO extends DalController{
     public boolean deleteAllDaysToDeliver(int bn, int orderID)  {
         String sql = "DELETE FROM DaysToDeliver WHERE bn = ? and orderID = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setInt(2, orderID);
@@ -97,8 +97,8 @@ public class DaysToDeliverDAO extends DalController{
     public Collection<Integer> selectAllDays(int bn, int orderID){
         String sql = "select * from DaysToDeliver where bn = ? and orderID = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             pstmt.setInt(2,orderID);
@@ -133,8 +133,8 @@ public class DaysToDeliverDAO extends DalController{
     public void setAllRoutineOrders(){
         String sql = "select * from DaysToDeliver";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             Collection<Integer> cc = new LinkedList<>();

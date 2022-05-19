@@ -22,8 +22,8 @@ public class SupplierDAO extends DalController {
     private boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
         String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?)";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.setString(2, name);
@@ -40,8 +40,8 @@ public class SupplierDAO extends DalController {
     private boolean deleteSupplier(int bn)  {
         String sql = "DELETE FROM Suppliers WHERE bn = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bn);
             pstmt.executeUpdate();
@@ -91,8 +91,8 @@ public class SupplierDAO extends DalController {
     public Supplier selectSupplier(int bn){
         String sql = "select * from Suppliers where bn = ?";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1,bn);
             ResultSet rs = pstmt.executeQuery();
@@ -137,8 +137,8 @@ public class SupplierDAO extends DalController {
     public void loadAllSuppliers(){
         String sql = "select * from Suppliers";
 
-        try{
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             Supplier supp = null;

@@ -23,9 +23,9 @@ public class CategoryDAO extends DalController {
         String sql = "INSERT INTO Category(name) " +
                 "VALUES(?)";
 
-        try{
+        try(Connection conn = this.makeConnection()){
 
-            Connection conn = this.makeConnection();
+            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1,name);
 
@@ -44,8 +44,8 @@ public class CategoryDAO extends DalController {
             return c;
         String sql = "SELECT * FROM Category WHERE name = '" + category+"'";
 
-        try {
-            Connection conn = this.makeConnection();
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
             Statement stmt  = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             return categoryMapper.addCategory(new Category(rs.getString("name")));
