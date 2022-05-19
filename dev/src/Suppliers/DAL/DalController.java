@@ -16,7 +16,6 @@ public abstract class DalController {
     public Connection makeConnection(){
 
     //   System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
         path =":database.db";
         connString = "jdbc:sqlite".concat(path);
         Connection conn = null;
@@ -26,6 +25,7 @@ public abstract class DalController {
         catch (SQLException e){
             System.out.println(e.getMessage());
         }
+
         return conn;
 
     }

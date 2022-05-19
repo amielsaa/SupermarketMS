@@ -15,6 +15,7 @@ public abstract class DalController {
     }
 
     public Connection makeConnection(){
+
 //        path = ":../ADSS_Group_D/dev/src/Inventory/DataAccessLayer/database.db";
         path =":database.db";
         connString = "jdbc:sqlite".concat(path);
@@ -31,6 +32,8 @@ public abstract class DalController {
 //            return conn;
 
         return conn;
+
+
     }
 
     public void Update(String idColName,int id,String colName, int value) {
