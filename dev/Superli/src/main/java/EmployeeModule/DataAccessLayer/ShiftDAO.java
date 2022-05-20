@@ -78,7 +78,7 @@ public class ShiftDAO extends DataAccessObject {
             while (rs.next()) {
                 found = true;
                 int employeeId = rs.getInt("employeeId");
-                if(workers.containsKey(employeeId)){
+                if(!workers.containsKey(employeeId)){
                     workers.put(employeeId, new ArrayList<>());
                 }
                 String job = rs.getString("job");

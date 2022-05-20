@@ -158,6 +158,9 @@ public class Delivery {
         DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String output=String.format("Delivery id: %d\n\t* Driver id: %d\n\t* Truck plate number: %d\n\t* Start time: %s\n\t* End time: %s\n\t* Origin Site Id: %d\n\t* Weight: %d\n\t* Destinations:\n",
                 id,driverId,truckId,startTime.format(formatter),endTime.format(formatter),originSiteId,weight);
+        if(destinationItems == null){
+            destinationItems = new LinkedHashMap<>();
+        }
         for (Integer site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
     }
