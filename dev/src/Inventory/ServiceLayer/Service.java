@@ -110,6 +110,8 @@ public class Service {
 
     public Response<String> StopTimer() {return productService.StopTimer();}
 
+    public Response<String> deleteAllData(){return  productService.deleteAllData();}
+
     //integration between suppliers
 
     public Response<Map<Pair<String,String>,Integer>> MakeOrderMinQuantity() {

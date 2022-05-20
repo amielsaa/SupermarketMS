@@ -67,7 +67,7 @@ public class CategoryController {
         return categoryDAO.SelectCategory(category);
     }
 
-
+    public void deleteAllData(){categoryDAO.deleteStoredData();}
 
 
 

@@ -198,4 +198,9 @@ public class ProductController {
     }
 
     public String turnOffTimer(){return data.turnOffTimer();}
+
+    public void deleteAllData(){
+        storeProductDAO.deleteStoredData();
+        productDAO.deleteStoredData();
+    }
 }

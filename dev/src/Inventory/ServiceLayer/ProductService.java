@@ -166,4 +166,14 @@ public class ProductService {
             return Response.makeFailure(e.getMessage());
         }
     }
+    public Response<String> deleteAllData(){
+        try{
+            productController.deleteAllData();
+            categoryController.deleteAllData();
+            return Response.makeSuccess("Data Deleted successfully");
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 }

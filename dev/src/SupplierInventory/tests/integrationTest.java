@@ -24,6 +24,8 @@ class integrationTest {
 
     @BeforeEach
     void setUp() {
+        //siService.deleteAllData();
+        siService.SetStartingValues();
         demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("milk","Tnuva");
         Pair applePerot=new Pair("apple","Perot");
@@ -53,11 +55,15 @@ class integrationTest {
 
     @Test //1
     void makeOrderToSuppliers() {
-        demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
+        //demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
 
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
-        DOrder dOrder = res.getData().get(0);
-        Assertions.assertTrue(dOrder.getSupplier_BN() ==123456789 && dOrder.getOrder_Id() ==0);
+        if(!res.getData().isEmpty()) {
+            DOrder dOrder = res.getData().get(0);
+            Assertions.assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
+        }
+        else
+            Assertions.assertTrue(false);
     }
     @Test //2
     void makeOrderToSuppliersFail(){
@@ -140,6 +146,11 @@ class integrationTest {
         siService.makeRoutineOrder(123456789,order,days2);
         Response<List<DRoutineOrder>> routineOrders=siService.getAllRoutineOrders();
         assertTrue(routineOrders.getData().size()==2);
+    }
+    @Test //10
+    void MakeOrderMinQuantity(){
+        Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
+        Assertions.assertTrue(dOrderResponse.getData().isEmpty());
     }
 
 }
