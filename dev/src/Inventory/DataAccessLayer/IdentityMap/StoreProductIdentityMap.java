@@ -1,15 +1,15 @@
-package Inventory.DataAccessLayer.Mappers;
+package Inventory.DataAccessLayer.IdentityMap;
 
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 
 import java.util.*;
 
-public class StoreProductMapper {
+public class StoreProductIdentityMap {
 
     private Map<Integer, List<StoreProduct>> storeProductsMap;
     private boolean pulled_all_data = false;
 
-    public StoreProductMapper() {
+    public StoreProductIdentityMap() {
         this.storeProductsMap = new HashMap<>();
     }
 
@@ -47,8 +47,8 @@ public class StoreProductMapper {
             storeProductsMap.remove(id);
     }
 
-    public boolean storeProductsExists(int productid, int storeid, Date expDate) {
-        return storeProductsMap.containsKey(productid) && !storeProductsMap.get(productid).isEmpty() && storeProductsMap.get(productid).stream().anyMatch((s)->!s.isNull() &&  s.getStoreId()==storeid && s.getExpDate().equals(expDate));
+    public boolean storeProductsExists(int productid, int storeid, Date expdate) {
+        return storeProductsMap.containsKey(productid) && !storeProductsMap.get(productid).isEmpty() && storeProductsMap.get(productid).stream().anyMatch((s)->!s.isNull() && s.getExpDate().equals(expdate) &&  s.getStoreId()==storeid);
     }
 
     public boolean isPulled_all_data() {

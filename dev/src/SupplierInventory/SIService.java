@@ -193,6 +193,10 @@ public class SIService {
         return fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
     }
 
+    public Inventory.ServiceLayer.Response<String> InsertData() {
+        return fInventory.InsertData();
+    }
+
     public Inventory.ServiceLayer.Response<String> LoadProducts() {
         return fInventory.LoadProducts();
     }

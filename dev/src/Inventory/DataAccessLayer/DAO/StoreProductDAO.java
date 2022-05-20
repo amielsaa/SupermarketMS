@@ -2,35 +2,33 @@ package Inventory.DataAccessLayer.DAO;
 
 import Inventory.BuisnessLayer.Objects.*;
 import Inventory.DataAccessLayer.DalController;
-import Inventory.DataAccessLayer.Mappers.StoreProductMapper;
+import Inventory.DataAccessLayer.IdentityMap.StoreProductIdentityMap;
 
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
 public class StoreProductDAO extends DalController {
-    private StoreProductMapper storeProductMapper;
+    private StoreProductIdentityMap storeProductIdentityMap;
 
     public StoreProductDAO(String tableName) {
         super(tableName);
-        this.storeProductMapper = new StoreProductMapper();
+        this.storeProductIdentityMap = new StoreProductIdentityMap();
     }
 
     public void deleteStoredData() {
-        storeProductMapper.deleteAll();
+        storeProductIdentityMap.deleteAll();
     }
 
     public void DeleteSP(String idColName, int id) {
-        storeProductMapper.deleteSP(id);
+        storeProductIdentityMap.deleteSP(id);
         this.Delete(idColName,id);
     }
 
     public StoreProduct InsertStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
         String sql;
         if(StoreProductExists(productid,storeid,expdate))
-            sql = "UPDATE StoreProducts SET quantityinstore=(?)," +
-                    "quantityinwarehouse=(?),expdate=(?),locations=(?)" +
-                    " WHERE productid=(?) and storeid=(?)";
+            return UpdateStoreProduct(productid, storeid, quantityinstore, quantityinwarehouse, expdate, locations);
         else
             sql = "INSERT INTO StoreProducts(productid, storeid,quantityinstore," +
                     "quantityinwarehouse, expdate, locations) " +
@@ -40,9 +38,8 @@ public class StoreProductDAO extends DalController {
 
         try(Connection conn = this.makeConnection()){
 
-            //Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, productid);
+            pstmt.setInt(1,productid);
             pstmt.setInt(2,storeid);
             pstmt.setInt(3,quantityinstore);
             pstmt.setInt(4,quantityinwarehouse);
@@ -51,17 +48,42 @@ public class StoreProductDAO extends DalController {
 
             pstmt.executeUpdate();
 
-            return storeProductMapper.addStoreProduct(productid,new StoreProduct(storeid,quantityinstore,quantityinwarehouse,expdate,locations)).get(0);
+            return storeProductIdentityMap.addStoreProduct(productid,new StoreProduct(storeid,quantityinstore,quantityinwarehouse,expdate,locations)).get(0);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Store product insertion to database failed, please try again.");
         }
     }
 
+    public StoreProduct UpdateStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
+        String sql = "UPDATE StoreProducts SET quantityinstore=(?)," +
+                "quantityinwarehouse=(?),expdate=(?),locations=(?)" +
+                " WHERE productid=(?) and storeid=(?)";
+        try(Connection conn = this.makeConnection()) {
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1,quantityinstore);
+            pstmt.setInt(2,quantityinwarehouse);
+            pstmt.setString(3, String.format("%d/%d/%d",expdate.getDate(),expdate.getMonth()+1,expdate.getYear()+1900));
+            pstmt.setString(4, getLocationsByString(locations));
+            pstmt.setInt(5,productid);
+            pstmt.setInt(6,storeid);
+
+            pstmt.executeUpdate();
+
+            return storeProductIdentityMap.addStoreProduct(productid,new StoreProduct(storeid,quantityinstore,quantityinwarehouse,expdate,locations)).get(0);
+
+        }catch(SQLException e) {
+            //System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Update failed.");
+        }
+    }
+
     public boolean StoreProductExists(int productid, int storeid, Date expdate) {
-        if(storeProductMapper.storeProductsExists(productid,storeid,expdate))
+        if(storeProductIdentityMap.storeProductsExists(productid,storeid,expdate))
             return true;
-        String sql = "SELECT * FROM StoreProducts WHERE productid = ? and storeid = ?";
+        String sql = "SELECT * FROM StoreProducts WHERE productid = ? and storeid = ? and expdate = '"+String.format("%d/%d/%d",expdate.getDate(),expdate.getMonth()+1,expdate.getYear()+1900)+"'";
 
         try(Connection conn = this.makeConnection()) {
             //Connection conn = this.makeConnection();
@@ -69,10 +91,9 @@ public class StoreProductDAO extends DalController {
             stmt.setInt(1,productid);
             stmt.setInt(2,storeid);
             ResultSet rs    = stmt.executeQuery();
-            if(rs==null)
-                return false;
-            else
-                return true;
+            while(rs.next())
+                return 0 != rs.getInt(1);
+            return false;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Store products fetch failed.");
@@ -80,8 +101,8 @@ public class StoreProductDAO extends DalController {
     }
 
     public Map<Integer,List<StoreProduct>> SelectAll() {
-        if(storeProductMapper.isPulled_all_data())
-            return storeProductMapper.getStoreProductsMap();
+        if(storeProductIdentityMap.isPulled_all_data())
+            return storeProductIdentityMap.getStoreProductsMap();
         String sql = "SELECT * FROM StoreProducts";
         Map<Integer,List<StoreProduct>> spMap = new HashMap<>();
         try(Connection conn = this.makeConnection()) {
@@ -95,9 +116,9 @@ public class StoreProductDAO extends DalController {
                 StoreProduct sp = new StoreProduct(rs.getInt("storeid"),
                         rs.getInt("quantityinstore"),rs.getInt("quantityinwarehouse")
                         ,getDateByString(rs.getString("expdate")),getLocationListByString(rs.getString("locations")));
-                spMap.put(prodid,storeProductMapper.addStoreProduct(prodid,sp));
+                spMap.put(prodid, storeProductIdentityMap.addStoreProduct(prodid,sp));
             }
-            storeProductMapper.setPulled_all_data(true);
+            storeProductIdentityMap.setPulled_all_data(true);
             return spMap;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

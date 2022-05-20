@@ -1,19 +1,16 @@
-package Inventory.DataAccessLayer.Mappers;
+package Inventory.DataAccessLayer.IdentityMap;
 
 import Inventory.BuisnessLayer.Objects.Product;
-import Inventory.BuisnessLayer.Objects.StoreProduct;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ProductMapper {
+public class ProductIdentityMap {
 
     private List<Product> products;
     private boolean pulled_all_data = false;
 
-    public ProductMapper() {
+    public ProductIdentityMap() {
         this.products = new ArrayList<>();
     }
 

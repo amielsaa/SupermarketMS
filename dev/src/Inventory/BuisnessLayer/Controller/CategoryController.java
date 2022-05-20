@@ -14,7 +14,7 @@ public class CategoryController {
 
     public CategoryController() {
         this.categoryDAO = new CategoryDAO("Category");
-//        addCategories();
+        //addCategories();
     }
 
     private void addCategories() {

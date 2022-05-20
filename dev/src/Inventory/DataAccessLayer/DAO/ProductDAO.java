@@ -2,27 +2,24 @@ package Inventory.DataAccessLayer.DAO;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
-import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.DataAccessLayer.DalController;
-import Inventory.DataAccessLayer.Mappers.ProductMapper;
+import Inventory.DataAccessLayer.IdentityMap.ProductIdentityMap;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProductDAO extends DalController {
 
-    private ProductMapper productMapper;
+    private ProductIdentityMap productIdentityMap;
 
     public ProductDAO(String tableName) {
         super(tableName);
-        productMapper = new ProductMapper();
+        productIdentityMap = new ProductIdentityMap();
     }
 
     public void deleteStoredData() {
-        productMapper.deleteAll();
+        productIdentityMap.deleteAll();
     }
 
     //TODO: implement
@@ -46,7 +43,7 @@ public class ProductDAO extends DalController {
 
 
     public void DeleteProduct(String idColeName,int id) {
-        productMapper.deleteProduct(id);
+        productIdentityMap.deleteProduct(id);
         this.Delete(idColeName,id);
     }
     public Product InsertProduct(int Id, String name, String producer, double buyingPrice, double sellingPrice, double discount, String discountExpDate, List<Category> categories, int minQuantity) {
@@ -72,7 +69,7 @@ public class ProductDAO extends DalController {
 
             pstmt.executeUpdate();
 
-            return productMapper.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories,minQuantity));
+            return productIdentityMap.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories,minQuantity));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Product insertion to database failed, please try again.");
@@ -82,7 +79,7 @@ public class ProductDAO extends DalController {
     //public void UpdateCategory
 
     public Product SelectProductById(int productid) {
-        Product pExists = productMapper.getProduct(productid);
+        Product pExists = productIdentityMap.getProduct(productid);
         if(pExists!=null)
             return pExists;
         String sql = "SELECT * FROM Products WHERE id=?";
@@ -100,7 +97,7 @@ public class ProductDAO extends DalController {
                         stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
                 p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
             }
-            return productMapper.addProduct(p);
+            return productIdentityMap.addProduct(p);
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
             throw new IllegalArgumentException("Products fetch failed.");
@@ -108,8 +105,8 @@ public class ProductDAO extends DalController {
     }
 
     public List<Product> SelectAll() {
-        if(productMapper.isPulled_all_data())
-            return productMapper.getProducts();
+        if(productIdentityMap.isPulled_all_data())
+            return productIdentityMap.getProducts();
         String sql = "SELECT * FROM Products";
         List<Product> products = new ArrayList<>();
         try(Connection conn = this.makeConnection()) {
@@ -124,9 +121,9 @@ public class ProductDAO extends DalController {
                         rs.getDouble("sellingprice"),
                         stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
                 p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
-                products.add(productMapper.addProduct(p));
+                products.add(productIdentityMap.addProduct(p));
             }
-            productMapper.setPulled_all_data(true);
+            productIdentityMap.setPulled_all_data(true);
             return products;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -164,7 +161,7 @@ public class ProductDAO extends DalController {
     }
 
     public void UpdateMapper(Product product) {
-        productMapper.addProduct(product);
+        productIdentityMap.addProduct(product);
     }
 
 

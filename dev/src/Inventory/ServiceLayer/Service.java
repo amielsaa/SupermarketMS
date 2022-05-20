@@ -129,8 +129,32 @@ public class Service {
         AddProduct("Apple","Perot",4,5,10,"Fruits,Sweets,Weight");
     }
 
+    private void addStoreProducts() {
+        AddStoreProduct(1,20,20,"01/05/2022","STORE-1-2");
+        AddStoreProduct(2,15,10,"01/08/2022","STORE-3-2");
+        AddStoreProduct(3,5,5,"01/09/2022","STORE-1-4");
+        AddStoreProduct(4,2,2,"01/10/2022","STORE-2-2");
+
+    }
+
+    private void addCategory() {
+        String[] cat = {"Diary","Wash","Milk","Size","Shampoo","Salty","Gram","Snacks","Cereal","Sweets","Weight",
+                "Delicacy","Hot Drink","Coffee","Fruits","ML"};
+        for(int i=0;i<cat.length;i++)
+            AddCategory(cat[i]);
+    }
 
 
+    public Response<String> InsertData() {
+        try{
+            addCategory();
+            addProducts();
+            addStoreProducts();
+            return Response.makeSuccess("Data added");
+        }catch (Exception e){
+            return Response.makeFailure("Data insertion failed");
+        }
 
 
+    }
 }

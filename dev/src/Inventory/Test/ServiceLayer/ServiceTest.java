@@ -49,7 +49,7 @@ class ServiceTest {
 
     @Test
     void addStoreProduct() {
-        Response<String> res = productService.AddStoreProduct(0,10,12,"10/10/2020","warehouse-1-2&store-1-2");
+        Response<String> res = productService.AddStoreProduct(5,10,12,"10/10/2020","warehouse-1-2&store-1-2");
 
         String expected = "10 : 12 : 10/10/2020 : WAREHOUSE-1-2&STORE-1-2";
 
@@ -58,8 +58,8 @@ class ServiceTest {
 
     @Test
     void overrideStoreProduct() {
-        Response<String> res1 = productService.AddStoreProduct(1,20,20,"10/10/2020","WAREHOUSE-1-2");
-        Response<String> res2 = productService.AddStoreProduct(1,30,50,"10/10/2020","WAREHOUSE-1-2");
+        Response<String> res1 = productService.AddStoreProduct(6,20,20,"10/10/2020","WAREHOUSE-1-2");
+        Response<String> res2 = productService.AddStoreProduct(6,30,50,"10/10/2020","WAREHOUSE-1-2");
 
         String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2";
 
@@ -78,7 +78,7 @@ class ServiceTest {
 
     @Test
     void changeCategory() {
-        Response<String> res = productService.ChangeCategory(1,1,"Salty");
+        Response<String> res = productService.ChangeCategory(2,1,"Salty");
 
         String expected = "Salty";
 
@@ -96,9 +96,9 @@ class ServiceTest {
 
     @Test
     void deleteProduct() {
-        Response<String> res = productService.DeleteProduct(0);
+        Response<String> res = productService.DeleteProduct(1);
 
-        String expected = "Product with ID:0 deleted successfully.";
+        String expected = "Product with ID:1 deleted successfully.";
 
         Assertions.assertEquals(expected,res.getData());
 
@@ -107,7 +107,7 @@ class ServiceTest {
 
     @Test
     void addDiscountByName() {
-        Response<String> res = productService.AddDiscountByName(1,3,"10/6/2022");
+        Response<String> res = productService.AddDiscountByName(2,3,"10/6/2022");
         String expected ="discount was set successfully ";
         Assertions.assertEquals(expected,res.getData());
     }

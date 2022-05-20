@@ -2,26 +2,25 @@ package Inventory.DataAccessLayer.DAO;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.DataAccessLayer.DalController;
-import Inventory.DataAccessLayer.Mappers.CategoryMapper;
+import Inventory.DataAccessLayer.IdentityMap.CategoryIdentityMap;
 
 import java.sql.*;
-import java.util.List;
 
 public class CategoryDAO extends DalController {
 
-    private CategoryMapper categoryMapper;
+    private CategoryIdentityMap categoryIdentityMap;
 
     public CategoryDAO(String tableName) {
         super(tableName);
-        categoryMapper = new CategoryMapper();
+        categoryIdentityMap = new CategoryIdentityMap();
     }
 
     public void deleteStoredData() {
-        categoryMapper.deleteAll();
+        categoryIdentityMap.deleteAll();
     }
 
     public Category InsertCategory(String name) {
-        Category c = categoryMapper.getCategoryByName(name);
+        Category c = categoryIdentityMap.getCategoryByName(name);
         if(c != null)
             throw new IllegalArgumentException("Category already exists.");
         String sql = "INSERT INTO Category(name) " +
@@ -34,7 +33,7 @@ public class CategoryDAO extends DalController {
             pstmt.setString(1,name);
 
             pstmt.executeUpdate();
-            return categoryMapper.addCategory(new Category(name));
+            return categoryIdentityMap.addCategory(new Category(name));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -43,7 +42,7 @@ public class CategoryDAO extends DalController {
 
 
     public Category SelectCategory(String category) {
-        Category c = categoryMapper.getCategoryByName(category);
+        Category c = categoryIdentityMap.getCategoryByName(category);
         if(c != null)
             return c;
         String sql = "SELECT * FROM Category WHERE name = '" + category+"'";
@@ -52,7 +51,7 @@ public class CategoryDAO extends DalController {
             //Connection conn = this.makeConnection();
             Statement stmt  = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            return categoryMapper.addCategory(new Category(rs.getString("name")));
+            return categoryIdentityMap.addCategory(new Category(rs.getString("name")));
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("Category not found.");

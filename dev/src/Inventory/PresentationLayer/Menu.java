@@ -82,13 +82,23 @@ public class Menu {
                 case 14:
                     deleteProductAction();
                     break;
-
+                case 15:
+                    addDataAction();
+                    break;
 
             }
         }catch(Exception e) {
             System.out.println(e.getMessage());
         }
         
+    }
+
+    private void addDataAction() {
+        Response<String> res = service.InsertData();
+        if(res.isSuccess())
+            System.out.println(res.getData());
+        else
+            System.out.println(res.getMessage());
     }
 
     private void stopProgram() {
@@ -312,7 +322,7 @@ public class Menu {
                 "2-Add/Update Store Product            <--->   7-Report By Expired Products        <--->   12-Add Discount By Category\n" +
                 "3-Add Category                        <--->   8-Report By Defective Products      <--->   13-Add Discount To Product\n" +
                 "4-Add Defective Product               <--->   9-Report By Shortage Products       <--->   14-Delete Product\n" +
-                "5-Print All Store Products            <--->   10-Make Order Of Minimum Quantity   <--->   15-Not implemented\n" +
+                "5-Print All Store Products            <--->   10-Make Order Of Minimum Quantity   <--->   15-Insert Test Data\n" +
                 "0-Exit");
     }
 
