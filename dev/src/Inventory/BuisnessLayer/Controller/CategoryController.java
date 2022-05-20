@@ -9,12 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class CategoryController {
-    private DataController data;
 
     private CategoryDAO categoryDAO;
 
-    public CategoryController(DataController data) {
-        this.data = data;
+    public CategoryController() {
         this.categoryDAO = new CategoryDAO("Category");
 //        addCategories();
     }

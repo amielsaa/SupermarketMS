@@ -1,6 +1,5 @@
 package Inventory.ServiceLayer;
 
-import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
@@ -9,21 +8,17 @@ import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Service {
 
     private ProductService productService;
     private ReportService reportService;
-    private DataController data;
 
     public Service() {
-        this.data = new DataController();
-        this.productService = new ProductService(data);
-        this.reportService = new ReportService(data);
+        this.productService = new ProductService();
+        this.reportService = new ReportService();
 //        addProducts();
     }
 
@@ -108,7 +103,7 @@ public class Service {
         return reportService.ReportMinQuantity(GetAllProductsMap().getData());
     }
 
-    public Response<String> StopTimer() {return productService.StopTimer();}
+    //public Response<String> StopTimer() {return productService.StopTimer();}
 
     public Response<String> deleteAllData(){return  productService.deleteAllData();}
 

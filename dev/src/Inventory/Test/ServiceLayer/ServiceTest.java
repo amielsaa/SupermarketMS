@@ -1,20 +1,18 @@
 package Inventory.Test.ServiceLayer;
 
 
-import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.BuisnessLayer.Objects.Product;
+import Inventory.DataAccessLayer.DAO.CategoryDAO;
+import Inventory.DataAccessLayer.DAO.ReportDAO;
 import Inventory.ServiceLayer.ProductService;
+import Inventory.ServiceLayer.ReportService;
 import Inventory.ServiceLayer.Response;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 class ServiceTest {
 
     private static ProductService productService;
+    private static ReportService reportService;
 
     @BeforeAll
     static void beforeAll() {
@@ -23,8 +21,9 @@ class ServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        productService = new ProductService(new DataController());
+        productService = new ProductService();
         productService.SelectStore(1);
+        reportService = new ReportService();
     }
 
     @AfterEach
@@ -79,21 +78,21 @@ class ServiceTest {
 
     @Test
     void changeCategory() {
-        Response<String> res = productService.ChangeCategory(0,1,"Salty");
+        Response<String> res = productService.ChangeCategory(1,1,"Salty");
 
         String expected = "Salty";
 
         Assertions.assertEquals(expected,res.getData());
     }
 
-//    @Test
-//    void addDefectiveProduct() {
-//        Response<String> res = .AddDefectiveProduct(0);
-//
-//        String expected = "Shampoo : Kef : 12.50 : 10.20 : Wash,Shampoo,Size";
-//
-//        Assertions.assertEquals(expected,res.getData());
-//    }
+    @Test
+    void addDefectiveProduct() {
+        Response<String> res = reportService.AddDefectiveProduct(1,1);
+
+        String expected = "Product with ID:1 added successfully";
+
+        Assertions.assertEquals(expected,res.getData());
+    }
 
     @Test
     void deleteProduct() {
@@ -102,11 +101,13 @@ class ServiceTest {
         String expected = "Product with ID:0 deleted successfully.";
 
         Assertions.assertEquals(expected,res.getData());
+
+
     }
 
     @Test
     void addDiscountByName() {
-        Response<String> res = productService.AddDiscountByName(0,3,"10/6/2022");
+        Response<String> res = productService.AddDiscountByName(1,3,"10/6/2022");
         String expected ="discount was set successfully ";
         Assertions.assertEquals(expected,res.getData());
     }
@@ -120,7 +121,10 @@ class ServiceTest {
 
     @AfterAll
     static void tearDown() {
-
+        CategoryDAO categoryDAO = new CategoryDAO("Category");
+        categoryDAO.Delete("name","Bread Stuff");
+        ReportDAO reportDAO = new ReportDAO("Reports");
+        reportDAO.Delete("productid",1);
     }
 
 

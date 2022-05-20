@@ -27,9 +27,10 @@ public class StoreProductDAO extends DalController {
 
     public StoreProduct InsertStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
         String sql;
-        if(storeProductMapper.storeProductsExists(productid,storeid,expdate))
-            sql = "UPDATE StoreProducts SET productid=(?), storeid=(?), quantityinstore=(?)," +
-                    "quantityinwarehouse=(?),expdate=(?),locations=(?)";
+        if(StoreProductExists(productid,storeid,expdate))
+            sql = "UPDATE StoreProducts SET quantityinstore=(?)," +
+                    "quantityinwarehouse=(?),expdate=(?),locations=(?)" +
+                    " WHERE productid=(?) and storeid=(?)";
         else
             sql = "INSERT INTO StoreProducts(productid, storeid,quantityinstore," +
                     "quantityinwarehouse, expdate, locations) " +
@@ -54,6 +55,27 @@ public class StoreProductDAO extends DalController {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new IllegalArgumentException("Store product insertion to database failed, please try again.");
+        }
+    }
+
+    public boolean StoreProductExists(int productid, int storeid, Date expdate) {
+        if(storeProductMapper.storeProductsExists(productid,storeid,expdate))
+            return true;
+        String sql = "SELECT * FROM StoreProducts WHERE productid = ? and storeid = ?";
+
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
+            PreparedStatement stmt  = conn.prepareStatement(sql);
+            stmt.setInt(1,productid);
+            stmt.setInt(2,storeid);
+            ResultSet rs    = stmt.executeQuery();
+            if(rs==null)
+                return false;
+            else
+                return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Store products fetch failed.");
         }
     }
 

@@ -1,7 +1,6 @@
 package Inventory.ServiceLayer;
 
 import Inventory.BuisnessLayer.Controller.CategoryController;
-import Inventory.BuisnessLayer.Controller.DataController;
 import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
@@ -17,9 +16,9 @@ public class ProductService {
     public ProductController productController;
     public CategoryController categoryController;
 
-    public ProductService(DataController data) {
-        this.categoryController = new CategoryController(data);
-        this.productController = new ProductController(data);
+    public ProductService() {
+        this.categoryController = new CategoryController();
+        this.productController = new ProductController();
     }
 
     public Response<Integer> SelectStore(int storeId) {
@@ -149,14 +148,14 @@ public class ProductService {
         }
     }
 
-    public Response<String> StopTimer(){
-        try {
-            String s = productController.turnOffTimer();
-            return Response.makeSuccess(s.toString());
-        }catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-    }
+//    public Response<String> StopTimer(){
+//        try {
+//            String s = productController.turnOffTimer();
+//            return Response.makeSuccess(s.toString());
+//        }catch (Exception e){
+//            return Response.makeFailure(e.getMessage());
+//        }
+//    }
 
     public Response<String> LoadProducts() {
         try{

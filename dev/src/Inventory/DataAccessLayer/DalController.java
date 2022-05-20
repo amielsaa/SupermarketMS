@@ -73,6 +73,17 @@ public abstract class DalController {
             throw new IllegalArgumentException("Update failed.");
         }
     }
+    public void Delete(String colName,String value) {
+        String sql = "DELETE FROM "+tableName+" WHERE "+colName+"='" +value+"'";
+        try(Connection conn = this.makeConnection()) {
+            //Connection conn = this.makeConnection();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }catch(SQLException e) {
+            //System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Deletion failed.");
+        }
+    }
 
     public String getPath() {
         return path;

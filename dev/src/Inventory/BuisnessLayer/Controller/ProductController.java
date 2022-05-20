@@ -12,16 +12,14 @@ import java.util.stream.Collectors;
 
 public class ProductController {
 
-    private DataController data;
     private int productId;
     private int storeId;
 
     private ProductDAO productDAO;
     private StoreProductDAO storeProductDAO;
 
-    public ProductController(DataController data) {
+    public ProductController() {
         this.productId = 0;
-        this.data = data;
         this.productDAO = new ProductDAO("Products");
         this.storeProductDAO = new StoreProductDAO("StoreProducts");
         this.loadProductId();
@@ -146,15 +144,7 @@ public class ProductController {
             if(c!=null)
                 addDiscountByName(p.getId(),discount,date);
         }
-//
-//        Date discountExpDate = getDateByString(date);
-//        ArrayList<String> temp = new ArrayList<String>();
-//        temp.add(categoryName);
-//        List<Category> category = data.getCategoriesByName(temp);
-//        for(Map.Entry<Product,List<StoreProduct>> entry : data.getProductListMap().entrySet()){
-//            if(entry.getKey().getCategories().contains(category.get(0)))
-//                entry.getKey().setDiscount(discount,discountExpDate);
-//        }
+
         return "discount was set successfully ";
     }
 
@@ -197,7 +187,7 @@ public class ProductController {
         return storeId;
     }
 
-    public String turnOffTimer(){return data.turnOffTimer();}
+   // public String turnOffTimer(){return data.turnOffTimer();}
 
     public void deleteAllData(){
         storeProductDAO.deleteStoredData();

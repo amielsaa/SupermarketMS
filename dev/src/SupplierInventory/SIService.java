@@ -187,7 +187,7 @@ public class SIService {
         return fInventory.ReportMinQuantity();
     }
 
-    public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
+    //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
 
     public Response<List<DOrder>> MakeOrderMinQuantity() {
         return fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());

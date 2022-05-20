@@ -94,7 +94,7 @@ public class Menu {
     private void stopProgram() {
         this.menu_on = false;
         printDivider();
-        System.out.println(service.stopTimer().getData());
+        //System.out.println(service.stopTimer().getData());
         printDivider();
     }
 
