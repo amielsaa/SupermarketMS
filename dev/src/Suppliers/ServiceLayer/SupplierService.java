@@ -194,4 +194,8 @@ public class SupplierService {
 
         }
     }
+
+    public void DeleteAll() {
+        cSupplier.DeleteAll();
+    }
 }
