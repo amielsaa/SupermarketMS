@@ -22,7 +22,6 @@ class integrationTest {
     @BeforeAll
     static void setUp() {
         siService.DeleteAll();
-//        siService.SetStartingValues();
         siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("Milk","Tnuva");
@@ -65,7 +64,10 @@ class integrationTest {
     }
     @Test //2
     void makeOrderToSuppliersFail(){
-
+        demandedSupplies.clear();
+        demandedSupplies.put(new Pair<>("gun","Glock"), 5);
+        Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
+        Assertions.assertTrue(res.getData().isEmpty());
 
     }
     @Test //3
