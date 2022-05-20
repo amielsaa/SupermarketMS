@@ -18,6 +18,7 @@ class SupplierControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
+        sController.DeleteAll();
         Pair milkTnuva=new Pair("Milk","Tnuva");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
         item_To_Price.put(milkTnuva,(double)1);
@@ -74,10 +75,8 @@ class SupplierControllerTest {
     }
 
     @Test
-    void removeSupplierContact() throws DataFormatException {
-        sController.removeSupplierContact(123456789,"0508639353");
-        List<Contact> test=sController.getSupplier(123456789).getContacts();
-        assertTrue(test.size()==1);
+    void removeOnlySupplierContactFail() throws DataFormatException {
+        assertThrows(IllegalArgumentException.class,()->sController.removeSupplierContact(123456789,"0508639353"));
     }
     @Test
     void removeSupplierContactThatDoesntExists() {

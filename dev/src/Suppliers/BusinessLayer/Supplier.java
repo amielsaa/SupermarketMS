@@ -3,6 +3,7 @@ package Suppliers.BusinessLayer;
 import misc.Days;
 import misc.Pair;
 import misc.PaymentDetails;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -122,9 +123,15 @@ public class Supplier  {
 
     public void removeSupplierContact(String contactPhone) {
         int beginningSize=Contacts.size();
+        boolean onlyone = false;
+        if(Contacts.size()==1)
+            onlyone = true;
         for (int i=0;i<Contacts.size();i++){
-            if(Contacts.get(i).getPhone_Num().equals(contactPhone))
+            if(Contacts.get(i).getPhone_Num().equals(contactPhone)) {
+                if(onlyone)
+                    throw new IllegalArgumentException("Cannot remove the only contact");
                 Contacts.remove(i);
+            }
         }
         if(Contacts.size()==beginningSize)
             throw new IllegalArgumentException("Contact could no be found");
