@@ -14,12 +14,12 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class integrationTest {
-    static SIService siService = new SIService();
-    static Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
-    static Set<Integer> days=new HashSet<>();
+    SIService siService = new SIService();
+    Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
+    Set<Integer> days=new HashSet<>();
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         siService.DeleteAll();
         siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
@@ -43,8 +43,8 @@ class integrationTest {
 
     }
 
-    @AfterAll
-    static void tearDown() {
+    @AfterEach
+    void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
