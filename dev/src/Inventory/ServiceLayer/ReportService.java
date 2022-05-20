@@ -1,7 +1,5 @@
 package Inventory.ServiceLayer;
 
-import Inventory.BuisnessLayer.Controller.DataController;
-import Inventory.BuisnessLayer.Controller.ProductController;
 import Inventory.BuisnessLayer.Controller.ReportController;
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
@@ -16,7 +14,7 @@ public class ReportService {
 
     private ReportController reportController;
 
-    public ReportService(DataController data) {
+    public ReportService() {
         this.reportController = new ReportController();
     }
 
