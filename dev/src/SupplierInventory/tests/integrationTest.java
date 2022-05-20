@@ -16,16 +16,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class integrationTest {
-    SIService siService = new SIService();
-    Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
-    Set<Integer> days=new HashSet<>();
+    static SIService siService = new SIService();
+    static Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
+    static Set<Integer> days=new HashSet<>();
 
     @BeforeAll
-    void setUp() {
+    static void setUp() {
 //        siService.SetStartingValues();
         ContactDAO cdao = new ContactDAO();
         cdao.deleteAll();
-
+        siService.deleteAllData();
         demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("milk","Tnuva");
         Pair applePerot=new Pair("apple","Perot");
@@ -47,19 +47,23 @@ class integrationTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @AfterAll
+    static void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
 
     @Test //1
     void makeOrderToSuppliers() {
-        demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
+        //demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
 
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
-        DOrder dOrder = res.getData().get(0);
-        Assertions.assertTrue(dOrder.getSupplier_BN() ==123456789 && dOrder.getOrder_Id() ==0);
+        if(!res.getData().isEmpty()) {
+            DOrder dOrder = res.getData().get(0);
+            Assertions.assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
+        }
+        else
+            Assertions.assertTrue(false);
     }
     @Test //2
     void makeOrderToSuppliersFail(){
@@ -142,6 +146,11 @@ class integrationTest {
         siService.makeRoutineOrder(123456789,order,days2);
         Response<List<DRoutineOrder>> routineOrders=siService.getAllRoutineOrders();
         assertTrue(routineOrders.getData().size()==2);
+    }
+    @Test //10
+    void MakeOrderMinQuantity(){
+        Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
+        Assertions.assertTrue(dOrderResponse.getData().isEmpty());
     }
 
 }

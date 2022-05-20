@@ -124,7 +124,7 @@ public class SIService {
     }
 
 
-    //----------------------------------INVENTORY--------INVENTORY--------INVENTORY--------INVENTORY----------------------------------
+    //-----------------------INVENTORY----------INVENTORY----------INVENTORY---------INVENTORY----------------------------------
 
 
     public Inventory.ServiceLayer.Response<Integer> SelectStore(int storeId) {
@@ -193,6 +193,9 @@ public class SIService {
 
     public Inventory.ServiceLayer.Response<String> LoadProducts() {
         return fInventory.LoadProducts();
+    }
+    public Inventory.ServiceLayer.Response<String> deleteAllData(){
+        return fInventory.deleteAllData();
     }
 
 
