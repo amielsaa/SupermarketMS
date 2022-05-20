@@ -123,7 +123,9 @@ public class SIService {
         return fSupplier.getAllRoutineOrdersForTomorrow();
     }
 
-
+    public void DeleteAll(){
+        fSupplier.DeleteAll();
+    }
     //-----------------------INVENTORY----------INVENTORY----------INVENTORY---------INVENTORY----------------------------------
 
 

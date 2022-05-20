@@ -1,7 +1,6 @@
 package SupplierInventory.tests;
 
 import SupplierInventory.SIService;
-import Suppliers.DAL.ContactDAO;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
@@ -22,12 +21,11 @@ class integrationTest {
 
     @BeforeAll
     static void setUp() {
+        siService.DeleteAll();
 //        siService.SetStartingValues();
-        ContactDAO cdao = new ContactDAO();
-        cdao.deleteAll();
         siService.deleteAllData();
-        demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
-        Pair milkTnuva=new Pair("milk","Tnuva");
+        demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
+        Pair milkTnuva=new Pair("Milk","Tnuva");
         Pair applePerot=new Pair("apple","Perot");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
         item_To_Price.put(milkTnuva,(double)1);

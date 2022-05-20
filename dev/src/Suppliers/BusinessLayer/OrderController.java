@@ -261,6 +261,14 @@ public class OrderController {
         }
         return toreturn;
     }
+
+    public void DeleteAll() {
+        daysToDeliverDAO.deleteAll();
+        daysToDeliverDAO.clearAll();
+        orderItemsDAO.deleteAll();
+        orderDAO.deleteAll();
+        orderDAO.clearAll();
+    }
 }
 
 

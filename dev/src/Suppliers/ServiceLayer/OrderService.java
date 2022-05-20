@@ -170,4 +170,7 @@ public class OrderService {
 
     }
 
+    public void DeleteAll() {
+        cOrder.DeleteAll();
+    }
 }

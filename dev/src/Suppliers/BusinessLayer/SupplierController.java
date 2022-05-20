@@ -283,5 +283,12 @@ public class SupplierController {
     }
 
 
-
+    public void DeleteAll() {
+        contactDAO.deleteAll();
+        quantityAgreementDAO.deleteAll();
+        discountsDAO.deleteAll();
+        supplierDaysDAO.deleteAll();
+        supplierDAO.deleteAll();
+        supplierDAO.clearAll();
+    }
 }
