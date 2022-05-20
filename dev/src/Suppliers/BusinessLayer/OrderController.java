@@ -268,6 +268,7 @@ public class OrderController {
         orderItemsDAO.deleteAll();
         orderDAO.deleteAll();
         orderDAO.clearAll();
+        setId_Order_Counter(0);
     }
 }
 

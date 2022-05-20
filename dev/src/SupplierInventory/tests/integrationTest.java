@@ -11,8 +11,7 @@ import org.junit.jupiter.api.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class integrationTest {
     static SIService siService = new SIService();
@@ -26,7 +25,7 @@ class integrationTest {
         siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("Milk","Tnuva");
-        Pair applePerot=new Pair("apple","Perot");
+        Pair applePerot=new Pair("Apple","Perot");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
         item_To_Price.put(milkTnuva,(double)1);
         item_To_Price.putIfAbsent(applePerot,(double)1);
@@ -79,16 +78,18 @@ class integrationTest {
     }
     @Test //4
     void makeRoutineOrderFail(){
+        //cannot give a day that the supplier doesnt supply
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(3);
-        assertThrows(IllegalArgumentException.class,()->siService.makeRoutineOrder(123456789,order,days));
+        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
+        assertFalse(i.isSuccess());
     }
 
     @Test //5
-    void makeRoutineOrderAdd(){
+    void makeRoutineOrderUpdate(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
@@ -98,27 +99,32 @@ class integrationTest {
         Response<DRoutineOrder>  i=siService.addOrUpdateRoutineOrder(123456789,0,"Milk","Tnuva",500);
         assertTrue(i.getData().getPriceBeforeDiscount()==500&&i.getData().getFinal_Price()==400);
     }
+
+
+
+
     @Test //6
     void makeRoutineOrderAddFail(){
+        //cannot order items which is not in the QA
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Shtraus");
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        siService.makeRoutineOrder(123456789,order,days);
-        assertThrows(IllegalArgumentException.class,()->siService.makeRoutineOrder(123456789,order,days));
+        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
+        assertFalse(i.isSuccess());
     }
 
     @Test //7
-    void makeRoutineOrderUpdate(){
+    void makeRoutineOrderAdd(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
-        Pair milk=new Pair("Milk","Shtraus");
+        Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        siService.makeRoutineOrder(123456789,order,days);
-        Response<DRoutineOrder>  i=siService.addOrUpdateRoutineOrder(123456789,0,"Apple","Perot",1000);
-        assertTrue(i.getData().getPriceBeforeDiscount()==1100&&i.getData().getFinal_Price()==890);
+        Response<DRoutineOrder>  i=siService.makeRoutineOrder(123456789,order,days);
+        Response<DRoutineOrder>  j=siService.addOrUpdateRoutineOrder(123456789,0,"Apple","Perot",1000);
+        assertTrue(j.getData().getPriceBeforeDiscount()==1100&&j.getData().getFinal_Price()==890);
 
     }
 
@@ -131,17 +137,17 @@ class integrationTest {
     @Test //9
     void getAllRoutineOrders(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
-        Pair milk=new Pair("Milk","Shtraus");
+        Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        siService.makeRoutineOrder(123456789,order,days);
+        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
         HashMap<Pair<String,String>,Integer> order2=new HashMap<>();
         Pair apple=new Pair("Apple","Perot");
         order.put(apple,100);
         Set<Integer> days2=new HashSet<>();
-        days.add(2);
-        siService.makeRoutineOrder(123456789,order,days2);
+        days2.add(2);
+        Response<DRoutineOrder> j=siService.makeRoutineOrder(123456789,order,days2);
         Response<List<DRoutineOrder>> routineOrders=siService.getAllRoutineOrders();
         assertTrue(routineOrders.getData().size()==2);
     }
