@@ -38,7 +38,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         boolean isUserFinished = false;
         while (!isUserFinished){
             printMainMenuMessage();
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     runDeliveriesMenu();
@@ -79,7 +79,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         boolean isUserFinished = false;
         while (!isUserFinished){
             printSiteMenuMessage();
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     runSiteCreation();
@@ -120,7 +120,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         boolean isUserFinished = false;
         boolean isBranch = false;
         while (!isUserFinished){
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     isUserFinished = true;
@@ -134,12 +134,12 @@ public class UserTerminal extends ResponsePage<Boolean>
             }
         }
         print("Enter site address:");
-        String param1 = sc.next();
+        String param1 = sc.nextLine();
         int param2 = deliveryZoneSelection();
         print("Enter contact phone number");
-        String param3 = sc.next();
+        String param3 = sc.nextLine();
         print("Enter contact name:");
-        String param4 = sc.next();
+        String param4 = sc.nextLine();
         if (isBranch)
             service.addBranch(param1,param2,param3,param4);
         else
@@ -169,11 +169,11 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t3. Edit contact phone number" +
                     "\n\t4. Edit contact name" +
                     "\n\t5. Return to Site Menu");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     print("Enter new address:");
-                    Response r1 = service.editSiteAddress(siteId,sc.next());
+                    Response r1 = service.editSiteAddress(siteId,sc.nextLine());
                     if (!r1.isSuccess())
                         print(r1.getMessage());
                     break;
@@ -184,13 +184,13 @@ public class UserTerminal extends ResponsePage<Boolean>
                     break;
                 case "3":
                     print("Enter new contact phone number:");
-                    Response r3 = service.editSitePhoneNumber(siteId,sc.next());
+                    Response r3 = service.editSitePhoneNumber(siteId,sc.nextLine());
                     if (!r3.isSuccess())
                         print(r3.getMessage());
                     break;
                 case "4":
                     print("Enter new contact name:");
-                    Response r4 = service.editSiteContactName(siteId,sc.next());
+                    Response r4 = service.editSiteContactName(siteId,sc.nextLine());
                     if (!r4.isSuccess())
                         print(r4.getMessage());
                     break;
@@ -242,7 +242,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t0. North" +
                     "\n\t1. Center" +
                     "\n\t2. South");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "0":
                     return 0;
@@ -268,7 +268,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t4. View all trucks" +
                     "\n\t5. Search a truck" +
                     "\n\t6. Return to Main Menu");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     runTruckCreation();
@@ -301,7 +301,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter plate number:");
         int param1 = selectInt();
         print("Enter model:");
-        String param2 = sc.next();
+        String param2 = sc.nextLine();
         print("Enter max weight:");
         int param3 = selectInt();
         service.addTruck(param1,param2,param3);
@@ -329,7 +329,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t2. Edit model" +
                     "\n\t3. Edit max weight" +
                     "\n\t4. Return to Truck Menu");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     print("Enter new plate number:");
@@ -341,7 +341,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     break;
                 case "2":
                     print("Enter new model:");
-                    printResponse(service.editModel(truckId,sc.next()));
+                    printResponse(service.editModel(truckId,sc.nextLine()));
                     break;
                 case "3":
                     print("Enter new max weight:");
@@ -377,7 +377,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t1. Go to Upcoming Deliveries Menu" +
                     "\n\t2. Go to Completed Deliveries Menu" +
                     "\n\t3. Return to Main Menu");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     runUpcomingDeliveriesMenu();
@@ -402,7 +402,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t1. View delivery archive" +
                     "\n\t2. Search a completed delivery" +
                     "\n\t3. Return to Delivery Menu");
-            String userData = sc.next();
+            String userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     printDeliveryArchive();
@@ -431,7 +431,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t4. Edit a delivery" +
                     "\n\t5. Delete an upcoming delivery" +
                     "\n\t6. Return to Delivery Menu");
-            userData = sc.next();
+            userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     printAllUpcomingDeliveries();
@@ -488,7 +488,7 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "\n\t11. Edit truck's weight" +
                     "\n\t12. Complete the delivery" +
                     "\n\t13. Return to Upcoming Delivery Menu");
-            userData = sc.next();
+            userData = sc.nextLine();
             switch (userData) {
                 case "1":
                     printResponse(service.addDestinationToDelivery(deliveryId,chooseDest()));
@@ -633,7 +633,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter destination id:");
         int destId=selectInt();
         print("Enter item name:");
-        String item=sc.next();
+        String item=sc.nextLine();
         print("Enter new quantity:");
         int quantity=selectInt();
         return service.editDeliveryItemQuantity(deliveryId,destId,item,quantity);
@@ -643,7 +643,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter destination id:");
         int destId=selectInt();
         print("Enter item name:");
-        String item=sc.next();
+        String item=sc.nextLine();
         return service.removeItemFromDeliveryDestination(deliveryId,destId,item);
     }
 
@@ -651,7 +651,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter destination id:");
         int destId=selectInt();
         print("Enter item name:");
-        String item=sc.next();
+        String item=sc.nextLine();
         print("Enter quantity:");
         int quantity=selectInt();
         return service.addItemToDeliveryDestination(deliveryId,destId,item,quantity);
@@ -703,7 +703,7 @@ public class UserTerminal extends ResponsePage<Boolean>
     private int selectInt()
     {
         while (true) {
-            String input = sc.next();
+            String input = sc.nextLine();
             if (input.matches("-\\d+"))
                 print("negative numbers are not allowed, please try again");
             else if (!input.matches("\\d+"))
@@ -723,7 +723,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         while (true){
             print("use the format <dd-MM-yyyy HH:mm>:");
             try {
-                LocalDateTime dateTime=LocalDateTime.parse(sc.next(),formatter);
+                LocalDateTime dateTime=LocalDateTime.parse(sc.nextLine(),formatter);
                 if(dateTime.isBefore(LocalDateTime.now())){
                     throw new Exception("This date has passed, enter a new date and ");
                 }
