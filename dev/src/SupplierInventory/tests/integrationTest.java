@@ -7,10 +7,7 @@ import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import Suppliers.ServiceLayer.Response;
 import misc.Days;
 import misc.Pair;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
@@ -18,18 +15,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class integrationTest {
-    SIService siService = new SIService();
-    Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
-    Set<Integer> days=new HashSet<>();
+    static SIService siService = new SIService();
+    static Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
+    static Set<Integer> days=new HashSet<>();
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         siService.DeleteAll();
-        //siService.deleteAllData();
-        //siService.SetStartingValues();
+//        siService.SetStartingValues();
+        siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("Milk","Tnuva");
-        Pair applePerot=new Pair("Apple","Perot");
+        Pair applePerot=new Pair("apple","Perot");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
         item_To_Price.put(milkTnuva,(double)1);
         item_To_Price.putIfAbsent(applePerot,(double)1);
@@ -48,8 +45,8 @@ class integrationTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @AfterAll
+    static void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
@@ -133,7 +130,6 @@ class integrationTest {
     }
     @Test //9
     void getAllRoutineOrders(){
-
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Shtraus");
         order.put(milk,100);
