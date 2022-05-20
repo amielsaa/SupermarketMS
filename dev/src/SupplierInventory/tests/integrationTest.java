@@ -1,16 +1,14 @@
 package SupplierInventory.tests;
 
 import SupplierInventory.SIService;
+import Suppliers.DAL.ContactDAO;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import Suppliers.ServiceLayer.Response;
 import misc.Days;
 import misc.Pair;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
@@ -22,8 +20,12 @@ class integrationTest {
     Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     Set<Integer> days=new HashSet<>();
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
+//        siService.SetStartingValues();
+        ContactDAO cdao = new ContactDAO();
+        cdao.deleteAll();
+
         demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("milk","Tnuva");
         Pair applePerot=new Pair("apple","Perot");
