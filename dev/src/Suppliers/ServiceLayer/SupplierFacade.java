@@ -157,4 +157,9 @@ public class SupplierFacade {
     public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
         return sOrder.getAllRoutineOrdersForTomorrow();
     }
+
+    public void DeleteAll() {
+        sOrder.DeleteAll();
+        sSupplier.DeleteAll();
+    }
 }

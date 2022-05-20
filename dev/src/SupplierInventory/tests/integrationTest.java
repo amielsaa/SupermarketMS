@@ -24,11 +24,12 @@ class integrationTest {
 
     @BeforeEach
     void setUp() {
+        siService.DeleteAll();
         //siService.deleteAllData();
-        siService.SetStartingValues();
-        demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
-        Pair milkTnuva=new Pair("milk","Tnuva");
-        Pair applePerot=new Pair("apple","Perot");
+        //siService.SetStartingValues();
+        demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
+        Pair milkTnuva=new Pair("Milk","Tnuva");
+        Pair applePerot=new Pair("Apple","Perot");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
         item_To_Price.put(milkTnuva,(double)1);
         item_To_Price.putIfAbsent(applePerot,(double)1);
@@ -132,6 +133,7 @@ class integrationTest {
     }
     @Test //9
     void getAllRoutineOrders(){
+
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Shtraus");
         order.put(milk,100);
