@@ -47,7 +47,7 @@ public class SupplierDaysDAO extends DalController{
         return true;
     }
 
-    private boolean deleteAllSupplierDays(int bn)  {
+    private boolean deleteAllSupplierDays(int bn) {
         String sql = "DELETE FROM SupplierDays WHERE bn = ?";
 
         try(Connection conn = this.makeConnection()){
