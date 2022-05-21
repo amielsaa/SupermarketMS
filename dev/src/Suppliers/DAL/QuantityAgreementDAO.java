@@ -46,6 +46,20 @@ public class QuantityAgreementDAO extends DalController{
         return true;
     }
 
+    public boolean deleteSupplierQuantityAgreement(int bn)  {
+        String sql = "DELETE FROM QuantityAgreement WHERE bn = ?";
+
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
     public HashMap<Pair<String,String>, Double> selectAllItems(int bn){
         String sql = "select * from QuantityAgreement where bn = ?";
 

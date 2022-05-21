@@ -74,6 +74,20 @@ public class DiscountsDAO extends DalController{
         return true;
     }
 
+    public boolean deleteAllSupplierDiscounts(int bn)  {
+        String sql = "DELETE FROM Discounts WHERE bn = ?";
+
+        try{
+            Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
 
 
 

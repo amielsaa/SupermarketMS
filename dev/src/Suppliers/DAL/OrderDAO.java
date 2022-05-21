@@ -55,6 +55,21 @@ public class OrderDAO extends DalController {
         return true;
     }
 
+    public boolean deleteAllSupplierOrders(int bn)  {
+        String sql = "DELETE FROM Orders WHERE bn = ? and orderID = ?";
+
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        if(BN_To_Orders.containsKey(bn))
+            BN_To_Orders.remove(bn);
+        return true;
+    }
 
     public boolean containsOrder(int bn,int orderId){
         if(BN_To_Orders.containsKey(bn))

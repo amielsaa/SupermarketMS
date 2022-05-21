@@ -78,6 +78,23 @@ public class DaysToDeliverDAO extends DalController{
         return true;
     }
 
+    public boolean deleteAllSupplierDaysToDeliver(int bn)  {
+        String sql = "DELETE FROM DaysToDeliver WHERE bn = ?";
+
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        if(BN_to_routineOrder.containsKey(bn))
+            BN_to_routineOrder.remove(bn);
+
+        return true;
+    }
+
 
     //remove old days, insert new ones
     public boolean updateDeliveryDays(int bn, int orderID, Set<Integer> days){

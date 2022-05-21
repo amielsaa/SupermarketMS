@@ -50,6 +50,20 @@ public class OrderItemsDAO extends DalController{
         return true;
     }
 
+    public boolean deleteAllOrderItemsFromOrder(int orderID) {
+        String sql = "DELETE FROM OrderItems WHERE orderID = ?";
+
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, orderID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
     public Collection<OrderItem> selectAllOrderItems(int orderID){
         String sql = "select * from OrderItems where orderID = ?";
 

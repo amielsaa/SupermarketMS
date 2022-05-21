@@ -45,6 +45,20 @@ public class ContactDAO extends DalController{
         return true;
     }
 
+    public boolean deleteAllContactsForSupplier(int bn)  {
+        String sql = "DELETE FROM Contacts WHERE bn = ?";
+
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bn);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
     public List<Contact> selectAllContacts(int bn){
         String sql = "select bn, phone, name from Contacts where bn = ?";
 
