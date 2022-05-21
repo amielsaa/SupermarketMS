@@ -500,7 +500,9 @@ public class PresentationMain {
 
     private void outOfStock(Scanner s) {
         Response<List<DRoutineOrder>> orders = service.getAllRoutineOrdersForTomorrow();
-        if(orders.isSuccess()){
+        if(orders.getData().isEmpty())
+            System.out.println("No routine orders for tomorrow");
+        else if(orders.isSuccess()){
             System.out.println("Routine orders for tomorrow:");
             int index = 0;
             HashMap<Integer,DRoutineOrder> mappingOrders = new HashMap<>();
@@ -556,7 +558,7 @@ public class PresentationMain {
             }
 
         }
-        else System.out.println("No routine orders for tomorrow.");
+//        else System.out.println("No routine orders for tomorrow.");
     }
 
 

@@ -56,7 +56,7 @@ public class OrderDAO extends DalController {
     }
 
     public boolean deleteAllSupplierOrders(int bn)  {
-        String sql = "DELETE FROM Orders WHERE bn = ? and orderID = ?";
+        String sql = "DELETE FROM Orders WHERE bn = ?";
 
         try(Connection conn = this.makeConnection()){
             //Connection conn = this.makeConnection();
