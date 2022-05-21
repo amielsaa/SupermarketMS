@@ -59,7 +59,11 @@ public class SupplierFacade {
     }
 
     public Response<DSupplier> removeSupplier(int bn) {
-        return sSupplier.removeSupplier(bn);
+        Response<DSupplier> i= sSupplier.removeSupplier(bn);
+        if(i.isSuccess()){
+            sOrder.removeSupplier(bn);
+        }
+        return i;
     }
 
     /* public Response addSupplierDeliveryDay(int bn, int day){

@@ -270,6 +270,17 @@ public class OrderController {
         orderDAO.clearAll();
         setId_Order_Counter(0);
     }
+
+    public void removeSupplier(int bn) {
+        daysToDeliverDAO.deleteAllSupplierDaysToDeliver(bn);
+        orderDAO.setAllOrders(bn);
+        Collection<Order> collection= orderDAO.getAllOrders(bn);
+        for(Order i:collection)
+            orderItemsDAO.deleteAllOrderItemsFromOrder(i.getOrder_Id());
+        orderDAO.deleteAllSupplierOrders(bn);
+
+
+    }
 }
 
 

@@ -41,7 +41,7 @@ public class SupplierController {
         if(!supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("Supplier was not found");
         Supplier removedSupplier=supplierDAO.getSupplier(business_num);
-        if(!supplierDAO.removeSupplier(business_num))
+        if(!supplierDAO.removeSupplier(business_num)&&deleteSupplier(business_num))
             throw new DataFormatException("Error In Database on RemoveSupplier");
         return removedSupplier;
 
@@ -295,4 +295,21 @@ public class SupplierController {
         supplierDAO.deleteAll();
         supplierDAO.clearAll();
     }
+
+    private boolean deleteSupplier(int bn){
+        if(!contactDAO.deleteAllContactsForSupplier(bn))
+            return false;
+        if (!discountsDAO.deleteAllSupplierDiscounts(bn))
+            return false;
+        if (!quantityAgreementDAO.deleteSupplierQuantityAgreement(bn))
+            return false;
+        if(!supplierDaysDAO.deleteAllSupplierDays(bn))
+            return false;
+
+        return true;
+
+
+
+    }
 }
+

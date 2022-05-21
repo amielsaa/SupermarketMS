@@ -173,4 +173,8 @@ public class OrderService {
     public void DeleteAll() {
         cOrder.DeleteAll();
     }
+
+    public void removeSupplier(int bn) {
+        cOrder.removeSupplier(bn);
+    }
 }
