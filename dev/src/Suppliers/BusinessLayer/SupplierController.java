@@ -33,7 +33,7 @@ public class SupplierController {
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
         if(!insertQAAndContactsAndDays(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts(),days))
-        throw new DataFormatException("Error In Database on addSupplier on adding QA and contacts");
+            throw new DataFormatException("Error In Database on addSupplier on adding QA and contacts");
         return newSupplier;
     }
 

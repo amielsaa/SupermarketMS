@@ -9,8 +9,10 @@ public class SIPresentation {
     public void main() {
         SIService mixesService = new SIService();
         PresentationMain suppliersMain = new PresentationMain(mixesService);
-
         InventoryProgram inventoryMain = new InventoryProgram(mixesService);
+
+        mixesService.deleteAllData();
+        mixesService.DeleteAll();
         Scanner s = new Scanner(System.in);
         boolean running = true;
 
