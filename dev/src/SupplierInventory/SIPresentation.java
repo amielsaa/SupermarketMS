@@ -11,8 +11,8 @@ public class SIPresentation {
         PresentationMain suppliersMain = new PresentationMain(mixesService);
         InventoryProgram inventoryMain = new InventoryProgram(mixesService);
 
-        mixesService.deleteAllData();
-        mixesService.DeleteAll();
+//        mixesService.deleteAllData();
+//        mixesService.DeleteAll();
         Scanner s = new Scanner(System.in);
         boolean running = true;
 
