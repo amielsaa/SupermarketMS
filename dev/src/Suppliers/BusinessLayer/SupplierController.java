@@ -168,8 +168,12 @@ public class SupplierController {
              HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Quantity_To_Discount=quantityAgreement.getItem_Num_To_Discount();
              Pair<String,String>[] discountKeys = new Pair[item_Num_To_Quantity_To_Discount.keySet().toArray().length];
              if(discountKeys.length!=0) {
+                 int k=0;
                  for (int i = 0; i < itemKeys.length; i++) {
-                     discountKeys[i] = (Pair) item_Num_To_Quantity_To_Discount.keySet().toArray()[i];
+                    if(item_Num_To_Quantity_To_Discount.containsKey(itemKeys[i])) {
+                        discountKeys[k] = (Pair) item_Num_To_Quantity_To_Discount.keySet().toArray()[k];
+                        k++;
+                    }
                  }
                  for (Pair i : discountKeys) {
                      //getting all the discounts for the pair key.

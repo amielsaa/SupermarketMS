@@ -614,6 +614,7 @@ public class PresentationMain {
     private void loadData(){
         //This function has some business logic inside, but it's here only for the testers to have some info in the program
         //(that is why it's here and not in business or service)
+
         HashMap<Pair<String,String>,Double> item_Num_To_Name = new HashMap<>();
         Pair first = new Pair<>("Apple","Perot");
         Pair second = new Pair<>("Milk","Tnuva");
