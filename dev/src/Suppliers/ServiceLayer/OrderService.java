@@ -163,7 +163,7 @@ public class OrderService {
             return Days.thursday;
         else if(day==6)
             return Days.friday;
-        else if(day==7)
+        else if(day==0)
             return Days.saturday;
         else
             throw new IllegalArgumentException("day is not valid");
