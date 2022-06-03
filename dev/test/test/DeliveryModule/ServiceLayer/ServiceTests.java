@@ -1,15 +1,12 @@
 package DeliveryModule.ServiceLayer;
 
 import Delivery.ServiceLayer.DeliveryService;
-import Delivery.DataAccessLayer.CreateClearTables;
-import EmployeeModule.BusinessLayer.BankAccountDetails;
-import EmployeeModule.BusinessLayer.Employee;
-import EmployeeModule.BusinessLayer.ShiftTime;
-import EmployeeModule.ServiceLayer.Gateway;
-import org.junit.Assert;
+import Employee.BusinessLayer.BankAccountDetails;
+import Employee.BusinessLayer.Employee;
+import Employee.BusinessLayer.ShiftTime;
+import Employee.ServiceLayer.Gateway;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 
 import java.time.LocalDateTime;
 import java.time.Month;

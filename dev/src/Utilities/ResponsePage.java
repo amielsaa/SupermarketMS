@@ -1,6 +1,6 @@
 package Utilities;
 
-import EmployeeModule.ServiceLayer.Gateway;
+import Employee.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
 
 import java.util.Scanner;

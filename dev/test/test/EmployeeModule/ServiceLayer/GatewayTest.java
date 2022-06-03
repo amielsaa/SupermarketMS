@@ -1,7 +1,7 @@
 package EmployeeModule.ServiceLayer;
 
-import EmployeeModule.BusinessLayer.*;
-import EmployeeModule.ServiceLayer.Gateway;
+import Employee.BusinessLayer.*;
+import Employee.ServiceLayer.Gateway;
 import Utilities.Response;
 import org.junit.After;
 import org.junit.Before;

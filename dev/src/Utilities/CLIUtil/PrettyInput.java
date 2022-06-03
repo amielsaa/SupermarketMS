@@ -1,7 +1,7 @@
 package Utilities.CLIUtil;
 
-import EmployeeModule.BusinessLayer.ShiftId;
-import EmployeeModule.BusinessLayer.ShiftTime;
+import Employee.BusinessLayer.ShiftId;
+import Employee.BusinessLayer.ShiftTime;
 import Utilities.Response;
 
 import java.time.LocalDateTime;

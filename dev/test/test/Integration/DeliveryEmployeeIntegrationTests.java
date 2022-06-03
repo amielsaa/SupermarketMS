@@ -1,11 +1,10 @@
 package Integration;
 
 import Delivery.ServiceLayer.DeliveryService;
-import Delivery.BusinessLayer.DeliveryZone;
-import Delivery.BusinessLayer.Driver;
-import Delivery.ServiceLayer.DeliveryService;
-import EmployeeModule.BusinessLayer.*;
-import EmployeeModule.ServiceLayer.Gateway;
+import Employee.BusinessLayer.BankAccountDetails;
+import Employee.BusinessLayer.Employee;
+import Employee.BusinessLayer.ShiftTime;
+import Employee.ServiceLayer.Gateway;
 import Utilities.Response;
 import org.junit.Before;
 import org.junit.Test;

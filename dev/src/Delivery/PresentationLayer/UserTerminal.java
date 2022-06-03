@@ -4,7 +4,7 @@ import Delivery.BusinessLayer.Delivery;
 import Delivery.BusinessLayer.Site;
 import Delivery.BusinessLayer.Truck;
 import Delivery.ServiceLayer.DeliveryService;
-import EmployeeModule.ServiceLayer.Gateway;
+import Employee.ServiceLayer.Gateway;
 import Utilities.Exceptions.CLIException;
 import Utilities.Response;
 import Utilities.ResponsePage;
