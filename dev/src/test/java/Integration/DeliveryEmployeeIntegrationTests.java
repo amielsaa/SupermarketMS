@@ -1,10 +1,8 @@
 package Integration;
 
-import DeliveryModule.BusinessLayer.DeliveryZone;
-import DeliveryModule.BusinessLayer.Driver;
-import DeliveryModule.ServiceLayer.DeliveryService;
-import EmployeeModule.BusinessLayer.*;
-import EmployeeModule.ServiceLayer.Gateway;
+import Delivery.ServiceLayer.DeliveryService;
+import Employee.BusinessLayer.*;
+import Employee.ServiceLayer.Gateway;
 import Utilities.Response;
 import org.junit.Before;
 import org.junit.Test;

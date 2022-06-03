@@ -1,6 +1,6 @@
-package DeliveryModule.BusinessLayer;
+package Delivery.BusinessLayer;
 
-import DeliveryModule.DataAccessLayer.CreateClearTables;
+import Delivery.DataAccessLayer.CreateClearTables;
 import org.junit.Test;
 
 import java.util.ArrayList;

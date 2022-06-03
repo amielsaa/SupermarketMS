@@ -1,5 +1,5 @@
-package DeliveryModule.BusinessLayer;
-import DeliveryModule.DataAccessLayer.CreateClearTables;
+package Delivery.BusinessLayer;
+import Delivery.DataAccessLayer.CreateClearTables;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,9 +1,5 @@
 package Utilities;
 
-import DeliveryModule.BusinessLayer.Driver;
-import DeliveryModule.BusinessLayer.Site;
-import DeliveryModule.BusinessLayer.Truck;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

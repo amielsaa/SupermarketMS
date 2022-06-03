@@ -1,9 +1,9 @@
 package Utilities.CLIUtil;
 
-import EmployeeModule.BusinessLayer.*;
-import EmployeeModule.PresentationLayer.CLI.BoldSeparator;
-import EmployeeModule.PresentationLayer.CLI.LineSeparator;
-import EmployeeModule.PresentationLayer.CLI.SeparatorSet;
+import Employee.BusinessLayer.*;
+import Employee.PresentationLayer.CLI.BoldSeparator;
+import Employee.PresentationLayer.CLI.LineSeparator;
+import Employee.PresentationLayer.CLI.SeparatorSet;
 import Utilities.Pair;
 
 import java.util.Arrays;

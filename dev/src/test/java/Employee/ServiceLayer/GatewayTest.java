@@ -1,6 +1,6 @@
-package EmployeeModule.ServiceLayer;
+package Employee.ServiceLayer;
 
-import EmployeeModule.BusinessLayer.*;
+import Employee.BusinessLayer.*;
 import Utilities.Response;
 import org.junit.After;
 import org.junit.Before;
