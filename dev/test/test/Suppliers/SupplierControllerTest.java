@@ -1,4 +1,4 @@
-package Suppliers.Tests;
+package Suppliers;
 
 import Suppliers.BusinessLayer.Contact;
 import Suppliers.BusinessLayer.Supplier;

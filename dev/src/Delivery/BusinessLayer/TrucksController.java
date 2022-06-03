@@ -74,7 +74,7 @@ public class TrucksController {
     }
 
     //change to protected before submitting
-    protected boolean isAbleToDrive(LicenseType licenseType, int plateNum){
+    public boolean isAbleToDrive(LicenseType licenseType, int plateNum){
         Truck truck=truckDAO.Read(plateNum);
         if(truck!=null && licenseMapper.containsKey(licenseType)){
             return truck.getMaxWeight()<=licenseMapper.get(licenseType);

@@ -1,4 +1,4 @@
-package SupplierInventory.tests;
+package Integration;
 
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
@@ -13,7 +13,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class integrationTest {
+class SupplierInventoryIntegrationTests {
     SIService siService = new SIService();
     Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     Set<Integer> days=new HashSet<>();

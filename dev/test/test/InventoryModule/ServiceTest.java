@@ -1,4 +1,4 @@
-package Inventory.Test.ServiceLayer;
+package InventoryModule;
 
 
 import Inventory.BuisnessLayer.Objects.Category;
