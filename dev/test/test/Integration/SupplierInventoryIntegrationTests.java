@@ -7,18 +7,22 @@ import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import Suppliers.ServiceLayer.Response;
 import misc.Days;
 import misc.Pair;
-import org.junit.jupiter.api.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 
 class SupplierInventoryIntegrationTests {
     SIService siService = new SIService();
     Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     Set<Integer> days=new HashSet<>();
 
-    @BeforeEach
+    @Before
     void setUp() {
         siService.DeleteAll();
         siService.deleteAllData();
@@ -43,30 +47,31 @@ class SupplierInventoryIntegrationTests {
 
     }
 
-    @AfterEach
+    @After
     void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
 
-    @Test //1
+    @Test
+        //1
     void makeOrderToSuppliers() {
         //demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
 
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
         if(!res.getData().isEmpty()) {
             DOrder dOrder = res.getData().get(0);
-            Assertions.assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
+            assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
         }
         else
-            Assertions.assertTrue(false);
+            assertTrue(false);
     }
     @Test //2
     void makeOrderToSuppliersFail(){
         demandedSupplies.clear();
         demandedSupplies.put(new Pair<>("gun","Glock"), 5);
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
-        Assertions.assertTrue(res.getData().isEmpty());
+        assertTrue(res.getData().isEmpty());
 
     }
     @Test //3
@@ -157,7 +162,7 @@ class SupplierInventoryIntegrationTests {
     @Test //10
     void MakeOrderMinQuantity(){
         Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
-        Assertions.assertTrue(dOrderResponse.getData().isEmpty());
+        assertTrue(dOrderResponse.getData().isEmpty());
     }
 
 }

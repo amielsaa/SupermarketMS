@@ -18,10 +18,10 @@ public class Menu {
     private Scanner sc;
     private boolean menu_on;
 
-    public Menu(SIService sis) {
+    public Menu(SIService sis, Scanner sc) {
         this.service = sis;
         this.menu_on = true;
-        this.sc = new Scanner(System.in);
+        this.sc = sc;
         this.clt = new CommandLineTable();
         this.clt.setShowVerticalLines(true);
     }

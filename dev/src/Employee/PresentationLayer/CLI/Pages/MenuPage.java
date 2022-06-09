@@ -2,6 +2,7 @@ package Employee.PresentationLayer.CLI.Pages;
 
 import Delivery.PresentationLayer.UserTerminal;
 import Employee.ServiceLayer.Gateway;
+import SupplierInventory.SIPresentation;
 import Utilities.Exceptions.CLIException;
 import Utilities.ResponsePage;
 
@@ -29,7 +30,7 @@ public class MenuPage extends OptionsMenuPage
     };
 
     UserTerminal deliverySystemTerminal = new UserTerminal();
-
+    SIPresentation si = new SIPresentation();
     @Override
     public Map<String, ResponsePage<Boolean>> getOptionsMap()
     {
@@ -39,6 +40,7 @@ public class MenuPage extends OptionsMenuPage
             put("Manage Shifts", pgShiftsMenu);
             put("Manage Qualifications", pgQualificationsMenu);
             put("Open Delivery System", deliverySystemTerminal);
+            put("Open Inventory System", si);
         }};
     }
 
