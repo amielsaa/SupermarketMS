@@ -19,8 +19,8 @@ public class SupplierDAO extends DalController {
     }
 
 
-    private boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery)  {
-        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery) VALUES(?,?,?,?,?)";
+    private boolean insertSupplier(int bn, String name, int bankaccount, String paymentdetails, int selfdelivery, String deliveryzone, String address)  {
+        String sql = "INSERT INTO Suppliers(bn, name, bankaccount, paymentdetails, selfdelivery, deliveryzone, address) VALUES(?,?,?,?,?,?,?)";
 
         try(Connection conn = this.makeConnection()){
             //Connection conn = this.makeConnection();
@@ -30,6 +30,8 @@ public class SupplierDAO extends DalController {
             pstmt.setInt(3, bankaccount);
             pstmt.setString(4, paymentdetails);
             pstmt.setInt(5, selfdelivery);
+            pstmt.setString(6, deliveryzone);
+            pstmt.setString(7, address);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             return false;
@@ -53,7 +55,7 @@ public class SupplierDAO extends DalController {
 
 
     public boolean addNewSupplier(Supplier supplier){
-        return insertSupplier(supplier.getBusiness_Num(), supplier.getName(), supplier.getBank_Acc_Num(), supplier.getPayment_Details().toString(), boolToInt(supplier.isSelf_Delivery_Or_Pickup()));
+        return insertSupplier(supplier.getBusiness_Num(), supplier.getName(), supplier.getBank_Acc_Num(), supplier.getPayment_Details().toString(), boolToInt(supplier.isSelf_Delivery_Or_Pickup()), supplier.getDeliveryZone(), supplier.getAddress());
     }
 
     public Supplier getSupplier(int bn){
@@ -98,8 +100,7 @@ public class SupplierDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Supplier supp = null;
             while (rs.next()) {
-                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"));
-
+                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"),rs.getString("deliveryzone"),rs.getString("address"));
             }
             return supp; //we know its not null because of containsSupplier() function
 
@@ -143,7 +144,7 @@ public class SupplierDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Supplier supp = null;
             while (rs.next()) {
-                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"));
+                supp = new Supplier(rs.getInt("bn"), rs.getString("name"),rs.getInt("bankaccount"),rs.getString("paymentdetails"),rs.getInt("selfdelivery"),rs.getString("deliveryzone"),rs.getString("address"));
                 if(!BN_To_Supplier.containsKey(supp.getBusiness_Num()))
                     insertSupplierToHM(supp);
             }

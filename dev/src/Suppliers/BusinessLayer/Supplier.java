@@ -17,11 +17,13 @@ public class Supplier  {
     private List<Contact> Contacts;
     private QuantityAgreement Quantity_Agreement;
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
+    private String Address;
+    private String DeliveryZone;
 
 
 
 
-    public Supplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup) {
+    public Supplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup, String deliveryzone, String address) {
         Name = name;
         CheckLegalNumber(business_num);
         CheckLengthOfBusinessNumber(business_num);
@@ -34,10 +36,12 @@ public class Supplier  {
         Contacts.add(new Contact(contactName, contactPhone));
         Self_Delivery_Or_Pickup = self_delivery_or_pickup;
         Quantity_Agreement = new QuantityAgreement(item_num_to_price, item_num_to_discount);
+        Address = address;
+        DeliveryZone = deliveryzone;
 
     }
 
-    public Supplier(int business_num, String name, int bank_acc_num, String payment_details, int self_delivery_or_pickup) {
+    public Supplier(int business_num, String name, int bank_acc_num, String payment_details, int self_delivery_or_pickup, String deliveryzone, String address) {
         //DAL constructor
         Name = name;
         Business_Num = business_num;
@@ -46,6 +50,8 @@ public class Supplier  {
         Payment_Details =setPayment_Details(payment_details);
         Contacts = new LinkedList<Contact>();
         Quantity_Agreement = new QuantityAgreement();
+        DeliveryZone = deliveryzone;
+        Address = address;
     }
 
     public void setName(String name) {
@@ -92,6 +98,13 @@ public class Supplier  {
         Contacts = contacts;
     }
 
+    public String getAddress() {
+        return Address;
+    }
+
+    public String getDeliveryZone() {
+        return DeliveryZone;
+    }
 
     public PaymentDetails setPayment_Details(String payment_Details) {
         if(payment_Details.equals("credit"))

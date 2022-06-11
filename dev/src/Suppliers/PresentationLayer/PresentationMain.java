@@ -145,6 +145,10 @@ public class PresentationMain {
         String supplierName = s.nextLine();
         int businessNumber =getIntFromUser(s,"business number");
         int bankNumber = getIntFromUser(s,"supplier bank account number");
+        System.out.print("Enter supplier delivery zone: ");
+        String deliveryzone = s.nextLine();
+        System.out.print("Enter supplier address: ");
+        String address = s.nextLine();
         String paymentDetail = getPaymentFromUser(s);
         System.out.print("We need atleast one contact person.\nEnter contact name: ");
         String contactName = s.nextLine();
@@ -155,7 +159,7 @@ public class PresentationMain {
         HashMap<Pair<String,String>, Double> item_to_price = new HashMap<Pair<String,String>, Double>();
         HashMap<Pair<String,String>,HashMap<Integer,Integer>> item_Num_To_Discount = new HashMap<Pair<String,String>,HashMap<Integer,Integer>>();
         createQuantityAgreement(s, item_to_price, item_Num_To_Discount);
-        Response<DSupplier> newsupplier = service.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail, days, contactName, contactNumber, item_to_price, item_Num_To_Discount, selfDelivery);
+        Response<DSupplier> newsupplier = service.addSupplier(supplierName,businessNumber,bankNumber,paymentDetail, days, contactName, contactNumber, item_to_price, item_Num_To_Discount, selfDelivery, deliveryzone, address);
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
@@ -630,7 +634,7 @@ public class PresentationMain {
         daysSet.add(1);
         daysSet.add(3);
         //String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup
-        Response<DSupplier> newsupplier = service.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Name, item_Num_To_Discount, true);
+        Response<DSupplier> newsupplier = service.addSupplier("Feliks Kablan",111111111,123456789,"credit",daysSet, "ari", "05490090090", item_Num_To_Name, item_Num_To_Discount, true, "South", "Rager 123");
         if(newsupplier.isSuccess())
             System.out.println("Supplier created successfully.");
         else System.out.println(newsupplier.getMessage());
