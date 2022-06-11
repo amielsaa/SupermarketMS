@@ -30,7 +30,7 @@ class SupplierControllerTest {
         Set<Integer> days=new HashSet<>();
         days.add(1);
         if(!sController.HasSupplier(123456789)) {
-            Supplier a=sController.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
+       //     Supplier a=sController.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
         }
 
     }

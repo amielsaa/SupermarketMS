@@ -39,7 +39,8 @@ class SupplierInventoryIntegrationTests {
         item_Num_To_Quantity_To_Discount.get(applePerot).put(1000,20);
         days.add(1);
         days.add(2);
-        siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
+        //TODO:
+        //siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
 
     }
 
