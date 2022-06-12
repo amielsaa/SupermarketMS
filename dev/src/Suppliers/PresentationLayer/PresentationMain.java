@@ -21,9 +21,8 @@ public class PresentationMain {
     }
 
 
-    public void main() {
+    public void main(Scanner s) {
         Boolean running = true;
-        Scanner s = new Scanner(System.in);
 
         
         outOfStock(s);

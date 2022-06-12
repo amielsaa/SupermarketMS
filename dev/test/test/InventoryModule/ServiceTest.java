@@ -7,26 +7,27 @@ import Inventory.DataAccessLayer.DAO.ReportDAO;
 import Inventory.ServiceLayer.ProductService;
 import Inventory.ServiceLayer.ReportService;
 import Inventory.ServiceLayer.Response;
-import org.junit.jupiter.api.*;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 class ServiceTest {
 
     private static ProductService productService;
     private static ReportService reportService;
 
-    @BeforeAll
-    static void beforeAll() {
-
-    }
-
-    @BeforeEach
+    @Before
     void beforeEach() {
         productService = new ProductService();
         productService.SelectStore(1);
         reportService = new ReportService();
     }
 
-    @AfterEach
+    @After
     void afterEach() {
 
     }
@@ -35,7 +36,7 @@ class ServiceTest {
     void selectStore() {
         Response<Integer> res = productService.SelectStore(1);
 
-        Assertions.assertEquals(1,res.getData());
+        assertEquals(1, res.getData().intValue());
     }
 
     @Test
@@ -44,7 +45,7 @@ class ServiceTest {
         Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,10,"Diary,Milk,Size");
 
 
-        Assertions.assertEquals("Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
+        assertEquals("Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
     }
 
     @Test
@@ -53,7 +54,7 @@ class ServiceTest {
 
         String expected = "10 : 12 : 10/10/2020 : WAREHOUSE-1-2&STORE-1-2";
 
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
     }
 
     @Test
@@ -63,7 +64,7 @@ class ServiceTest {
 
         String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2";
 
-        Assertions.assertEquals(expected,res2.getData());
+        assertEquals(expected,res2.getData());
 
     }
 
@@ -73,7 +74,7 @@ class ServiceTest {
 
         String expected = "Bread Stuff";
 
-        Assertions.assertEquals(expected,res.getData().getCategoryName());
+        assertEquals(expected,res.getData().getCategoryName());
     }
 
     @Test
@@ -82,7 +83,7 @@ class ServiceTest {
 
         String expected = "Salty";
 
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
     }
 
     @Test
@@ -91,7 +92,7 @@ class ServiceTest {
 
         String expected = "Product with ID:1 added successfully";
 
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
     }
 
     @Test
@@ -100,7 +101,7 @@ class ServiceTest {
 
         String expected = "Product with ID:1 deleted successfully.";
 
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
 
 
     }
@@ -109,17 +110,17 @@ class ServiceTest {
     void addDiscountByName() {
         Response<String> res = productService.AddDiscountByName(2,3,"10/6/2022");
         String expected ="discount was set successfully ";
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
     }
 
     @Test
     void addDiscountByCategory() {
         Response<String> res = productService.AddDiscountByCategory("Diary", 3, "10/6/2022");
         String expected ="discount was set successfully ";
-        Assertions.assertEquals(expected,res.getData());
+        assertEquals(expected,res.getData());
     }
 
-    @AfterAll
+    @AfterClass
     static void tearDown() {
         CategoryDAO categoryDAO = new CategoryDAO("Category");
         categoryDAO.Delete("name","Bread Stuff");

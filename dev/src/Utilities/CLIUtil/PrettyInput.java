@@ -10,8 +10,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-import static Utilities.CLIUtil.PrettyPrint.makeTitle;
-
 public class PrettyInput
 {
     public static Integer printAndWaitForLegalInt(Scanner s, String prompt) {
