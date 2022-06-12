@@ -18,7 +18,6 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.36.0.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar" path-in-jar="/" />
       <element id="module-source" name="dev" />
-      <element id="library" level="project" name="sqlite-jdbc-3.36.0.3" />
       <element id="library" level="module" name="JUnit5.7.0" module-name="dev" />
       <element id="library" level="module" name="JUnit5.4" module-name="dev" />
       <element id="library" level="module" name="JUnit5.3" module-name="dev" />
