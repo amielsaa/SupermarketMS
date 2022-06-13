@@ -33,6 +33,22 @@ public class ReportController {
     }
 
 
+    public void removeDefectiveFromPending(int index, int defectiveQuantity) {
+
+    }
+
+    public Map<Pair<String,String>,Integer> getPendingMap() {
+        throw new NotImplementedException();
+    }
+
+    public CommandLineTable reportPending() {
+        throw new NotImplementedException();
+    }
+    public void receiveDelivery() {
+        //add to pending dao
+    }
+
+
     public Map<Pair<String,String>,Integer> reportByMinimumQuantity(Map<Product,List<StoreProduct>> productListMap) {
         Map<Pair<String, String>, Integer> report = new HashMap<>();
         for(Map.Entry<Product,List<StoreProduct>> mapSet: productListMap.entrySet()){
