@@ -148,7 +148,7 @@ public class SupplierFacade {
         return sOrder.getAllRoutineOrders();
     }
     public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId){
-        sOrder.setIfHasDeliveryToOrder(bn,orderId);
+       return sOrder.setIfHasDeliveryToOrder(bn,orderId);
     }
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
