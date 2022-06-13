@@ -5,6 +5,9 @@ import misc.Pair;
 import misc.PaymentDetails;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 
@@ -233,6 +236,25 @@ public class Supplier  {
             throw new IllegalArgumentException("day is not valid");
 
     }
+    private int ReversedayConvertorForLocalTime(Days day){
+        if(day==Days.sunday)
+            return 7;
+        else if(day==Days.monday)
+            return 1;
+        else if(day==Days.tuesday)
+            return 2;
+        else if(day==Days.wednesday)
+            return 3;
+        else if(day==Days.thursday)
+            return 4;
+        else if(day==Days.friday)
+            return 5;
+        else if(day==Days.saturday)
+            return 6;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
+    }
 
     public Set<Days> getDays_To_Deliver() {
         return Days_To_Deliver;
@@ -251,6 +273,20 @@ public class Supplier  {
     }
     public void normalDaysSetter(Set<Days> days){
         this.Days_To_Deliver=days;
+    }
+    public Set<LocalDate> getDatesForDelivery() {
+        //arranging the days
+        Set<Integer> daysInNumber=new HashSet<Integer>();
+        for (Days i:Days_To_Deliver) {
+            daysInNumber.add(ReversedayConvertorForLocalTime(i));
+        }
+        Set<LocalDate> toReturn=new HashSet<LocalDate>();
+        for (Integer i:daysInNumber) {
+            LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.of(i)));
+            toReturn.add(date);
+        }
+
+        return toReturn;
     }
 
 }

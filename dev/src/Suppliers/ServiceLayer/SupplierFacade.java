@@ -49,7 +49,9 @@ public class SupplierFacade {
         }
         return resWithHash;
     }
-
+    public Response getDatesForDelivery(int bn){
+        return sSupplier.getDatesForDelivery(bn);
+    }
     public Response<DSupplier> getSupplier(int businessNumber) {
         return sSupplier.getSupplier(businessNumber);
     }

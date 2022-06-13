@@ -8,6 +8,7 @@ import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class SupplierService {
@@ -197,5 +198,14 @@ public class SupplierService {
 
     public void DeleteAll() {
         cSupplier.DeleteAll();
+    }
+    public Response getDatesForDelivery(int bn) {
+        try{
+            Set<LocalDate> days=cSupplier.getDatesForDelivery(bn);
+            return Response.makeSuccess(days);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
     }
 }
