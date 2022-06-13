@@ -281,6 +281,16 @@ public class OrderController {
 
 
     }
+
+    public Boolean setIfHasDeliveryToOrder(int bn, int orderId) throws DataFormatException {
+        Order order=buildOrder(bn,orderId);
+        if(order.getHasDelivery()){
+            throw new IllegalArgumentException("this Order has a delivery already");
+        }
+        order.setHasDelivery(true);
+        //TODO:update the orderhasdeliveryindatabase
+
+    }
 }
 
 

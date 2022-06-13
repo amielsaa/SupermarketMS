@@ -147,6 +147,9 @@ public class SupplierFacade {
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
     }
+    public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId){
+        sOrder.setIfHasDeliveryToOrder(bn,orderId);
+    }
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
     public Response MakeOrderToSuppliers(Map<Pair<String, String>, Integer> DemandedSupplies) {

@@ -177,4 +177,14 @@ public class OrderService {
     public void removeSupplier(int bn) {
         cOrder.removeSupplier(bn);
     }
+
+    public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId) {
+        try{
+            Boolean response=cOrder.setIfHasDeliveryToOrder(bn,orderId);
+            return Response.makeSuccess(response);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 }
