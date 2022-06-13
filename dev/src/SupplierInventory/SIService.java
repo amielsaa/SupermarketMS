@@ -1,8 +1,7 @@
 package SupplierInventory;
 
+import Employee.ServiceLayer.Gateway;
 import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.BuisnessLayer.Objects.Product;
-import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Service;
@@ -23,10 +22,15 @@ import java.util.Set;
 public class SIService {
     SupplierFacade fSupplier;
     Service fInventory;
+    Gateway gateway;
 
-    public SIService() {
+    public SIService(Gateway gateway) {
+        this.gateway = gateway;
+        // This comment is added with the gateway field, you can pass it forward to the sub-services or use it as you like.
+        // Note: the Gateway will have a pointer to the SIService class
         this.fSupplier = new SupplierFacade();
         this.fInventory = new Service();
+
     }
 
     //----------------------------------SUPPLIERS--------SUPPLIERS--------SUPPLIERS--------SUPPLIERS----------------------------------

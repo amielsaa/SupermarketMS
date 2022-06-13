@@ -1,5 +1,6 @@
 package Integration;
 
+import Employee.ServiceLayer.Gateway;
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
@@ -18,12 +19,17 @@ import static org.junit.Assert.assertTrue;
 
 
 class SupplierInventoryIntegrationTests {
-    SIService siService = new SIService();
+    Gateway gateway;
+    SIService siService;
+
     Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     Set<Integer> days=new HashSet<>();
 
     @Before
     void setUp() {
+        this.gateway = new Gateway();
+        this.siService = gateway.getSIService().getData();
+
         siService.DeleteAll();
         siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);

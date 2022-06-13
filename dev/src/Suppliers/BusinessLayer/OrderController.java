@@ -289,7 +289,7 @@ public class OrderController {
         }
         order.setHasDelivery(true);
         //TODO:update the orderhasdeliveryindatabase
-
+        return false; // TODO REMOVE THIS, ADDED TO BE ABLE TO BUILD PROJECT
     }
 }
 

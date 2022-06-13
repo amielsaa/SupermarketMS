@@ -2,6 +2,7 @@ package Employee.ServiceLayer;
 
 import Delivery.ServiceLayer.DeliveryService;
 import Employee.BusinessLayer.*;
+import SupplierInventory.SIService;
 import Utilities.Response;
 import com.sun.istack.internal.NotNull;
 
@@ -17,6 +18,7 @@ import java.util.Map;
 public class Gateway
 {
     private DeliveryService deliveryService;
+    private SIService siService;
 
     private int loggedEmployeeId;
     private EmployeeController employeeController;
@@ -28,6 +30,7 @@ public class Gateway
     public Gateway() {
         // INITIALIZE OTHER SERVICES
         this.deliveryService = new DeliveryService(this);
+        this.siService = new SIService(this);
         // -------------------------
 
         this.loggedEmployeeId = -1;
@@ -46,10 +49,14 @@ public class Gateway
 
     public void initDefaultData() throws Exception {
         // TODO DAL make this run once on database init and NOT delete the entire database on load.
+        // Removes the employee module tables
         employeeController.clearDatabases();
         shiftController.clearDatabases();
         qualificationController.clearDatabases();
-        deliveryService.clearDatabases();
+
+        deliveryService.clearDatabases(); // Removes the delivery module tables
+        siService.deleteAllData(); // Removes the inventory module tables
+        siService.DeleteAll(); // Removes the supplier module tables
         // INIT PERMISSIONS AND QUALIFICATIONS
 
         String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift", "ManageDeliveries", "ManageInventory"};
@@ -769,5 +776,8 @@ public class Gateway
         }
     }
 
-
+    // SI Service functions
+    public Response<SIService> getSIService() {
+        return Response.makeSuccess(this.siService);
+    }
 }
