@@ -144,12 +144,19 @@ public class SupplierFacade {
         }
         return Response.makeFailure(supplierExists.getMessage());
     }
+
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
     }
+
+
+    /*
     public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId){
        return sOrder.setIfHasDeliveryToOrder(bn,orderId);
     }
+
+     */
+
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
     public Response MakeOrderToSuppliers(Map<Pair<String, String>, Integer> DemandedSupplies) {
