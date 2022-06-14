@@ -21,7 +21,8 @@ public class LoginPage implements Page
             "███████ ██    ██ ██████  █████   ██████  ██      █████   █████   \n" +
             "     ██ ██    ██ ██      ██      ██   ██ ██      ██      ██      \n" +
             "███████  ██████  ██      ███████ ██   ██ ███████ ███████ ███████ \n" +
-            "   [Employees Module]                                      v 1.2";
+            "                                                           v 1.3";
+//    "   [Employees Module]                                      v 1.2";
 
     private final ResponsePage<Boolean> pgMenu = new MenuPage();
 

@@ -4,6 +4,7 @@ import Employee.ServiceLayer.Gateway;
 import Inventory.PresentationLayer.InventoryProgram;
 import Suppliers.PresentationLayer.PresentationMain;
 import Utilities.Exceptions.CLIException;
+import Utilities.Response;
 import Utilities.ResponsePage;
 
 import java.util.Scanner;
@@ -11,12 +12,15 @@ import java.util.Scanner;
 public class SIPresentation extends ResponsePage<Boolean>
 {
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException {
-        SIService mixesService = new SIService();
+        Response<SIService> r1 = g.getSIService();
+        if(!r1.isSuccess()) {
+            System.out.println("Failed to get SI service. " + r1.getMessage());
+            return true;
+        }
+        SIService mixesService = r1.getData();
         PresentationMain suppliersMain = new PresentationMain(mixesService);
         InventoryProgram inventoryMain = new InventoryProgram(mixesService);
 
-//        mixesService.deleteAllData();
-//        mixesService.DeleteAll();
         boolean running = true;
 
         while (running) { //main program loop
