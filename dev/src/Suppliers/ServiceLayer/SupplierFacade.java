@@ -157,12 +157,17 @@ public class SupplierFacade {
 
 
 
-    /*
+
     public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId){
        return sOrder.setIfHasDeliveryToOrder(bn,orderId);
     }
+    public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
+        return sOrder.getAllRoutineOrdersForTomorrow();
+    }
+    public Response<List<DOrder>> getAllRegularOrdersWithoutDeliveries(){
+        return sOrder.getAllRegularOrdersWithoutDeliveries();
+    }
 
-     */
 
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
@@ -177,9 +182,7 @@ public class SupplierFacade {
 
     }
 
-    public Response<List<DRoutineOrder>> getAllRoutineOrdersForTomorrow() {
-        return sOrder.getAllRoutineOrdersForTomorrow();
-    }
+
 
     public void DeleteAll() {
         sOrder.DeleteAll();

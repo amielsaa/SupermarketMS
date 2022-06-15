@@ -12,7 +12,8 @@
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/DAL/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/DAL/OrderDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -221,13 +222,6 @@
       <workItem from="1654955809548" duration="128000" />
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
-    </task>
-    <task id="LOCAL-00031" summary="editing DAO objects">
-      <created>1652029384757</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1652029384757</updated>
     </task>
     <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
       <created>1652037464042</created>
@@ -565,7 +559,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654249760031</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="merging">
+      <created>1655309968494</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1655309968494</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -624,16 +625,6 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java</url>
-          <line>142</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SupplierInventory/tests/integrationTest.java</url>
           <line>122</line>
           <option name="timeStamp" value="41" />
@@ -642,11 +633,6 @@
           <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/SupplierController.java</url>
           <line>34</line>
           <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/SupplierController.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
