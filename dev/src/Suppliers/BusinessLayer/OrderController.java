@@ -309,6 +309,13 @@ public class OrderController {
 
 
 }
+
+
+    //TODO:I NEED A DATA FUNCTION TO GIVE ME ALL ORDERS WITH HASDELIVERY=0
+    public Collection<Order> getAllRegularOrdersWithoutDeliveries() {
+        Collection<Order> orders=new ArrayList<>();
+        return orders;
+    }
 }
 
 
