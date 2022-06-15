@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="dev:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/dev_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/dev/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/dev/database.db" afterDir="false" />
+    </list>
+    <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="merger" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="27yz2RyNRf0KbcLJd9LUJI7vWhY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/Tests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.22859922" />
+    <property name="project.structure.side.proportion" value="0.1921618" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/misc" />
+      <recent name="$PROJECT_DIR$/src/Employee" />
+      <recent name="$PROJECT_DIR$/src/Delivery" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="Suppliers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NICLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Employee.PresentationLayer.CLI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <module name="dev" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SupplierControllerTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="dev" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SupplierControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SupplierControllerTest (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Suppliers.Tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Suppliers.Tests" />
+      <option name="MAIN_CLASS_NAME" value="Suppliers.Tests.SupplierControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="integrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SupplierInventory.tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="SupplierInventory.tests" />
+      <option name="MAIN_CLASS_NAME" value="SupplierInventory.tests.integrationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.NICLI" />
+      <item itemvalue="JUnit.SupplierControllerTest (1)" />
+      <item itemvalue="JUnit.integrationTest" />
+      <item itemvalue="JUnit.SupplierControllerTest (2)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.NICLI" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.SupplierControllerTest (2)" />
+        <item itemvalue="JUnit.integrationTest" />
+        <item itemvalue="JUnit.SupplierControllerTest (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="" />
+      <created>1650306905920</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650306905920</updated>
+      <workItem from="1650306907348" duration="3418000" />
+      <workItem from="1650368134629" duration="15199000" />
+      <workItem from="1650397296725" duration="58000" />
+      <workItem from="1650440883927" duration="4755000" />
+      <workItem from="1650448214329" duration="1177000" />
+      <workItem from="1650464139521" duration="11146000" />
+      <workItem from="1650526740005" duration="18620000" />
+      <workItem from="1650618309202" duration="7663000" />
+      <workItem from="1650730374948" duration="2900000" />
+      <workItem from="1650740094067" duration="2829000" />
+      <workItem from="1650800439217" duration="2130000" />
+      <workItem from="1651654292474" duration="5245000" />
+      <workItem from="1651747731948" duration="9068000" />
+      <workItem from="1651826238383" duration="871000" />
+      <workItem from="1651846188586" duration="2275000" />
+      <workItem from="1651863921097" duration="3735000" />
+      <workItem from="1651945234825" duration="1932000" />
+      <workItem from="1652010103664" duration="1300000" />
+      <workItem from="1652026938671" duration="10271000" />
+      <workItem from="1652113235597" duration="7209000" />
+      <workItem from="1652215851600" duration="49000" />
+      <workItem from="1652217103364" duration="22447000" />
+      <workItem from="1652619378026" duration="11282000" />
+      <workItem from="1652697078087" duration="6907000" />
+      <workItem from="1652807700954" duration="2470000" />
+      <workItem from="1652817510783" duration="5883000" />
+      <workItem from="1652861416639" duration="596000" />
+      <workItem from="1652895717250" duration="7580000" />
+      <workItem from="1652953804811" duration="14583000" />
+      <workItem from="1652972630215" duration="1445000" />
+      <workItem from="1653053217896" duration="1567000" />
+      <workItem from="1653143932575" duration="4704000" />
+      <workItem from="1653560587993" duration="464000" />
+      <workItem from="1654245493330" duration="3612000" />
+      <workItem from="1654618602727" duration="1163000" />
+      <workItem from="1654682748671" duration="596000" />
+      <workItem from="1654785107053" duration="566000" />
+      <workItem from="1654955752815" duration="48000" />
+      <workItem from="1654955809548" duration="128000" />
+      <workItem from="1654955950426" duration="3000" />
+      <workItem from="1654956444566" duration="12000" />
+    </task>
+    <task id="LOCAL-00031" summary="editing DAO objects">
+      <created>1652029384757</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1652029384757</updated>
+    </task>
+    <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
+      <created>1652037464042</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1652037464042</updated>
+    </task>
+    <task id="LOCAL-00033" summary="minor fixes">
+      <created>1652114481084</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1652114481084</updated>
+    </task>
+    <task id="LOCAL-00034" summary="minor fixes">
+      <created>1652115628050</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1652115628050</updated>
+    </task>
+    <task id="LOCAL-00035" summary="minor fixes">
+      <created>1652119530887</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1652119530887</updated>
+    </task>
+    <task id="LOCAL-00036" summary="minor fixes">
+      <created>1652119660675</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1652119660675</updated>
+    </task>
+    <task id="LOCAL-00037" summary="minor fixes">
+      <created>1652119728028</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1652119728028</updated>
+    </task>
+    <task id="LOCAL-00038" summary="merged with Ari">
+      <created>1652119929145</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1652119929145</updated>
+    </task>
+    <task id="LOCAL-00039" summary="merged with Ari">
+      <created>1652120181386</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1652120181386</updated>
+    </task>
+    <task id="LOCAL-00040" summary="merged with Ari">
+      <created>1652120332493</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1652120332493</updated>
+    </task>
+    <task id="LOCAL-00041" summary="presentation fixes">
+      <created>1652122117783</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1652122117783</updated>
+    </task>
+    <task id="LOCAL-00042" summary="merge with Ari's changes">
+      <created>1652264632041</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1652264632041</updated>
+    </task>
+    <task id="LOCAL-00043" summary="merge with Ari's changes">
+      <created>1652264656833</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1652264656833</updated>
+    </task>
+    <task id="LOCAL-00044" summary="merge with Ari's changes">
+      <created>1652264682174</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1652264682174</updated>
+    </task>
+    <task id="LOCAL-00045" summary="DAL fixes">
+      <created>1652266105215</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1652266105215</updated>
+    </task>
+    <task id="LOCAL-00046" summary="DAL fixes">
+      <created>1652268832955</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1652268832955</updated>
+    </task>
+    <task id="LOCAL-00047" summary="DAL fixes + merge with Ari">
+      <created>1652269075764</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1652269075764</updated>
+    </task>
+    <task id="LOCAL-00048" summary="fixing bugs">
+      <created>1652270120923</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1652270120923</updated>
+    </task>
+    <task id="LOCAL-00049" summary="fixing bugs">
+      <created>1652276056096</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1652276056096</updated>
+    </task>
+    <task id="LOCAL-00050" summary="presentation fixes + DAL fixes">
+      <created>1652281875766</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1652281875766</updated>
+    </task>
+    <task id="LOCAL-00051" summary="presentation fixes + DAL fixes + merge with Ari (fixing db connection ATM)">
+      <created>1652284603988</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1652284603988</updated>
+    </task>
+    <task id="LOCAL-00052" summary="presentation fixes + DAL fixes + merge with Ari (fixing db connection ATM)">
+      <created>1652287384801</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1652287384801</updated>
+    </task>
+    <task id="LOCAL-00053" summary="presentation fixes + DAL fixes + merge with Ari (fixing db connection ATM)">
+      <created>1652288078195</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1652288078195</updated>
+    </task>
+    <task id="LOCAL-00054" summary="minor HM fixed in DAL">
+      <created>1652622934478</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1652622934479</updated>
+    </task>
+    <task id="LOCAL-00055" summary="db fix">
+      <created>1652698817319</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1652698817320</updated>
+    </task>
+    <task id="LOCAL-00056" summary="added presentation shit">
+      <created>1652705071542</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1652705071543</updated>
+    </task>
+    <task id="LOCAL-00057" summary="merging inventory and suppliers">
+      <created>1652818842372</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1652818842374</updated>
+    </task>
+    <task id="LOCAL-00058" summary="merging inventory and suppliers">
+      <created>1652819779023</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1652819779023</updated>
+    </task>
+    <task id="LOCAL-00059" summary="merging inventory and suppliers">
+      <created>1652821527071</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1652821527071</updated>
+    </task>
+    <task id="LOCAL-00060" summary="merging inventory and suppliers">
+      <created>1652822325205</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1652822325205</updated>
+    </task>
+    <task id="LOCAL-00061" summary="added presentation, fixes DAL">
+      <created>1652904278222</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1652904278223</updated>
+    </task>
+    <task id="LOCAL-00062" summary="added presentation, fixes DAL">
+      <created>1652957552066</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1652957552067</updated>
+    </task>
+    <task id="LOCAL-00063" summary="added presentation, fixes DAL">
+      <created>1652958626825</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1652958626826</updated>
+    </task>
+    <task id="LOCAL-00064" summary="fixing shit">
+      <created>1652962130824</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1652962130824</updated>
+    </task>
+    <task id="LOCAL-00065" summary="fixing shit">
+      <created>1652963081814</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1652963081814</updated>
+    </task>
+    <task id="LOCAL-00066" summary="fixing shit">
+      <created>1652963513613</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1652963513613</updated>
+    </task>
+    <task id="LOCAL-00067" summary="fixing shit">
+      <created>1652964085476</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1652964085476</updated>
+    </task>
+    <task id="LOCAL-00068" summary="fixing shit">
+      <created>1652966757647</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1652966757647</updated>
+    </task>
+    <task id="LOCAL-00069" summary="fixing shit">
+      <created>1652968162832</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1652968162832</updated>
+    </task>
+    <task id="LOCAL-00070" summary="fixing shit">
+      <created>1652973630453</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1652973630454</updated>
+    </task>
+    <task id="LOCAL-00071" summary="fixing shit">
+      <created>1653053560119</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1653053560119</updated>
+    </task>
+    <task id="LOCAL-00072" summary="fixing shit">
+      <created>1653054079273</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1653054079273</updated>
+    </task>
+    <task id="LOCAL-00073" summary="last fixes">
+      <created>1653145436856</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1653145436857</updated>
+    </task>
+    <task id="LOCAL-00074" summary="DONE">
+      <created>1653147005003</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1653147005003</updated>
+    </task>
+    <task id="LOCAL-00075" summary="last fixes in DAO">
+      <created>1653148102573</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1653148102573</updated>
+    </task>
+    <task id="LOCAL-00076" summary="last fixes in DAO">
+      <created>1653148701508</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1653148701508</updated>
+    </task>
+    <task id="LOCAL-00077" summary="last fixes in DAO">
+      <created>1653149451123</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1653149451124</updated>
+    </task>
+    <task id="LOCAL-00078" summary="trying to merge">
+      <created>1654246600627</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1654246600628</updated>
+    </task>
+    <task id="LOCAL-00079" summary="merging">
+      <created>1654249760031</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1654249760031</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="adding DAL" />
+    <MESSAGE value="Changes by User" />
+    <MESSAGE value="editing DAL" />
+    <MESSAGE value="editing DAO objects" />
+    <MESSAGE value="added DAO functions (CRUD), lots of fixes" />
+    <MESSAGE value="minor fixes" />
+    <MESSAGE value="merged with Ari" />
+    <MESSAGE value="presentation fixes" />
+    <MESSAGE value="merge with Ari's changes" />
+    <MESSAGE value="DAL fixes" />
+    <MESSAGE value="DAL fixes + merge with Ari" />
+    <MESSAGE value="fixing bugs" />
+    <MESSAGE value="presentation fixes + DAL fixes" />
+    <MESSAGE value="presentation fixes + DAL fixes + merge with Ari (fixing db connection ATM)" />
+    <MESSAGE value="minor HM fixed in DAL" />
+    <MESSAGE value="db fix" />
+    <MESSAGE value="added presentation shit" />
+    <MESSAGE value="merging inventory and suppliers" />
+    <MESSAGE value="added presentation, fixes DAL" />
+    <MESSAGE value="fixing shit" />
+    <MESSAGE value="last fixes" />
+    <MESSAGE value="DONE" />
+    <MESSAGE value="last fixes in DAO" />
+    <MESSAGE value="trying to merge" />
+    <MESSAGE value="merging" />
+    <option name="LAST_COMMIT_MESSAGE" value="merging" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/PresentationLayer/PresentationMain.java</url>
+          <line>160</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BusinessLayer/OrderController.java</url>
+          <line>250</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/SupplierInventory/tests/integrationTest.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/SupplierController.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Suppliers/BusinessLayer/SupplierController.java</url>
+          <line>167</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/dev$Main.ic" NAME="Main Coverage Results" MODIFIED="1652960944756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>.*</FILTER>
+    </SUITE>
+  </component>
+</project>
