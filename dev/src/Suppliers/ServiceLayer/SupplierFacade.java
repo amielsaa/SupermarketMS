@@ -49,7 +49,9 @@ public class SupplierFacade {
         }
         return resWithHash;
     }
-
+    public Response getDatesForDelivery(int bn){
+        return sSupplier.getDatesForDelivery(bn);
+    }
     public Response<DSupplier> getSupplier(int businessNumber) {
         return sSupplier.getSupplier(businessNumber);
     }
@@ -64,6 +66,9 @@ public class SupplierFacade {
             sOrder.removeSupplier(bn);
         }
         return i;
+    }
+    public Response<String> getSupplierAddress(int bn){
+        return sSupplier.getSupplierAddress(bn);
     }
 
     /* public Response addSupplierDeliveryDay(int bn, int day){
@@ -124,6 +129,9 @@ public class SupplierFacade {
         }
         return resWithHash;
     }
+    public Response<Boolean> OrderArrivedAndAccepted(int bn,int orderId){
+        return sOrder.OrderArrivedAndAccepted(bn,orderId);
+    }
 
     public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int OrderId, String itemName, String ItemProducer, int Quantity) {
         Response<HashMap<Pair<String, String>, Pair<Double, Double>>> newItemToAdd = sSupplier.addOrUpdateRoutineOrder(business_num, itemName, ItemProducer, Quantity);
@@ -142,9 +150,20 @@ public class SupplierFacade {
         }
         return Response.makeFailure(supplierExists.getMessage());
     }
+
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
     }
+
+
+
+    /*
+    public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId){
+       return sOrder.setIfHasDeliveryToOrder(bn,orderId);
+    }
+
+     */
+
 
     //-----------------------------------------------------getting In Touch With Supplies--------------------------------------------------//
     public Response MakeOrderToSuppliers(Map<Pair<String, String>, Integer> DemandedSupplies) {

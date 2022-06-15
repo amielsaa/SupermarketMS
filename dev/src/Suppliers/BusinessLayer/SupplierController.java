@@ -5,6 +5,7 @@ import Suppliers.DAL.*;
 import misc.Days;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -309,6 +310,16 @@ public class SupplierController {
         return true;
 
 
+
+    }
+    public Set<LocalDate> getDatesForDelivery(int bn) {
+        Supplier supplier=getSupplier(bn);
+        return supplier.getDatesForDelivery();
+
+    }
+
+    public String getSupplierAddress(int bn) {
+        return getSupplier(bn).getAddress();
 
     }
 }
