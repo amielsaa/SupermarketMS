@@ -176,6 +176,18 @@ public class OrderDAO extends DalController {
         }
         return true;
     }
+    public boolean updateHasDelivery(int bn, int orderID, int hasDelivery){
+//        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
+        String sql = "update " + tableName + " set hasDelivery = " + hasDelivery + " where bn = " + bn + " and orderID = " + orderID;
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
 
     public int getMaxOrderId(){
 

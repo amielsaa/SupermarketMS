@@ -288,8 +288,8 @@ public class OrderController {
             throw new IllegalArgumentException("this Order has a delivery already");
         }
         order.setHasDelivery(true);
-        //TODO:update the orderhasdeliveryindatabase
-        return false; // TODO REMOVE THIS, ADDED TO BE ABLE TO BUILD PROJECT
+        orderDAO.updateHasDelivery(bn,orderId,1);
+        return true;
     }
 
     public Boolean OrderArrivedAndAccepted(int bn,int orderId) throws DataFormatException {
@@ -297,7 +297,7 @@ public class OrderController {
             if(daysToDeliverDAO.CheckIfOrderIsRoutineOrder(bn,orderId)){
                 RoutineOrder order=buildRoutineOrder(bn,orderId);
                 order.setHasDelivery(false);
-                //TODO:change in data the has delivery to false
+                orderDAO.updateHasDelivery(bn,orderId,0);
                 return true;
             }
             else{
