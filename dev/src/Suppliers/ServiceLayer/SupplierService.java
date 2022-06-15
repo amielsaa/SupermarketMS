@@ -208,4 +208,15 @@ public class SupplierService {
             return Response.makeFailure(e.getMessage());
         }
     }
+
+    public Response<String> getSupplierAddress(int bn) {
+        try{
+            String address=cSupplier.getSupplierAddress(bn);
+            return Response.makeSuccess(address);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
+    }
 }

@@ -317,5 +317,10 @@ public class SupplierController {
         return supplier.getDatesForDelivery();
 
     }
+
+    public String getSupplierAddress(int bn) {
+        return getSupplier(bn).getAddress();
+
+    }
 }
 

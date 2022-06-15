@@ -148,6 +148,9 @@ public class SupplierFacade {
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
     }
+    public Response<String> getSupplierAddress(int bn){
+        return sSupplier.getSupplierAddress(bn);
+    }
 
 
     /*
