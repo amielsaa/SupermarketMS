@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="83ebea01-5c67-4c31-affa-d8d18d0d48c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SuperLi2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/adss_v0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/artifacts/dev_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/project-template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="83ebea01-5c67-4c31-affa-d8d18d0d48c8" name="Default Changelist" comment="h">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/dev/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Suppliers/BusinessLayer/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Suppliers/BusinessLayer/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Suppliers/BusinessLayer/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Suppliers/BusinessLayer/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Suppliers/DAL/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Suppliers/DAL/OrderDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/src/Suppliers/PresentationLayer/PresentationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Suppliers/PresentationLayer/PresentationMain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +62,53 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="NituzProject" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="NituzProject" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -105,5 +142,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="h" />
+    <option name="LAST_COMMIT_MESSAGE" value="h" />
   </component>
 </project>

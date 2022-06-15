@@ -22,8 +22,8 @@ public class OrderDAO extends DalController {
     }
 
     //put in priceBeforeDiscount as field
-    public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice ) {
-        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice ) VALUES(?,?,?,?,?)";
+    public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice, int hasDelivery ) {
+        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice ) VALUES(?,?,?,?,?,?)";
 
         try(Connection conn = this.makeConnection()){
             //Connection conn = this.makeConnection();
@@ -33,6 +33,7 @@ public class OrderDAO extends DalController {
             pstmt.setDouble(3, finalprice);
             pstmt.setString(4, orderdate);
             pstmt.setDouble(5, originalprice);
+            pstmt.setInt(6, hasDelivery);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -93,7 +94,7 @@ public class OrderDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Order order = null;
             while (rs.next()) {
-                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"));
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"), rs.getInt("hasdelivery"));
                 insertOrderToHM(bn, order);
             }
             return getOrder(bn, orderId);
@@ -123,7 +124,7 @@ public class OrderDAO extends DalController {
             ResultSet rs = pstmt.executeQuery();
             Order order = null;
             while (rs.next()) {
-                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"));
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"), rs.getInt("hasdelivery"));
                 if(insertOrderToHM(bn, order)) ans = true;
             }
 
