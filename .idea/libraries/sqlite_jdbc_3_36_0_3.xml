@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="adss_v0">
+  <library name="sqlite-jdbc-3.36.0.3">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.36.0.3.jar!/" />
     </CLASSES>
