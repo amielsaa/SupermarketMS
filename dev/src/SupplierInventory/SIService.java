@@ -194,11 +194,14 @@ public class SIService {
     //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
 
     public Response<List<DOrder>> MakeOrderMinQuantity() {
+
+        //fSupplier.MakeDeliveryFromList(
         return fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
     }
 
-    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
-        throw new NotImplementedException();
+
+    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+        return fInventory.ReceiveDelivery(delivery);
     }
 
     public Inventory.ServiceLayer.Response<String> InsertData() {

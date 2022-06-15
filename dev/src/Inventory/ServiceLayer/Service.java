@@ -117,9 +117,9 @@ public class Service {
         throw new NotImplementedException();
     }
 
-    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
 
-        throw new NotImplementedException();
+        return reportService.ReceiveDelivery(delivery);
     }
 
     public void ReportPending() {

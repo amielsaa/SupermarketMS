@@ -76,8 +76,13 @@ public class ReportService {
         }
     }
 
-    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
-        throw new NotImplementedException();
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+        try{
+            reportController.receiveDelivery(delivery);
+            return Response.makeSuccess("Delivery received successfully, a stock worker will view it shortly.");
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
 
