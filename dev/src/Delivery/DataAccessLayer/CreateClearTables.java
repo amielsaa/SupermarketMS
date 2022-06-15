@@ -64,8 +64,10 @@ public class CreateClearTables {
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "name VARCHAR(255) not null, "+
+                "producerName VARCHAR(255) not null, "+
+                "price INTEGER not null, "+
                 "count INTEGER not null, "+
-                "PRIMARY KEY (siteId, deliveryId, name)," +
+                "PRIMARY KEY (siteId, deliveryId, name, producerName)," +
                 "FOREIGN KEY (siteId, deliveryId) REFERENCES DeliveryDestinations(siteId, deliveryId));");
 
         exeQuarry("CREATE TABLE IF NOT EXISTS DeliveryArchive ("+
