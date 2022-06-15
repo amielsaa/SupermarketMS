@@ -89,7 +89,7 @@ public class OrderController {
         String dateForData = date.toString();
         Order newOrder = new Order(supplierBN, Id_Order_Counter, Item_Name_To_OrderItem, priceBeforeDiscount, finalPrice, date);
         //insert to data
-        if (!orderDAO.insertOrders(supplierBN, Id_Order_Counter, finalPrice, dateForData, priceBeforeDiscount))
+        if (!orderDAO.insertOrders(supplierBN, Id_Order_Counter, finalPrice, dateForData, priceBeforeDiscount,0))
             throw new DataFormatException("cound not insert Order into data on makeOrder");
         Id_Order_Counter++;
 

@@ -28,13 +28,14 @@ public class Order {
         hasDelivery=false;
     }
 
-    public Order(int supplier_bn, int order_id, double final_price, String order_date, double originalprice) {
+    public Order(int supplier_bn, int order_id, double final_price, String order_date, double originalprice, int hasdelivery) {
         //DAL constructor
         Supplier_BN = supplier_bn;
         Order_Id = order_id;
         final_Price = final_price;
         Order_Date = Date.valueOf(order_date);
         PriceBeforeDiscount = originalprice;
+        hasDelivery= hasdelivery == 1;
     }
 
     public int getOrder_Id() {

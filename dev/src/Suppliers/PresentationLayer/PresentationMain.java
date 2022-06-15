@@ -393,7 +393,7 @@ public class PresentationMain {
 
         Response<DSupplier> newsupplier = service.removeSupplier(businessNumber);
         if(newsupplier.isSuccess())
-            System.out.println("Supplier removed successfully.");
+            System.out.println("Supplier removed successfully along with his Orders, Days to deliver, contacts.");
         else System.out.println(newsupplier.getMessage());
 
     }
