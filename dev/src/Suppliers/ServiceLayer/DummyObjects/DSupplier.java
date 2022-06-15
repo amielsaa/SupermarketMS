@@ -15,6 +15,7 @@ public class DSupplier {
     private List<DContact> Contacts;
     private DQuantityAgreement Quantity_Agreement;
     private Set<Days> Days;
+    private String DeliveryZone, Address;
 
     private boolean Self_Delivery_Or_Pickup;// if we need to pick-up or he delivers us
 
@@ -23,7 +24,8 @@ public class DSupplier {
     public DSupplier(Supplier s) {
         Name = s.getName();
         Business_Num = s.getBusiness_Num();
-
+        Address = s.getAddress();
+        DeliveryZone = s.getDeliveryZone();
         Self_Delivery_Or_Pickup = s.isSelf_Delivery_Or_Pickup();
         Days=s.getDays_To_Deliver();
         Contacts = new LinkedList<DContact>();
@@ -48,7 +50,13 @@ public class DSupplier {
         return Quantity_Agreement;
     }
 
+    public String getDeliveryZone() {
+        return DeliveryZone;
+    }
 
+    public String getAddress() {
+        return Address;
+    }
 
     public boolean isSelf_Delivery_Or_Pickup() {
         return Self_Delivery_Or_Pickup;
@@ -57,7 +65,7 @@ public class DSupplier {
 
 
     public String toString(){
-        return "Supplier name: " + getName() + " ,Business number: " + getBusiness_Num() +" ,Is self delivering: " + isSelf_Delivery_Or_Pickup() + "\nContacts: " + getContacts().toString() + "\nQuantity Agreement: " + getQuantity_Agreement() + "\nDays of delivery: " + getDays();
+        return "Supplier name: " + getName() + " ,Business number: " + getBusiness_Num()+ " ,Delivery Zone: " + getDeliveryZone() + " ,Address: " + getAddress() +" ,Is self delivering: " + isSelf_Delivery_Or_Pickup() + "\nContacts: " + getContacts().toString() + "\nQuantity Agreement: " + getQuantity_Agreement() + "\nDays of delivery: " + getDays();
 
     }
 

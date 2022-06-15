@@ -8,15 +8,16 @@ import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class SupplierService {
     private SupplierController cSupplier = new SupplierController();
 
 
-    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup) {
+    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup, String deliveryzone, String address) {
         try {
-            Supplier actualSupplier = cSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup);
+            Supplier actualSupplier = cSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup, deliveryzone, address);
             return Response.makeSuccess(new DSupplier(actualSupplier));
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
@@ -197,5 +198,25 @@ public class SupplierService {
 
     public void DeleteAll() {
         cSupplier.DeleteAll();
+    }
+    public Response getDatesForDelivery(int bn) {
+        try{
+            Set<LocalDate> days=cSupplier.getDatesForDelivery(bn);
+            return Response.makeSuccess(days);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> getSupplierAddress(int bn) {
+        try{
+            String address=cSupplier.getSupplierAddress(bn);
+            return Response.makeSuccess(address);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
     }
 }

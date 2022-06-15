@@ -1,8 +1,7 @@
 package SupplierInventory;
 
+import Employee.ServiceLayer.Gateway;
 import Inventory.BuisnessLayer.Objects.Category;
-import Inventory.BuisnessLayer.Objects.Product;
-import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Service;
@@ -23,10 +22,15 @@ import java.util.Set;
 public class SIService {
     SupplierFacade fSupplier;
     Service fInventory;
+    Gateway gateway;
 
-    public SIService() {
+    public SIService(Gateway gateway) {
+        this.gateway = gateway;
+        // This comment is added with the gateway field, you can pass it forward to the sub-services or use it as you like.
+        // Note: the Gateway will have a pointer to the SIService class
         this.fSupplier = new SupplierFacade();
         this.fInventory = new Service();
+
     }
 
     //----------------------------------SUPPLIERS--------SUPPLIERS--------SUPPLIERS--------SUPPLIERS----------------------------------
@@ -37,8 +41,8 @@ public class SIService {
         return fSupplier.getAllSuppliers();
     }
 
-    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean selfdelivery) {
-        return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery);
+    public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean selfdelivery, String deliveryzone, String address) {
+        return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery, deliveryzone, address);
     }
 
     public Response makeOrder(int business_num, HashMap<Pair<String, String>, Integer> order) {
@@ -191,6 +195,10 @@ public class SIService {
 
     public Response<List<DOrder>> MakeOrderMinQuantity() {
         return fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
+    }
+
+    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
+        throw new NotImplementedException();
     }
 
     public Inventory.ServiceLayer.Response<String> InsertData() {

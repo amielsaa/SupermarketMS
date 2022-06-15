@@ -154,7 +154,7 @@ public class OrderController {
                     if(!orderDAO.updateOrderPrice(business_num,orderId,routineOrder.getPriceBeforeDiscount(),routineOrder.getFinal_Price()))
                         throw new DataFormatException("Error in order update");
                     if(routineOrder.getFinal_Price()==0){
-                        if(orderDAO.deleteOrders(business_num,orderId)){
+                        if(orderDAO.deleteOrder(business_num,orderId)){
                             if(!daysToDeliverDAO.deleteAllDaysToDeliver(business_num,orderId))
                                 throw new DataFormatException("Error in Order delete or in daysToDeliver Delete");
                         }
@@ -281,6 +281,34 @@ public class OrderController {
 
 
     }
+
+    public Boolean setIfHasDeliveryToOrder(int bn, int orderId) throws DataFormatException {
+        Order order=buildOrder(bn,orderId);
+        if(order.getHasDelivery()){
+            throw new IllegalArgumentException("this Order has a delivery already");
+        }
+        order.setHasDelivery(true);
+        //TODO:update the orderhasdeliveryindatabase
+        return false; // TODO REMOVE THIS, ADDED TO BE ABLE TO BUILD PROJECT
+    }
+
+    public Boolean OrderArrivedAndAccepted(int bn,int orderId) throws DataFormatException {
+        if(orderDAO.containsOrder(bn,orderId)){
+            if(daysToDeliverDAO.CheckIfOrderIsRoutineOrder(bn,orderId)){
+                RoutineOrder order=buildRoutineOrder(bn,orderId);
+                order.setHasDelivery(false);
+                //TODO:change in data the has delivery to false
+                return true;
+            }
+            else{
+                orderDAO.deleteOrder(bn,orderId);
+                return true;
+            }
+        }
+        throw new DataFormatException("Order does not exists");
+
+
+}
 }
 
 

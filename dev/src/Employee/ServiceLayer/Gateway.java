@@ -2,10 +2,9 @@ package Employee.ServiceLayer;
 
 import Delivery.ServiceLayer.DeliveryService;
 import Employee.BusinessLayer.*;
-import Employee.BusinessLayer.*;
+import SupplierInventory.SIService;
 import Utilities.Response;
 import com.sun.istack.internal.NotNull;
-//import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,9 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//import org.jetbrains.annotations.NotNull;
+
 public class Gateway
 {
     private DeliveryService deliveryService;
+    private SIService siService;
 
     private int loggedEmployeeId;
     private EmployeeController employeeController;
@@ -28,6 +30,7 @@ public class Gateway
     public Gateway() {
         // INITIALIZE OTHER SERVICES
         this.deliveryService = new DeliveryService(this);
+        this.siService = new SIService(this);
         // -------------------------
 
         this.loggedEmployeeId = -1;
@@ -46,13 +49,17 @@ public class Gateway
 
     public void initDefaultData() throws Exception {
         // TODO DAL make this run once on database init and NOT delete the entire database on load.
+        // Removes the employee module tables
         employeeController.clearDatabases();
         shiftController.clearDatabases();
         qualificationController.clearDatabases();
-        deliveryService.clearDatabases();
+
+        deliveryService.clearDatabases(); // Removes the delivery module tables
+        siService.deleteAllData(); // Removes the inventory module tables
+        siService.DeleteAll(); // Removes the supplier module tables
         // INIT PERMISSIONS AND QUALIFICATIONS
 
-        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift"};
+        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift", "ManageDeliveries", "ManageInventory"};
         for (String p : permissions)
         {
             qualificationController.addPermission(p);
@@ -68,13 +75,13 @@ public class Gateway
         }
 
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager");
-        String[] permissionsBranch1Manager = {"ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees"};
+        String[] permissionsBranch1Manager = {"ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
         for(String p : permissionsBranch1Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
         }
 
         Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager");
-        String[] permissionsBranch2Manager = {"ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees"};
+        String[] permissionsBranch2Manager = {"ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
         for(String p : permissionsBranch2Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
         }
@@ -87,9 +94,12 @@ public class Gateway
         Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner");
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager");
+        Qualification qualificationLogisticsManager = qualificationController.addQualification("LogisticsManager");
         Qualification qualificationDriver = qualificationController.addQualification("Driver");
 
         qualificationController.addPermissionToQualification("ManageShift", "ShiftManager");
+        qualificationController.addPermissionToQualification("ManageInventory", "InventoryManager");
+        qualificationController.addPermissionToQualification("ManageDeliveries", "LogisticsManager");
 
         // INIT EMPLOYEES
         BankAccountDetails defaultBankAccountDetails = new BankAccountDetails(0, 0, 0, "Bank", "Branch", "Bob");
@@ -102,12 +112,14 @@ public class Gateway
         employeeController.addEmployee(4, "Dan The Truck Driver", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(5, "Manny The Manager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(6, "InManny The InManager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        employeeController.addEmployee(7, "LogManny The LogManager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
         employeeController.employeeAddQualification(1, qualificationCashier);
         employeeController.employeeAddQualification(2, qualificationWarehouse);
         employeeController.employeeAddQualification(3, qualificationStock);
         employeeController.employeeAddQualification(4, qualificationTruck);
         employeeController.employeeAddQualification(6, qualificationInventoryManager);
+        employeeController.employeeAddQualification(7, qualificationLogisticsManager);
 
         employeeController.employeeAddQualification(1, qualificationShiftManager);
         employeeController.employeeAddQualification(2, qualificationShiftManager);
@@ -691,5 +703,81 @@ public class Gateway
         employeeController.clearDatabases();
         shiftController.clearDatabases();
         qualificationController.clearDatabases();
+    }
+
+    // Permission checks
+    public Response<Boolean> canManageEmployees() {
+        try {
+            checkAuth("ManageEmployees");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canViewEmployees() {
+        try {
+            checkAuth("ViewEmployees");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canManageShift() {
+        try {
+            checkAuth("ManageShift");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canManageQualifications() {
+        try {
+            checkAuth("ManageQualifications");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canViewQualifications() {
+        try {
+            checkAuth("ViewQualifications");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canManageDeliveries() {
+        try {
+            checkAuth("ManageDeliveries");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    public Response<Boolean> canManageInventory() {
+        try {
+            checkAuth("ManageInventory");
+
+            return Response.makeSuccess(true);
+        } catch(Exception e) {
+            return Response.makeSuccess(false);
+        }
+    }
+
+    // SI Service functions
+    public Response<SIService> getSIService() {
+        return Response.makeSuccess(this.siService);
     }
 }

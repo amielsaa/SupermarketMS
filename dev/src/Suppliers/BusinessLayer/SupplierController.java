@@ -5,6 +5,7 @@ import Suppliers.DAL.*;
 import misc.Days;
 import misc.Pair;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -26,10 +27,10 @@ public class SupplierController {
         supplierDaysDAO=new SupplierDaysDAO();
     }
 
-    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup) throws Exception {
+    public Supplier addSupplier(String name, int business_num, int bank_acc_num, String payment_details,Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean self_delivery_or_pickup, String deliveryzone, String address) throws Exception {
         if (supplierDAO.containsSupplier(business_num))
             throw new IllegalArgumentException("supplier Business number " + business_num + " already exists");
-        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup);
+        Supplier newSupplier = new Supplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, self_delivery_or_pickup, deliveryzone, address);
         if(!supplierDAO.addNewSupplier(newSupplier))
             throw new DataFormatException("Error In Database on addSupplier");
         if(!insertQAAndContactsAndDays(business_num,newSupplier.getQuantity_Agreement(),newSupplier.getContacts(),days))
@@ -309,6 +310,16 @@ public class SupplierController {
         return true;
 
 
+
+    }
+    public Set<LocalDate> getDatesForDelivery(int bn) {
+        Supplier supplier=getSupplier(bn);
+        return supplier.getDatesForDelivery();
+
+    }
+
+    public String getSupplierAddress(int bn) {
+        return getSupplier(bn).getAddress();
 
     }
 }

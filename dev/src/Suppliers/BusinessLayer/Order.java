@@ -15,6 +15,7 @@ public class Order {
     private double PriceBeforeDiscount;
     private double final_Price;
     private Date Order_Date;
+    private boolean hasDelivery;
 
 
     public Order(int supplier_bn, int order_id, HashMap<Pair<String,String>, OrderItem> item_num_to_orderItem,double priceBeforeDiscount,double final_price, Date order_date) {
@@ -24,6 +25,7 @@ public class Order {
         PriceBeforeDiscount=priceBeforeDiscount;
         final_Price = final_price;
         Order_Date = order_date;
+        hasDelivery=false;
     }
 
     public Order(int supplier_bn, int order_id, double final_price, String order_date, double originalprice) {
@@ -82,5 +84,13 @@ public class Order {
 
     public void setPriceBeforeDiscount(double priceBeforeDiscount) {
         this.PriceBeforeDiscount = priceBeforeDiscount;
+    }
+
+    public boolean getHasDelivery() {
+        return hasDelivery;
+    }
+
+    public void setHasDelivery(boolean hasDelivery) {
+        this.hasDelivery = hasDelivery;
     }
 }

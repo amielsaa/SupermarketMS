@@ -2,6 +2,9 @@ package Delivery.ServiceLayer;
 import Delivery.BusinessLayer.*;
 import Delivery.DataAccessLayer.CreateClearTables;
 import Employee.ServiceLayer.Gateway;
+import Inventory.ServiceLayer.Service;
+import Suppliers.BusinessLayer.Order;
+import Suppliers.ServiceLayer.SupplierFacade;
 import Utilities.Response;
 
 import java.time.LocalDateTime;
@@ -11,7 +14,9 @@ import java.util.Collection;
 
 public class DeliveryService {
 
-    private Gateway gateway;
+    private Gateway employeeMod;
+    private Service inventoryMod;
+    private SupplierFacade supplierMod;
 
     private SitesController sitesController;
     private TrucksController trucksController;
@@ -20,7 +25,9 @@ public class DeliveryService {
 
     public DeliveryService(Gateway gateway){
         // INIT OTHER SERVICES
-        this.gateway = gateway;
+        employeeMod = gateway;
+        inventoryMod = new Service(); //TODO: create a proper reference
+        supplierMod = new SupplierFacade();  //TODO: create a proper reference
         // -------------------
 
         sitesController = new SitesController();
@@ -280,12 +287,24 @@ public class DeliveryService {
     }
 
     //#############################Delivery Logic###################################################
+
+    //manual delivery creation
     public Response addDelivery(LocalDateTime startTime, LocalDateTime endTime, int truckId, int driverId, int originId, int destinationId){
         try{
             Response driverAvailable=checkDriverAvailability(driverId,startTime);
             if(!driverAvailable.isSuccess())
                 return driverAvailable;
             deliveriesController.addDelivery(startTime, endTime,truckId,driverId,originId,destinationId);
+            return Response.makeSuccess(0);
+        }catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    //auto delivery creation
+    public Response addDelivery(Order order, Collection<LocalDateTime> days){
+        try{
+            deliveriesController.addDelivery(order, days, employeeMod);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -457,7 +476,7 @@ public class DeliveryService {
     private Response checkDriverAvailability(int driverId,LocalDateTime date){
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-        Response<Boolean> r1 = gateway.driverAvailableOnShift(date,driverId);
+        Response<Boolean> r1 = employeeMod.driverAvailableOnShift(date,driverId);
         if(!r1.isSuccess()) {
             return r1;
         }

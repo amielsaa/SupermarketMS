@@ -177,4 +177,26 @@ public class OrderService {
     public void removeSupplier(int bn) {
         cOrder.removeSupplier(bn);
     }
+
+    public Response<Boolean> OrderArrivedAndAccepted(int bn,int orderId) {
+        try{
+            Boolean accepted=cOrder.OrderArrivedAndAccepted(bn,orderId);
+                    return Response.makeSuccess(accepted);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+/*
+    public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId) {
+        try{
+            Boolean response=cOrder.setIfHasDeliveryToOrder(bn,orderId);
+            return Response.makeSuccess(response);
+        }
+        catch(Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+ */
 }

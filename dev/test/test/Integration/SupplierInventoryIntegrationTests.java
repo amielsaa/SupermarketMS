@@ -1,5 +1,6 @@
 package Integration;
 
+import Employee.ServiceLayer.Gateway;
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
@@ -7,19 +8,28 @@ import Suppliers.ServiceLayer.DummyObjects.DSupplier;
 import Suppliers.ServiceLayer.Response;
 import misc.Days;
 import misc.Pair;
-import org.junit.jupiter.api.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 
 class SupplierInventoryIntegrationTests {
-    SIService siService = new SIService();
+    Gateway gateway;
+    SIService siService;
+
     Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     Set<Integer> days=new HashSet<>();
 
-    @BeforeEach
+    @Before
     void setUp() {
+        this.gateway = new Gateway();
+        this.siService = gateway.getSIService().getData();
+
         siService.DeleteAll();
         siService.deleteAllData();
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
@@ -39,34 +49,36 @@ class SupplierInventoryIntegrationTests {
         item_Num_To_Quantity_To_Discount.get(applePerot).put(1000,20);
         days.add(1);
         days.add(2);
-        siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
+        //TODO:
+        //siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
 
     }
 
-    @AfterEach
+    @After
     void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
 
-    @Test //1
+    @Test
+        //1
     void makeOrderToSuppliers() {
         //demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
 
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
         if(!res.getData().isEmpty()) {
             DOrder dOrder = res.getData().get(0);
-            Assertions.assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
+            assertTrue(dOrder.getSupplier_BN() == 123456789 && dOrder.getOrder_Id() == 0);
         }
         else
-            Assertions.assertTrue(false);
+            assertTrue(false);
     }
     @Test //2
     void makeOrderToSuppliersFail(){
         demandedSupplies.clear();
         demandedSupplies.put(new Pair<>("gun","Glock"), 5);
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
-        Assertions.assertTrue(res.getData().isEmpty());
+        assertTrue(res.getData().isEmpty());
 
     }
     @Test //3
@@ -157,7 +169,7 @@ class SupplierInventoryIntegrationTests {
     @Test //10
     void MakeOrderMinQuantity(){
         Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
-        Assertions.assertTrue(dOrderResponse.getData().isEmpty());
+        assertTrue(dOrderResponse.getData().isEmpty());
     }
 
 }

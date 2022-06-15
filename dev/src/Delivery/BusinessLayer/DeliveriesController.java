@@ -1,13 +1,13 @@
 package Delivery.BusinessLayer;
 
 import Delivery.DataAccessLayer.*;
+import Employee.ServiceLayer.Gateway;
+import Suppliers.BusinessLayer.Order;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.*;
+import Utilities.Pair;
 
 public class DeliveriesController {
     private int nextDeliveryId;
@@ -80,6 +80,7 @@ public class DeliveriesController {
         return Integer.max(deliveryArchiveDAO.getMaxId(),upcomingDeliveryDAO.getMaxId())+1;
     }
 
+    //manual
     public void addDelivery(LocalDateTime startTime,LocalDateTime endTime,int truckId,int driverId,int originId,int destinationId) throws Exception{
         validateDeliveryTime(startTime,endTime);
         Driver driver=driversController.getDriver(driverId);
@@ -97,6 +98,41 @@ public class DeliveriesController {
         upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
+    }
+
+    //auto
+    public void addDelivery(Order order, Collection<LocalDateTime> days, Gateway employeeMod) throws Exception {
+        Collection<Truck> trucks = trucksController.getTrucks();
+        Collection<Driver> drivers = driversController.getAllDrivers();
+        Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
+        for (Pair<Truck, Driver> p: pairs) {
+            for (LocalDateTime day : days) {
+                LocalDateTime startTime = day; //up to change
+                LocalDateTime endTime = day.plusDays(1).minusMinutes(1); //up to change
+                try{
+                    checkAvailability(startTime,endTime,p.getKey().getPlateNum(),p.getValue().getId(), -1);
+                    if (employeeMod.driverAvailableOnShift(day, p.getValue().getId()).isSuccess());
+                    {
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        //addDestination(nextDeliveryId,destinationId);
+                        //TODO: FILL PRODUCTS
+                        nextDeliveryId++;
+                        return;
+                    }
+                }
+                catch (Exception e){}
+            }
+        }
+        throw new Exception("cant create a new delivery, all drivers/trucks are busy");
+    }
+
+    private Collection<Pair<Truck, Driver>> findMatchingTrucksDrivers(Collection<Truck> trucks, Collection<Driver> drivers) {
+        Collection<Pair<Truck, Driver>> pairs = new ArrayList<>();
+        for (Truck t: trucks)
+            for (Driver d: drivers)
+                if (trucksController.isAbleToDrive(d.getLicenseType(),t.getPlateNum()))
+                    pairs.add(new Pair<>(t, d));
+        return pairs;
     }
 
     private void validateDeliveryTime(LocalDateTime startTime,LocalDateTime endTime) throws Exception {

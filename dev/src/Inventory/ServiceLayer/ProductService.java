@@ -148,6 +148,10 @@ public class ProductService {
         }
     }
 
+    public void AddPendingProducts() {
+
+    }
+
 //    public Response<String> StopTimer(){
 //        try {
 //            String s = productController.turnOffTimer();

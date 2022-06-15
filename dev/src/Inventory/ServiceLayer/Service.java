@@ -117,6 +117,29 @@ public class Service {
         throw new NotImplementedException();
     }
 
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
+
+        throw new NotImplementedException();
+    }
+
+    public void ReportPending() {
+        //gets report
+
+    }
+
+    public void GetPendingProducts() {
+
+    }
+
+    public void AddDefectivePending() {
+
+    }
+
+
+    public void AcceptPending() {
+
+    }
+
 
     private void addProducts() {
         AddProduct("Shampoo","Kef",10.20,12.50,10 ,"Wash,Shampoo,Size");

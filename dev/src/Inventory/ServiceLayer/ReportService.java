@@ -6,6 +6,7 @@ import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import misc.Pair;
 import Inventory.ServiceLayer.Objects.Report;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,10 @@ public class ReportService {
         }catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }
+    }
+
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Integer> delivery) {
+        throw new NotImplementedException();
     }
 
 

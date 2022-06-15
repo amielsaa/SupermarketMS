@@ -11,9 +11,12 @@ import static Utilities.CLIUtil.PrettyPrint.interactWithOptions;
 
 public abstract class OptionsMenuPage extends ResponsePage<Boolean>
 {
+    protected Gateway g;
+
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
+        this.g = g;
         Map<String, ResponsePage<Boolean>> optionsMap = this.getOptionsMap();
         String[] options = optionsMap.keySet().toArray(new String[optionsMap.size()]);
         String chosenOption = interactWithOptions(input, this.getTitle(), options);

@@ -21,7 +21,8 @@ public class LoginPage implements Page
             "███████ ██    ██ ██████  █████   ██████  ██      █████   █████   \n" +
             "     ██ ██    ██ ██      ██      ██   ██ ██      ██      ██      \n" +
             "███████  ██████  ██      ███████ ██   ██ ███████ ███████ ███████ \n" +
-            "   [Employees Module]                                      v 1.2";
+            "                                                           v 1.3";
+//    "   [Employees Module]                                      v 1.2";
 
     private final ResponsePage<Boolean> pgMenu = new MenuPage();
 
@@ -41,7 +42,7 @@ public class LoginPage implements Page
         } else {
             System.out.println(WELCOME_TEXT);
             while(!isLoggedIn){
-                int id = printAndWaitForLegalInt(input, "Please enter your id to enter (or -1 to exit): ", (x) -> (x == -1 || checkLegalId(x)), "Illegal id. ");
+                int id = printAndWaitForLegalInt(input, "Please enter your id to enter (or -1 to exit): ",  (x) -> (x == -1 || checkLegalId(x)), "Illegal id. ");
                 if(id == -1) {
                     return;
                 } else {
