@@ -1,5 +1,7 @@
 package Delivery.BusinessLayer;
 
+import Utilities.Pair;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class Delivery {
     private int driverId;
     private int truckId;
     private int originSiteId;
-    private LinkedHashMap<Integer, HashMap<String,Integer>> destinationItems;
+    private LinkedHashMap<Integer, HashMap<Pair<String, String>,Pair<Double, Integer>>> destinationItems;
     private int weight;
 
     public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId,int weight) {
@@ -64,11 +66,11 @@ public class Delivery {
         this.weight = weight;
     }
 
-    public void setDestinationItems(LinkedHashMap<Integer, HashMap<String, Integer>> destinationItems) {
+    public void setDestinationItems(LinkedHashMap<Integer, HashMap<Pair<String, String>,Pair<Double, Integer>>> destinationItems) {
         this.destinationItems = destinationItems;
     }
 
-    public LinkedHashMap<Integer, HashMap<String, Integer>> getDestinationItems() {
+    public LinkedHashMap<Integer, HashMap<Pair<String, String>,Pair<Double, Integer>>> getDestinationItems() {
         return destinationItems;
     }
 
@@ -114,37 +116,37 @@ public class Delivery {
             throw new Exception(String.format("%s is not a destination of delivery number %d",branch.getAddress(),id));
     }
 
-    public void addItemToDestination(Branch branch, String item, int quantity) throws Exception {
+    public void addItemToDestination(Branch branch, String item, String producer, double price, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch.getId())){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
         }
-        if(destinationItems.get(branch.getId()).containsKey(item)){
+        if(destinationItems.get(branch.getId()).containsKey(new Pair<>(item, producer))){
             throw new Exception(String.format("'%s' is already to be delivered to %s.",item,branch.getAddress()));
         }
-        destinationItems.get(branch.getId()).put(item,quantity);
+        destinationItems.get(branch.getId()).put(new Pair<>(item, producer),new Pair<>(price, quantity));
     }
 
-    public void removeItemFromDestination(Branch branch, String item) throws Exception {
+    public void removeItemFromDestination(Branch branch, String item, String producer) throws Exception {
         if(!destinationItems.containsKey(branch.getId())){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
         }
-        if (destinationItems.get(branch.getId()).remove(item) == null)
+        if (destinationItems.get(branch.getId()).remove(new Pair<>(item, producer)) == null)
             throw new Exception(String.format("The item %s was not found at destination %s of delivery %d...",item,branch.getAddress(),id));
     }
-    public void editItemQuantity(Branch branch, String item, int quantity) throws Exception {
+    public void editItemQuantity(Branch branch, String item, String producer, int quantity) throws Exception {
         if(!destinationItems.containsKey(branch.getId())){
             throw new Exception(String.format("'%s' is not a destination of this delivery",branch.getAddress()));
         }
-        if(!destinationItems.get(branch.getId()).containsKey(item)){
+        if(!destinationItems.get(branch.getId()).containsKey(new Pair<>(item, producer))){
             throw new Exception(String.format("'%s' is not to be delivered to %s.",item,branch.getAddress()));
         }
-        destinationItems.get(branch.getId()).replace(item,quantity);
+        destinationItems.get(branch.getId()).get(new Pair<>(item, producer)).setValue(quantity);
     }
     public String toStringItemsOfDest(Integer site){
         String output= String.format("\t\t** Destination id: %d\n\t\t\t*** Items:\n",site);
-        HashMap<String,Integer> itemMap=destinationItems.get(site);
+        HashMap<Pair<String,String>,Pair<Double,Integer>> itemMap=destinationItems.get(site);
         for(Map.Entry pair:itemMap.entrySet()){
-            output=output.concat(String.format("\t\t\t\t**** Item name: %s,  Quantity: %d\n",pair.getKey(), pair.getValue()));
+            output=output.concat(String.format("\t\t\t\t**** Item name: %s,  Quantity: %d\n",((Pair<String, String>)pair.getKey()).getKey(), ((Pair<Integer, Integer>)pair.getValue()).getValue()));
         }
         return output;
     }

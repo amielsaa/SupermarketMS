@@ -84,27 +84,27 @@ public class UserTerminal extends ResponsePage<Boolean>
                 case "1":
                     runSiteCreation();
                     break;
+                //case "2":
+                //    runSiteEdit();
+                //    break;
                 case "2":
-                    runSiteEdit();
-                    break;
-                case "3":
                     printAllSites();
                     print("Enter site id:");
                     printResponse(service.deleteSite(selectInt()));
                     break;
-                case "4":
+                case "3":
                     print("Enter site id:");
                     Response<Site> res=service.getSite(selectInt());
                     printResponse(res);
                     if(res.isSuccess()) print(res.getData().toString());
                     break;
-                case "5":
+                case "4":
                     printSiteByZone();
                     break;
-                case "6":
+                case "5":
                     printAllSites();
                     break;
-                case "7":
+                case "6":
                     isUserFinished = true;
                     break;
                 default:
@@ -114,13 +114,14 @@ public class UserTerminal extends ResponsePage<Boolean>
     }
 
     private void runSiteCreation() {
-        print("Enter option number to choose site type:" +
-                "\n\t1. Supplier Warehouse" +
-                "\n\t2. Branch");
+        //print("Enter option number to choose site type:" +
+        //        "\n\t1. Supplier Warehouse" +
+        //        "\n\t2. Branch");
         boolean isUserFinished = false;
         boolean isBranch = false;
         while (!isUserFinished){
-            String userData = sc.nextLine();
+            //String userData = sc.nextLine();
+            String userData = "2";
             switch (userData) {
                 case "1":
                     isUserFinished = true;
@@ -227,12 +228,12 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("\n### Site Menu ###\n" +
                 "Enter option number to execute the desirable operation:" +
                 "\n\t1. Add a new site" +
-                "\n\t2. Edit a site" +
-                "\n\t3. Delete a site" +
-                "\n\t4. Search a site" +
-                "\n\t5. View all sites of a delivery zone" +
-                "\n\t6. View all sites" +
-                "\n\t7. Return to Main Menu");
+                //"\n\t2. Edit a site" +
+                "\n\t2. Delete a site" +
+                "\n\t3. Search a site" +
+                "\n\t4. View all sites of a delivery zone" +
+                "\n\t5. View all sites" +
+                "\n\t6. Return to Main Menu");
     }
 
     private int deliveryZoneSelection()
@@ -427,10 +428,10 @@ public class UserTerminal extends ResponsePage<Boolean>
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. View all upcoming deliveries" +
                     "\n\t2. Search an upcoming delivery" +
-                    "\n\t3. Add a new delivery" +
-                    "\n\t4. Edit a delivery" +
-                    "\n\t5. Delete an upcoming delivery" +
-                    "\n\t6. Return to Delivery Menu");
+                    //"\n\t3. Add a new delivery" +
+                    "\n\t3. Edit a delivery" +
+                    "\n\t4. Delete an upcoming delivery" +
+                    "\n\t5. Return to Delivery Menu");
             userData = sc.nextLine();
             switch (userData) {
                 case "1":
@@ -439,16 +440,16 @@ public class UserTerminal extends ResponsePage<Boolean>
                 case "2":
                     searchDelivery(false);
                     break;
+                //case "3":
+                //    printResponse(addDelivery());
+                //    break;
                 case "3":
-                    printResponse(addDelivery());
-                    break;
-                case "4":
                     EditDelivery();
                     break;
-                case "5":
+                case "4":
                     printResponse(DeleteDelivery());
                     break;
-                case "6":
+                case "5":
                     isUserFinished = true;
                     break;
                 default:
@@ -477,17 +478,17 @@ public class UserTerminal extends ResponsePage<Boolean>
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a destination" +
                     "\n\t2. Remove a destination" +
-                    "\n\t3. Add an item to destination" +
-                    "\n\t4. Remove an item from destination" +
-                    "\n\t5. Edit item quantity" +
-                    "\n\t6. Edit start Time" +
-                    "\n\t7. Edit End Time" +
-                    "\n\t8. Change driver" +
-                    "\n\t9. Change truck" +
-                    "\n\t10. Change origin site" +
-                    "\n\t11. Edit truck's weight" +
-                    "\n\t12. Complete the delivery" +
-                    "\n\t13. Return to Upcoming Delivery Menu");
+                    //"\n\t3. Add an item to destination" +
+                    "\n\t3. Remove an item from destination" +
+                    "\n\t4. Edit item quantity" +
+                    "\n\t5. Edit start Time" +
+                    "\n\t6. Edit End Time" +
+                    "\n\t7. Change driver" +
+                    "\n\t8. Change truck" +
+                    "\n\t9. Change origin site" +
+                    "\n\t10. Edit truck's weight" +
+                    "\n\t11. Complete the delivery" +
+                    "\n\t12. Return to Upcoming Delivery Menu");
             userData = sc.nextLine();
             switch (userData) {
                 case "1":
@@ -497,42 +498,42 @@ public class UserTerminal extends ResponsePage<Boolean>
                     print("Enter destination id:");
                     printResponse(service.removeDestinationFromDelivery(deliveryId,selectInt()));
                     break;
+                //case "3":
+                //    printResponse(addItemToDest(deliveryId));
+                //    break;
                 case "3":
-                    printResponse(addItemToDest(deliveryId));
-                    break;
-                case "4":
                     printResponse(removeItemFromDest(deliveryId));
                     break;
-                case "5":
+                case "4":
                     printResponse(editQuantity(deliveryId));
                     break;
-                case "6":
+                case "5":
                     printResponse(editDate(deliveryId,true));
                     break;
-                case "7":
+                case "6":
                     printResponse(editDate(deliveryId,false));
                     break;
-                case "8":
+                case "7":
                     printDriverList();
                     print("Enter new driver id:");
                     printResponse(service.editDeliveryDriver(deliveryId,selectInt()));
                     break;
-                case "9":
+                case "8":
                     printResponse(changeTruck(deliveryId));
                     break;
-                case "10":
+                case "9":
                     printAllSites();
                     print("Enter new origin id:");
                     printResponse(service.editDeliveryOrigin(deliveryId,selectInt()));
                     break;
-                case "11":
+                case "10":
                     print("Enter truck's weight:");
                     printResponse(service.editDeliveryWeight(deliveryId,selectInt()));
                     break;
-                case "12":
+                case "11":
                     isUserFinished = printCompleteDelivery(service.completeDelivery(deliveryId));
                     break;
-                case "13":
+                case "12":
                     isUserFinished = true;
                     break;
                 default:
@@ -634,9 +635,11 @@ public class UserTerminal extends ResponsePage<Boolean>
         int destId=selectInt();
         print("Enter item name:");
         String item=sc.nextLine();
+        print("Enter producer name:");
+        String producer=sc.nextLine();
         print("Enter new quantity:");
         int quantity=selectInt();
-        return service.editDeliveryItemQuantity(deliveryId,destId,item,quantity);
+        return service.editDeliveryItemQuantity(deliveryId,destId,item,producer,quantity);
     }
 
     private Response removeItemFromDest(int deliveryId) {
@@ -644,10 +647,12 @@ public class UserTerminal extends ResponsePage<Boolean>
         int destId=selectInt();
         print("Enter item name:");
         String item=sc.nextLine();
-        return service.removeItemFromDeliveryDestination(deliveryId,destId,item);
+        print("Enter producer name:");
+        String producer=sc.nextLine();
+        return service.removeItemFromDeliveryDestination(deliveryId,destId,item, producer);
     }
 
-    private Response addItemToDest(int deliveryId) {
+    /*private Response addItemToDest(int deliveryId) {
         print("Enter destination id:");
         int destId=selectInt();
         print("Enter item name:");
@@ -655,7 +660,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter quantity:");
         int quantity=selectInt();
         return service.addItemToDeliveryDestination(deliveryId,destId,item,quantity);
-    }
+    }*/
 
     private Response DeleteDelivery() {
         print("Enter delivery id:");

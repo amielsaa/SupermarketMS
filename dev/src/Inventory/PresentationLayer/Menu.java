@@ -83,6 +83,9 @@ public class Menu {
                     deleteProductAction();
                     break;
                 case 15:
+                    reviewDelivery();
+                    break;
+                case 16:
                     addDataAction();
                     break;
 
@@ -93,6 +96,44 @@ public class Menu {
         
     }
 
+    private void reviewDelivery() {
+        Response<Report> res = service.ReportPending();
+        if(res.isSuccess()) {
+            System.out.println(res.getData().getHeadline());
+            res.getData().getTable().print();
+            printDivider();
+            System.out.println("1-Accept Delivery, 2-Add Defective Product");
+            printDivider();
+            int input = Integer.parseInt(enterStringInput());
+            if(input == 1) { // accept pending
+                Response<String> resAccept = service.AddPendingProducts();
+                if(resAccept.isSuccess())
+                    System.out.println(resAccept.getMessage());
+                else
+                    System.out.println(resAccept.getMessage());
+            } else { //add defective menu
+                printDivider();
+                System.out.println("Enter product name, producer name, amount of defective products. \n" +
+                        "Example: Milk # Tnuva # 10");
+                printDivider();
+                String defectiveInput = enterStringInput();
+                String[] inputArray = trimProductArray(defectiveInput,3,true);
+                Response<String> resDefective = service.AddPendingDefective(inputArray[0],inputArray[1],Integer.parseInt(inputArray[2]));
+                if(resDefective.isSuccess()) {
+                    System.out.println(resDefective.getData());
+                    reviewDelivery(); //TODO: check that it gets back to the previous menu
+                } else {
+                    System.out.println(resDefective.getMessage());
+                    reviewDelivery();
+                }
+
+
+            }
+
+        } else
+            System.out.println(res.getMessage());
+
+    }
     private void addDataAction() {
         Response<String> res = service.InsertData();
         if(res.isSuccess())
@@ -303,6 +344,7 @@ public class Menu {
 
     }
 
+    //flag - if to throw exception on length > expectedLength
     private String[] trimProductArray(String input, int expectedLength, boolean flag) {
         String[] inputArray = input.split("#");
         for(int i=0;i<inputArray.length;i++)
@@ -318,11 +360,12 @@ public class Menu {
 
     private void printMenu() {
         System.out.println(
-                "1-Add Product                         <--->   6-Report By Categories              <--->   11-Change Category\n" +
-                "2-Add/Update Store Product            <--->   7-Report By Expired Products        <--->   12-Add Discount By Category\n" +
-                "3-Add Category                        <--->   8-Report By Defective Products      <--->   13-Add Discount To Product\n" +
-                "4-Add Defective Product               <--->   9-Report By Shortage Products       <--->   14-Delete Product\n" +
-                "5-Print All Store Products            <--->   10-Make Order Of Minimum Quantity   <--->   15-Insert Test Data\n" +
+                "1-Add Product                         <--->   7-Report By Expired Products         <--->   -------------------\n" +
+                "2-Add/Update Store Product            <--->   8-Report By Defective Products       <--->   13-Add Discount To Product\n" +
+                "3-Add Category                        <--->   9-Report By Shortage Products        <--->   14-Delete Product\n" +
+                "4-Add Defective Product               <--->   10-Make Order Of Minimum Quantity    <--->   15-Review Delivery\n" +
+                "5-Print All Store Products            <--->   11-Change Category                   <--->   16-Insert Test Data\n" +
+                "6-Report By Categories                <--->   12-Add Discount By Category          <--->   -------------------\n" +
                 "0-Exit");
     }
 

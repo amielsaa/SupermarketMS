@@ -4,6 +4,7 @@ import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
+import Inventory.DataAccessLayer.DAO.PendingDAO;
 import Inventory.DataAccessLayer.DAO.ReportDAO;
 import misc.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -22,22 +23,28 @@ public class ReportController {
      *
      */
     private ReportDAO reportDAO;
+    private PendingDAO pendingDAO;
     private int storeId;
 
     public ReportController() {
         reportDAO = new ReportDAO("Reports");
+        pendingDAO = new PendingDAO("Pending");
     }
     public void setStoreId(int storeId){this.storeId =storeId;}
     public void addDefectiveProduct(int productId, int storeId) {
         reportDAO.InsertDefectiveProducts(productId,storeId);
     }
 
-
-    public void removeDefectiveFromPending(int index, int defectiveQuantity) {
+    //after we insert all products (accepting delivery) -> delete all pendings
+    public void deleteAllPendingProducts() {
 
     }
 
-    public Map<Pair<String,String>,Integer> getPendingMap() {
+    public void removeDefectiveFromPending(String name, String producer, int defectiveQuantity) {
+
+    }
+
+    public Map<Pair<String,String>,Pair<Integer,Integer>> getPendingMap() {
         throw new NotImplementedException();
     }
 

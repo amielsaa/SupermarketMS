@@ -200,8 +200,22 @@ public class SIService {
     }
 
 
+
+    // DEIVERY - INVENTORY INTEGRATION
     public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
         return fInventory.ReceiveDelivery(delivery);
+    }
+
+    public Inventory.ServiceLayer.Response<Report> ReportPending() {
+        return fInventory.ReportPending();
+    }
+
+    public Inventory.ServiceLayer.Response<String> AddPendingProducts() {
+        return fInventory.AddPendingProducts();
+    }
+
+    public Inventory.ServiceLayer.Response<String> AddPendingDefective(String name, String producer, int quantityToReduce) {
+        return fInventory.AddPendingDefective(name,producer,quantityToReduce);
     }
 
     public Inventory.ServiceLayer.Response<String> InsertData() {

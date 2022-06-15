@@ -26,13 +26,7 @@ public class StoreProductIdentityMap {
                 if(!cur.isNull() && cur.getExpDate().equals(sp.getExpDate()) && cur.getStoreId() == sp.getStoreId())
                     storeProductsMap.get(productid).remove(cur);
             }
-
-            //storeProductsMap.get(productid).removeIf((s)->!s.isNull() && s.getExpDate().equals(sp.getExpDate()) && s.getStoreId() == sp.getStoreId());
             storeProductsMap.get(productid).add(sp);
-//            StoreProduct spInMap = storeProductsMap.get(productid).stream().filter(s-> sp.getStoreId()==s.getStoreId() && sp.getExpDate().equals(s.getExpDate())).findFirst().orElse(null);
-//            if(spInMap==null)
-//                storeProductsMap.get(productid).add(sp);
-//            else
         }
         else{
             storeProductsMap.put(productid, new ArrayList<>());
