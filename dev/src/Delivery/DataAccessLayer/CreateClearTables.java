@@ -60,12 +60,12 @@ public class CreateClearTables {
                 "FOREIGN KEY (siteId) REFERENCES Sites(id)," +
                 "FOREIGN KEY (deliveryId) REFERENCES UpcomingDeliveries(id));");
 
-        exeQuarry("CREATE TABLE IF NOT EXISTS DeliveryDestinationItems ("+
+        exeQuarry("CREATE TABLE DeliveryDestinationItems ("+
                 "siteId INTEGER not null, "+
                 "deliveryId INTEGER not null, "+
                 "name VARCHAR(255) not null, "+
                 "producerName VARCHAR(255) not null, "+
-                "price INTEGER not null, "+
+                "price DOUBLE(54) not null, "+
                 "count INTEGER not null, "+
                 "PRIMARY KEY (siteId, deliveryId, name, producerName)," +
                 "FOREIGN KEY (siteId, deliveryId) REFERENCES DeliveryDestinations(siteId, deliveryId));");

@@ -320,7 +320,9 @@ public class DeliveriesController {
         }
         upcomingDeliveryDAO.Delete(deliveryId);
         deliveryArchiveDAO.Create(deliveryId,delivery.toString());
-        return convertPairFormat(delivery.getDestinationItems().get(0));
+        if (delivery.getDestinationItems().containsKey(0))
+            return convertPairFormat(delivery.getDestinationItems().get(0));
+        return null;
     }
 
     private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {

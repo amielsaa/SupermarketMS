@@ -6,6 +6,7 @@ import Delivery.BusinessLayer.Truck;
 import Delivery.DataAccessLayer.CreateClearTables;
 import Delivery.DataAccessLayer.*;
 import Delivery.BusinessLayer.*;
+import Utilities.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -155,19 +156,19 @@ public class DAOTests {
         DeliveryDestinationItemsDAO dao2 = new DeliveryDestinationItemsDAO();
         try {
             createDeliveryDestinations();
-            dao1.Create(1, 3, "a", 1);
-            dao1.Create(1, 3, "b", 2);
-            dao1.Create(1, 3, "c", 3);
-            dao1.Create(3, 2, "a", 1);
-            dao1.Create(3, 3, "b", 4);
-            dao1.Create(3, 3, "e", 4);
-            dao2.removeItemFromDestination(3,3,"b");
-            dao2.removeItemFromDestination(3,3,"e");
-            dao2.editItemQuantity(1, 3, "a", 10);
-            dao2.editItemQuantity(1, 3, "b", 20);
+            dao1.Create(1, 3, "a", "p",1, 1);
+            dao1.Create(1, 3, "b", "p",1, 2);
+            dao1.Create(1, 3, "c", "p",1, 3);
+            dao1.Create(3, 2, "a", "p",1, 1);
+            dao1.Create(3, 3, "b", "p",1, 4);
+            dao1.Create(3, 3, "e", "p",1, 4);
+            dao2.removeItemFromDestination(3,3,"b","p");
+            dao2.removeItemFromDestination(3,3,"e","p");
+            dao2.editItemQuantity(1, 3, "a", "p",10);
+            dao2.editItemQuantity(1, 3, "b", "p",20);
             assertEquals(3, dao2.getItemsOfDest(1, 3).keySet().size());
-            assertEquals(10, dao2.getItemsOfDest(1, 3).get("a").intValue());
-            assertEquals(20, dao2.getItemsOfDest(1, 3).get("b").intValue());
+            assertEquals(10, dao2.getItemsOfDest(1, 3).get(new Pair<>("a", "p")).getValue().intValue());
+            assertEquals(20, dao2.getItemsOfDest(1, 3).get(new Pair<>("b", "p")).getValue().intValue());
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
