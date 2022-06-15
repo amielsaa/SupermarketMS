@@ -67,6 +67,9 @@ public class SupplierFacade {
         }
         return i;
     }
+    public Response<String> getSupplierAddress(int bn){
+        return sSupplier.getSupplierAddress(bn);
+    }
 
     /* public Response addSupplierDeliveryDay(int bn, int day){
         return sSupplier.addSupplierDeliveryDay(bn, day);
@@ -126,6 +129,9 @@ public class SupplierFacade {
         }
         return resWithHash;
     }
+    public Response<Boolean> OrderArrivedAndAccepted(int bn,int orderId){
+        return sOrder.OrderArrivedAndAccepted(bn,orderId);
+    }
 
     public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int OrderId, String itemName, String ItemProducer, int Quantity) {
         Response<HashMap<Pair<String, String>, Pair<Double, Double>>> newItemToAdd = sSupplier.addOrUpdateRoutineOrder(business_num, itemName, ItemProducer, Quantity);
@@ -148,9 +154,7 @@ public class SupplierFacade {
     public Response<List<DRoutineOrder>> getAllRoutineOrders(){
         return sOrder.getAllRoutineOrders();
     }
-    public Response<String> getSupplierAddress(int bn){
-        return sSupplier.getSupplierAddress(bn);
-    }
+
 
 
     /*
