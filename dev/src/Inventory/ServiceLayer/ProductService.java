@@ -6,6 +6,7 @@ import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.BuisnessLayer.Objects.StoreProduct;
 import Inventory.ServiceLayer.Objects.ProductSL;
+import misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,8 +149,14 @@ public class ProductService {
         }
     }
 
-    public void AddPendingProducts() {
-
+    //TODO: implement in productcontroller
+    public Response<String> AddPendingProducts(Map<Pair<String,String>,Pair<Integer,Integer>> pendingProducts) {
+        try{
+            //return Response.makeSuccess(productController)
+            return Response.makeSuccess("Products added successfully.");
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
     }
 
 //    public Response<String> StopTimer(){

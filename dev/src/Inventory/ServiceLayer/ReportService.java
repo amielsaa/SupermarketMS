@@ -85,5 +85,38 @@ public class ReportService {
         }
     }
 
+    public Response<Report> ReportPending() {
+        try{
+            return Response.makeSuccess(new Report("pending report",reportController.reportPending()));
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Map<Pair<String,String>,Pair<Integer,Integer>>> GetPendingProducts() {
+        try{
+            return Response.makeSuccess(reportController.getPendingMap());
+        } catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<String> AddPendingDefective(String name, String producer, int quantityToReduce) {
+        try{
+            reportController.removeDefectiveFromPending(name,producer,quantityToReduce);
+            return Response.makeSuccess("Amount of defective product reduced");
+        }catch(Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public void DeletePendingProducts() {
+        try{
+            reportController.deleteAllPendingProducts();
+        }catch(Exception e){
+
+        }
+    }
+
 
 }

@@ -122,17 +122,22 @@ public class Service {
         return reportService.ReceiveDelivery(delivery);
     }
 
-    public void ReportPending() {
-        //gets report
-
+    public Response<Report> ReportPending() {
+        return reportService.ReportPending();
     }
 
-    public void GetPendingProducts() {
-
+    public Response<String> AddPendingProducts() {
+        Response<String> res = productService.AddPendingProducts(GetPendingProducts().getData());
+        reportService.DeletePendingProducts();
+        return res;
     }
 
-    public void AddDefectivePending() {
+    public Response<Map<Pair<String,String>,Pair<Integer,Integer>>> GetPendingProducts() {
+        return reportService.GetPendingProducts();
+    }
 
+    public Response<String> AddPendingDefective(String name, String producer, int quantityToReduce) {
+        return reportService.AddPendingDefective(name,producer,quantityToReduce);
     }
 
 
