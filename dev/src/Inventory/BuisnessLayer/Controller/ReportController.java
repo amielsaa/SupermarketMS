@@ -44,7 +44,7 @@ public class ReportController {
     public CommandLineTable reportPending() {
         throw new NotImplementedException();
     }
-    public void receiveDelivery() {
+    public void receiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
         //add to pending dao
     }
 
