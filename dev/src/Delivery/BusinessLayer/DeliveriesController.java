@@ -4,11 +4,13 @@ import Delivery.DataAccessLayer.*;
 import Employee.ServiceLayer.Gateway;
 import Suppliers.BusinessLayer.Order;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import Suppliers.BusinessLayer.OrderItem;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Utilities.Pair;
 
 public class DeliveriesController {
@@ -103,17 +105,17 @@ public class DeliveriesController {
     }
 
     //auto
-    public void addDelivery(Order order, Collection<LocalDateTime> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
         for (Pair<Truck, Driver> p: pairs) {
-            for (LocalDateTime day : days) {
-                LocalDateTime startTime = day; //up to change
-                LocalDateTime endTime = day.plusDays(1).minusMinutes(1); //up to change
+            for (LocalDate day : days) {
+                LocalDateTime startTime = LocalDateTime.from(day); //up to change
+                LocalDateTime endTime = LocalDateTime.from(day).plusDays(1).minusMinutes(1); //up to change
                 try{
                     checkAvailability(startTime,endTime,p.getKey().getPlateNum(),p.getValue().getId(), -1);
-                    if (employeeMod.driverAvailableOnShift(day, p.getValue().getId()).isSuccess());
+                    if (employeeMod.driverAvailableOnShift(LocalDateTime.from(day), p.getValue().getId()).isSuccess());
                     {
                         upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
                         addDestination(nextDeliveryId,0);

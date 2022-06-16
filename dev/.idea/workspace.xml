@@ -10,17 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change afterPath="$PROJECT_DIR$/../NituzProject2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/adss_v0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/adss_v0.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/NICLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/NICLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/PresentationLayer/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/PresentationLayer/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,6 +53,17 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DriversController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -75,7 +88,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/Tests" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lib/sqlite-jdbc-3.36.0.3.jar" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.22859922" />
     <property name="project.structure.side.proportion" value="0.1921618" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
@@ -175,11 +188,11 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.NICLI" />
       <item itemvalue="JUnit.SitesControllerTest" />
       <item itemvalue="JUnit.TrucksControllerTest" />
       <item itemvalue="JUnit.ServiceTests" />
       <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
-      <item itemvalue="Application.NICLI" />
     </list>
     <recent_temporary>
       <list>

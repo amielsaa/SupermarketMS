@@ -9,6 +9,7 @@ import Inventory.ServiceLayer.Service;
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 
+
 import java.util.*;
 
 public class Menu {
@@ -152,7 +153,7 @@ public class Menu {
 
 
     private void makeOrderMinQuantity() {
-        Suppliers.ServiceLayer.Response<List<DOrder>>  res = service.MakeOrderMinQuantity();
+        Utilities.Response<List<DOrder>> res = service.MakeOrderMinQuantity();
         List<DOrder> list = res.getData();
         for(int i=0;i<list.size();i++) {
             System.out.println(list.toString());

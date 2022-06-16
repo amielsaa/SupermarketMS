@@ -5,7 +5,7 @@ import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
-import Suppliers.ServiceLayer.Response;
+import Utilities.Response;
 import misc.Days;
 import misc.Pair;
 import org.junit.After;
