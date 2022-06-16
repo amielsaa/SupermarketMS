@@ -3,9 +3,9 @@ package Inventory.DataAccessLayer.DAO;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.DataAccessLayer.DalController;
 import Inventory.DataAccessLayer.IdentityMap.PendingIdentityMap;
-//import misc.Pair;
+import misc.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import Inventory.ServiceLayer.Objects.Pair;
+//import Inventory.ServiceLayer.Objects.Pair;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +70,17 @@ public class PendingDAO extends DalController {
     }
 
     public void DeleteAllPending() {
+        if(pendingIdentityMap.isPulled_all_data())
+            pendingIdentityMap = new PendingIdentityMap();
 
+        String sql  = "DELETE FROM Pending;"+"VACUUM;";
+        try(Connection conn = this.makeConnection()) {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e) {
+            throw new IllegalArgumentException("Deleting pending products failed.");
+        }
     }
 
     //reduces by one the quantity of the product
