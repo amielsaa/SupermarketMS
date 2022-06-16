@@ -14,21 +14,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class UserTerminal extends ResponsePage<Boolean>
-{
+public class UserTerminal extends ResponsePage<Boolean> {
     private Scanner sc;
     private DeliveryService service;
-    public UserTerminal(){
+
+    public UserTerminal() {
 
     }
 
     //############################# Main Menu ###################################################
     @Override
-    public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
-    {
+    public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException {
         sc = input;
         Response<DeliveryService> r1 = g.getDeliveryService();
-        if(!r1.isSuccess()) {
+        if (!r1.isSuccess()) {
             System.out.println("Failed to get delivery service. " + r1.getMessage());
             return true;
         }
@@ -36,7 +35,7 @@ public class UserTerminal extends ResponsePage<Boolean>
 
         printWelcomeMessage();
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             printMainMenuMessage();
             String userData = sc.nextLine();
             switch (userData) {
@@ -61,10 +60,11 @@ public class UserTerminal extends ResponsePage<Boolean>
         return true;
     }
 
-    private void printWelcomeMessage()
-    { print("\n\n### Welcome to \"Super-Lee\" deliveries! ###");}
-    private void printMainMenuMessage()
-    {
+    private void printWelcomeMessage() {
+        print("\n\n### Welcome to \"Super-Lee\" deliveries! ###");
+    }
+
+    private void printMainMenuMessage() {
         print("\n### Main Menu ###\n" +
                 "Enter option number to execute the desirable operation:" +
                 "\n\t1. Go to Delivery Menu" +
@@ -77,7 +77,7 @@ public class UserTerminal extends ResponsePage<Boolean>
     //############################# Site Menu ###################################################
     private void runSitesMenu() {
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             printSiteMenuMessage();
             String userData = sc.nextLine();
             switch (userData) {
@@ -94,9 +94,9 @@ public class UserTerminal extends ResponsePage<Boolean>
                     break;
                 case "3":
                     print("Enter site id:");
-                    Response<Site> res=service.getSite(selectInt());
+                    Response<Site> res = service.getSite(selectInt());
                     printResponse(res);
-                    if(res.isSuccess()) print(res.getData().toString());
+                    if (res.isSuccess()) print(res.getData().toString());
                     break;
                 case "4":
                     printSiteByZone();
@@ -119,7 +119,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         //        "\n\t2. Branch");
         boolean isUserFinished = false;
         boolean isBranch = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             //String userData = sc.nextLine();
             String userData = "2";
             switch (userData) {
@@ -142,28 +142,29 @@ public class UserTerminal extends ResponsePage<Boolean>
         print("Enter contact name:");
         String param4 = sc.nextLine();
         if (isBranch)
-            service.addBranch(param1,param2,param3,param4);
+            service.addBranch(param1, param2, param3, param4);
         else
-            service.addSupplierWarehouse(param1,param2,param3,param4);
+            service.addSupplierWarehouse(param1, param2, param3, param4);
     }
 
     private void runSiteEdit() {
         Response<Site> res;
         int siteId = 0;
-        boolean idLoaded=false;
+        boolean idLoaded = false;
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Site Editing Menu ###");
-            while (!idLoaded){
+            while (!idLoaded) {
                 printAllSites();
                 print("Enter new site id:");
                 siteId = selectInt();
                 res = service.getSite(siteId);
-                if(res.isSuccess()){idLoaded=true;}
-                else print(res.getMessage());
+                if (res.isSuccess()) {
+                    idLoaded = true;
+                } else print(res.getMessage());
             }
-            res=service.getSite(siteId);
-            print("Editing site: "+res.getData());
+            res = service.getSite(siteId);
+            print("Editing site: " + res.getData());
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Edit address" +
                     "\n\t2. Edit delivery zone" +
@@ -174,24 +175,24 @@ public class UserTerminal extends ResponsePage<Boolean>
             switch (userData) {
                 case "1":
                     print("Enter new address:");
-                    Response r1 = service.editSiteAddress(siteId,sc.nextLine());
+                    Response r1 = service.editSiteAddress(siteId, sc.nextLine());
                     if (!r1.isSuccess())
                         print(r1.getMessage());
                     break;
                 case "2":
-                    Response r2 = service.editSiteDeliveryZone(siteId,deliveryZoneSelection());
+                    Response r2 = service.editSiteDeliveryZone(siteId, deliveryZoneSelection());
                     if (!r2.isSuccess())
                         print(r2.getMessage());
                     break;
                 case "3":
                     print("Enter new contact phone number:");
-                    Response r3 = service.editSitePhoneNumber(siteId,sc.nextLine());
+                    Response r3 = service.editSitePhoneNumber(siteId, sc.nextLine());
                     if (!r3.isSuccess())
                         print(r3.getMessage());
                     break;
                 case "4":
                     print("Enter new contact name:");
-                    Response r4 = service.editSiteContactName(siteId,sc.nextLine());
+                    Response r4 = service.editSiteContactName(siteId, sc.nextLine());
                     if (!r4.isSuccess())
                         print(r4.getMessage());
                     break;
@@ -204,21 +205,21 @@ public class UserTerminal extends ResponsePage<Boolean>
     }
 
     private void printSiteByZone() {
-        int zone=deliveryZoneSelection();
-        Response<String> zoneName=service.getDeliveryZoneName(zone);
-        if(zoneName.isSuccess()){
-            print(String.format("\nSites of delivery zone: %s",zoneName.getData()));
-            for(Site site:service.viewSitesPerZone(zone).getData()){
+        int zone = deliveryZoneSelection();
+        Response<String> zoneName = service.getDeliveryZoneName(zone);
+        if (zoneName.isSuccess()) {
+            print(String.format("\nSites of delivery zone: %s", zoneName.getData()));
+            for (Site site : service.viewSitesPerZone(zone).getData()) {
                 print(site.toString());
             }
-        }else printResponse(zoneName);
+        } else printResponse(zoneName);
     }
 
-    private void printAllSites(){
+    private void printAllSites() {
         Response<Collection<Site>> res = service.getAllSites();
         print("\nSite List:");
         if (res.isSuccess())
-            for (Site s: res.getData())
+            for (Site s : res.getData())
                 print(s.toString());
         else
             print(res.getMessage());
@@ -236,9 +237,8 @@ public class UserTerminal extends ResponsePage<Boolean>
                 "\n\t6. Return to Main Menu");
     }
 
-    private int deliveryZoneSelection()
-    {
-        while (true){
+    private int deliveryZoneSelection() {
+        while (true) {
             print("Enter option number to choose a delivery zone:" +
                     "\n\t0. North" +
                     "\n\t1. Center" +
@@ -260,7 +260,7 @@ public class UserTerminal extends ResponsePage<Boolean>
     //############################# Truck Menu ###################################################
     private void runTrucksMenu() {
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Truck Menu ###\n" +
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a new truck" +
@@ -305,7 +305,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         String param2 = sc.nextLine();
         print("Enter max weight:");
         int param3 = selectInt();
-        service.addTruck(param1,param2,param3);
+        service.addTruck(param1, param2, param3);
     }
 
     private void runTruckEdit() {
@@ -313,18 +313,19 @@ public class UserTerminal extends ResponsePage<Boolean>
         int truckId = 0;
         boolean found = false;
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Truck Editing Menu ###");
-            while (!found){
+            while (!found) {
                 printAllTrucks();
                 print("Enter truck plate number:");
                 truckId = selectInt();
                 res = service.getTruck(truckId);
-                if(res.isSuccess()){found=true;}
-                else print(res.getMessage());
+                if (res.isSuccess()) {
+                    found = true;
+                } else print(res.getMessage());
             }
             res = service.getTruck(truckId);
-            print("Editing truck: "+res.getData());
+            print("Editing truck: " + res.getData());
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Edit plate number" +
                     "\n\t2. Edit model" +
@@ -334,19 +335,19 @@ public class UserTerminal extends ResponsePage<Boolean>
             switch (userData) {
                 case "1":
                     print("Enter new plate number:");
-                    int newPlateNum=selectInt();
-                    Response r1 = service.editPlateNum(truckId,newPlateNum);
+                    int newPlateNum = selectInt();
+                    Response r1 = service.editPlateNum(truckId, newPlateNum);
                     printResponse(r1);
                     if (r1.isSuccess())
-                        truckId=newPlateNum;
+                        truckId = newPlateNum;
                     break;
                 case "2":
                     print("Enter new model:");
-                    printResponse(service.editModel(truckId,sc.nextLine()));
+                    printResponse(service.editModel(truckId, sc.nextLine()));
                     break;
                 case "3":
                     print("Enter new max weight:");
-                    printResponse(service.editMaxWeight(truckId,selectInt()));
+                    printResponse(service.editMaxWeight(truckId, selectInt()));
                     break;
                 case "4":
                     isUserFinished = true;
@@ -356,15 +357,15 @@ public class UserTerminal extends ResponsePage<Boolean>
         }
     }
 
-    private void printTruckById(int id){
+    private void printTruckById(int id) {
         printResponse(service.getTruck(id));
     }
 
-    private void printAllTrucks(){
-        Response<ArrayList<Truck>> res=service.getTrucks();
-        ArrayList<Truck>  trucks=res.getData();
+    private void printAllTrucks() {
+        Response<ArrayList<Truck>> res = service.getTrucks();
+        ArrayList<Truck> trucks = res.getData();
         print("\nTruck List:");
-        for(Truck truck:trucks){
+        for (Truck truck : trucks) {
             print(truck.toString());
         }
     }
@@ -372,7 +373,7 @@ public class UserTerminal extends ResponsePage<Boolean>
     //############################# Delivery Menu ###################################################
     private void runDeliveriesMenu() {
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Delivery Menu ###\n" +
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. Go to Upcoming Deliveries Menu" +
@@ -397,7 +398,7 @@ public class UserTerminal extends ResponsePage<Boolean>
 
     private void runCompletedDeliveriesMenu() {
         boolean isUserFinished = false;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Completed Deliveries Menu ###\n" +
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. View delivery archive" +
@@ -423,7 +424,7 @@ public class UserTerminal extends ResponsePage<Boolean>
     private void runUpcomingDeliveriesMenu() {
         boolean isUserFinished = false;
         String userData;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Upcoming Deliveries Menu ###\n" +
                     "Enter option number to execute the desirable operation:" +
                     "\n\t1. View all upcoming deliveries" +
@@ -462,19 +463,20 @@ public class UserTerminal extends ResponsePage<Boolean>
         boolean isUserFinished = false;
         String userData;
         int deliveryId = 0;
-        boolean idLoaded=false;
+        boolean idLoaded = false;
         Response<String> idRes;
-        while (!isUserFinished){
+        while (!isUserFinished) {
             print("\n### Upcoming Delivery Editing Menu ###");
-            while(!idLoaded){
+            while (!idLoaded) {
                 print("Enter delivery id:");
-                deliveryId=selectInt();
-                idRes=service.searchUpcomingDelivery(deliveryId);
-                if(idRes.isSuccess()){idLoaded=true;}
-                else print(idRes.getMessage());
+                deliveryId = selectInt();
+                idRes = service.searchUpcomingDelivery(deliveryId);
+                if (idRes.isSuccess()) {
+                    idLoaded = true;
+                } else print(idRes.getMessage());
             }
-            idRes=service.searchUpcomingDelivery(deliveryId);
-            print(String.format("Editing delivery: %s",idRes.getData()));
+            idRes = service.searchUpcomingDelivery(deliveryId);
+            print(String.format("Editing delivery: %s", idRes.getData()));
             print("Enter option number to execute the desirable operation:" +
                     "\n\t1. Add a destination" +
                     "\n\t2. Remove a destination" +
@@ -492,11 +494,11 @@ public class UserTerminal extends ResponsePage<Boolean>
             userData = sc.nextLine();
             switch (userData) {
                 case "1":
-                    printResponse(service.addDestinationToDelivery(deliveryId,chooseDest()));
+                    printResponse(service.addDestinationToDelivery(deliveryId, chooseDest()));
                     break;
                 case "2":
                     print("Enter destination id:");
-                    printResponse(service.removeDestinationFromDelivery(deliveryId,selectInt()));
+                    printResponse(service.removeDestinationFromDelivery(deliveryId, selectInt()));
                     break;
                 //case "3":
                 //    printResponse(addItemToDest(deliveryId));
@@ -508,15 +510,15 @@ public class UserTerminal extends ResponsePage<Boolean>
                     printResponse(editQuantity(deliveryId));
                     break;
                 case "5":
-                    printResponse(editDate(deliveryId,true));
+                    printResponse(editDate(deliveryId, true));
                     break;
                 case "6":
-                    printResponse(editDate(deliveryId,false));
+                    printResponse(editDate(deliveryId, false));
                     break;
                 case "7":
                     printDriverList();
                     print("Enter new driver id:");
-                    printResponse(service.editDeliveryDriver(deliveryId,selectInt()));
+                    printResponse(service.editDeliveryDriver(deliveryId, selectInt()));
                     break;
                 case "8":
                     printResponse(changeTruck(deliveryId));
@@ -524,11 +526,11 @@ public class UserTerminal extends ResponsePage<Boolean>
                 case "9":
                     printAllSites();
                     print("Enter new origin id:");
-                    printResponse(service.editDeliveryOrigin(deliveryId,selectInt()));
+                    printResponse(service.editDeliveryOrigin(deliveryId, selectInt()));
                     break;
                 case "10":
                     print("Enter truck's weight:");
-                    printResponse(service.editDeliveryWeight(deliveryId,selectInt()));
+                    printResponse(service.editDeliveryWeight(deliveryId, selectInt()));
                     break;
                 case "11":
                     isUserFinished = printCompleteDelivery(service.completeDelivery(deliveryId));
@@ -545,73 +547,73 @@ public class UserTerminal extends ResponsePage<Boolean>
     private void searchDelivery(boolean completed) {
         Response<String> res;
         print("Enter delivery id:");
-        int id=selectInt();
-        if(completed){
+        int id = selectInt();
+        if (completed) {
             res = service.searchCompletedDelivery(id);
-        }else {
-            res=service.searchUpcomingDelivery(id);
+        } else {
+            res = service.searchUpcomingDelivery(id);
         }
-       printResponse(res);
+        printResponse(res);
     }
 
     private void printDeliveryArchive() {
-        Response<ArrayList<String>> res=service.viewDeliveryArchive();
-        ArrayList<String>  archive=res.getData();
+        Response<ArrayList<String>> res = service.viewDeliveryArchive();
+        ArrayList<String> archive = res.getData();
         print("\nDelivery Archive:\n");
-        for(String delivery:archive){
+        for (String delivery : archive) {
             print(delivery);
         }
     }
 
     private Response addDelivery() {
-        Response found=null;
+        Response found = null;
         int truckId = 0;
-        int driverId=0;
-        int originId=0;
-        int destId=0;
+        int driverId = 0;
+        int originId = 0;
+        int destId = 0;
         System.out.print("Enter start time, ");
-        LocalDateTime startDate=parseDate();
+        LocalDateTime startDate = parseDate();
         System.out.print("Enter end time, ");
-        LocalDateTime endDate=parseDate();
+        LocalDateTime endDate = parseDate();
         printAllTrucks();
-        while (found==null) {
+        while (found == null) {
             print("Enter truck plate number:");
             truckId = selectInt();
-            found=service.getTruck(truckId);
-            if(!found.isSuccess()){
+            found = service.getTruck(truckId);
+            if (!found.isSuccess()) {
                 print(found.getMessage());
-                found=null;
+                found = null;
             }
         }
-        found=null;
+        found = null;
         printDriverList();
-        while (found==null) {
+        while (found == null) {
             print("Enter driver id:");
-            driverId=selectInt();
-            found=service.getDriver(driverId);
-            if(!found.isSuccess()){
+            driverId = selectInt();
+            found = service.getDriver(driverId);
+            if (!found.isSuccess()) {
                 print(found.getMessage());
-                found=null;
+                found = null;
             }
         }
-        found=null;
+        found = null;
         printAllSites();
-        while (found==null) {
+        while (found == null) {
             print("Enter origin id:");
-            originId=selectInt();
-            found=service.getSite(originId);
-            if(!found.isSuccess()){
+            originId = selectInt();
+            found = service.getSite(originId);
+            if (!found.isSuccess()) {
                 print(found.getMessage());
-                found=null;
+                found = null;
             }
         }
-        destId=chooseDest();
-        return service.addDelivery(startDate,endDate,truckId,driverId,originId,destId);
+        destId = chooseDest();
+        return service.addDelivery(startDate, endDate, truckId, driverId, originId, destId);
     }
 
-    private void printDriverList(){
+    private void printDriverList() {
         print("\nDriver List:");
-        for(String driver:service.getDriverList().getData()){
+        for (String driver : service.getDriverList().getData()) {
             print(driver);
         }
     }
@@ -619,37 +621,37 @@ public class UserTerminal extends ResponsePage<Boolean>
     private Response changeTruck(int deliveryId) {
         printAllTrucks();
         print("Enter new truck id:");
-        return service.editDeliveryTruck(deliveryId,selectInt());
+        return service.editDeliveryTruck(deliveryId, selectInt());
     }
 
-    private Response editDate(int deliveryId,boolean start) {
-        if(start) System.out.print("Enter start time, ");
+    private Response editDate(int deliveryId, boolean start) {
+        if (start) System.out.print("Enter start time, ");
         else System.out.print("Enter end time, ");
-        LocalDateTime date=parseDate();
-        if(start) return service.editDeliveryStartTime(deliveryId,date);
-        else return service.editDeliveryEndTime(deliveryId,date);
+        LocalDateTime date = parseDate();
+        if (start) return service.editDeliveryStartTime(deliveryId, date);
+        else return service.editDeliveryEndTime(deliveryId, date);
     }
 
     private Response editQuantity(int deliveryId) {
         print("Enter destination id:");
-        int destId=selectInt();
+        int destId = selectInt();
         print("Enter item name:");
-        String item=sc.nextLine();
+        String item = sc.nextLine();
         print("Enter producer name:");
-        String producer=sc.nextLine();
+        String producer = sc.nextLine();
         print("Enter new quantity:");
-        int quantity=selectInt();
-        return service.editDeliveryItemQuantity(deliveryId,destId,item,producer,quantity);
+        int quantity = selectInt();
+        return service.editDeliveryItemQuantity(deliveryId, destId, item, producer, quantity);
     }
 
     private Response removeItemFromDest(int deliveryId) {
         print("Enter destination id:");
-        int destId=selectInt();
+        int destId = selectInt();
         print("Enter item name:");
-        String item=sc.nextLine();
+        String item = sc.nextLine();
         print("Enter producer name:");
-        String producer=sc.nextLine();
-        return service.removeItemFromDeliveryDestination(deliveryId,destId,item, producer);
+        String producer = sc.nextLine();
+        return service.removeItemFromDeliveryDestination(deliveryId, destId, item, producer);
     }
 
     /*private Response addItemToDest(int deliveryId) {
@@ -669,21 +671,22 @@ public class UserTerminal extends ResponsePage<Boolean>
     }
 
     private void printAllUpcomingDeliveries() {
-        Response<ArrayList<Delivery>> res=service.viewUpcomingDeliveries();
-        ArrayList<Delivery>  upcomingDeliveries=res.getData();
+        Response<ArrayList<Delivery>> res = service.viewUpcomingDeliveries();
+        ArrayList<Delivery> upcomingDeliveries = res.getData();
         print("Upcoming Deliveries:");
-        for(Delivery delivery:upcomingDeliveries){
+        for (Delivery delivery : upcomingDeliveries) {
             print(delivery.toString());
         }
     }
 
-    private int chooseDest(){
-        Response<Site> found=null;
-        int id=0;
+    private int chooseDest() {
+        Response<Site> found = null;
+        int id = 0;
         print("\nDestination List:");
-        for(String dest:service.getDestList().getData()){
+        for (String dest : service.getDestList().getData()) {
             print(dest);
-        }while (found==null) {
+        }
+        while (found == null) {
             print("Enter destination's site id:");
             id = selectInt();
             found = service.getSite(id);
@@ -695,7 +698,7 @@ public class UserTerminal extends ResponsePage<Boolean>
         return id;
     }
 
-    private boolean printCompleteDelivery(Response res){
+    private boolean printCompleteDelivery(Response res) {
         if (res.isSuccess())
             return true;
         print(res.getMessage());
@@ -703,10 +706,15 @@ public class UserTerminal extends ResponsePage<Boolean>
     }
 
     //############################# Parsing & Printing ###################################################
-    private void print(String message){System.out.println(message);}
-    private void printIllegalOptionMessage() {print("You picked an illegal option, please try again");}
-    private int selectInt()
-    {
+    private void print(String message) {
+        System.out.println(message);
+    }
+
+    private void printIllegalOptionMessage() {
+        print("You picked an illegal option, please try again");
+    }
+
+    private int selectInt() {
         while (true) {
             String input = sc.nextLine();
             if (input.matches("-\\d+"))
@@ -723,28 +731,151 @@ public class UserTerminal extends ResponsePage<Boolean>
         }
     }
 
-    private LocalDateTime parseDate(){
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        while (true){
+    private LocalDateTime parseDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        while (true) {
             print("use the format <dd-MM-yyyy HH:mm>:");
             try {
-                LocalDateTime dateTime=LocalDateTime.parse(sc.nextLine(),formatter);
-                if(dateTime.isBefore(LocalDateTime.now())){
+                LocalDateTime dateTime = LocalDateTime.parse(sc.nextLine(), formatter);
+                if (dateTime.isBefore(LocalDateTime.now())) {
                     throw new Exception("This date has passed, enter a new date and ");
                 }
                 return dateTime;
-            }catch (Exception e){
-                if(e instanceof DateTimeParseException)
+            } catch (Exception e) {
+                if (e instanceof DateTimeParseException)
                     System.out.print("Invalid date, ");
                 else System.out.print(e.getMessage());
             }
         }
     }
 
-    private void printResponse(Response res){
+    private void printResponse(Response res) {
         if (res.isSuccess() && res.getData() instanceof String)
             print((String) res.getData());
         else
             print(res.getMessage());
+    }
+
+
+    public Boolean runWithResponseBranchManager(Scanner input, Gateway g) throws CLIException {
+        sc = input;
+        Response<DeliveryService> r1 = g.getDeliveryService();
+        if (!r1.isSuccess()) {
+            System.out.println("Failed to get delivery service. " + r1.getMessage());
+            return true;
+        }
+        service = r1.getData();
+
+        printWelcomeMessage();
+        boolean isUserFinished = false;
+        while (!isUserFinished) {
+            printMainMenuMessage();
+            String userData = sc.nextLine();
+            switch (userData) {
+                case "1":
+                    runDeliveriesMenuBranchManager();
+                    break;
+                case "2":
+                    runSitesMenuBranchManager();
+                    break;
+                case "3":
+                    runTrucksMenuBranchManager();
+                    break;
+                case "4":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+        return true;
+    }
+    private void runTrucksMenuBranchManager () {
+        boolean isUserFinished = false;
+        while (!isUserFinished) {
+            print("\n### Truck Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. View all trucks" +
+                    "\n\t2. Search a truck" +
+                    "\n\t3. Return to Main Menu");
+            String userData = sc.nextLine();
+            switch (userData) {
+                case "1":
+                    printAllTrucks();
+                    print("Enter plate number:");
+                    printResponse(service.deleteTruck(selectInt()));
+                    break;
+                case "2":
+                    printAllTrucks();
+                    break;
+                case "3":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private void runSitesMenuBranchManager () {
+        boolean isUserFinished = false;
+        while (!isUserFinished) {
+            print("\n### Site Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. Search a site" +
+                    "\n\t2. View all sites of a delivery zone" +
+                    "\n\t3. View all sites" +
+                    "\n\t4. Return to Main Menu");
+            String userData = sc.nextLine();
+            switch (userData) {
+                case "1":
+                    print("Enter site id:");
+                    Response<Site> res = service.getSite(selectInt());
+                    printResponse(res);
+                    if (res.isSuccess()) print(res.getData().toString());
+                    break;
+                case "2":
+                    printSiteByZone();
+                    break;
+                case "3":
+                    printAllSites();
+                    break;
+                case "4":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
+    }
+
+    private void runDeliveriesMenuBranchManager () {
+        boolean isUserFinished = false;
+        String userData;
+        while (!isUserFinished) {
+            print("\n### Upcoming Deliveries Menu ###\n" +
+                    "Enter option number to execute the desirable operation:" +
+                    "\n\t1. View all upcoming deliveries" +
+                    "\n\t2. Search an upcoming delivery" +
+                    "\n\t3. view the delivery archive" +
+                    "\n\t4. Return to Delivery Menu");
+            userData = sc.nextLine();
+            switch (userData) {
+                case "1":
+                    printAllUpcomingDeliveries();
+                    break;
+                case "2":
+                    searchDelivery(false);
+                    break;
+                case "3":
+                    runCompletedDeliveriesMenu();
+                    break;
+                case "4":
+                    isUserFinished = true;
+                    break;
+                default:
+                    printIllegalOptionMessage();
+            }
+        }
     }
 }
