@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83ebea01-5c67-4c31-affa-d8d18d0d48c8" name="Default Changelist" comment="delivery functionality changes">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite-jdbc-3.36.0.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NituzProject2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NituzProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NituzProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Delivery/DataAccessLayer/CreateClearTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Delivery/DataAccessLayer/CreateClearTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/dev/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +21,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2AQyfjWnRGQ0ye8baRrmbzEnmFM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,8 +37,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/dev" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
@@ -44,7 +47,7 @@
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\.idea\libraries" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CreateClearTables">
+  <component name="RunManager" selected="Application.NICLI">
     <configuration name="CreateClearTables" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Delivery.DataAccessLayer.CreateClearTables" />
       <module name="NituzProject" />
@@ -68,7 +71,7 @@
     </configuration>
     <configuration name="NICLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
-      <module name="superli2" />
+      <module name="NituzProject2" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dev" />
       <extension name="coverage">
         <pattern>
@@ -100,8 +103,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CreateClearTables" />
         <item itemvalue="Application.NICLI" />
+        <item itemvalue="Application.CreateClearTables" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>

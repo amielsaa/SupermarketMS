@@ -27,7 +27,7 @@ public class NICLI
     private void run() {
             try
             {
-                //gateway.initDefaultData();
+                gateway.initDefaultData();
             } catch (Exception e)
             {
                 System.out.println("WARNING! initialization of the default data resulted in an error. ");
