@@ -9,15 +9,13 @@ import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
-import Suppliers.ServiceLayer.Response;
 import Suppliers.ServiceLayer.SupplierFacade;
+import Utilities.Response;
 import misc.Pair;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import javax.swing.text.Utilities;
+import java.time.LocalDate;
+import java.util.*;
 
 public class SIService {
     SupplierFacade fSupplier;
@@ -42,11 +40,33 @@ public class SIService {
     }
 
     public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean selfdelivery, String deliveryzone, String address) {
+        int zone = 0;
+        if (deliveryzone.equals("Center"))
+            zone = 1;
+        if (deliveryzone.equals("North"))
+            zone = 2;
+        Response a=gateway.getDeliveryService().getData().addSupplierWarehouse(address,zone,contactPhone,contactName);
+        if(a.isSuccess())
         return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery, deliveryzone, address);
+        else
+            return Response.makeFailure(a.getMessage());
     }
 
     public Response makeOrder(int business_num, HashMap<Pair<String, String>, Integer> order) {
-        return fSupplier.makeOrder(business_num,order);
+        Response<String> address=fSupplier.getSupplierAddress(business_num);
+        if(address.isSuccess()) {
+            Response<Set<LocalDate>> dates=fSupplier.getDatesForDelivery(business_num);
+            Response<DOrder> madeorder=fSupplier.makeOrder(business_num, order);
+            if(madeorder.isSuccess()){
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData());
+                if(!delivery.isSuccess()){
+                   return fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(),madeorder.getData().getOrder_Id());
+                }
+                return Response.makeFailure(delivery.getMessage());
+            }
+            return madeorder;
+        }
+        return address;
     }
 
     public Response<DSupplier> getSupplier(int businessNumber) {
@@ -58,7 +78,12 @@ public class SIService {
     }
 
     public Response<DSupplier> removeSupplier(int bn) {
-        return fSupplier.removeSupplier(bn);
+        Response<String> address=fSupplier.getSupplierAddress(bn);
+        if(address.isSuccess()) {
+            gateway.getDeliveryService().getData().deleteSite(address.getData());
+            return fSupplier.removeSupplier(bn);
+        }
+        return Response.makeFailure(address.getMessage());
     }
 
     /* public Response addSupplierDeliveryDay(int bn, int day){
@@ -194,9 +219,20 @@ public class SIService {
     //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
 
     public Response<List<DOrder>> MakeOrderMinQuantity() {
-
-        //fSupplier.MakeDeliveryFromList(
-        return fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
+        Response<List<DOrder>> orders= fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
+        List<DOrder> actualOrders=new ArrayList<>();
+        if(orders.isSuccess()){
+            for(DOrder i: orders.getData()){
+                Response<String> address=fSupplier.getSupplierAddress(i.getSupplier_BN());
+                Response<Set<LocalDate>> days=fSupplier.getDatesForDelivery(i.getSupplier_BN());
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData());
+                if(delivery.isSuccess()){
+                    fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
+                    actualOrders.add(i);
+                }
+            }
+        }
+        return Response.makeSuccess(actualOrders);
     }
 
 
