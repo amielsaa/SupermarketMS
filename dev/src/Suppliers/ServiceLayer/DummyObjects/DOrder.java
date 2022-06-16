@@ -14,7 +14,7 @@ public class DOrder {
     private double PriceBeforeDiscount;
     private double final_Price;
     private Date Order_Date;
-
+    private boolean hasDelivery;
 
     public DOrder(Order o) {
         Supplier_BN = o.getSupplier_BN();
@@ -23,6 +23,7 @@ public class DOrder {
         Order_Date = o.getOrder_Date();
         PriceBeforeDiscount = o.getPriceBeforeDiscount();
         item_Num_To_OrderItem = makeDOrderItems(o.getItem_Num_To_OrderItem());
+        hasDelivery = o.getHasDelivery();
     }
 
     private HashMap<Pair<String, String>, DOrderItem> makeDOrderItems(HashMap<Pair<String, String>, OrderItem> hm) {
@@ -56,8 +57,12 @@ public class DOrder {
         return Order_Date;
     }
 
+    public boolean isHasDelivery() {
+        return hasDelivery;
+    }
+
     public String toString(){
-        return "Supplier BN: "+ getSupplier_BN() + ", OrderID: " + getOrder_Id() +", Order Date: " + getOrder_Date() + "\nItems: "+ itemsToString() + "\nOriginal Price: " + getPriceBeforeDiscount() + "\nFinal Price: " + getFinal_Price();
+        return "Supplier BN: "+ getSupplier_BN() + ", OrderID: " + getOrder_Id() +", Order Date: " + getOrder_Date() + ", Has delivery: " + isHasDelivery() +  "\nItems: "+ itemsToString() + "\nOriginal Price: " + getPriceBeforeDiscount() + "\nFinal Price: " + getFinal_Price();
     }
 
     private String itemsToString(){
