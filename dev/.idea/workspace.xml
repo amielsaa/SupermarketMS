@@ -10,23 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change afterPath="$PROJECT_DIR$/../.idea/libraries/sqlite-jdbc-3.36.0.3.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NituzProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../NituzProject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,26 +59,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="sqlite" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/Tests" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea/artifacts" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.22859922" />
-    <property name="project.structure.side.proportion" value="0.1921618" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\dev\.idea\artifacts" />
@@ -100,7 +78,14 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DeliveryEmployeeIntegrationTests">
+  <component name="RunManager" selected="Application.NICLI">
+    <configuration name="NICLI" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
+      <module name="dev" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="dev" />
       <method v="2">
@@ -132,6 +117,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="Integration" />
       <option name="MAIN_CLASS_NAME" value="Integration.DeliveryEmployeeIntegrationTests" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -183,6 +169,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.NICLI" />
       <item itemvalue="JUnit.DeliveriesControllerTest" />
       <item itemvalue="JUnit.SitesControllerTest" />
       <item itemvalue="JUnit.TrucksControllerTest" />
@@ -664,6 +651,16 @@
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>166</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/Pages/AddShiftPage.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
