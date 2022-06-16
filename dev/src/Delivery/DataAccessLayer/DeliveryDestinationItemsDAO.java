@@ -29,7 +29,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
             pstmt.setString(3, item);
             pstmt.setString(4, producer);
             pstmt.setDouble(5, price);
-            pstmt.setInt(4, quantity);
+            pstmt.setInt(6, quantity);
             if (pstmt.executeUpdate() != 1) {
                 return;
             }
@@ -83,6 +83,7 @@ public class DeliveryDestinationItemsDAO extends DataAccessObject {
             pstmt.setInt(2, siteId);
             pstmt.setInt(3, deliveryId);
             pstmt.setString(4, item);
+            pstmt.setString(5, producer);
             if (pstmt.executeUpdate() != 1) {
                 return;
             }
