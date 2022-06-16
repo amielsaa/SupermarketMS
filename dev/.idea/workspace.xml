@@ -10,23 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change afterPath="$PROJECT_DIR$/../.idea/libraries/sqlite-jdbc-3.36.0.3.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NituzProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../NituzProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
