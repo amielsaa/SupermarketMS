@@ -109,8 +109,8 @@ public class ProductController {
         throw new IllegalArgumentException("Date format isn't valid.");
     }
 
-    public void addPendingProducts(Map<Pair<String,String>,Pair<Integer,Integer>> pendingProducts) {
-        for(Map.Entry<Pair<String,String>,Pair<Integer,Integer>> entry : pendingProducts.entrySet()) {
+    public void addPendingProducts(Map<Pair<String,String>,Pair<Double,Integer>> pendingProducts) {
+        for(Map.Entry<Pair<String,String>,Pair<Double,Integer>> entry : pendingProducts.entrySet()) {
             String name = entry.getKey().getFirst();
             String producer = entry.getKey().getSecond();
             double price = entry.getValue().getFirst();

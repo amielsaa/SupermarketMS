@@ -45,15 +45,15 @@ public class ReportController {
             throw new IllegalArgumentException("Delete defective pending product failed.");
     }
 
-    public Map<Pair<String,String>,Pair<Integer,Integer>> getPendingMap() {
+    public Map<Pair<String,String>,Pair<Double,Integer>> getPendingMap() {
         return pendingDAO.SelectAll();
     }
 
-    public void receiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+    public void receiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
         if(delivery==null)
             throw new IllegalArgumentException("delivery can't be empty");
-        for (Map.Entry <Pair<String,String>,Pair<Integer,Integer>> product:delivery.entrySet() ) {
-            String name = product.getKey().getFirst(); String producer = product.getKey().getSecond(); int price =product.getValue().getFirst(); int quantity = product.getValue().getSecond();
+        for (Map.Entry <Pair<String,String>,Pair<Double,Integer>> product:delivery.entrySet() ) {
+            String name = product.getKey().getFirst(); String producer = product.getKey().getSecond(); double price =product.getValue().getFirst(); int quantity = product.getValue().getSecond();
             pendingDAO.InsertPending(name,producer,price,quantity);
         }
     }
@@ -62,9 +62,9 @@ public class ReportController {
         CommandLineTable table = new CommandLineTable();
         table.setShowVerticalLines(true);
         table.setHeaders("name", "producer" ,"buyingPrice","quantity", "totalPrice");
-        Map <Pair<String,String>,Pair<Integer,Integer>> pending = getPendingMap();
-        for (Map.Entry <Pair<String,String>,Pair<Integer,Integer>> product:pending.entrySet()){
-            String name = product.getKey().getFirst(); String producer = product.getKey().getSecond(); int price =product.getValue().getFirst(); int quantity = product.getValue().getSecond();
+        Map <Pair<String,String>,Pair<Double,Integer>> pending = getPendingMap();
+        for (Map.Entry <Pair<String,String>,Pair<Double,Integer>> product:pending.entrySet()){
+            String name = product.getKey().getFirst(); String producer = product.getKey().getSecond(); double price =product.getValue().getFirst(); int quantity = product.getValue().getSecond();
             String [] array = {name,producer,price+"",quantity+"", (price*quantity)+""};
             table.addRow(array);
         }

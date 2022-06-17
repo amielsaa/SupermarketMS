@@ -238,7 +238,7 @@ public class SIService {
 
 
     // DEIVERY - INVENTORY INTEGRATION
-    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
         return fInventory.ReceiveDelivery(delivery);
     }
 

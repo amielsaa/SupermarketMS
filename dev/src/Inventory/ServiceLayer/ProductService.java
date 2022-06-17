@@ -150,7 +150,7 @@ public class ProductService {
     }
 
     //TODO: implement in productcontroller
-    public Response<String> AddPendingProducts(Map<Pair<String,String>,Pair<Integer,Integer>> pendingProducts) {
+    public Response<String> AddPendingProducts(Map<Pair<String,String>,Pair<Double,Integer>> pendingProducts) {
         try{
             productController.addPendingProducts(pendingProducts);
             return Response.makeSuccess("Pending products added successfully.");
