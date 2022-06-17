@@ -44,7 +44,7 @@ public class DeliveryService {
         try {
             loadSties();
             loadTrucks();
-            //loadDeliveries();
+            loadDeliveries();
         }
         catch (Exception e){}
     }
