@@ -4,6 +4,7 @@ import Employee.DataAccessLayer.ShiftDAO;
 import Utilities.Exceptions.*;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -60,8 +61,8 @@ public class ShiftController
 //        if(shifts.containsKey(new ShiftId(branchId, date, shiftTime))){
 //            return Response.makeFailure("this shift already exists");
 //        }
-        if(!date.isAfter(LocalDateTime.now().plusDays(1))){
-            //Won't be allowed to add a shift a day after
+        if(!date.toLocalDate().isAfter(LocalDate.now().minusDays(1))){
+            //Won't be allowed to add past-time shift
             throw new LegalTimeException("illegal starting time");
         }
         ShiftId shiftId = new ShiftId(branchId, date, shiftTime);

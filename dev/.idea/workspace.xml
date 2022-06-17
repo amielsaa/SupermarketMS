@@ -9,17 +9,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="inserting report pending functionality and changing pair from object.pair to misc.pair in pendingDAO and PendingIdentityMap">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="fixup! addDelivery">
+      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="dev" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -54,24 +69,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="sqlite" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/Tests" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea/artifacts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lib/sqlite-jdbc-3.36.0.3.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.22859922" />
-    <property name="project.structure.side.proportion" value="0.1921618" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -87,7 +88,26 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DeliveryEmployeeIntegrationTests">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.NICLI">
+    <configuration name="NICLI" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
+      <module name="dev" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="dev" />
       <method v="2">
@@ -119,6 +139,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="Integration" />
       <option name="MAIN_CLASS_NAME" value="Integration.DeliveryEmployeeIntegrationTests" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -170,6 +191,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.NICLI" />
       <item itemvalue="JUnit.DeliveriesControllerTest" />
       <item itemvalue="JUnit.SitesControllerTest" />
       <item itemvalue="JUnit.TrucksControllerTest" />
@@ -186,7 +208,10 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="" />
@@ -235,6 +260,14 @@
       <workItem from="1654955809548" duration="128000" />
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
+      <workItem from="1655468984956" duration="264000" />
+    </task>
+    <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
+      <created>1652037464042</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1652037464042</updated>
     </task>
     <task id="LOCAL-00033" summary="minor fixes">
       <created>1652114481084</created>
@@ -572,18 +605,11 @@
       <option name="project" value="LOCAL" />
       <updated>1655309968494</updated>
     </task>
-    <task id="LOCAL-00081" summary="inserting report pending functionality and changing pair from object.pair to misc.pair in pendingDAO and PendingIdentityMap">
-      <created>1655385998150</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1655385998150</updated>
-    </task>
-    <option name="localTasksCounter" value="82" />
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -591,17 +617,7 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/merger" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -609,6 +625,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="adding DAL" />
     <MESSAGE value="Changes by User" />
     <MESSAGE value="editing DAL" />
     <MESSAGE value="editing DAO objects" />
@@ -633,8 +650,7 @@
     <MESSAGE value="last fixes in DAO" />
     <MESSAGE value="trying to merge" />
     <MESSAGE value="merging" />
-    <MESSAGE value="inserting report pending functionality and changing pair from object.pair to misc.pair in pendingDAO and PendingIdentityMap" />
-    <option name="LAST_COMMIT_MESSAGE" value="inserting report pending functionality and changing pair from object.pair to misc.pair in pendingDAO and PendingIdentityMap" />
+    <option name="LAST_COMMIT_MESSAGE" value="merging" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -663,6 +679,16 @@
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>166</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/Pages/AddShiftPage.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

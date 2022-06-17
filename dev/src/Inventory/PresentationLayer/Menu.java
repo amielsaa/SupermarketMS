@@ -2,12 +2,14 @@ package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
+import misc.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
 import Inventory.ServiceLayer.Service;
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
+
 
 import java.util.*;
 
@@ -27,10 +29,19 @@ public class Menu {
     }
 
     public void mainLoop() {
-        while(menu_on) {
-            printMenu();
-            int selection = enterInput();
-            action(selection);
+        if(!service.getGateway().canManageInventory().getData()){
+            while (menu_on){
+                printMenuBM();
+                int selection = enterInput();
+                actionBranchManager(selection);
+            }
+        }
+        else{
+            while(menu_on) {
+                printMenu();
+                int selection = enterInput();
+                action(selection);
+            }
         }
     }
 
@@ -96,6 +107,34 @@ public class Menu {
         
     }
 
+    private void actionBranchManager(int selection) {
+        try{
+            switch (selection) {
+                case 0:
+                    stopProgram();
+                    break;
+                case 1:
+                    getAllStoreProductsAction();
+                    break;
+                case 2:
+                    reportByCategoriesAction();
+                    break;
+                case 3:
+                    reportByExpiredAction();
+                    break;
+                case 4:
+                    reportByDefectiveAction();
+                    break;
+                case 5:
+                    reportByMinQuantity();
+                    break;
+            }
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     private void reviewDelivery() {
         Response<Report> res = service.ReportPending();
         if(res.isSuccess()) {
@@ -152,10 +191,11 @@ public class Menu {
 
 
     private void makeOrderMinQuantity() {
-        Suppliers.ServiceLayer.Response<List<DOrder>>  res = service.MakeOrderMinQuantity();
-        List<DOrder> list = res.getData();
+        Utilities.Response<Pair<String,List<DOrder>>> res = service.MakeOrderMinQuantity();
+        List<DOrder> list = res.getData().getSecond();
+        System.out.println(res.getData().getFirst());
         for(int i=0;i<list.size();i++) {
-            System.out.println(list.toString());
+            System.out.println(list.get(i).toString());
         }
     }
 
@@ -367,6 +407,17 @@ public class Menu {
                 "5-Print All Store Products            <--->   11-Change Category                   <--->   16-Insert Test Data\n" +
                 "6-Report By Categories                <--->   12-Add Discount By Category          <--->   -------------------\n" +
                 "0-Exit");
+    }
+
+    private void printMenuBM() {
+        String menu =   "1-Print All Store Products\n" +
+                "2-Report By Categories\n" +
+                "3-Report By Expired Products\n" +
+                "4-Report By Defective Products\n" +
+                "5-Report By Shortage Products\n" +
+                "0-Exit";
+        System.out.println(menu);
+
     }
 
     private String enterStringInput() {

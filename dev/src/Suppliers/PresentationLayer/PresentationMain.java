@@ -1,12 +1,13 @@
 package Suppliers.PresentationLayer;
 
+
 import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
-import Suppliers.ServiceLayer.Response;
 import Suppliers.ServiceLayer.SupplierFacade;
+import Utilities.Response;
 import misc.Pair;
 
 import java.util.*;
@@ -22,13 +23,17 @@ public class PresentationMain {
 
 
     public void main(Scanner s) {
+        boolean canManageOrders = service.getGateway().canManageOrders().getData();
+        if(!canManageOrders){
+            runBMMenu(s);
+        }
         Boolean running = true;
 
-        
+
         outOfStock(s);
 
 
-        while(running){ //main program loop
+        while(running && canManageOrders){ //main program loop
             System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Update Supplier Payment Details)");
             System.out.println("(5 - Update Supplier Bank Account, 6 - Update Supplier Self Delivery, 7 - Add Supplier Contact, 8 - Remove Supplier Contact)");
@@ -109,18 +114,100 @@ public class PresentationMain {
                     outOfStock(s);
                     break;
                 }
-
-
-
-
             }
-
         }
         System.out.println("Goodbye, come again!");
 
 
 
     }
+
+    private void runBMMenu(Scanner s){
+        Boolean running = true;
+        outOfStock(s);
+        while(running){
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.println( "0 - Exit\n" +
+                    "1 - Create supplier\n" +
+                    "2 - Remove Supplier\n" +
+                    "3 - Get Supplier\n" +
+                    "4 - Update Supplier Payment Details\n"+
+                    "5 - Update Supplier Bank Account\n" +
+                    "6 - Update Supplier Self Delivery\n" +
+                    "7 - Add Supplier Contact\n" +
+                    "8 - Remove Supplier Contact\n"+
+                    "9 - Get Order\n" +
+                    "10 - Get All Orders From Supplier\n"+
+                    "11 - Get All Routine Orders\n" +
+                    "12 - Get All Suppliers\n" +
+                    "13 - Load Data");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------");
+
+            System.out.print("Enter command: ");
+            String input = s.nextLine();
+
+            switch (input){
+                case ("0"): {
+                    running = false;
+                    break;
+                }
+                case ("1"): {
+                    createSupplier(s);
+                    break;
+                }
+                case ("2"): {
+                    removeSupplier(s);
+                    break;
+                }
+                case("3"): {
+                    getSupplier(s);
+                    break;
+                }
+                case("4"): {
+                    updateSupplierPaymentDetails(s);
+                    break;
+                }
+                case("5"): {
+                    updateSupplierBankAccount(s);
+                    break;
+                }
+                case("6"): {
+                    updateSupplierSelfDelivery(s);
+                    break;
+                }
+                case("7"): {
+                    addSupplierContact(s);
+                    break;
+                }
+                case("8"): {
+                    removeSupplierContact(s);
+                    break;
+                }
+                case("9"): {
+                    getOrder(s);
+                    break;
+                }
+                case("10"): {
+                    getAllOrdersFromSupplier(s);
+                    break;
+                }
+                case("11"): {
+                    getAllRoutineOrders(s);
+                    break;
+                }
+                case("12"): {
+                    getAllSuppliers(s);
+                    break;
+                }
+                case("13"): {
+                    loadData();
+                    break;
+                }
+            }
+        }
+        System.out.println("Goodbye, come again!");
+    }
+
 
     private void getAllSuppliers(Scanner s) {
         Response<List<DSupplier>> a = service.getAllSuppliers();

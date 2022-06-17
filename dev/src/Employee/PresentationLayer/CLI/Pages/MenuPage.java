@@ -138,10 +138,10 @@ public class MenuPage extends OptionsMenuPage
                 put("View Qualifications", pgViewQualificationsMenu);
             }
 
-            if(g.canManageDeliveries().getData()) {
+            if(g.canViewDeliveries().getData()) {
                 put("Open Delivery System", deliverySystemTerminal);
             }
-            if(g.canManageInventory().getData()) {
+            if(g.canViewInventory().getData() && g.canViewSuppliers().getData()) {
                 put("Open Inventory System", si);
             }
         }};

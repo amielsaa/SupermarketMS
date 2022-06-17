@@ -22,7 +22,7 @@ public class ProductDAO extends DalController {
         productIdentityMap.deleteAll();
     }
 
-    //TODO: implement
+
     public int SelectMaxId() {
         String sql = "SELECT MAX(id) FROM Products";
         try(Connection conn = this.makeConnection()) {
@@ -131,6 +131,10 @@ public class ProductDAO extends DalController {
         }
 
 
+    }
+
+    public boolean ProductExists(String name, String producer) {
+        return productIdentityMap.ExistsByName(name,producer);
     }
 
     private java.util.Date getDateByString(String expDate) {
