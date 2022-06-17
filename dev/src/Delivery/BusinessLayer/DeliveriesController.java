@@ -4,9 +4,13 @@ import Delivery.DataAccessLayer.*;
 import Employee.ServiceLayer.Gateway;
 import Suppliers.BusinessLayer.Order;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import Suppliers.BusinessLayer.OrderItem;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Utilities.Pair;
 
 public class DeliveriesController {
@@ -42,15 +46,15 @@ public class DeliveriesController {
                1,5);
         setWeight(1, 7000);
         addDestination(1,4);
-        addItemToDestination(1,4,"milk",10);
-        addItemToDestination(1,5,"milk",20);
+        //addItemToDestination(1,4,"milk",10);
+        //addItemToDestination(1,5,"milk",20);
         addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2,6);
         setWeight(2, 12500);
         addDestination(2,4);
-        addItemToDestination(2,6,"eggs",30);
-        addItemToDestination(2,6,"milk",30);
-        addItemToDestination(2,4,"coffee",30);
-        addItemToDestination(2,4,"tea",30);
+        //addItemToDestination(2,6,"eggs",30);
+        //addItemToDestination(2,6,"milk",30);
+        //addItemToDestination(2,4,"coffee",30);
+        //addItemToDestination(2,4,"tea",30);
     }
 
 
@@ -101,21 +105,28 @@ public class DeliveriesController {
     }
 
     //auto
-    public void addDelivery(Order order, Collection<LocalDateTime> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
         for (Pair<Truck, Driver> p: pairs) {
-            for (LocalDateTime day : days) {
-                LocalDateTime startTime = day; //up to change
-                LocalDateTime endTime = day.plusDays(1).minusMinutes(1); //up to change
+            for (LocalDate day : days) {
+                LocalDateTime startTime = LocalDateTime.from(day); //up to change
+                LocalDateTime endTime = LocalDateTime.from(day).plusDays(1).minusMinutes(1); //up to change
                 try{
                     checkAvailability(startTime,endTime,p.getKey().getPlateNum(),p.getValue().getId(), -1);
-                    if (employeeMod.driverAvailableOnShift(day, p.getValue().getId()).isSuccess());
+                    if (employeeMod.driverAvailableOnShift(LocalDateTime.from(day), p.getValue().getId()).isSuccess());
                     {
                         upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
-                        //addDestination(nextDeliveryId,destinationId);
-                        //TODO: FILL PRODUCTS
+                        addDestination(nextDeliveryId,0);
+                        for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
+                            addItemToDestination(nextDeliveryId,
+                                           0,
+                                                 item.getFirst(),
+                                                 item.getSecond(),
+                                                 order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
+                                                 order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
+
                         nextDeliveryId++;
                         return;
                     }
@@ -200,48 +211,48 @@ public class DeliveriesController {
         deliveryDestinationsDAO.Delete(deliveryId,siteId);
     }
 
-    public void addItemToDestination(int deliveryId,int siteId, String item, int quantity) throws Exception {
+    public void addItemToDestination(int deliveryId,int siteId, String item, String producer, double price ,int quantity) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
-        delivery.addItemToDestination((Branch)destination,item,quantity);
-        deliveryDestinationItemsDAO.Create(deliveryId,siteId,item,quantity);
+        delivery.addItemToDestination((Branch)destination,item,producer,price,quantity);
+        deliveryDestinationItemsDAO.Create(deliveryId,siteId,item,producer,price,quantity);
     }
-    public void removeItemFromDestination(int deliveryId,int siteId, String item) throws Exception {
+    public void removeItemFromDestination(int deliveryId,int siteId, String item, String producer) throws Exception {
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
-        delivery.removeItemFromDestination((Branch)destination,item);
-        deliveryDestinationItemsDAO.removeItemFromDestination(deliveryId,siteId,item);
+        delivery.removeItemFromDestination((Branch)destination,item, producer);
+        deliveryDestinationItemsDAO.removeItemFromDestination(deliveryId,siteId,item, producer);
     }
 
-    public void editItemQuantity(int deliveryId,int siteId, String item, int quantity) throws Exception{
+    public void editItemQuantity(int deliveryId,int siteId, String item, String producer, int quantity) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
         Site destination=sitesController.getSite(siteId);
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site id %d is not a destination...",siteId));
         }
-        delivery.editItemQuantity((Branch)destination,item,quantity);
-        deliveryDestinationItemsDAO.editItemQuantity(deliveryId,siteId,item,quantity);
+        delivery.editItemQuantity((Branch)destination,item, producer, quantity);
+        deliveryDestinationItemsDAO.editItemQuantity(deliveryId,siteId,item, producer, quantity);
     }
 
     public void loadDeliveryDestinations(int deliveryId){
         Delivery delivery=upcomingDeliveryDAO.Read(deliveryId);
         LinkedList<Integer> destinations=deliveryDestinationsDAO.Read(deliveryId);
-        LinkedHashMap<Integer, HashMap<String, Integer>> deliveryDestinations=new LinkedHashMap<>();
+        LinkedHashMap<Integer, HashMap<Pair<String, String>,Pair<Double,Integer>>> deliveryDestinations=new LinkedHashMap<>();
         for(Integer destination: destinations){
-            HashMap<String,Integer> items=getItemsOfDest(deliveryId,destination);
+            HashMap<Pair<String, String>,Pair<Double,Integer>> items=getItemsOfDest(deliveryId,destination);
             deliveryDestinations.put(destination,items);
         }
         delivery.setDestinationItems(deliveryDestinations);
     }
 
-    public HashMap<String,Integer> getItemsOfDest(int deliveryId,int siteId) {
-        HashMap<String,Integer> items=deliveryDestinationItemsDAO.getItemsOfDest(deliveryId,siteId);
+    public HashMap<Pair<String, String>,Pair<Double,Integer>> getItemsOfDest(int deliveryId,int siteId) {
+        HashMap<Pair<String, String>,Pair<Double,Integer>> items=deliveryDestinationItemsDAO.getItemsOfDest(deliveryId,siteId);
         return items;
     }
 
@@ -304,14 +315,25 @@ public class DeliveriesController {
         //upcomingDeliveryDAO.setWeight(deliveryId, weight);
     }
 
-    public void completeDelivery(int deliveryId) throws Exception{
+    public HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> completeDelivery(int deliveryId) throws Exception{
         Delivery delivery=getUpcomingDelivery(deliveryId);
         if(delivery.getWeight()<=0){
             throw new Exception(String.format("Before completing delivery num. %d, truck's weight must be updated...",deliveryId));
         }
         upcomingDeliveryDAO.Delete(deliveryId);
         deliveryArchiveDAO.Create(deliveryId,delivery.toString());
+        if (delivery.getDestinationItems().containsKey(0))
+            return convertPairFormat(delivery.getDestinationItems().get(0));
+        return null;
     }
+
+    private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {
+        HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> new_map = new HashMap<>();
+        for (Pair<String,String> p: map.keySet())
+            new_map.put(new misc.Pair<>(p.getKey(),p.getValue()), new misc.Pair<>(map.get(p).getKey(), map.get(p).getValue()));
+        return new_map;
+    }
+
     public void checkTruckHasUpcomingDelivery(int truckId) throws Exception {
         for (Delivery delivery: upcomingDeliveryDAO.getUpcomingDeliveries()){
             if(delivery.getTruckId()==truckId){
@@ -367,5 +389,9 @@ public class DeliveriesController {
 
     public void resetNextId() {
         nextDeliveryId = 1;
+    }
+
+    public void checkSiteHasUpcomingDelivery(String address) throws Exception {
+        checkSiteHasUpcomingDelivery(sitesController.getSite(address).getId());
     }
 }

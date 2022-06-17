@@ -241,14 +241,14 @@ public class DeliveriesControllerTest {
     public void addItemToDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
-            deliveriesController.addItemToDestination(1,2,"name",1);
+            deliveriesController.addItemToDestination(1,2,"name", "p",1,1);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.addItemToDestination(1,1,"name",1);
+            deliveriesController.addItemToDestination(1,1,"name", "p",1,1);
             fail();
         }
         catch (Exception e){
@@ -259,21 +259,21 @@ public class DeliveriesControllerTest {
     public void removeItemFromDestination() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
-            deliveriesController.addItemToDestination(1,2,"name",1);
-            deliveriesController.removeItemFromDestination(1, 2, "name");
+            deliveriesController.addItemToDestination(1,2,"name", "p",1,1);
+            deliveriesController.removeItemFromDestination(1, 2, "name", "p");
         }
         catch (Exception e){
             System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.removeItemFromDestination(1, 2, "name");
+            deliveriesController.removeItemFromDestination(1, 2, "name", "p");
             fail();
         }
         catch (Exception e){
         }
         try{
-            deliveriesController.removeItemFromDestination(1, 2, "namee");
+            deliveriesController.removeItemFromDestination(1, 2, "namee", "p");
             fail();
         }
         catch (Exception e){
@@ -284,15 +284,15 @@ public class DeliveriesControllerTest {
     public void editItemQuantity() {
         try{
             deliveriesController.addDelivery(time1, time2, 2222222,1,1,2);
-            deliveriesController.addItemToDestination(1,2,"name",1);
-            deliveriesController.editItemQuantity(1,2,"name",3);
+            deliveriesController.addItemToDestination(1,2,"name", "p",1,1);
+            deliveriesController.editItemQuantity(1,2,"name","p",3);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
             fail();
         }
         try{
-            deliveriesController.editItemQuantity(1,2,"namee",3);
+            deliveriesController.editItemQuantity(1,2,"namee", "p",3);
             fail();
         }
         catch (Exception e){

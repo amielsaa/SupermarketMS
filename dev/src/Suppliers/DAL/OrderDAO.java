@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 
 public class OrderDAO extends DalController {
@@ -23,7 +24,7 @@ public class OrderDAO extends DalController {
 
     //put in priceBeforeDiscount as field
     public boolean insertOrders(int bn, int orderID, double finalprice, String orderdate, double originalprice, int hasDelivery ) {
-        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice ) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO Orders(bn, orderID, finalprice, orderdate, originalprice, hasdelivery) VALUES(?,?,?,?,?,?)";
 
         try(Connection conn = this.makeConnection()){
             //Connection conn = this.makeConnection();
@@ -176,6 +177,18 @@ public class OrderDAO extends DalController {
         }
         return true;
     }
+    public boolean updateHasDelivery(int bn, int orderID, int hasDelivery){
+//        String sql = "update ? set originalPrice = ?, finalPrice = ? where bn = ? and orderID = ?";
+        String sql = "update " + tableName + " set hasDelivery = " + hasDelivery + " where bn = " + bn + " and orderID = " + orderID;
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
 
     public int getMaxOrderId(){
 
@@ -195,6 +208,32 @@ public class OrderDAO extends DalController {
             return 0;
         }
 
+    }
+
+    public Collection<Order> getAllOrdersWithNoDelivery(){
+        // select orders with this bn, add orders to HM. return false if none are found.
+        // check if each order isn't getting added twice to HM (wasn't there previously)
+
+
+        String sql = "select * from Orders where hasdelivery = 0";
+        Collection<Order> ans = new ArrayList<>();
+        try(Connection conn = this.makeConnection()){
+            //Connection conn = this.makeConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            Order order = null;
+            while (rs.next()) {
+                order = new Order(rs.getInt("bn"), rs.getInt("orderID"),rs.getDouble("finalprice"),rs.getString("orderdate"), rs.getDouble("originalprice"), rs.getInt("hasdelivery"));
+                if(insertOrderToHM(order.getSupplier_BN(), order))
+                    ans.add(order);
+                else ans.add(BN_To_Orders.get(order.getSupplier_BN()).get(order.getOrder_Id()));
+            }
+
+        } catch (SQLException e) {
+            return new ArrayList<>();
+        }
+
+        return ans;
     }
 
     public void clearAll(){

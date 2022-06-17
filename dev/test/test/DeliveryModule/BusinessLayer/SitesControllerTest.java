@@ -24,7 +24,7 @@ public class SitesControllerTest {
     public void addSupplierWarehouse() {
         try {
             sitesController.addSupplierWarehouse("address1",0,"000000","name");
-            assertEquals(1,sitesController.getAllSites().size());
+            assertEquals(2,sitesController.getAllSites().size());
             assertNotNull(sitesController.getSite("address1"));
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -36,7 +36,7 @@ public class SitesControllerTest {
     public void addBranch() {
         try {
             sitesController.addBranch("address1",0,"000000","name");
-            assertEquals(1,sitesController.getAllSites().size());
+            assertEquals(2,sitesController.getAllSites().size());
             assertNotNull(sitesController.getSite("address1"));
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -125,8 +125,9 @@ public class SitesControllerTest {
             iterator=zone0.iterator();
             assertEquals("address1",iterator.next().getAddress());
             assertEquals("address4",iterator.next().getAddress());
-            assertEquals(2,zone1.size());
+            assertEquals(3,zone1.size());
             iterator=zone1.iterator();
+            assertEquals("SuperLi",iterator.next().getAddress());
             assertEquals("address2",iterator.next().getAddress());
             assertEquals("address5",iterator.next().getAddress());
             assertEquals(2,zone2.size());
@@ -144,11 +145,11 @@ public class SitesControllerTest {
         try {
             sitesController.addBranch("address1",0,"000000","name1");
             sitesController.addBranch("address2",0,"000000","name1");
-            assertEquals(2,sitesController.getAllSites().size());
+            assertEquals(3,sitesController.getAllSites().size());
             sitesController.deleteSite(1);
-            assertEquals(1,sitesController.getAllSites().size());
+            assertEquals(2,sitesController.getAllSites().size());
             sitesController.deleteSite(2);
-            assertEquals(0,sitesController.getAllSites().size());
+            assertEquals(1,sitesController.getAllSites().size());
         }catch (Exception e){
             System.out.println(e.getMessage());
             fail();

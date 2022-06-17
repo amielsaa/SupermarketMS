@@ -5,6 +5,7 @@ import Suppliers.BusinessLayer.OrderController;
 import Suppliers.BusinessLayer.RoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
+import Utilities.Response;
 import misc.Days;
 import misc.Pair;
 
@@ -187,7 +188,9 @@ public class OrderService {
             return Response.makeFailure(e.getMessage());
         }
     }
-/*
+
+
+
     public Response<Boolean> setIfHasDeliveryToOrder(int bn,int orderId) {
         try{
             Boolean response=cOrder.setIfHasDeliveryToOrder(bn,orderId);
@@ -198,5 +201,19 @@ public class OrderService {
         }
     }
 
- */
+
+    public Response<List<DOrder>> getAllRegularOrdersWithoutDeliveries() {
+        try {
+            Collection<Order> actualOrders = cOrder.getAllRegularOrdersWithoutDeliveries();
+            List<DOrder> dummyOrders = new LinkedList<>();
+            for(Order o: actualOrders) {
+                dummyOrders.add(new DOrder(o));
+            }
+            return Response.makeSuccess(dummyOrders);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+    }
 }
+

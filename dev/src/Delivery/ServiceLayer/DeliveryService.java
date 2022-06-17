@@ -4,9 +4,11 @@ import Delivery.DataAccessLayer.CreateClearTables;
 import Employee.ServiceLayer.Gateway;
 import Inventory.ServiceLayer.Service;
 import Suppliers.BusinessLayer.Order;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.SupplierFacade;
 import Utilities.Response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -117,6 +119,17 @@ public class DeliveryService {
         try {
             deliveriesController.checkSiteHasUpcomingDelivery(id);
             sitesController.deleteSite(id);
+            return Response.makeSuccess(0);
+        }
+        catch (Exception ex){
+            return Response.makeFailure(ex.getMessage());
+        }
+    }
+
+    public Response deleteSite(String address){
+        try {
+            deliveriesController.checkSiteHasUpcomingDelivery(address);
+            sitesController.deleteSite(address);
             return Response.makeSuccess(0);
         }
         catch (Exception ex){
@@ -302,7 +315,7 @@ public class DeliveryService {
     }
 
     //auto delivery creation
-    public Response addDelivery(Order order, Collection<LocalDateTime> days){
+    public Response addDelivery(DOrder order, Collection<LocalDate> days){
         try{
             deliveriesController.addDelivery(order, days, employeeMod);
             return Response.makeSuccess(0);
@@ -361,27 +374,28 @@ public class DeliveryService {
         }
     }
 
-    public Response addItemToDeliveryDestination(int deliveryId,int siteId, String item, int quantity){
+    //removed
+    /*public Response addItemToDeliveryDestination(int deliveryId,int siteId, String item, int quantity){
         try {
             deliveriesController.addItemToDestination(deliveryId,siteId,item,quantity);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
-    }
+    }*/
 
-    public Response removeItemFromDeliveryDestination(int deliveryId,int siteId, String item){
+    public Response removeItemFromDeliveryDestination(int deliveryId,int siteId, String item, String producer){
         try {
-            deliveriesController.removeItemFromDestination(deliveryId,siteId,item);
+            deliveriesController.removeItemFromDestination(deliveryId,siteId,item, producer);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
     }
 
-    public Response editDeliveryItemQuantity(int deliveryId,int siteId, String item, int quantity){
+    public Response editDeliveryItemQuantity(int deliveryId,int siteId, String item, String producer, int quantity){
         try {
-            deliveriesController.editItemQuantity(deliveryId,siteId,item,quantity);
+            deliveriesController.editItemQuantity(deliveryId,siteId,item,producer, quantity);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -457,6 +471,7 @@ public class DeliveryService {
 
     public Response completeDelivery(int deliveryId){
         try {
+            //call invetory.additems here
             deliveriesController.completeDelivery(deliveryId);
             return Response.makeSuccess(0);
         }catch (Exception e){

@@ -1,7 +1,7 @@
 package Inventory.DataAccessLayer.IdentityMap;
 
-import Inventory.ServiceLayer.Objects.Pair;
-
+//import Inventory.ServiceLayer.Objects.Pair;
+import misc.Pair;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class PendingIdentityMap {
     }
 
     public boolean isPulled_all_data() {
-        return isPulled_all_data();
+        return pulled_all_data;
     }
 
     public void setPulled_all_data(boolean pulled) {

@@ -10,6 +10,11 @@ public class SitesController {
     public SitesController() {
         this.siteDAO=new SiteDAO();
         nextID=getNextID();
+        if (siteDAO.Read(0) == null);
+        try{
+            siteDAO.Create(new Branch(0, "SuperLi", DeliveryZone.Center, "03-0000001", "SuperLi"));
+        }
+        catch (Exception e){}
     }
 
     public void load() throws Exception{
@@ -110,10 +115,23 @@ public class SitesController {
 
 
     public void deleteSite(int id) throws Exception {
+        if(id == 0)
+            throw new Exception("SuperLi cant be deleted");
         Site site=getSite(id);
         if(site==null)
             throw new Exception(String.format("A site with id %d does not exist",id));
+        if(site instanceof SupplierWarehouse)
+            throw new Exception(String.format("You can only delete branches in this manu, enter the supplier manu to delete a site with id %d",id));
         siteDAO.Delete(id);
+    }
+
+    public void deleteSite(String address) throws Exception {
+        if(address.equals("SuperLi"))
+            throw new Exception("SuperLi cant be deleted");
+        Site site=getSite(address);
+        if(site==null)
+            throw new Exception(String.format("A site with address %s does not exist",address));
+        siteDAO.Delete(site.getId());
     }
 
     public ArrayList<Site> getAllDestinations(){
