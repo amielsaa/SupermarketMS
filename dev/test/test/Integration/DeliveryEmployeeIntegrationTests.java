@@ -26,7 +26,7 @@ public class DeliveryEmployeeIntegrationTests {
         EmployeeMod = new Gateway();
         try
         {
-            EmployeeMod.initDefaultData();
+            EmployeeMod.initDefaultDataTests();
         } catch (Exception e)
         {
             System.out.println("WARNING! initialization of the gateway resulted in an error: " + e.getMessage());
