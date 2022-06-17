@@ -25,7 +25,7 @@ public class ShiftsMenuPage extends OptionsMenuPage
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException
     {
-        this.branchId = printAndWaitForLegalInt(input, "Enter branch id: ", (x) -> (x > 0), "Illegal branch id. ");
+        this.branchId = printAndWaitForLegalInt(input, "Enter branch id: ", (x) -> (x >= 0), "Illegal branch id. ");
         return this.runWithResponse(input, g, this.branchId);
     }
 
