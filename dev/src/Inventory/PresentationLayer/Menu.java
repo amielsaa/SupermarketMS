@@ -42,7 +42,6 @@ public class Menu {
                 action(selection);
             }
         }
-
     }
 
     private void action(int selection) {
@@ -134,7 +133,6 @@ public class Menu {
         }
 
     }
-
 
     private void reviewDelivery() {
         Response<Report> res = service.ReportPending();
@@ -411,16 +409,14 @@ public class Menu {
 
     private void printMenuBM() {
         String menu =   "1-Print All Store Products\n" +
-                        "2-Report By Categories\n" +
-                        "3-Report By Expired Products\n" +
-                        "4-Report By Defective Products\n" +
-                        "5-Report By Shortage Products\n" +
-                        "0-Exit";
+                "2-Report By Categories\n" +
+                "3-Report By Expired Products\n" +
+                "4-Report By Defective Products\n" +
+                "5-Report By Shortage Products\n" +
+                "0-Exit";
         System.out.println(menu);
 
     }
-
-
 
     private String enterStringInput() {
         System.out.print("Enter: ");

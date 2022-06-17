@@ -29,7 +29,7 @@ public class PresentationMain {
         }
         Boolean running = true;
 
-        
+
         outOfStock(s);
 
 

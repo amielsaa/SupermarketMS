@@ -25,6 +25,9 @@ public class UserTerminal extends ResponsePage<Boolean> {
     //############################# Main Menu ###################################################
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException {
+        if(!g.canManageDeliveries().getData()){
+            return runWithResponseBranchManager(input, g);
+        }
         sc = input;
         if(!g.canManageDeliveries().getData()){
             return runWithResponseBranchManager(input, g);
