@@ -168,8 +168,8 @@ class SupplierInventoryIntegrationTests {
     }
     @Test //10
     void MakeOrderMinQuantity(){
-        Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
-        assertTrue(dOrderResponse.getData().isEmpty());
+        Response<Pair<String,List<DOrder>>> dOrderResponse = siService.MakeOrderMinQuantity();
+        assertTrue(dOrderResponse.getData().getFirst().isEmpty());
     }
 
 }

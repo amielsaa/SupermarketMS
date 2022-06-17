@@ -22,7 +22,7 @@ public class ProductDAO extends DalController {
         productIdentityMap.deleteAll();
     }
 
-    //TODO: implement
+
     public int SelectMaxId() {
         String sql = "SELECT MAX(id) FROM Products";
         try(Connection conn = this.makeConnection()) {

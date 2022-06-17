@@ -23,7 +23,7 @@ public class ProductController {
         this.productId = 0;
         this.productDAO = new ProductDAO("Products");
         this.storeProductDAO = new StoreProductDAO("StoreProducts");
-        this.loadProductId();
+        //this.loadProductId();
         //addProducts();
 
     }
@@ -31,6 +31,7 @@ public class ProductController {
     public void loadProducts() {
         productDAO.SelectAll();
         storeProductDAO.SelectAll();
+        loadProductId();
     }
 
     public void loadProductId() {

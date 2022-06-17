@@ -218,9 +218,10 @@ public class SIService {
 
     //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
 
-    public Response<List<DOrder>> MakeOrderMinQuantity() {
+    public Response<Pair<String,List<DOrder>>> MakeOrderMinQuantity() {
         Response<List<DOrder>> orders= fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
         List<DOrder> actualOrders=new ArrayList<>();
+        String errors = "";
         if(orders.isSuccess()){
             for(DOrder i: orders.getData()){
                 Response<String> address=fSupplier.getSupplierAddress(i.getSupplier_BN());
@@ -229,10 +230,14 @@ public class SIService {
                 if(delivery.isSuccess()){
                     fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
                     actualOrders.add(i);
+                } else{
+                    errors+=delivery.getMessage()+" on order id number "+i.getOrder_Id()+"\n";
                 }
             }
+
         }
-        return Response.makeSuccess(actualOrders);
+
+        return Response.makeSuccess(new Pair(errors,actualOrders));
     }
 
 
