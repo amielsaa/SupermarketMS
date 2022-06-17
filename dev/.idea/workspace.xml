@@ -9,12 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="fixup! addDelivery">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="updating employee menu to add work hours&#10;adding new method for deliveries" />
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +75,7 @@
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\dev\.idea\artifacts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\SuperLi\newnewversion\ADSS_Group_D\dev\src\Employee\PresentationLayer\CLI\Pages" />
       <recent name="$PROJECT_DIR$/src/misc" />
       <recent name="$PROJECT_DIR$/src/Employee" />
       <recent name="$PROJECT_DIR$/src/Delivery" />
@@ -243,13 +239,6 @@
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
-    </task>
-    <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
-      <created>1652037464042</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1652037464042</updated>
     </task>
     <task id="LOCAL-00033" summary="minor fixes">
       <created>1652114481084</created>
@@ -587,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655309968494</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="updating employee menu to add work hours&#10;adding new method for deliveries">
+      <created>1655477442822</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1655477442822</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -602,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding DAL" />
     <MESSAGE value="Changes by User" />
     <MESSAGE value="editing DAL" />
     <MESSAGE value="editing DAO objects" />
@@ -627,7 +622,8 @@
     <MESSAGE value="last fixes in DAO" />
     <MESSAGE value="trying to merge" />
     <MESSAGE value="merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="merging" />
+    <MESSAGE value="updating employee menu to add work hours&#10;adding new method for deliveries" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating employee menu to add work hours&#10;adding new method for deliveries" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
