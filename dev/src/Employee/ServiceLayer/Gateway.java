@@ -139,7 +139,7 @@ public class Gateway
 
 
 
-        driverAddQualification(4, "C");
+
         employeeController.employeeAddQualification(1, qualificationCashier);
         employeeController.employeeAddQualification(2, qualificationWarehouse);
         employeeController.employeeAddQualification(3, qualificationStock);
@@ -169,6 +169,7 @@ public class Gateway
         employeeController.addEmployee(200000006, "C driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
         loggedEmployeeId = ADMIN_UID;
+        driverAddQualification(4, "C");
         driverAddQualification(200000001, "C1");
         driverAddQualification(200000002, "C1");
         driverAddQualification(200000003, "C1");
@@ -192,9 +193,9 @@ public class Gateway
 
         deliveryService.load();
 
-        login(123);
+        loggedEmployeeId = ADMIN_UID;
         debugAddTodayShift();
-        logout();
+        loggedEmployeeId = -1;
     }
 
     public void initDefaultDataTests() throws Exception {
