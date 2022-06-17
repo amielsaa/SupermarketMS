@@ -12,6 +12,7 @@ import java.util.*;
 import Suppliers.BusinessLayer.OrderItem;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Utilities.Pair;
+import Utilities.Response;
 
 public class DeliveriesController {
     private int nextDeliveryId;
@@ -111,13 +112,16 @@ public class DeliveriesController {
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
         for (Pair<Truck, Driver> p: pairs) {
             for (LocalDate day : days) {
-                LocalDateTime startTime = LocalDateTime.from(day); //up to change
-                LocalDateTime endTime = LocalDateTime.from(day).plusDays(1).minusMinutes(1); //up to change
+                LocalDateTime startTimeA = LocalDateTime.from(day); //up to change
+                LocalDateTime endTimeA = LocalDateTime.from(day).plusHours(11).plusMinutes(59); //up to change
+                LocalDateTime startTimeB = LocalDateTime.from(day).plusHours(12); //up to change
+                LocalDateTime endTimeB = LocalDateTime.from(day).plusDays(1).minusMinutes(1); //up to change
+                Response<Boolean> driverAvailable=employeeMod.driverAvailableOnShift(LocalDateTime.from(day), p.getValue().getId());
                 try{
-                    checkAvailability(startTime,endTime,p.getKey().getPlateNum(),p.getValue().getId(), -1);
-                    if (employeeMod.driverAvailableOnShift(LocalDateTime.from(day), p.getValue().getId()).isSuccess());
+                    checkAvailability(startTimeA,endTimeA,p.getKey().getPlateNum(),p.getValue().getId(), -1);
+                    if (driverAvailable.isSuccess()&&driverAvailable.getData())
                     {
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTimeA,endTimeA,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
@@ -126,6 +130,25 @@ public class DeliveriesController {
                                                  item.getSecond(),
                                                  order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
                                                  order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
+
+                        nextDeliveryId++;
+                        return;
+                    }
+                }
+                catch (Exception e){}
+                try{
+                    checkAvailability(startTimeB,endTimeB,p.getKey().getPlateNum(),p.getValue().getId(), -1);
+                    if (driverAvailable.isSuccess()&&driverAvailable.getData())
+                    {
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTimeB,endTimeB,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        addDestination(nextDeliveryId,0);
+                        for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
+                            addItemToDestination(nextDeliveryId,
+                                    0,
+                                    item.getFirst(),
+                                    item.getSecond(),
+                                    order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
+                                    order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
 
                         nextDeliveryId++;
                         return;
