@@ -205,28 +205,6 @@ public class DeliveryEmployeeIntegrationTests {
         assertFalse(DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2).isSuccess());
     }
 
-    @Test
-    public void siteRemovalFailOnBeingAppliedToDeliveryTest()
-    {
-        EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-        EmployeeMod.driverAddQualification(100100100, "C");
-        EmployeeMod.addEmployee(2, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-        EmployeeMod.employeeAddQualification(2, EmployeeMod.addQualification("WarehouseWorker").getData());
-
-        Map<Integer, List<String>> hashmap  = new HashMap<Integer, List<String>>() {{
-            EmployeeMod.addEmployee(2, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-            EmployeeMod.employeeAddQualification(2, EmployeeMod.addQualification("WarehouseWorker").getData());
-            put(100100100, Arrays.asList("Driver"));
-            put(2, Arrays.asList("WarehouseWorker"));
-        }};
-
-        addShift(hashmap, 1000, LocalDateTime.of(2024, Month.MAY, 20, 1, 1), ShiftTime.DAY);
-        DeliveryMod.addTruck(1234567, "a", 10000);
-        DeliveryMod.addSupplierWarehouse("a", 0, "a","a");
-        DeliveryMod.addBranch("b", 0, "b","B");
-        DeliveryMod.addDelivery(LocalDateTime.of(2024, Month.MAY, 20, 1, 2), LocalDateTime.of(2024, Month.MAY, 20, 1, 3), 1234567, 100100100, 1, 2).isSuccess();
-        assertFalse(DeliveryMod.deleteSite(1).isSuccess());
-    }
 
     @Test
     public void truckRemovalFailOnBeingAppliedToDeliveryTest()
@@ -251,14 +229,6 @@ public class DeliveryEmployeeIntegrationTests {
         assertFalse(DeliveryMod.deleteTruck(1234567).isSuccess());
     }
 
-    @Test
-    public void changeLicenseTypeTest()
-    {
-        EmployeeMod.addEmployee(100100100, "driver 1", defaultBankAccountDetails, 1000, LocalDateTime.now(), "");
-        EmployeeMod.driverAddQualification(100100100, "C");
-        DeliveryMod.editDriverLicenseType(100100100, "C1");
-        assertTrue(DeliveryMod.getDriver(100100100).getData().toString().contains("C1"));
-    }
 
     private void addShift(Map<Integer, List<String>> workers, int ID_MANAGER, LocalDateTime time, ShiftTime shiftTime)
     {

@@ -25,6 +25,7 @@ public class Gateway
     private ShiftController shiftController;
     private QualificationController qualificationController;
 
+
     private final int ADMIN_UID = 580083434;
 
     public Gateway() {
@@ -191,13 +192,20 @@ public class Gateway
         siService.DeleteAll(); // Removes the supplier module tables
         // INIT PERMISSIONS AND QUALIFICATIONS
 
-        String[] permissions = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageBranch1", "ManageBranch2", "ManageShift", "ManageDeliveries", "ManageInventory"};
+        String[] permissions = {"ManageBranch1", "ManageBranch2",
+                "ViewEmployees", "ManageEmployees",                 //Employee module
+                "ViewQualifications", "ManageQualifications",       //
+                "ManageShift", "ViewShift",                         //
+                "ManageDeliveries", "ViewDeliveries",               //Delivery module Manage: log. manager
+                "ManageInventory", "ViewInventory",                 //Inventory module Manage: inventory manager
+                "ManageSuppliers", "ViewSuppliers",                 //Supplier module Manage: inventory manager and branch manager
+                "ManageOrders", "ViewOrders"};
         for (String p : permissions)
         {
             qualificationController.addPermission(p);
         }
 
-        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications"};
+        String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageShift",};
 
 
         Qualification qualificationHR = qualificationController.addQualification("HR");
@@ -207,13 +215,13 @@ public class Gateway
         }
 
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager");
-        String[] permissionsBranch1Manager = {"ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
+        String[] permissionsBranch1Manager = {"ManageEmployees", "ManageBranch1", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
         for(String p : permissionsBranch1Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
         }
 
         Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager");
-        String[] permissionsBranch2Manager = {"ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
+        String[] permissionsBranch2Manager = {"ManageEmployees", "ManageBranch2", "ManageShift", "ViewQualifications", "ViewEmployees", "ManageDeliveries", "ManageInventory"};
         for(String p : permissionsBranch2Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
         }

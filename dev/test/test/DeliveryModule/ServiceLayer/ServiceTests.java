@@ -28,7 +28,7 @@ public class ServiceTests {
         EmployeeMod = new Gateway();
         try
         {
-            EmployeeMod.initDefaultData();
+            EmployeeMod.initDefaultDataTests();
         } catch (Exception e)
         {
             System.out.println("WARNING! initialization of the gateway resulted in an error: " + e.getMessage());
@@ -104,7 +104,7 @@ public class ServiceTests {
         //EmployeeMod.addQualification("HR");
         //EmployeeMod.logout();
 
-        EmployeeMod.login(5);
+        EmployeeMod.login(123);
         Employee manager = EmployeeMod.getEmployee(1).getData();
         EmployeeMod.addShift(1, time, manager, workers, shiftTime);
         EmployeeMod.logout();
