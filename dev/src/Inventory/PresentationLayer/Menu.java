@@ -143,11 +143,12 @@ public class Menu {
             printDivider();
             System.out.println("1-Accept Delivery, 2-Add Defective Product");
             printDivider();
-            int input = Integer.parseInt(enterStringInput());
+            String strInput = enterStringInput();
+            int input = Integer.parseInt(strInput);
             if(input == 1) { // accept pending
                 Response<String> resAccept = service.AddPendingProducts();
                 if(resAccept.isSuccess())
-                    System.out.println(resAccept.getMessage());
+                    System.out.println(resAccept.getData());
                 else
                     System.out.println(resAccept.getMessage());
             } else { //add defective menu
@@ -160,7 +161,7 @@ public class Menu {
                 Response<String> resDefective = service.AddPendingDefective(inputArray[0],inputArray[1],Integer.parseInt(inputArray[2]));
                 if(resDefective.isSuccess()) {
                     System.out.println(resDefective.getData());
-                    reviewDelivery(); //TODO: check that it gets back to the previous menu
+                    reviewDelivery();
                 } else {
                     System.out.println(resDefective.getMessage());
                     reviewDelivery();
@@ -422,14 +423,16 @@ public class Menu {
 
     private String enterStringInput() {
         System.out.print("Enter: ");
-        sc.nextLine();
-        return sc.nextLine();
+        String str = sc.nextLine();
+        return str;
     }
 
 
     private int enterInput() {
         System.out.print("Enter number: ");
-        return sc.nextInt();
+        int inp = sc.nextInt();
+        sc.nextLine();
+        return inp;
     }
 
 }

@@ -36,6 +36,10 @@ public class ProductIdentityMap {
         return products.stream().anyMatch((s)->s.getName().equals(name) && s.getProducer().equals(producer));
     }
 
+    public Product getByName(String name, String producer) {
+        return products.stream().filter((s)->s.getName().equals(name) && s.getProducer().equals(producer)).findFirst().orElse(null);
+    }
+
     public Product getProduct(int productid) {
         return products.stream().filter((p)->p.getId()==productid).findFirst().orElse(null);
     }

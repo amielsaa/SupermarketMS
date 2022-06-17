@@ -23,6 +23,10 @@ public class PendingIdentityMap {
         return pendingMap.keySet().stream().anyMatch((pair) -> pair.getFirst().equals(name) && pair.getSecond().equals(producer));
     }
 
+    public void updateQuantity(String name, String producer, int quantity) {
+        pendingMap.forEach((key,value)-> {if(key.getFirst().equals(name) && key.getSecond().equals(producer)) value.setSecond(quantity); });
+    }
+
     public boolean isPulled_all_data() {
         return pulled_all_data;
     }
