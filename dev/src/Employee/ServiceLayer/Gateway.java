@@ -577,12 +577,12 @@ public class Gateway
                 {
                     Employee employee = employeeController.getEmployee(employeeId);
                     int[] a = m.get(employee);
-                    if (s.getId().getShiftTime() == ShiftTime.DAY)
+                    if (a!=null && s.getId().getShiftTime() == ShiftTime.DAY)
                     {
                         // DAY
                         a[0]++;
                     }
-                    else
+                    else if(a!=null)
                     {
                         // NIGHT
                         a[1]++;

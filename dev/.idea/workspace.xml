@@ -10,19 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change beforePath="$PROJECT_DIR$/../.idea/libraries/adss_v0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/adss_v0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory/PresentationLayer/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/PresentationLayer/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,17 +50,6 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DriversController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" root0="FORCE_HIGHLIGHTING" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -73,26 +59,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="sqlite" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/Tests" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lib/sqlite-jdbc-3.36.0.3.jar" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.22859922" />
-    <property name="project.structure.side.proportion" value="0.1921618" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\dev\.idea\artifacts" />
@@ -108,21 +79,30 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.NICLI">
-    <configuration name="NICLI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="NICLI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
       <module name="dev" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Employee.PresentationLayer.CLI.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="dev" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeliveriesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
+      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.DeliveriesControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -137,6 +117,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="Integration" />
       <option name="MAIN_CLASS_NAME" value="Integration.DeliveryEmployeeIntegrationTests" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -189,6 +170,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.NICLI" />
+      <item itemvalue="JUnit.DeliveriesControllerTest" />
       <item itemvalue="JUnit.SitesControllerTest" />
       <item itemvalue="JUnit.TrucksControllerTest" />
       <item itemvalue="JUnit.ServiceTests" />
@@ -196,11 +178,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.NICLI" />
         <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
         <item itemvalue="JUnit.ServiceTests" />
         <item itemvalue="JUnit.TrucksControllerTest" />
         <item itemvalue="JUnit.SitesControllerTest" />
+        <item itemvalue="JUnit.DeliveriesControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -253,7 +235,6 @@
       <workItem from="1654955809548" duration="128000" />
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
-      <workItem from="1655383546484" duration="3942000" />
     </task>
     <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
       <created>1652037464042</created>
@@ -670,6 +651,16 @@
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>166</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/Pages/AddShiftPage.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

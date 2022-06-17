@@ -133,6 +133,10 @@ public class ProductDAO extends DalController {
 
     }
 
+    public boolean ProductExists(String name, String producer) {
+        return productIdentityMap.ExistsByName(name,producer);
+    }
+
     private java.util.Date getDateByString(String expDate) {
         if(expDate.equals("Unknown"))
             return null;

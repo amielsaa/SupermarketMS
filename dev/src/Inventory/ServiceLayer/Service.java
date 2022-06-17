@@ -117,7 +117,7 @@ public class Service {
         throw new NotImplementedException();
     }
 
-    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
 
         return reportService.ReceiveDelivery(delivery);
     }
@@ -132,7 +132,7 @@ public class Service {
         return res;
     }
 
-    public Response<Map<Pair<String,String>,Pair<Integer,Integer>>> GetPendingProducts() {
+    public Response<Map<Pair<String,String>,Pair<Double,Integer>>> GetPendingProducts() {
         return reportService.GetPendingProducts();
     }
 
