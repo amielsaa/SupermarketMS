@@ -26,6 +26,9 @@ public class UserTerminal extends ResponsePage<Boolean> {
     @Override
     public Boolean runWithResponse(Scanner input, Gateway g) throws CLIException {
         sc = input;
+        if(!g.canManageDeliveries().getData()){
+            return runWithResponseBranchManager(input, g);
+        }
         Response<DeliveryService> r1 = g.getDeliveryService();
         if (!r1.isSuccess()) {
             System.out.println("Failed to get delivery service. " + r1.getMessage());

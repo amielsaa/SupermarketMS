@@ -265,6 +265,7 @@ public class SIService {
         return fInventory.deleteAllData();
     }
 
-
-
+    public Gateway getGateway(){
+        return gateway;
+    }
 }
