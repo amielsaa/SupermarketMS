@@ -472,7 +472,7 @@ public class DeliveryService {
     public Response completeDelivery(int deliveryId){
         try {
             //call invetory.additems here
-            deliveriesController.completeDelivery(deliveryId);
+            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId));
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());

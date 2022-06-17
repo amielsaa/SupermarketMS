@@ -47,8 +47,10 @@ public class DeliveriesController {
                1,5);
         setWeight(1, 7000);
         addDestination(1,4);
-        //addItemToDestination(1,4,"milk",10);
-        //addItemToDestination(1,5,"milk",20);
+        addDestination(1,0);
+        addItemToDestination(1,0,"Cottage","Tnuva",10, 10);
+        addItemToDestination(1,0,"Banana","Perot",10, 10);
+        addItemToDestination(1,0,"Chips","Osem",10, 10);
         addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2,6);
         setWeight(2, 12500);
         addDestination(2,4);
