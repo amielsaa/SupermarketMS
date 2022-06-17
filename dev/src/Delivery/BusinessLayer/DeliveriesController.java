@@ -151,6 +151,7 @@ public class DeliveriesController {
                                     item.getSecond(),
                                     order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
                                     order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
+
                         nextDeliveryId++;
                         return;
                     }
