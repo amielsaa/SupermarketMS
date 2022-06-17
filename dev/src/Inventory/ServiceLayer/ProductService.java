@@ -152,8 +152,8 @@ public class ProductService {
     //TODO: implement in productcontroller
     public Response<String> AddPendingProducts(Map<Pair<String,String>,Pair<Integer,Integer>> pendingProducts) {
         try{
-            //return Response.makeSuccess(productController)
-            return Response.makeSuccess("Products added successfully.");
+            productController.addPendingProducts(pendingProducts);
+            return Response.makeSuccess("Pending products added successfully.");
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }

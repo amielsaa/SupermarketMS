@@ -3,6 +3,7 @@ package Inventory.BuisnessLayer.Controller;
 import Inventory.BuisnessLayer.Objects.*;
 import Inventory.DataAccessLayer.DAO.ProductDAO;
 import Inventory.DataAccessLayer.DAO.StoreProductDAO;
+import misc.Pair;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
@@ -106,6 +107,29 @@ public class ProductController {
         if(res.length==3 && res[2].length()==4)
             return new Date(Integer.parseInt(res[2])-1900,Integer.parseInt(res[1])-1,Integer.parseInt(res[0]));
         throw new IllegalArgumentException("Date format isn't valid.");
+    }
+
+    public void addPendingProducts(Map<Pair<String,String>,Pair<Integer,Integer>> pendingProducts) {
+        for(Map.Entry<Pair<String,String>,Pair<Integer,Integer>> entry : pendingProducts.entrySet()) {
+            String name = entry.getKey().getFirst();
+            String producer = entry.getKey().getSecond();
+            double price = entry.getValue().getFirst();
+            int quantity = entry.getValue().getSecond();
+            if(!productDAO.ProductExists(name,producer)) {
+                List<Category> categories = new ArrayList<>();
+                categories.add(new Category("Unknown"));
+                addProduct(name,producer,price,price*1.25,quantity,categories);
+            }
+            addStoreProduct(productId,quantity/2,quantity/2,expDateGenerator(),"STORE-0-0");
+        }
+    }
+
+    private String expDateGenerator() {
+        return String.format("%d/%d/%d",createRandomIntBetween(1,28),createRandomIntBetween(Calendar.MONTH,11),2022);
+    }
+
+    private int createRandomIntBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
     }
 
 
