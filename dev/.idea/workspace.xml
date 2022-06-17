@@ -9,17 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="fixing gateway initDefTests merging error">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test/Integration/DeliveryEmployeeIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/Integration/DeliveryEmployeeIntegrationTests.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,11 +56,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\dev\.idea\artifacts" />
@@ -78,7 +75,7 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.NICLI">
+  <component name="RunManager" selected="JUnit.All in dev">
     <configuration name="NICLI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
       <module name="dev" />
@@ -92,17 +89,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeliveriesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in dev" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.DeliveriesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,6 +113,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DeliveryEmployeeIntegrationTests.truckRemovalFailOnBeingAppliedToDeliveryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="dev" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Integration" />
+      <option name="MAIN_CLASS_NAME" value="Integration.DeliveryEmployeeIntegrationTests" />
+      <option name="METHOD_NAME" value="truckRemovalFailOnBeingAppliedToDeliveryTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServiceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
@@ -138,51 +144,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SitesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTests.truckRemovalFailOnBeingAppliedToDeliveryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
+          <option name="PATTERN" value="DeliveryModule.ServiceLayer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.SitesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrucksControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="dev" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.TrucksControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="DeliveryModule.ServiceLayer" />
+      <option name="MAIN_CLASS_NAME" value="DeliveryModule.ServiceLayer.ServiceTests" />
+      <option name="METHOD_NAME" value="truckRemovalFailOnBeingAppliedToDeliveryTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.NICLI" />
-      <item itemvalue="JUnit.DeliveriesControllerTest" />
-      <item itemvalue="JUnit.SitesControllerTest" />
-      <item itemvalue="JUnit.TrucksControllerTest" />
+      <item itemvalue="JUnit.All in dev" />
+      <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests.truckRemovalFailOnBeingAppliedToDeliveryTest" />
+      <item itemvalue="JUnit.ServiceTests.truckRemovalFailOnBeingAppliedToDeliveryTest" />
       <item itemvalue="JUnit.ServiceTests" />
       <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in dev" />
+        <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests.truckRemovalFailOnBeingAppliedToDeliveryTest" />
+        <item itemvalue="JUnit.ServiceTests.truckRemovalFailOnBeingAppliedToDeliveryTest" />
         <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
         <item itemvalue="JUnit.ServiceTests" />
-        <item itemvalue="JUnit.TrucksControllerTest" />
-        <item itemvalue="JUnit.SitesControllerTest" />
-        <item itemvalue="JUnit.DeliveriesControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -235,13 +227,6 @@
       <workItem from="1654955809548" duration="128000" />
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
-    </task>
-    <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
-      <created>1652037464042</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1652037464042</updated>
     </task>
     <task id="LOCAL-00033" summary="minor fixes">
       <created>1652114481084</created>
@@ -579,7 +564,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655309968494</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="fixing gateway initDefTests merging error">
+      <created>1655458600585</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1655458600585</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -597,7 +589,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding DAL" />
     <MESSAGE value="Changes by User" />
     <MESSAGE value="editing DAL" />
     <MESSAGE value="editing DAO objects" />
@@ -622,7 +613,8 @@
     <MESSAGE value="last fixes in DAO" />
     <MESSAGE value="trying to merge" />
     <MESSAGE value="merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="merging" />
+    <MESSAGE value="fixing gateway initDefTests merging error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing gateway initDefTests merging error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -648,22 +640,26 @@
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="53" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/Pages/AddShiftPage.java</url>
           <line>68</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Employee.BusinessLayer.EmployeeController" memberName="employees" />
+        <PinnedItemInfo parentTag="Employee.DataAccessLayer.EmployeeDAO" memberName="employeeCache" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="((Gateway)((ServiceTests)this).EmployeeMod).ADMIN_UID" custom="DeliveryModule.ServiceLayer.ServiceTests,Employee.ServiceLayer.Gateway" />
+        <watch expression="((Gateway)((ServiceTests)this).EmployeeMod).qualificationController" custom="DeliveryModule.ServiceLayer.ServiceTests,Employee.ServiceLayer.Gateway" />
+        <watch expression="((Gateway)((ServiceTests)this).EmployeeMod).employeeController" custom="DeliveryModule.ServiceLayer.ServiceTests,Employee.ServiceLayer.Gateway" />
+        <watch expression="EmployeeMod.qualificationController.qDao.permissionCache" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dev$Main.ic" NAME="Main Coverage Results" MODIFIED="1652960944756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
