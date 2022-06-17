@@ -6,6 +6,7 @@ import SupplierInventory.SIService;
 import Utilities.Response;
 import com.sun.istack.internal.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class Gateway
         siService.DeleteAll(); // Removes the supplier module tables
         // INIT PERMISSIONS AND QUALIFICATIONS
 
-        String[] permissions = {"ManageBranch1", "ManageBranch2",
+        String[] permissions = {"ManageBranch1", "ManageBranch2", "ManageBranch0",
                 "ViewEmployees", "ManageEmployees",                 //Employee module
                 "ViewQualifications", "ManageQualifications",       //
                 "ManageShift", "ViewShift",                         //
@@ -81,12 +82,21 @@ public class Gateway
             qualificationController.addPermissionToQualification(p, qualificationHR.getName());
         }
 
+        Qualification qualificationBranch0Manager = qualificationController.addQualification("Branch0Manager");
+        String[] permissionsBranch0Manager = {"ManageBranch0", "ViewEmployees", "ViewQualifications", "ViewShift",
+                "ViewDeliveries", "ViewInventory", "ViewSuppliers", "ManageSuppliers", "ViewOrders"};
+        for(String p : permissionsBranch0Manager) {
+            qualificationController.addPermissionToQualification(p, qualificationBranch0Manager.getName());
+        }
+
+
         Qualification qualificationBranch1Manager = qualificationController.addQualification("Branch1Manager");
         String[] permissionsBranch1Manager = {"ManageBranch1", "ViewEmployees", "ViewQualifications", "ViewShift",
                 "ViewDeliveries", "ViewInventory", "ViewSuppliers", "ManageSuppliers", "ViewOrders"};
         for(String p : permissionsBranch1Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch1Manager.getName());
         }
+
 
         Qualification qualificationBranch2Manager = qualificationController.addQualification("Branch2Manager");
         String[] permissionsBranch2Manager = {"ManageBranch2", "ViewEmployees", "ViewQualifications", "ViewShift",
@@ -100,7 +110,7 @@ public class Gateway
         Qualification qualificationCashier = qualificationController.addQualification("Cashier");
         Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker");
         Qualification qualificationStock = qualificationController.addQualification("StockClerk");
-        Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
+        //Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner");
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager");
         Qualification qualificationLogisticsManager = qualificationController.addQualification("LogisticsManager");
@@ -127,10 +137,13 @@ public class Gateway
         employeeController.addEmployee(6, "InManny The InManager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
         employeeController.addEmployee(7, "LogManny The LogManager", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
+
+
+
         employeeController.employeeAddQualification(1, qualificationCashier);
         employeeController.employeeAddQualification(2, qualificationWarehouse);
         employeeController.employeeAddQualification(3, qualificationStock);
-        employeeController.employeeAddQualification(4, qualificationTruck);
+        //employeeController.employeeAddQualification(4, qualificationTruck);
         employeeController.employeeAddQualification(6, qualificationInventoryManager);
         employeeController.employeeAddQualification(7, qualificationLogisticsManager);
 
@@ -139,6 +152,7 @@ public class Gateway
         employeeController.employeeAddQualification(3, qualificationShiftManager);
         employeeController.employeeAddQualification(4, qualificationShiftManager);
 
+        employeeController.employeeAddQualification(5, qualificationBranch0Manager);
         employeeController.employeeAddQualification(5, qualificationBranch1Manager);
         employeeController.employeeAddQualification(6, qualificationShiftManager);
 
@@ -155,6 +169,7 @@ public class Gateway
         employeeController.addEmployee(200000006, "C driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
         loggedEmployeeId = ADMIN_UID;
+        driverAddQualification(4, "C");
         driverAddQualification(200000001, "C1");
         driverAddQualification(200000002, "C1");
         driverAddQualification(200000003, "C1");
@@ -177,6 +192,10 @@ public class Gateway
         shiftController.addShift(1, LocalDateTime.parse("14-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(4), hm2, ShiftTime.DAY);
 
         deliveryService.load();
+
+        loggedEmployeeId = ADMIN_UID;
+        debugAddTodayShift();
+        loggedEmployeeId = -1;
     }
 
     public void initDefaultDataTests() throws Exception {
@@ -527,6 +546,31 @@ public class Gateway
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }
+    }
+
+    public Response<Shift> debugAddTodayShift() throws Exception {
+        try{
+            int branchId = 0;
+            ShiftTime st = ShiftTime.DAY;
+            Employee shiftManager = employeeController.getEmployee(1);
+            Arrays.asList("Cashier");
+            LocalDate date = LocalDate.now().plusDays(1);
+            LocalDateTime dt = LocalDateTime.parse(date.toString() + "T06:00:00");
+            HashMap<Integer, List<String>> workers = new HashMap<Integer, List<String>>(){{
+                put(1, Arrays.asList("Cashier"));
+                put(2, Arrays.asList("WarehouseWorker"));
+                put(3, Arrays.asList("StockClerk"));
+                put(4, Arrays.asList("Driver"));
+                put(5, Arrays.asList("Branch0Manager"));
+                put(6, Arrays.asList("InventoryManager"));
+
+            }};
+            return addShift(branchId, dt, shiftManager, workers, st);
+        }
+        catch (Exception e){
+            return Response.makeFailure(e.getMessage());
+        }
+
     }
 
     public Response<Shift> removeShift(@NotNull ShiftId shiftId){

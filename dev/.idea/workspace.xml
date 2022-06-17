@@ -9,23 +9,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="merging">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_36_0_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/BusinessLayer/ShiftController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/Delivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/SitesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/SitesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -59,16 +70,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "node.js.selected.package.tslint": "(autodetect)"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\yu7al\IdeaProjects\ADSS_Group_D\dev\.idea\artifacts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\SuperLi\newnewversion\ADSS_Group_D\dev\src\Employee\PresentationLayer\CLI\Pages" />
       <recent name="$PROJECT_DIR$/src/misc" />
       <recent name="$PROJECT_DIR$/src/Employee" />
       <recent name="$PROJECT_DIR$/src/Delivery" />
@@ -77,6 +88,18 @@
       <recent name="" />
       <recent name="Suppliers" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="Application.NICLI">
     <configuration name="NICLI" type="Application" factoryName="Application">
@@ -92,17 +115,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeliveriesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in dev" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.DeliveriesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -170,7 +186,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.NICLI" />
-      <item itemvalue="JUnit.DeliveriesControllerTest" />
+      <item itemvalue="JUnit.All in dev" />
       <item itemvalue="JUnit.SitesControllerTest" />
       <item itemvalue="JUnit.TrucksControllerTest" />
       <item itemvalue="JUnit.ServiceTests" />
@@ -178,15 +194,18 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in dev" />
         <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
         <item itemvalue="JUnit.ServiceTests" />
         <item itemvalue="JUnit.TrucksControllerTest" />
         <item itemvalue="JUnit.SitesControllerTest" />
-        <item itemvalue="JUnit.DeliveriesControllerTest" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="" />
@@ -235,20 +254,8 @@
       <workItem from="1654955809548" duration="128000" />
       <workItem from="1654955950426" duration="3000" />
       <workItem from="1654956444566" duration="12000" />
-    </task>
-    <task id="LOCAL-00032" summary="added DAO functions (CRUD), lots of fixes">
-      <created>1652037464042</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1652037464042</updated>
-    </task>
-    <task id="LOCAL-00033" summary="minor fixes">
-      <created>1652114481084</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1652114481084</updated>
+      <workItem from="1655468984956" duration="264000" />
+      <workItem from="1655486736416" duration="5956000" />
     </task>
     <task id="LOCAL-00034" summary="minor fixes">
       <created>1652115628050</created>
@@ -579,26 +586,40 @@
       <option name="project" value="LOCAL" />
       <updated>1655309968494</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="updating employee menu to add work hours&#10;adding new method for deliveries">
+      <created>1655477442822</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1655477442822</updated>
+    </task>
+    <task id="LOCAL-00082" summary="pushed init method for employees">
+      <created>1655487421292</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1655487421293</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding DAL" />
-    <MESSAGE value="Changes by User" />
     <MESSAGE value="editing DAL" />
     <MESSAGE value="editing DAO objects" />
     <MESSAGE value="added DAO functions (CRUD), lots of fixes" />
@@ -622,7 +643,9 @@
     <MESSAGE value="last fixes in DAO" />
     <MESSAGE value="trying to merge" />
     <MESSAGE value="merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="merging" />
+    <MESSAGE value="updating employee menu to add work hours&#10;adding new method for deliveries" />
+    <MESSAGE value="pushed init method for employees" />
+    <option name="LAST_COMMIT_MESSAGE" value="pushed init method for employees" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,6 +684,16 @@
           <url>file://$PROJECT_DIR$/src/Employee/PresentationLayer/CLI/Pages/AddShiftPage.java</url>
           <line>68</line>
           <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java</url>
+          <line>860</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
