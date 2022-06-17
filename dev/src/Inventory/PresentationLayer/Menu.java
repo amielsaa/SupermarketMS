@@ -2,6 +2,7 @@ package Inventory.PresentationLayer;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.BuisnessLayer.Objects.CommandLineTable;
+import misc.Pair;
 import Inventory.ServiceLayer.Objects.ProductSL;
 import Inventory.ServiceLayer.Objects.Report;
 import Inventory.ServiceLayer.Response;
@@ -190,10 +191,11 @@ public class Menu {
 
 
     private void makeOrderMinQuantity() {
-        Utilities.Response<List<DOrder>> res = service.MakeOrderMinQuantity();
-        List<DOrder> list = res.getData();
+        Utilities.Response<Pair<String,List<DOrder>>> res = service.MakeOrderMinQuantity();
+        List<DOrder> list = res.getData().getSecond();
+        System.out.println(res.getData().getFirst());
         for(int i=0;i<list.size();i++) {
-            System.out.println(list.toString());
+            System.out.println(list.get(i).toString());
         }
     }
 
