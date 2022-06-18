@@ -140,7 +140,13 @@ public class DeliveriesController {
                     }
 
                     if(foundAvailableDriverTruck){
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),sitesController.getSite(address).getId(),0, order.getSupplier_BN(), order.getOrder_Id()));
+                        sitesController.getAllSites();
+                        int driverId = p.getValue().getId();
+                        int truckId = p.getKey().getPlateNum();
+                        int siteId = sitesController.getSite(address).getId();
+                        int bn = order.getSupplier_BN();
+                        int orderId = order.getOrder_Id();
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,driverId,truckId,siteId,0, bn, orderId));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
