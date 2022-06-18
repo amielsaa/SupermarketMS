@@ -322,6 +322,10 @@ public class OrderController {
 
 
     }
+
+    public Boolean checkIfRoutineOrder(int bn, int orderId) {
+        return daysToDeliverDAO.CheckIfOrderIsRoutineOrder(bn,orderId);
+    }
 }
 
 
