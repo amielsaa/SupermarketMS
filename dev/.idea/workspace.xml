@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="added bn and order id to deliveries">
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="deliveries and suppliers">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_testing.db" beforeDir="false" afterPath="$PROJECT_DIR$/database_testing.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,15 +58,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DriversController.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DriversController.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -253,6 +252,7 @@
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
       <workItem from="1655486736416" duration="5956000" />
+      <workItem from="1655566966452" duration="328000" />
     </task>
     <task id="LOCAL-00037" summary="minor fixes">
       <created>1652119728028</created>
@@ -601,7 +601,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -679,11 +679,6 @@
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>106</line>
           <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SupplierInventory/SIService.java</url>
-          <line>279</line>
-          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
