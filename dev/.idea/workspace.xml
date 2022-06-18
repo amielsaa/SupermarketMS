@@ -9,16 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="fixed not correct id">
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="added bn and order id to deliveries">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database_testing.db" beforeDir="false" afterPath="$PROJECT_DIR$/database_testing.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/Delivery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/UpcomingDeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/UpcomingDeliveryDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/ServiceLayer/DeliveryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +97,7 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DeliveriesControllerTest">
+  <component name="RunManager" selected="Application.NICLI">
     <configuration name="NICLI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
       <module name="dev" />
@@ -204,7 +199,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -258,13 +253,6 @@
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
       <workItem from="1655486736416" duration="5956000" />
-    </task>
-    <task id="LOCAL-00036" summary="minor fixes">
-      <created>1652119660675</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1652119660675</updated>
     </task>
     <task id="LOCAL-00037" summary="minor fixes">
       <created>1652119728028</created>
@@ -602,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655548100517</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="added bn and order id to deliveries">
+      <created>1655552369631</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1655552369631</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -620,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added DAO functions (CRUD), lots of fixes" />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="merged with Ari" />
     <MESSAGE value="presentation fixes" />
@@ -645,7 +639,8 @@
     <MESSAGE value="pushed init method for employees" />
     <MESSAGE value="deliveries and suppliers" />
     <MESSAGE value="fixed not correct id" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed not correct id" />
+    <MESSAGE value="added bn and order id to deliveries" />
+    <option name="LAST_COMMIT_MESSAGE" value="added bn and order id to deliveries" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -681,14 +676,14 @@
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java</url>
-          <line>860</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>106</line>
           <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/SupplierInventory/SIService.java</url>
+          <line>279</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
