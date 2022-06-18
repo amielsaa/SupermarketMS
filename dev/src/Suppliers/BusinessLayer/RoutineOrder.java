@@ -4,7 +4,11 @@ import misc.Days;
 import misc.Pair;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -99,5 +103,44 @@ public class RoutineOrder extends Order{
             setFinal_Price(getFinal_Price()-toremove.getItem_Price());
             return true;
         }
+    }
+
+    public Set<LocalDate> getNextDateForDelivery() {
+        //arranging the days
+        Set<Integer> daysInNumber=new HashSet<Integer>();
+        for (Days i:Days_To_Deliver) {
+            daysInNumber.add(ReversedayConvertorForLocalTime(i));
+        }
+        LocalDate[] arr = new LocalDate[1];
+        Set<LocalDate> toReturn=new HashSet<LocalDate>();
+        for (Integer i:daysInNumber) {
+            LocalDate date = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.of(i)));
+            if(toReturn.size()==0 || toReturn.toArray(arr)[0].isAfter(date)) { //will make sure the toReturn set has only 1 date and it's the closest day
+                toReturn.clear();
+                toReturn.add(date);
+            }
+        }
+
+        return toReturn;
+    }
+
+    private int ReversedayConvertorForLocalTime(Days day){
+        if(day==Days.sunday)
+            return 7;
+        else if(day==Days.monday)
+            return 1;
+        else if(day==Days.tuesday)
+            return 2;
+        else if(day==Days.wednesday)
+            return 3;
+        else if(day==Days.thursday)
+            return 4;
+        else if(day==Days.friday)
+            return 5;
+        else if(day==Days.saturday)
+            return 6;
+        else
+            throw new IllegalArgumentException("day is not valid");
+
     }
 }
