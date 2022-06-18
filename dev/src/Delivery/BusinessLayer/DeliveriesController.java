@@ -97,7 +97,7 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
+        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0, 111111111, 1));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
@@ -140,7 +140,7 @@ public class DeliveriesController {
                     }
 
                     if(foundAvailableDriverTruck){
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),sitesController.getSite(address).getId(),0));
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),sitesController.getSite(address).getId(),0, order.getSupplier_BN(), order.getOrder_Id()));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
@@ -349,6 +349,14 @@ public class DeliveriesController {
         if (delivery.getDestinationItems().containsKey(0))
             return convertPairFormat(delivery.getDestinationItems().get(0));
         return null;
+    }
+
+    public int getBn(int id) throws Exception {
+        return getUpcomingDelivery(id).getBn();
+    }
+
+    public int getOrderId(int id) throws Exception {
+        return getUpcomingDelivery(id).getOrderId();
     }
 
     private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {

@@ -471,8 +471,9 @@ public class DeliveryService {
 
     public Response completeDelivery(int deliveryId){
         try {
-            //call invetory.additems here
-            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId));
+            int bn = deliveriesController.getBn(deliveryId);
+            int orderId = deliveriesController.getOrderId(deliveryId);
+            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId), bn, orderId);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
