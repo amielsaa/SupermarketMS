@@ -80,7 +80,7 @@ public class SIService {
             zone = 2;
         Response a=gateway.getDeliveryService().getData().addSupplierWarehouse(address,zone,contactPhone,contactName);
         if(a.isSuccess())
-        return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery, deliveryzone, address);
+            return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery, deliveryzone, address);
         else
             return Response.makeFailure(a.getMessage());
     }
@@ -161,7 +161,7 @@ public class SIService {
         return fSupplier.getAllOrdersFromSupplier(bn);
     }
 
-    public Response makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
+    public Response<String> makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
         Response<String> address=fSupplier.getSupplierAddress(business_num);
         if(address.isSuccess()) {
             Response<DRoutineOrder> madeorder=fSupplier.makeRoutineOrder(business_num, order, days);

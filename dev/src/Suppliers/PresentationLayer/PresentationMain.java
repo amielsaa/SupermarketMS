@@ -38,7 +38,9 @@ public class PresentationMain {
             System.out.println("(0 - Exit, 1 - Create supplier, 2 - Remove Supplier, 3 - Get Supplier, 4 - Update Supplier Payment Details)");
             System.out.println("(5 - Update Supplier Bank Account, 6 - Update Supplier Self Delivery, 7 - Add Supplier Contact, 8 - Remove Supplier Contact)");
             System.out.println("(9 - Make Order, 10 - Make Routine Order, 11 - Get Order, 12 - Get All Orders From Supplier)");
-            System.out.println("(13 - Get All Routine Orders, 14 - Get All Suppliers, 15 - Load Data, 16 - Update Tomorrow's Routine Order, 17 - Add Delivery To Order)");
+            System.out.println("(13 - Get All Routine Orders, 14 - Get All Suppliers, 15 - Load Data, 16 - Update Tomorrow's Routine Order)");
+            System.out.println("(17 - Add Delivery To Order, 18 - Add Delivery For Routine Order)");
+
 
 
             System.out.print("Enter command: ");
@@ -116,6 +118,10 @@ public class PresentationMain {
                 }
                 case("17"): {
                     addDeliveryToOrder(s);
+                    break;
+                }
+                case("18"): {
+                    addDeliveryForRoutineOrder(s);
                     break;
                 }
             }
@@ -596,6 +602,15 @@ public class PresentationMain {
         int businessNumber = getIntFromUser(s, "supplier business number");
         int orderID = getIntFromUser(s, "order ID");
         Response<String> res = service.addDeliveryToOrder(businessNumber,orderID);
+        if(res.isSuccess())
+            System.out.println(res.getData());
+        else System.out.println(res.getMessage());
+    }
+
+    private void addDeliveryForRoutineOrder(Scanner s) {
+        int businessNumber = getIntFromUser(s, "supplier business number");
+        int orderID = getIntFromUser(s, "order ID");
+        Response res = service.AddDeliveryForRoutineOrder(businessNumber,orderID);
         if(res.isSuccess())
             System.out.println(res.getData());
         else System.out.println(res.getMessage());

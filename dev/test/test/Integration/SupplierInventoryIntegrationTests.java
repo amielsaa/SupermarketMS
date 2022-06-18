@@ -33,6 +33,10 @@ public class SupplierInventoryIntegrationTests {
         siService.DeleteAll();
         siService.deleteAllData();
         //siService.InsertData();
+//        try {
+//            gateway.initDefaultData();
+//        }
+//        catch(Exception e) {}
 
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("Milk","Tnuva");
@@ -89,8 +93,10 @@ public class SupplierInventoryIntegrationTests {
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        Response<DRoutineOrder> i= siService.makeRoutineOrder(123456789,order,days);
-        assertTrue(i.getData().getSupplier_BN()==123456789&&i.getData().getDays().contains(Days.sunday));
+        Response<String> res= siService.makeRoutineOrder(123456789,order,days);
+        DRoutineOrder i = siService.getAllRoutineOrders().getData().get(0);
+
+        assertTrue(i.getSupplier_BN()==123456789&&i.getDays().contains(Days.sunday));
     }
     @Test //4
     public void makeRoutineOrderFail(){
@@ -100,7 +106,7 @@ public class SupplierInventoryIntegrationTests {
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(3);
-        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
+        Response<String> i=siService.makeRoutineOrder(123456789,order,days);
         assertFalse(i.isSuccess());
     }
 
@@ -127,7 +133,7 @@ public class SupplierInventoryIntegrationTests {
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
+        Response<String> i=siService.makeRoutineOrder(123456789,order,days);
         assertFalse(i.isSuccess());
     }
 
@@ -138,8 +144,8 @@ public class SupplierInventoryIntegrationTests {
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        Response<DRoutineOrder>  i=siService.makeRoutineOrder(123456789,order,days);
-        Response<DRoutineOrder>  j=siService.addOrUpdateRoutineOrder(123456789,0,"Apple","Perot",1000);
+        Response<String> i=siService.makeRoutineOrder(123456789,order,days);
+        Response<DRoutineOrder> j=siService.addOrUpdateRoutineOrder(123456789,0,"Apple","Perot",1000);
         assertTrue(j.getData().getPriceBeforeDiscount()==1100&&j.getData().getFinal_Price()==890);
 
     }
@@ -157,13 +163,13 @@ public class SupplierInventoryIntegrationTests {
         order.put(milk,100);
         Set<Integer> days=new HashSet<>();
         days.add(1);
-        Response<DRoutineOrder> i=siService.makeRoutineOrder(123456789,order,days);
+        Response<String> i=siService.makeRoutineOrder(123456789,order,days);
         HashMap<Pair<String,String>,Integer> order2=new HashMap<>();
         Pair apple=new Pair("Apple","Perot");
         order.put(apple,100);
         Set<Integer> days2=new HashSet<>();
         days2.add(2);
-        Response<DRoutineOrder> j=siService.makeRoutineOrder(123456789,order,days2);
+        Response<String> j=siService.makeRoutineOrder(123456789,order,days2);
         Response<List<DRoutineOrder>> routineOrders=siService.getAllRoutineOrders();
         assertTrue(routineOrders.getData().size()==2);
     }
