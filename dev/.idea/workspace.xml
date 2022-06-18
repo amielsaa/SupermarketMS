@@ -9,13 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="">
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="deliveries and suppliers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/BusinessLayer/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/ServiceLayer/SupplierService.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -243,13 +239,6 @@
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
       <workItem from="1655486736416" duration="5956000" />
-    </task>
-    <task id="LOCAL-00034" summary="minor fixes">
-      <created>1652115628050</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1652115628050</updated>
     </task>
     <task id="LOCAL-00035" summary="minor fixes">
       <created>1652119530887</created>
@@ -587,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655487421293</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="deliveries and suppliers">
+      <created>1655544472540</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1655544472540</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -602,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="editing DAL" />
     <MESSAGE value="editing DAO objects" />
     <MESSAGE value="added DAO functions (CRUD), lots of fixes" />
     <MESSAGE value="minor fixes" />
@@ -627,7 +622,8 @@
     <MESSAGE value="merging" />
     <MESSAGE value="updating employee menu to add work hours&#10;adding new method for deliveries" />
     <MESSAGE value="pushed init method for employees" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushed init method for employees" />
+    <MESSAGE value="deliveries and suppliers" />
+    <option name="LAST_COMMIT_MESSAGE" value="deliveries and suppliers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

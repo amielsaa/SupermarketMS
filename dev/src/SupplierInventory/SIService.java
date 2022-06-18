@@ -65,7 +65,7 @@ public class SIService {
             s=dates.getMessage();
             return Response.makeFailure(s);
         }
-
+        s="a new delivery is set on Order Id number "+orderId;
         return Response.makeSuccess(s);
 
     }
