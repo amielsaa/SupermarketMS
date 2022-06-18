@@ -8,6 +8,7 @@ import Inventory.ServiceLayer.ProductService;
 import Inventory.ServiceLayer.ReportService;
 import Inventory.ServiceLayer.Response;
 
+import Inventory.ServiceLayer.Service;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,42 +16,40 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-class ServiceTest {
-
-    private static ProductService productService;
-    private static ReportService reportService;
+public class ServiceTest {
+    private static Service service;
 
     @Before
-    void beforeEach() {
-        productService = new ProductService();
-        productService.SelectStore(1);
-        reportService = new ReportService();
+    public void beforeEach() {
+        service = new Service();
+        service.InsertData();
+        service.SelectStore(1);
     }
 
     @After
-    void afterEach() {
+    public void afterEach() {
 
     }
 
     @Test
-    void selectStore() {
-        Response<Integer> res = productService.SelectStore(1);
+    public void selectStore() {
+        Response<Integer> res = service.SelectStore(1);
 
         assertEquals(1, res.getData().intValue());
     }
 
     @Test
-    void addProduct() {
+    public void addProduct() {
 
-        Response<String> product = productService.AddProduct("Milk 3%","Tnuva",10.99,15.99,10,"Diary,Milk,Size");
+        Response<String> product = service.AddProduct("Milk 1%","Tnuva",11.99,16.99,10,"Diary,Milk,Size");
 
 
-        assertEquals("Milk 3% : Tnuva : 15.99 : 10.99 : Diary,Milk,Size",product.getData());
+        assertEquals("Milk 1% : Tnuva : 16.99 : 11.99 : Diary,Milk,Size",product.getData());
     }
 
     @Test
-    void addStoreProduct() {
-        Response<String> res = productService.AddStoreProduct(5,10,12,"10/10/2020","warehouse-1-2&store-1-2");
+    public void addStoreProduct() {
+        Response<String> res = service.AddStoreProduct(5,10,12,"10/10/2020","warehouse-1-2&store-1-2");
 
         String expected = "10 : 12 : 10/10/2020 : WAREHOUSE-1-2&STORE-1-2";
 
@@ -58,9 +57,9 @@ class ServiceTest {
     }
 
     @Test
-    void overrideStoreProduct() {
-        Response<String> res1 = productService.AddStoreProduct(6,20,20,"10/10/2020","WAREHOUSE-1-2");
-        Response<String> res2 = productService.AddStoreProduct(6,30,50,"10/10/2020","WAREHOUSE-1-2");
+    public void overrideStoreProduct() {
+        Response<String> res1 = service.AddStoreProduct(6,20,20,"10/10/2020","WAREHOUSE-1-2");
+        Response<String> res2 = service.AddStoreProduct(6,30,50,"10/10/2020","WAREHOUSE-1-2");
 
         String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2";
 
@@ -69,8 +68,8 @@ class ServiceTest {
     }
 
     @Test
-    void addCategory() {
-        Response<Category> res = productService.AddCategory("Bread Stuff");
+    public void addCategory() {
+        Response<Category> res = service.AddCategory("Bread Stuff");
 
         String expected = "Bread Stuff";
 
@@ -78,8 +77,8 @@ class ServiceTest {
     }
 
     @Test
-    void changeCategory() {
-        Response<String> res = productService.ChangeCategory(2,1,"Salty");
+    public void changeCategory() {
+        Response<String> res = service.ChangeCategory(2,1,"Salty");
 
         String expected = "Salty";
 
@@ -87,8 +86,8 @@ class ServiceTest {
     }
 
     @Test
-    void addDefectiveProduct() {
-        Response<String> res = reportService.AddDefectiveProduct(1,1);
+    public void addDefectiveProduct() {
+        Response<String> res = service.AddDefectiveProduct(1);
 
         String expected = "Product with ID:1 added successfully";
 
@@ -96,8 +95,8 @@ class ServiceTest {
     }
 
     @Test
-    void deleteProduct() {
-        Response<String> res = productService.DeleteProduct(1);
+    public void deleteProduct() {
+        Response<String> res = service.DeleteProduct(1);
 
         String expected = "Product with ID:1 deleted successfully.";
 
@@ -107,21 +106,21 @@ class ServiceTest {
     }
 
     @Test
-    void addDiscountByName() {
-        Response<String> res = productService.AddDiscountByName(2,3,"10/6/2022");
+    public void addDiscountByName() {
+        Response<String> res = service.AddDiscountByName(2,3,"10/6/2022");
         String expected ="discount was set successfully ";
         assertEquals(expected,res.getData());
     }
 
     @Test
-    void addDiscountByCategory() {
-        Response<String> res = productService.AddDiscountByCategory("Diary", 3, "10/6/2022");
+    public void addDiscountByCategory() {
+        Response<String> res = service.AddDiscountByCategory("Diary", 3, "10/6/2022");
         String expected ="discount was set successfully ";
         assertEquals(expected,res.getData());
     }
 
     @AfterClass
-    static void tearDown() {
+    public static void tearDown() {
         CategoryDAO categoryDAO = new CategoryDAO("Category");
         categoryDAO.Delete("name","Bread Stuff");
         ReportDAO reportDAO = new ReportDAO("Reports");

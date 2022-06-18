@@ -32,6 +32,7 @@ public class SIService {
     }
 
     //----------------------------------SUPPLIERS--------SUPPLIERS--------SUPPLIERS--------SUPPLIERS----------------------------------
+    //public Response<String> LoadSuppliersData() {fSupplier.}
     public void SetStartingValues () {
         fSupplier.SetStartingValues();
     }
