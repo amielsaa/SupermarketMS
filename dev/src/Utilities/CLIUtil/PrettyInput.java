@@ -96,7 +96,7 @@ public class PrettyInput
         return res.getData();
     }
     public static ShiftId printAndWaitForLegalShiftId(Scanner s, String prompt) {
-        int branchId = printAndWaitForLegalInt(s, "Please provide the branch id: ", (x) -> (x > 0), "Illegal branch id. ");
+        int branchId = printAndWaitForLegalInt(s, "Please provide the branch id: ", (x) -> (x >= 0), "Illegal branch id. ");
         return printAndWaitForLegalShiftId(s, prompt, branchId);
     }
     public static ShiftId printAndWaitForLegalShiftId(Scanner s, String prompt, int branchId) {

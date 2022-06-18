@@ -76,7 +76,7 @@ public class ReportService {
         }
     }
 
-    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+    public Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
         try{
             reportController.receiveDelivery(delivery);
             return Response.makeSuccess("Delivery received successfully, a stock worker will view it shortly.");
@@ -93,7 +93,7 @@ public class ReportService {
         }
     }
 
-    public Response<Map<Pair<String,String>,Pair<Integer,Integer>>> GetPendingProducts() {
+    public Response<Map<Pair<String,String>,Pair<Double,Integer>>> GetPendingProducts() {
         try{
             return Response.makeSuccess(reportController.getPendingMap());
         } catch(Exception e) {

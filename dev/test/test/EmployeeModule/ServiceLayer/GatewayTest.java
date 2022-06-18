@@ -37,7 +37,7 @@ public class GatewayTest
         g = new Gateway();
         try
         {
-            g.initDefaultData();
+            g.initDefaultDataTests();
         } catch (Exception e)
         {
             System.out.println("WARNING! initialization of the gateway resulted in an error: " + e.getMessage());

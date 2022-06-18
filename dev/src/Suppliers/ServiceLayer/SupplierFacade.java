@@ -5,6 +5,7 @@ import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
+import Utilities.Response;
 import misc.Pair;
 
 
@@ -41,13 +42,13 @@ public class SupplierFacade {
         return res;
     }
 
-    public Response makeOrder(int business_num, HashMap<Pair<String, String>, Integer> order) {
+    public Response<DOrder> makeOrder(int business_num, HashMap<Pair<String, String>, Integer> order) {
         Response<HashMap<Pair<String, String>, Pair<Double, Double>>> resWithHash = sSupplier.makeOrder(business_num, order);
         if (resWithHash.isSuccess()) {
             Response<DOrder> resFromOrder = sOrder.makeOrder(business_num, order, resWithHash.getData());
             return resFromOrder;
         }
-        return resWithHash;
+        return Response.makeFailure(resWithHash.getMessage());
     }
     public Response getDatesForDelivery(int bn){
         return sSupplier.getDatesForDelivery(bn);
@@ -118,6 +119,9 @@ public class SupplierFacade {
 }
 
 */
+public Response<Boolean> checkIfHasDelivery(int bn, int orderId) {
+ return sOrder.checkIfHasDelivery( bn,orderId);
+}
 
 
     //----------------------------------------------------------RoutineOrders-----------------------------------------------------------
@@ -188,4 +192,6 @@ public class SupplierFacade {
         sOrder.DeleteAll();
         sSupplier.DeleteAll();
     }
+
+
 }

@@ -316,6 +316,12 @@ public class OrderController {
         Collection<Order> orders=new ArrayList<>();
         return orders;
     }
+
+    public Boolean checkIfHasDelivery(int bn, int orderId) throws DataFormatException {
+        return buildOrder(bn,orderId).getHasDelivery();
+
+
+    }
 }
 
 

@@ -22,7 +22,7 @@ public class ProductDAO extends DalController {
         productIdentityMap.deleteAll();
     }
 
-    //TODO: implement
+
     public int SelectMaxId() {
         String sql = "SELECT MAX(id) FROM Products";
         try(Connection conn = this.makeConnection()) {
@@ -78,6 +78,30 @@ public class ProductDAO extends DalController {
 
     //public void UpdateCategory
 
+    public Product SelectProductByName(String name, String producer) {
+        Product ifExistsProduct = productIdentityMap.getByName(name,producer);
+        if(ifExistsProduct!=null) return ifExistsProduct;
+        String sql = "SELECT * FROM Products WHERE name=? AND producer=?";
+        try(Connection conn = this.makeConnection()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,name);
+            pstmt.setString(2,producer);
+            ResultSet rs = pstmt.executeQuery();
+
+            Product p = null;
+            while (rs.next()) {
+                p = new Product(rs.getInt("id"),rs.getString("name"),
+                        rs.getString("producer"),rs.getDouble("buyingprice"),
+                        rs.getDouble("sellingprice"),
+                        stringToCategoryList(rs.getString("categories")),rs.getInt("minquantity"));
+                p.setDiscount(rs.getInt("discount"),getDateByString(rs.getString("discountDate")));
+            }
+            return p;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
     public Product SelectProductById(int productid) {
         Product pExists = productIdentityMap.getProduct(productid);
         if(pExists!=null)
@@ -131,6 +155,10 @@ public class ProductDAO extends DalController {
         }
 
 
+    }
+
+    public boolean ProductExists(String name, String producer) {
+        return productIdentityMap.ExistsByName(name,producer);
     }
 
     private java.util.Date getDateByString(String expDate) {

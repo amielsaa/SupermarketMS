@@ -33,6 +33,10 @@ public class DOrder {
         return ret;
     }
 
+    public void setHasDelivery(boolean hasDelivery) {
+        this.hasDelivery = hasDelivery;
+    }
+
     public double getPriceBeforeDiscount() {
         return PriceBeforeDiscount;
     }

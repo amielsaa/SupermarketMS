@@ -4,12 +4,15 @@ import Delivery.DataAccessLayer.*;
 import Employee.ServiceLayer.Gateway;
 import Suppliers.BusinessLayer.Order;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import Suppliers.BusinessLayer.OrderItem;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Utilities.Pair;
+import Utilities.Response;
 
 public class DeliveriesController {
     private int nextDeliveryId;
@@ -32,6 +35,10 @@ public class DeliveriesController {
         this.deliveryDestinationItemsDAO=new DeliveryDestinationItemsDAO();
         this.deliveryDestinationsDAO= new DeliveryDestinationsDAO();
         nextDeliveryId=getNextDeliveryId();
+     //   try{
+      //      load();
+       // }catch (Exception e){System.out.println(e.getMessage());}
+
     }
 
     public void load() throws Exception {
@@ -41,18 +48,11 @@ public class DeliveriesController {
                LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter),
                1000001,
                200000001,
-               1,5);
+               1,0);
+        addItemToDestination(1,0,"Cottage","Tnuva",10, 10);
+        addItemToDestination(1,0,"Banana","Perot",10, 10);
+        addItemToDestination(1,0,"Chips","Osem",10, 10);
         setWeight(1, 7000);
-        addDestination(1,4);
-        //addItemToDestination(1,4,"milk",10);
-        //addItemToDestination(1,5,"milk",20);
-        addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2,6);
-        setWeight(2, 12500);
-        addDestination(2,4);
-        //addItemToDestination(2,6,"eggs",30);
-        //addItemToDestination(2,6,"milk",30);
-        //addItemToDestination(2,4,"coffee",30);
-        //addItemToDestination(2,4,"tea",30);
     }
 
 
@@ -97,42 +97,74 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
+        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0, 111111111, 1));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
 
     //auto
-    public void addDelivery(Order order, Collection<LocalDateTime> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod, String address) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
+        if(pairs.isEmpty()){throw new Exception("Non of SuperLee's drivers have a suitable license to any of SuperLee's trucks ");}
+        boolean foundDriverWithShift=false;
+        LocalDateTime deliveryStartTime = null;
+        LocalDateTime deliveryEndTime=null;
+        boolean foundAvailableDriverTruck=false;
+        //days.add(LocalDate.now().atStartOfDay().plusDays(1).toLocalDate());
+        //System.out.println(LocalDate.now().atStartOfDay().plusDays(1).toLocalDate().toString());
         for (Pair<Truck, Driver> p: pairs) {
-            for (LocalDateTime day : days) {
-                LocalDateTime startTime = day; //up to change
-                LocalDateTime endTime = day.plusDays(1).minusMinutes(1); //up to change
-                try{
-                    checkAvailability(startTime,endTime,p.getKey().getPlateNum(),p.getValue().getId(), -1);
-                    if (employeeMod.driverAvailableOnShift(day, p.getValue().getId()).isSuccess());
-                    {
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+            for(LocalDate day : days) {
+                Response<Boolean> driverAvailable = employeeMod.driverAvailableOnShift(day.atStartOfDay(), p.getValue().getId());
+                boolean driverAvailableToday=driverAvailable.isSuccess()&&driverAvailable.getData();
+                if(driverAvailableToday) {
+                    foundDriverWithShift = true;
+                    LocalDateTime startTimeA = day.atStartOfDay(); //up to change
+                    LocalDateTime endTimeA = day.atStartOfDay().plusHours(11).plusMinutes(59); //up to change
+                    LocalDateTime startTimeB = day.atStartOfDay().plusHours(12); //up to change
+                    LocalDateTime endTimeB = day.atStartOfDay().plusDays(1).minusMinutes(1);
+                    try {
+                        checkAvailability(startTimeA,endTimeA,p.getKey().getPlateNum(),p.getValue().getId(), -1);
+                        deliveryStartTime=startTimeA;
+                        deliveryEndTime=endTimeA;
+                        foundAvailableDriverTruck=true;
+                    } catch (Exception e) {}
+                    if (!foundAvailableDriverTruck){
+                        try {
+                            checkAvailability(startTimeB,endTimeB,p.getKey().getPlateNum(),p.getValue().getId(), -1);
+                            deliveryStartTime=startTimeB;
+                            deliveryEndTime=endTimeB;
+                            foundAvailableDriverTruck=true;
+                        } catch (Exception e) {}
+                    }
+
+                    if(foundAvailableDriverTruck){
+                        sitesController.getAllSites();
+                        int driverId = p.getValue().getId();
+                        int truckId = p.getKey().getPlateNum();
+                        int siteId = sitesController.getSite(address).getId();
+                        int bn = order.getSupplier_BN();
+                        int orderId = order.getOrder_Id();
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,driverId,truckId,siteId,0, bn, orderId));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
-                                           0,
-                                                 item.getFirst(),
-                                                 item.getSecond(),
-                                                 order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
-                                                 order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
+                                    0,
+                                    item.getFirst(),
+                                    item.getSecond(),
+                                    order.getItem_Num_To_OrderItem().get(item).getItem_Price(),
+                                    order.getItem_Num_To_OrderItem().get(item).getItem_Amount());
 
                         nextDeliveryId++;
                         return;
                     }
                 }
-                catch (Exception e){}
             }
         }
-        throw new Exception("cant create a new delivery, all drivers/trucks are busy");
+
+        if(!foundDriverWithShift){throw new Exception("Could not find a driver with shift..");}
+        throw new Exception("Could not find unoccupied pair of a driver and a truck");
     }
 
     private Collection<Pair<Truck, Driver>> findMatchingTrucksDrivers(Collection<Truck> trucks, Collection<Driver> drivers) {
@@ -323,6 +355,14 @@ public class DeliveriesController {
         if (delivery.getDestinationItems().containsKey(0))
             return convertPairFormat(delivery.getDestinationItems().get(0));
         return null;
+    }
+
+    public int getBn(int id) throws Exception {
+        return getUpcomingDelivery(id).getBn();
+    }
+
+    public int getOrderId(int id) throws Exception {
+        return getUpcomingDelivery(id).getOrderId();
     }
 
     private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {

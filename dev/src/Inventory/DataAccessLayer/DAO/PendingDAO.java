@@ -3,9 +3,9 @@ package Inventory.DataAccessLayer.DAO;
 import Inventory.BuisnessLayer.Objects.Product;
 import Inventory.DataAccessLayer.DalController;
 import Inventory.DataAccessLayer.IdentityMap.PendingIdentityMap;
-//import misc.Pair;
+import misc.Pair;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import Inventory.ServiceLayer.Objects.Pair;
+//import Inventory.ServiceLayer.Objects.Pair;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class PendingDAO extends DalController {
         pendingIdentityMap = new PendingIdentityMap();
     }
 
-    public void InsertPending(String name, String producer, int price, int quantity) {
+    public void InsertPending(String name, String producer, double price, int quantity) {
         String sql = "INSERT INTO Pending(name,producer," +
                 "price,quantity) " +
                 "VALUES(?,?,?,?)";
@@ -37,7 +37,7 @@ public class PendingDAO extends DalController {
 
             pstmt.executeUpdate();
 
-            pendingIdentityMap.addPending(new Pair<String,String>(name,producer),new Pair<Integer,Integer>(price,quantity));
+            pendingIdentityMap.addPending(new Pair<String,String>(name,producer),new Pair<Double,Integer>(price,quantity));
             //return productIdentityMap.addProduct(new Product(Id,name,producer,buyingPrice,sellingPrice,categories,minQuantity));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -45,7 +45,7 @@ public class PendingDAO extends DalController {
         }
     }
 
-    public Map<Pair<String,String>,Pair<Integer,Integer>> SelectAll() {
+    public Map<Pair<String,String>,Pair<Double,Integer>> SelectAll() {
         if(pendingIdentityMap.isPulled_all_data())
             return pendingIdentityMap.getPendings();
         String sql = "SELECT * FROM Pending";
@@ -59,7 +59,7 @@ public class PendingDAO extends DalController {
                 String producer = rs.getString("producer");
                 if(!pendingIdentityMap.pendingExists(name,producer))
                     pendingIdentityMap.addPending(new Pair<>(name,producer),
-                            new Pair<>(rs.getInt("price"),rs.getInt("quantity") ));
+                            new Pair<>(rs.getDouble("price"),rs.getInt("quantity") ));
             }
             pendingIdentityMap.setPulled_all_data(true);
             return pendingIdentityMap.getPendings();
@@ -70,7 +70,17 @@ public class PendingDAO extends DalController {
     }
 
     public void DeleteAllPending() {
+        if(pendingIdentityMap.isPulled_all_data())
+            pendingIdentityMap = new PendingIdentityMap();
 
+        String sql  = "DELETE FROM Pending;"+"VACUUM;";
+        try(Connection conn = this.makeConnection()) {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e) {
+            throw new IllegalArgumentException("Deleting pending products failed.");
+        }
     }
 
     //reduces by one the quantity of the product
@@ -79,11 +89,12 @@ public class PendingDAO extends DalController {
         int updatedQuantity = pendingIdentityMap.getPendingValue(name,producer).getSecond() - quantityToReduce;
         if(updatedQuantity < 0) return false;
         String sql = "UPDATE Pending" + " SET quantity" + "="+updatedQuantity+
-                " WHERE name"+"="+name +" AND producer = "+producer;
+                " WHERE name"+"='"+name+"'" +" AND producer = "+"'"+producer+"'";
         try(Connection conn = this.makeConnection()) {
             //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
+            pendingIdentityMap.updateQuantity(name,producer,updatedQuantity);
             return true;
         }catch(SQLException e) {
             throw new IllegalArgumentException("Delete defective pending product failed.");
