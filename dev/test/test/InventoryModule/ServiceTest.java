@@ -3,6 +3,7 @@ package InventoryModule;
 
 import Inventory.BuisnessLayer.Objects.Category;
 import Inventory.DataAccessLayer.DAO.CategoryDAO;
+import Inventory.DataAccessLayer.DAO.ProductDAO;
 import Inventory.DataAccessLayer.DAO.ReportDAO;
 import Inventory.ServiceLayer.ProductService;
 import Inventory.ServiceLayer.ReportService;
@@ -20,7 +21,7 @@ public class ServiceTest {
     private static Service service;
 
     @Before
-    public void beforeEach() {
+    public void SetUp() {
         service = new Service();
         service.InsertData();
         service.SelectStore(1);
@@ -58,10 +59,11 @@ public class ServiceTest {
 
     @Test
     public void overrideStoreProduct() {
-        Response<String> res1 = service.AddStoreProduct(6,20,20,"10/10/2020","WAREHOUSE-1-2");
-        Response<String> res2 = service.AddStoreProduct(6,30,50,"10/10/2020","WAREHOUSE-1-2");
 
-        String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2";
+        Response<String> res1 = service.AddStoreProduct(5,20,20,"10/10/2020","warehouse-1-2&store-1-2");
+        Response<String> res2 = service.AddStoreProduct(5,30,50,"10/10/2020","warehouse-1-2&store-1-2");
+
+        String expected = "30 : 50 : 10/10/2020 : WAREHOUSE-1-2&STORE-1-2";
 
         assertEquals(expected,res2.getData());
 
@@ -125,6 +127,8 @@ public class ServiceTest {
         categoryDAO.Delete("name","Bread Stuff");
         ReportDAO reportDAO = new ReportDAO("Reports");
         reportDAO.Delete("productid",1);
+        ProductDAO productDAO = new ProductDAO("Products");
+        productDAO.DeleteProduct("id",9);
     }
 
 

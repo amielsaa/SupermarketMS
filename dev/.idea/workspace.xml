@@ -9,17 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="fixed not correct id">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/dev.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/SiteDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/DataAccessLayer/SiteDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/Integration/SupplierInventoryIntegrationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/BuisnessLayer/Controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/BuisnessLayer/Controller/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/test/InventoryModule/ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/InventoryModule/ServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test/Suppliers/SupplierControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/Suppliers/SupplierControllerTest.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +101,7 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in dev">
+  <component name="RunManager" selected="JUnit.ServiceTest.overrideStoreProduct">
     <configuration name="NICLI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
       <module name="dev" />
@@ -162,32 +156,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SupplierControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest.addStoreProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Suppliers.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Suppliers" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.SupplierControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
+      <option name="METHOD_NAME" value="addStoreProduct" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SupplierControllerTest.makeOrderMaxDiscount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest.overrideStoreProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Suppliers.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Suppliers" />
-      <option name="MAIN_CLASS_NAME" value="Suppliers.SupplierControllerTest" />
-      <option name="METHOD_NAME" value="makeOrderMaxDiscount" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
+      <option name="METHOD_NAME" value="overrideStoreProduct" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -196,18 +191,18 @@
     <list>
       <item itemvalue="Application.NICLI" />
       <item itemvalue="JUnit.All in dev" />
-      <item itemvalue="JUnit.SupplierControllerTest" />
-      <item itemvalue="JUnit.SupplierControllerTest.makeOrderMaxDiscount" />
       <item itemvalue="JUnit.ServiceTest.addProduct" />
       <item itemvalue="JUnit.ServiceTest" />
+      <item itemvalue="JUnit.ServiceTest.addStoreProduct" />
+      <item itemvalue="JUnit.ServiceTest.overrideStoreProduct" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in dev" />
+        <item itemvalue="JUnit.ServiceTest.overrideStoreProduct" />
         <item itemvalue="JUnit.ServiceTest" />
+        <item itemvalue="JUnit.ServiceTest.addStoreProduct" />
+        <item itemvalue="JUnit.All in dev" />
         <item itemvalue="JUnit.ServiceTest.addProduct" />
-        <item itemvalue="JUnit.SupplierControllerTest" />
-        <item itemvalue="JUnit.SupplierControllerTest.makeOrderMaxDiscount" />
       </list>
     </recent_temporary>
   </component>
@@ -265,13 +260,6 @@
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
       <workItem from="1655486736416" duration="5956000" />
-    </task>
-    <task id="LOCAL-00036" summary="minor fixes">
-      <created>1652119660675</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1652119660675</updated>
     </task>
     <task id="LOCAL-00037" summary="minor fixes">
       <created>1652119728028</created>
@@ -609,7 +597,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655548100517</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id">
+      <created>1655564611207</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1655564611207</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -624,7 +619,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added DAO functions (CRUD), lots of fixes" />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="merged with Ari" />
     <MESSAGE value="presentation fixes" />
@@ -649,7 +643,8 @@
     <MESSAGE value="pushed init method for employees" />
     <MESSAGE value="deliveries and suppliers" />
     <MESSAGE value="fixed not correct id" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed not correct id" />
+    <MESSAGE value="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
