@@ -315,9 +315,9 @@ public class DeliveryService {
     }
 
     //auto delivery creation
-    public Response addDelivery(DOrder order, Collection<LocalDate> days){
+    public Response addDelivery(DOrder order, Collection<LocalDate> days, String address){
         try{
-            deliveriesController.addDelivery(order, days, employeeMod);
+            deliveriesController.addDelivery(order, days, employeeMod, address);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
@@ -471,8 +471,9 @@ public class DeliveryService {
 
     public Response completeDelivery(int deliveryId){
         try {
-            //call invetory.additems here
-            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId));
+            int bn = deliveriesController.getBn(deliveryId);
+            int orderId = deliveriesController.getOrderId(deliveryId);
+            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId), bn, orderId);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());

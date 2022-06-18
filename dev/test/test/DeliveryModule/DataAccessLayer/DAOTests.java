@@ -108,9 +108,9 @@ public class DAOTests {
             createSiteData();
             createDriverData();
             LocalDateTime now = LocalDateTime.now();
-            Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0);
-            Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0);
-            Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0);
+            Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0, 111111111, 1);
+            Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0, 111111111, 1);
+            Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0, 111111111, 1);
             dao.Create(d1);
             dao.Create(d2);
             dao.Create(d3);
@@ -228,9 +228,9 @@ public class DAOTests {
         createSiteData();
         createDriverData();
         LocalDateTime now = LocalDateTime.now();
-        Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0);
-        Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0);
-        Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0);
+        Delivery d1 = new Delivery(1, now.plusHours(1), now.plusHours(2),100100100, 1234567, 1, 0, 111111111, 1);
+        Delivery d2 = new Delivery(2, now.plusHours(1), now.plusHours(2),200200200, 12345678, 2, 0, 111111111, 1);
+        Delivery d3 = new Delivery(3, now.plusHours(1), now.plusHours(2),300300300, 32345678, 1, 0, 111111111, 1);
         dao.Create(d1);
         dao.Create(d2);
         dao.Create(d3);

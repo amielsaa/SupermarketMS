@@ -47,7 +47,8 @@ public class SIService {
             }
             Response<Boolean> check=fSupplier.checkIfHasDelivery(bn,orderId);
             if(!check.getData()) {
-                Response delivery = gateway.getDeliveryService().getData().addDelivery(order.getData(), dates.getData());
+                Response<String> address=fSupplier.getSupplierAddress(bn);
+                Response delivery = gateway.getDeliveryService().getData().addDelivery(order.getData(), dates.getData(), address.getData());
                 if(delivery.isSuccess()) {
                     fSupplier.setIfHasDeliveryToOrder(bn, orderId);
                 }
@@ -89,7 +90,7 @@ public class SIService {
             Response<Set<LocalDate>> dates=fSupplier.getDatesForDelivery(business_num);
             Response<DOrder> madeorder=fSupplier.makeOrder(business_num, order);
             if(madeorder.isSuccess()){
-                Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData());
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData(),address.getData());
                 if(!delivery.isSuccess()){
                    return fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(),madeorder.getData().getOrder_Id());
                 }
@@ -257,10 +258,11 @@ public class SIService {
             for(DOrder i: orders.getData()){
                 Response<String> address=fSupplier.getSupplierAddress(i.getSupplier_BN());
                 Response<Set<LocalDate>> days=fSupplier.getDatesForDelivery(i.getSupplier_BN());
-                Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData());
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData(),address.getData());
                 if(delivery.isSuccess()){
                     fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
                     actualOrders.add(i);
+                    i.setHasDelivery(true);
                 } else{
                     errors+=delivery.getMessage()+" on order id number "+i.getOrder_Id()+"\n";
                 }
@@ -274,8 +276,10 @@ public class SIService {
 
 
     // DEIVERY - INVENTORY INTEGRATION
-    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
+    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery, int bn, int orderID) {
+        fSupplier.OrderArrivedAndAccepted(bn, orderID);
         return fInventory.ReceiveDelivery(delivery);
+
     }
 
     public Inventory.ServiceLayer.Response<Report> ReportPending() {

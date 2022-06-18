@@ -97,13 +97,13 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
+        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0, 111111111, 1));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
 
     //auto
-    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod, String address) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
@@ -140,7 +140,13 @@ public class DeliveriesController {
                     }
 
                     if(foundAvailableDriverTruck){
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        sitesController.getAllSites();
+                        int driverId = p.getValue().getId();
+                        int truckId = p.getKey().getPlateNum();
+                        int siteId = sitesController.getSite(address).getId();
+                        int bn = order.getSupplier_BN();
+                        int orderId = order.getOrder_Id();
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,driverId,truckId,siteId,0, bn, orderId));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
@@ -349,6 +355,14 @@ public class DeliveriesController {
         if (delivery.getDestinationItems().containsKey(0))
             return convertPairFormat(delivery.getDestinationItems().get(0));
         return null;
+    }
+
+    public int getBn(int id) throws Exception {
+        return getUpcomingDelivery(id).getBn();
+    }
+
+    public int getOrderId(int id) throws Exception {
+        return getUpcomingDelivery(id).getOrderId();
     }
 
     private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {

@@ -34,6 +34,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             int truckId;
             int driverId;
             int originId;
+            int bn;
+            int orderId;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
@@ -42,7 +44,9 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
                 truckId = rs.getInt("truckPlateNum");
                 driverId = rs.getInt("driverId");
                 originId = rs.getInt("originId");
-                Delivery delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
+                bn = rs.getInt("bn");
+                orderId = rs.getInt("orderId");
+                Delivery delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight, bn, orderId);
                 delivery.setDestinationItems(null);
                 deliveries.add(delivery);
                 if (!upcomingDeliveryCache.containsKey(resID))
@@ -75,6 +79,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             int truckId;
             int driverId;
             int originId;
+            int bn;
+            int orderId;
             while (rs.next()) {
                 resID = rs.getInt("id");
                 startTime = rs.getDate("startDate").toLocalDate().atTime(rs.getTime("startTime").toLocalTime());
@@ -83,7 +89,9 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
                 truckId = rs.getInt("truckPlateNum");
                 driverId = rs.getInt("driverId");
                 originId = rs.getInt("originId");
-                delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight);
+                bn = rs.getInt("bn");
+                orderId = rs.getInt("orderId");
+                delivery = new Delivery(resID, startTime, endTime, driverId, truckId, originId,weight,bn,orderId);
                 delivery.setDestinationItems(null);
             }
             rs.close();
@@ -95,7 +103,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
     }
 
     public Integer Create(Delivery delivery){
-        String sql = "INSERT INTO UpcomingDeliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId) VALUES(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO UpcomingDeliveries(id, startDate ,startTime, endDate, endTime, weight, truckPlateNum, driverId, originId, bn, orderId) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -108,6 +116,8 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             pstmt.setInt(7, delivery.getTruckId());
             pstmt.setInt(8, delivery.getDriverId());
             pstmt.setInt(9, delivery.getOriginSiteId());
+            pstmt.setInt(10, delivery.getBn());
+            pstmt.setInt(11, delivery.getOrderId());
             if (pstmt.executeUpdate() != 1) {
                 return -1;
             }
@@ -123,7 +133,7 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
 
     public boolean Update(Delivery delivery) {
         int id = delivery.getId();
-        String sql = "UPDATE UpcomingDeliveries SET startDate = (?) ,startTime = (?) , endDate = (?) , endTime = (?) , weight = (?) , truckPlateNum = (?) , driverId = (?) , originId = (?)  WHERE id = (?)";
+        String sql = "UPDATE UpcomingDeliveries SET startDate = (?) ,startTime = (?) , endDate = (?) , endTime = (?) , weight = (?) , truckPlateNum = (?) , driverId = (?) , originId = (?), bn = (?), orderId = (?)  WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -135,7 +145,9 @@ public class UpcomingDeliveryDAO extends DataAccessObject {
             pstmt.setInt(6, delivery.getTruckId());
             pstmt.setInt(7, delivery.getDriverId());
             pstmt.setInt(8, delivery.getOriginSiteId());
-            pstmt.setInt(9, delivery.getId());
+            pstmt.setInt(9, delivery.getBn());
+            pstmt.setInt(10, delivery.getOrderId());
+            pstmt.setInt(11, delivery.getId());
             if (pstmt.executeUpdate() != 1) {
                 return false;
             }
