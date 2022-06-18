@@ -9,11 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="added bn and order id to deliveries">
+    <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_testing.db" beforeDir="false" afterPath="$PROJECT_DIR$/database_testing.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/BuisnessLayer/Controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/BuisnessLayer/Controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test/InventoryModule/ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/test/InventoryModule/ServiceTest.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,15 +59,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DriversController.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Delivery/PresentationLayer/UserTerminal.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/SitesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/BusinessLayer/DeliveriesControllerTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/ServiceLayer/ServiceTests.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/DeliveryDestinationItemsDAO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Delivery/DataAccessLayer/CreateClearTables.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Delivery/BusinessLayer/DeliveriesController.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -81,6 +81,10 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.22859922" />
+    <property name="project.structure.side.proportion" value="0.1921618" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -97,7 +101,7 @@
       <recent name="Suppliers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.NICLI">
+  <component name="RunManager" selected="JUnit.ServiceTest.overrideStoreProduct">
     <configuration name="NICLI" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Employee.PresentationLayer.CLI.NICLI" />
       <module name="dev" />
@@ -114,69 +118,72 @@
     <configuration name="All in dev" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DAOTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="DeliveryModule.DataAccessLayer.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.DataAccessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.DataAccessLayer.DAOTests" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DAOTests.UpcomingDeliveryDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest.addProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="DeliveryModule.DataAccessLayer.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.DataAccessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.DataAccessLayer.DAOTests" />
-      <option name="METHOD_NAME" value="UpcomingDeliveryDAOTest" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
+      <option name="METHOD_NAME" value="addProduct" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeliveriesControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest.addStoreProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="DeliveryModule.BusinessLayer.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="DeliveryModule.BusinessLayer" />
-      <option name="MAIN_CLASS_NAME" value="DeliveryModule.BusinessLayer.DeliveriesControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
+      <option name="METHOD_NAME" value="addStoreProduct" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeliveryEmployeeIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServiceTest.overrideStoreProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dev" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Integration.*" />
+          <option name="PATTERN" value="InventoryModule.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Integration" />
-      <option name="MAIN_CLASS_NAME" value="Integration.DeliveryEmployeeIntegrationTests" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="InventoryModule" />
+      <option name="MAIN_CLASS_NAME" value="InventoryModule.ServiceTest" />
+      <option name="METHOD_NAME" value="overrideStoreProduct" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -184,22 +191,22 @@
     <list>
       <item itemvalue="Application.NICLI" />
       <item itemvalue="JUnit.All in dev" />
-      <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
-      <item itemvalue="JUnit.DAOTests" />
-      <item itemvalue="JUnit.DAOTests.UpcomingDeliveryDAOTest" />
-      <item itemvalue="JUnit.DeliveriesControllerTest" />
+      <item itemvalue="JUnit.ServiceTest.addProduct" />
+      <item itemvalue="JUnit.ServiceTest" />
+      <item itemvalue="JUnit.ServiceTest.addStoreProduct" />
+      <item itemvalue="JUnit.ServiceTest.overrideStoreProduct" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DeliveriesControllerTest" />
-        <item itemvalue="JUnit.DAOTests.UpcomingDeliveryDAOTest" />
-        <item itemvalue="JUnit.DAOTests" />
+        <item itemvalue="JUnit.ServiceTest.overrideStoreProduct" />
+        <item itemvalue="JUnit.ServiceTest" />
+        <item itemvalue="JUnit.ServiceTest.addStoreProduct" />
         <item itemvalue="JUnit.All in dev" />
-        <item itemvalue="JUnit.DeliveryEmployeeIntegrationTests" />
+        <item itemvalue="JUnit.ServiceTest.addProduct" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -590,18 +597,15 @@
       <option name="project" value="LOCAL" />
       <updated>1655548100517</updated>
     </task>
-    <task id="LOCAL-00085" summary="added bn and order id to deliveries">
-      <created>1655552369631</created>
+    <task id="LOCAL-00085" summary="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id">
+      <created>1655564611207</created>
       <option name="number" value="00085" />
       <option name="presentableId" value="LOCAL-00085" />
       <option name="project" value="LOCAL" />
-      <updated>1655552369631</updated>
+      <updated>1655564611207</updated>
     </task>
     <option name="localTasksCounter" value="86" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -639,8 +643,8 @@
     <MESSAGE value="pushed init method for employees" />
     <MESSAGE value="deliveries and suppliers" />
     <MESSAGE value="fixed not correct id" />
-    <MESSAGE value="added bn and order id to deliveries" />
-    <option name="LAST_COMMIT_MESSAGE" value="added bn and order id to deliveries" />
+    <MESSAGE value="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating all tests - do not touch the configuration!!&#10;siteDAO - changing column name written as &quot;phoneName&quot; to &quot;phoneNumber&quot;&#10;productController - adding the comment in the constructor to update product id" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -676,15 +680,23 @@
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Employee/ServiceLayer/Gateway.java</url>
+          <line>907</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/test/test/DeliveryModule/DataAccessLayer/DAOTests.java</url>
           <line>106</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/SupplierInventory/SIService.java</url>
-          <line>279</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="71" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.AssertionError" package="java.lang" />
+          <option name="timeStamp" value="72" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
