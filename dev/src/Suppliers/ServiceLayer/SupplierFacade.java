@@ -9,6 +9,7 @@ import Utilities.Response;
 import misc.Pair;
 
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class SupplierFacade {
@@ -122,6 +123,7 @@ public class SupplierFacade {
 public Response<Boolean> checkIfHasDelivery(int bn, int orderId) {
  return sOrder.checkIfHasDelivery( bn,orderId);
 }
+public Response<Set<LocalDate>> getNextDateForDelivery(int bn,int orderId){return sOrder.getNextDateForDelivery(bn,orderId);}
 
 
     //----------------------------------------------------------RoutineOrders-----------------------------------------------------------
@@ -171,6 +173,8 @@ public Response<Boolean> checkIfHasDelivery(int bn, int orderId) {
     public Response<List<DOrder>> getAllRegularOrdersWithoutDeliveries(){
         return sOrder.getAllRegularOrdersWithoutDeliveries();
     }
+    public Response <DRoutineOrder> getRoutineOrder(int bn,int orderId){return sOrder.getRoutineOrder(bn,orderId);}
+
 
 
 

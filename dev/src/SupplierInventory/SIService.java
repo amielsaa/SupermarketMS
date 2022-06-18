@@ -162,8 +162,54 @@ public class SIService {
     }
 
     public Response makeRoutineOrder(int business_num, HashMap<Pair<String, String>, Integer> order, Set<Integer> days) {
-        return fSupplier.makeRoutineOrder(business_num, order, days);
+        Response<String> address=fSupplier.getSupplierAddress(business_num);
+        if(address.isSuccess()) {
+            Response<DRoutineOrder> madeorder=fSupplier.makeRoutineOrder(business_num, order, days);
+            if(madeorder.isSuccess()){
+                Response<Set<LocalDate>> date=fSupplier.getNextDateForDelivery(business_num,madeorder.getData().getOrder_Id());
+                Response delivery = gateway.getDeliveryService().getData().addDelivery(madeorder.getData(), date.getData(), address.getData());
+                if (delivery.isSuccess()) {
+                    fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(), madeorder.getData().getOrder_Id());
+                }
+                else
+                return Response.makeFailure(delivery.getMessage()+"on Order Id number "+madeorder.getData().getOrder_Id()+ " please alert the HR");
+
+            }
+            else
+            return Response.makeFailure(madeorder.getMessage());
+        }
+        else
+        return Response.makeFailure(address.getMessage());
+
+        return Response.makeSuccess("RoutineOrder has been made and delivery has been set");
     }
+    public Response AddDeliveryForRoutineOrder(int bn,int orderId){
+        Response<String> address=fSupplier.getSupplierAddress(bn);
+        if(address.isSuccess()) {
+            Response<DRoutineOrder> routineOrder = fSupplier.getRoutineOrder(bn, orderId);
+            if (routineOrder.isSuccess()) {
+                Response<Boolean> check1 = fSupplier.checkIfHasDelivery(bn, orderId);
+                Response<Set<LocalDate>> check2 = fSupplier.getNextDateForDelivery(bn, orderId);
+
+                if (!check1.getData()) {
+                    Response delivery = gateway.getDeliveryService().getData().addDelivery(routineOrder.getData(), check2.getData(), address.getData());
+                    if (delivery.isSuccess()) {
+                        fSupplier.setIfHasDeliveryToOrder(bn, orderId);
+                        return Response.makeSuccess("RoutineOrder num " + orderId + " was set a delivery for its next date");
+                    }
+                    return Response.makeFailure(delivery.getMessage() + " on RoutineOrder num Id  " + orderId + " please alert the HR");
+
+                }
+                return Response.makeFailure(check1.getMessage());
+            }
+            return Response.makeFailure(routineOrder.getMessage());
+
+        }
+        return Response.makeFailure(address.getMessage());
+
+    }
+
+
 
     public Response<DRoutineOrder> addOrUpdateRoutineOrder(int business_num, int OrderId, String itemName, String ItemProducer, int Quantity) {
         return fSupplier.addOrUpdateRoutineOrder(business_num, OrderId, itemName, ItemProducer, Quantity);

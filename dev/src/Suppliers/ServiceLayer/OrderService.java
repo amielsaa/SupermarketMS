@@ -173,9 +173,9 @@ public class OrderService {
     public Response<String> OrderArrivedAndAccepted(int bn, int orderId) {
         try {
             Boolean accepted = cOrder.OrderArrivedAndAccepted(bn, orderId);
-            if(accepted) {
+            if (accepted) {
                 Boolean isRoutine = cOrder.checkIfRoutineOrder(bn, orderId);
-                if(isRoutine){
+                if (isRoutine) {
                     return Response.makeSuccess("Routine order number " + orderId + " has been reset. Please schedule new delivery.");
                 }
                 return Response.makeSuccess("Order number " + orderId + " has been delivered and deleted from the system.");
@@ -216,6 +216,25 @@ public class OrderService {
             return Response.makeSuccess(answer);
 
         } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<Set<LocalDate>> getNextDateForDelivery(int bn, int orderId) {
+        try {
+            Set<LocalDate> output = cOrder.getNextDateForDelivery(bn, orderId);
+            return Response.makeSuccess(output);
+        } catch (Exception e) {
+            return Response.makeFailure(e.getMessage());
+        }
+    }
+
+    public Response<DRoutineOrder> getRoutineOrder(int bn, int orderId) {
+        try{
+            RoutineOrder order=cOrder.getRoutineOrder(bn,orderId);
+            return Response.makeSuccess(new DRoutineOrder(order));
+        }
+        catch(Exception e){
             return Response.makeFailure(e.getMessage());
         }
     }
