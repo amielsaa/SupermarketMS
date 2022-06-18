@@ -274,6 +274,7 @@ public class Supplier  {
     public void normalDaysSetter(Set<Days> days){
         this.Days_To_Deliver=days;
     }
+
     public Set<LocalDate> getDatesForDelivery() {
         //arranging the days
         Set<Integer> daysInNumber=new HashSet<Integer>();

@@ -276,7 +276,7 @@ public class SIService {
 
 
 
-    // DEIVERY - INVENTORY INTEGRATION
+    // DELIVERY - INVENTORY INTEGRATION
     public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery, int bn, int orderID) {
         Response<String> message1 = fSupplier.OrderArrivedAndAccepted(bn, orderID);
         Inventory.ServiceLayer.Response<String> message2 = fInventory.ReceiveDelivery(delivery);

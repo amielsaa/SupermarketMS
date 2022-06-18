@@ -6,6 +6,7 @@ import Suppliers.DAL.OrderItemsDAO;
 import misc.Pair;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
@@ -301,6 +302,7 @@ public class OrderController {
                 return true;
             }
             else{
+                orderItemsDAO.deleteAllOrderItemsFromOrder(orderId);
                 orderDAO.deleteOrder(bn,orderId);
                 return true;
             }
@@ -325,6 +327,10 @@ public class OrderController {
 
     public Boolean checkIfRoutineOrder(int bn, int orderId) {
         return daysToDeliverDAO.CheckIfOrderIsRoutineOrder(bn,orderId);
+    }
+
+    public Set<LocalDate> getNextDateForDelivery(){
+
     }
 }
 
