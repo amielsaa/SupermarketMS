@@ -35,9 +35,12 @@ public class DeliveriesController {
         this.deliveryDestinationItemsDAO=new DeliveryDestinationItemsDAO();
         this.deliveryDestinationsDAO= new DeliveryDestinationsDAO();
         nextDeliveryId=getNextDeliveryId();
-     //   try{
-      //      load();
-       // }catch (Exception e){System.out.println(e.getMessage());}
+        try{
+        //addItemToDestination(1,0,"Cottage","Tnuva",10, 10);
+        //addItemToDestination(1,0,"Banana","Perot",10, 10);
+        //addItemToDestination(1,0,"Chips","Osem",10, 10);
+
+        }catch (Exception e){System.out.println(e.getMessage());}
 
     }
 
