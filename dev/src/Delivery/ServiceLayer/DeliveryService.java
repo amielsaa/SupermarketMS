@@ -473,8 +473,10 @@ public class DeliveryService {
         try {
             int bn = deliveriesController.getBn(deliveryId);
             int orderId = deliveriesController.getOrderId(deliveryId);
-            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId), bn, orderId);
-            return Response.makeSuccess(0);
+            Inventory.ServiceLayer.Response<String> res = employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId), bn, orderId);
+            if(res.isSuccess())
+                return Response.makeSuccess(res.getData());
+            return Response.makeFailure(res.getMessage());
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }
