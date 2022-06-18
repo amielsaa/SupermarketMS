@@ -48,6 +48,8 @@ public class CreateClearTables {
                 "truckPlateNum INTEGER not null, "+
                 "driverId INTEGER not null, "+
                 "originId INTEGER not null, "+
+                "bn INTEGER not null, "+
+                "supplierId INTEGER not null, "+
                 "PRIMARY KEY (id)," +
                 "FOREIGN KEY (truckPlateNum) REFERENCES Trucks(PlateNum)," +
                 "FOREIGN KEY (driverId) REFERENCES Drivers(id)," +

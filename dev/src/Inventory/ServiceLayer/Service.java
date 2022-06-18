@@ -128,7 +128,8 @@ public class Service {
 
     public Response<String> AddPendingProducts() {
         Response<String> res = productService.AddPendingProducts(GetPendingProducts().getData());
-        reportService.DeletePendingProducts();
+        if(res.isSuccess())
+            reportService.DeletePendingProducts();
         return res;
     }
 
@@ -141,9 +142,6 @@ public class Service {
     }
 
 
-    public void AcceptPending() {
-
-    }
 
 
     private void addProducts() {
@@ -167,7 +165,7 @@ public class Service {
 
     private void addCategory() {
         String[] cat = {"Diary","Wash","Milk","Size","Shampoo","Salty","Gram","Snacks","Cereal","Sweets","Weight",
-                "Delicacy","Hot Drink","Coffee","Fruits","ML"};
+                "Delicacy","Hot Drink","Coffee","Fruits","ML","Unknown"};
         for(int i=0;i<cat.length;i++)
             AddCategory(cat[i]);
     }

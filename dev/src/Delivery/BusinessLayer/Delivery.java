@@ -18,8 +18,10 @@ public class Delivery {
     private int originSiteId;
     private LinkedHashMap<Integer, HashMap<Pair<String, String>,Pair<Double, Integer>>> destinationItems;
     private int weight;
+    private int bn;
+    private int orderId;
 
-    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId,int weight) {
+    public Delivery(int id, LocalDateTime startTime, LocalDateTime endTime, int driverId, int truckId, int originSiteId,int weight, int bn, int orderId) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -28,6 +30,8 @@ public class Delivery {
         this.originSiteId = originSiteId;
         this.destinationItems =new LinkedHashMap<>();
         this.weight = weight;
+        this.orderId = orderId;
+        this.bn = bn;
     }
 
     public int getId() {
@@ -146,7 +150,7 @@ public class Delivery {
         String output= String.format("\t\t** Destination id: %d\n\t\t\t*** Items:\n",site);
         HashMap<Pair<String,String>,Pair<Double,Integer>> itemMap=destinationItems.get(site);
         for(Map.Entry pair:itemMap.entrySet()){
-            output=output.concat(String.format("\t\t\t\t**** Item name: %s,  Quantity: %d\n",((Pair<String, String>)pair.getKey()).getKey(), ((Pair<Integer, Integer>)pair.getValue()).getValue()));
+            output=output.concat(String.format("\t\t\t\t**** Item name: %s, Producer: %s,  Quantity: %d\n",((Pair<String, String>)pair.getKey()).getKey(),((Pair<String, String>)pair.getKey()).getValue(), ((Pair<Integer, Integer>)pair.getValue()).getValue()));
         }
         return output;
     }
@@ -165,6 +169,14 @@ public class Delivery {
         }
         for (Integer site:destinationItems.keySet()){ output=output.concat(toStringItemsOfDest(site));}
         return output;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public int getBn() {
+        return bn;
     }
 /*
     public HashMap<String,Integer> getProductsPerDestination(Branch destination){

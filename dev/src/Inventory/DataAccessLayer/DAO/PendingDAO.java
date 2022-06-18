@@ -89,11 +89,12 @@ public class PendingDAO extends DalController {
         int updatedQuantity = pendingIdentityMap.getPendingValue(name,producer).getSecond() - quantityToReduce;
         if(updatedQuantity < 0) return false;
         String sql = "UPDATE Pending" + " SET quantity" + "="+updatedQuantity+
-                " WHERE name"+"="+name +" AND producer = "+producer;
+                " WHERE name"+"='"+name+"'" +" AND producer = "+"'"+producer+"'";
         try(Connection conn = this.makeConnection()) {
             //Connection conn = this.makeConnection();
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
+            pendingIdentityMap.updateQuantity(name,producer,updatedQuantity);
             return true;
         }catch(SQLException e) {
             throw new IllegalArgumentException("Delete defective pending product failed.");

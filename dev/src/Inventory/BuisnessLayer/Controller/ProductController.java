@@ -116,17 +116,21 @@ public class ProductController {
             String producer = entry.getKey().getSecond();
             double price = entry.getValue().getFirst();
             int quantity = entry.getValue().getSecond();
-            if(!productDAO.ProductExists(name,producer)) {
+            Product prod = productDAO.SelectProductByName(name,producer);
+            if(prod==null) {
                 List<Category> categories = new ArrayList<>();
                 categories.add(new Category("Unknown"));
                 addProduct(name,producer,price,price*1.25,quantity,categories);
+                addStoreProduct(productId,0,quantity,expDateGenerator(),"STORE-0-0");
+            } else {
+                addStoreProduct(prod.getId(),0,quantity,expDateGenerator(),"STORE-0-0");
             }
-            addStoreProduct(productId,quantity/2,quantity/2,expDateGenerator(),"STORE-0-0");
+
         }
     }
 
     private String expDateGenerator() {
-        return String.format("%d/%d/%d",createRandomIntBetween(1,28),createRandomIntBetween(Calendar.MONTH,11),2022);
+        return String.format("%d/%d/%d",createRandomIntBetween(1,28),createRandomIntBetween(Calendar.MONTH+1,11),2022);
     }
 
     private int createRandomIntBetween(int start, int end) {

@@ -35,6 +35,10 @@ public class DeliveriesController {
         this.deliveryDestinationItemsDAO=new DeliveryDestinationItemsDAO();
         this.deliveryDestinationsDAO= new DeliveryDestinationsDAO();
         nextDeliveryId=getNextDeliveryId();
+     //   try{
+      //      load();
+       // }catch (Exception e){System.out.println(e.getMessage());}
+
     }
 
     public void load() throws Exception {
@@ -44,20 +48,11 @@ public class DeliveriesController {
                LocalDateTime.parse("13-10-2023 15:10",dateTimeFormatter),
                1000001,
                200000001,
-               1,5);
-        setWeight(1, 7000);
-        addDestination(1,4);
-        addDestination(1,0);
+               1,0);
         addItemToDestination(1,0,"Cottage","Tnuva",10, 10);
         addItemToDestination(1,0,"Banana","Perot",10, 10);
         addItemToDestination(1,0,"Chips","Osem",10, 10);
-        addDelivery(LocalDateTime.parse("14-10-2023 13:10",dateTimeFormatter),LocalDateTime.parse("14-10-2023 15:10",dateTimeFormatter), 1000004, 200000004, 2,6);
-        setWeight(2, 12500);
-        addDestination(2,4);
-        //addItemToDestination(2,6,"eggs",30);
-        //addItemToDestination(2,6,"milk",30);
-        //addItemToDestination(2,4,"coffee",30);
-        //addItemToDestination(2,4,"tea",30);
+        setWeight(1, 7000);
     }
 
 
@@ -102,13 +97,13 @@ public class DeliveriesController {
         if(!destination.canBeADestination()){
             throw new Exception(String.format("Site %d is not a destination...",destinationId));
         }
-        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0));
+        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,startTime,endTime,driverId,truckId,originId,0, 111111111, 1));
         addDestination(nextDeliveryId,destinationId);
         nextDeliveryId++;
     }
 
     //auto
-    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod, String address) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
@@ -117,6 +112,8 @@ public class DeliveriesController {
         LocalDateTime deliveryStartTime = null;
         LocalDateTime deliveryEndTime=null;
         boolean foundAvailableDriverTruck=false;
+        //days.add(LocalDate.now().atStartOfDay().plusDays(1).toLocalDate());
+        //System.out.println(LocalDate.now().atStartOfDay().plusDays(1).toLocalDate().toString());
         for (Pair<Truck, Driver> p: pairs) {
             for(LocalDate day : days) {
                 Response<Boolean> driverAvailable = employeeMod.driverAvailableOnShift(day.atStartOfDay(), p.getValue().getId());
@@ -141,8 +138,9 @@ public class DeliveriesController {
                             foundAvailableDriverTruck=true;
                         } catch (Exception e) {}
                     }
+
                     if(foundAvailableDriverTruck){
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),sitesController.getSite(address).getId(),0, order.getSupplier_BN(), order.getOrder_Id()));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
@@ -158,6 +156,7 @@ public class DeliveriesController {
                 }
             }
         }
+
         if(!foundDriverWithShift){throw new Exception("Could not find a driver with shift..");}
         throw new Exception("Could not find unoccupied pair of a driver and a truck");
     }
@@ -350,6 +349,14 @@ public class DeliveriesController {
         if (delivery.getDestinationItems().containsKey(0))
             return convertPairFormat(delivery.getDestinationItems().get(0));
         return null;
+    }
+
+    public int getBn(int id) throws Exception {
+        return getUpcomingDelivery(id).getBn();
+    }
+
+    public int getOrderId(int id) throws Exception {
+        return getUpcomingDelivery(id).getOrderId();
     }
 
     private HashMap<misc.Pair<String, String>,misc.Pair<Double, Integer>> convertPairFormat(HashMap<Pair<String, String>, Pair<Double, Integer>> map) {
