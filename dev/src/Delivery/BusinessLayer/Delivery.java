@@ -112,6 +112,7 @@ public class Delivery {
 
     public void removeDestination(Branch branch) throws Exception {
         if(destinationItems.containsKey(branch.getId())){
+            if(branch.getId()==0){throw new Exception("Cannot Remove destination- main SuperLee branch ");}
             if(destinationItems.size()>1)
                 destinationItems.remove(branch.getId());
             else throw new Exception(String.format("Delivery %d contains a single destination...",id));
