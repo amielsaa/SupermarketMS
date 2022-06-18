@@ -103,7 +103,7 @@ public class DeliveriesController {
     }
 
     //auto
-    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod) throws Exception {
+    public void addDelivery(DOrder order, Collection<LocalDate> days, Gateway employeeMod, String address) throws Exception {
         Collection<Truck> trucks = trucksController.getTrucks();
         Collection<Driver> drivers = driversController.getAllDrivers();
         Collection<Pair<Truck, Driver>> pairs = findMatchingTrucksDrivers(trucks, drivers);
@@ -140,7 +140,7 @@ public class DeliveriesController {
                     }
 
                     if(foundAvailableDriverTruck){
-                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),order.getSupplier_BN(),0));
+                        upcomingDeliveryDAO.Create(new Delivery(nextDeliveryId,deliveryStartTime,deliveryEndTime,p.getValue().getId(),p.getKey().getPlateNum(),sitesController.getSite(address).getId(),0));
                         addDestination(nextDeliveryId,0);
                         for (misc.Pair<String, String> item : order.getItem_Num_To_OrderItem().keySet())
                             addItemToDestination(nextDeliveryId,
