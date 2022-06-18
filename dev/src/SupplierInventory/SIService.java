@@ -262,6 +262,7 @@ public class SIService {
                 if(delivery.isSuccess()){
                     fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
                     actualOrders.add(i);
+                    i.setHasDelivery(true);
                 } else{
                     errors+=delivery.getMessage()+" on order id number "+i.getOrder_Id()+"\n";
                 }

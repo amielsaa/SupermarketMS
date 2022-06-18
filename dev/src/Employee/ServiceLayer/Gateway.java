@@ -72,16 +72,16 @@ public class Gateway
         {
             qualificationController.addPermission(p);
         }
-
+        //HR
         String[] permissionsHR = {"ViewEmployees", "ManageEmployees", "ViewQualifications", "ManageQualifications", "ManageShift", "ViewShift"};
-
-
         Qualification qualificationHR = qualificationController.addQualification("HR");
-        String[] permissionsAssistant = {"ViewEmployees", "ViewQualifications"};
         for(String p : permissionsHR) {
             qualificationController.addPermissionToQualification(p, qualificationHR.getName());
         }
 
+        //String[] permissionsAssistant = {"ViewEmployees", "ViewQualifications"};
+
+        //Managers ------------------------------------------------
         Qualification qualificationBranch0Manager = qualificationController.addQualification("Branch0Manager");
         String[] permissionsBranch0Manager = {"ManageBranch0", "ViewEmployees", "ViewQualifications", "ViewShift",
                 "ViewDeliveries", "ViewInventory", "ViewSuppliers", "ManageSuppliers", "ViewOrders"};
@@ -104,13 +104,12 @@ public class Gateway
         for(String p : permissionsBranch2Manager) {
             qualificationController.addPermissionToQualification(p, qualificationBranch2Manager.getName());
         }
-
+        //--------------------------------------------------------------
 
         Qualification qualificationShiftManager = qualificationController.addQualification("ShiftManager");
         Qualification qualificationCashier = qualificationController.addQualification("Cashier");
         Qualification qualificationWarehouse = qualificationController.addQualification("WarehouseWorker");
         Qualification qualificationStock = qualificationController.addQualification("StockClerk");
-        //Qualification qualificationTruck = qualificationController.addQualification("TruckDriver");
         Qualification qualificationCleaner = qualificationController.addQualification("Cleaner");
         Qualification qualificationInventoryManager = qualificationController.addQualification("InventoryManager");
         Qualification qualificationLogisticsManager = qualificationController.addQualification("LogisticsManager");
@@ -161,35 +160,35 @@ public class Gateway
         employeeController.employeeAddQualification(ADMIN_UID, qualificationHR);
         employeeController.employeeAddQualification(123, qualificationHR);
 
-        employeeController.addEmployee(200000001, "C1 driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
-        employeeController.addEmployee(200000002, "C1 driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
-        employeeController.addEmployee(200000003, "C1 driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
-        employeeController.addEmployee(200000004, "C driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
-        employeeController.addEmployee(200000005, "C driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
-        employeeController.addEmployee(200000006, "C driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000001, "C1 driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000002, "C1 driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000003, "C1 driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000004, "C driver 1", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000005, "C driver 2", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
+        //employeeController.addEmployee(200000006, "C driver 3", defaultBankAccountDetails, 0, LocalDateTime.now(), "");
 
         loggedEmployeeId = ADMIN_UID;
         driverAddQualification(4, "C");
-        driverAddQualification(200000001, "C1");
-        driverAddQualification(200000002, "C1");
-        driverAddQualification(200000003, "C1");
-        driverAddQualification(200000004, "C");
-        driverAddQualification(200000005, "C");
-        driverAddQualification(200000006, "C");
+        //driverAddQualification(200000001, "C1");
+        //driverAddQualification(200000002, "C1");
+        //driverAddQualification(200000003, "C1");
+        //driverAddQualification(200000004, "C");
+        //driverAddQualification(200000005, "C");
+        //driverAddQualification(200000006, "C");
         loggedEmployeeId = -1;
 
         DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-        HashMap hm1 = new HashMap<Integer, List<String>>(){{
-            put(200000001, Arrays.asList("Driver"));
-            put(2, Arrays.asList("WarehouseWorker"));
-        }};
-        HashMap hm2 = new HashMap<Integer, List<String>>(){{
-            put(200000004, Arrays.asList("Driver"));
-            put(2, Arrays.asList("WarehouseWorker"));
-        }};
-        shiftController.addShift(1, LocalDateTime.parse("13-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(1), hm1, ShiftTime.DAY);
-        shiftController.addShift(1, LocalDateTime.parse("14-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(4), hm2, ShiftTime.DAY);
+        //HashMap hm1 = new HashMap<Integer, List<String>>(){{
+        //    put(200000001, Arrays.asList("Driver"));
+        //    put(2, Arrays.asList("WarehouseWorker"));
+        //}};
+        //HashMap hm2 = new HashMap<Integer, List<String>>(){{
+        //    put(200000004, Arrays.asList("Driver"));
+        //    put(2, Arrays.asList("WarehouseWorker"));
+        //}};
+        //shiftController.addShift(1, LocalDateTime.parse("13-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(1), hm1, ShiftTime.DAY);
+        //shiftController.addShift(1, LocalDateTime.parse("14-10-2023 11:00",dateTimeFormatter) , employeeController.getEmployee(4), hm2, ShiftTime.DAY);
 
         deliveryService.load();
 
@@ -199,7 +198,6 @@ public class Gateway
     }
 
     public void initDefaultDataTests() throws Exception {
-        // TODO DAL make this run once on database init and NOT delete the entire database on load.
         // Removes the employee module tables
         employeeController.clearDatabases();
         shiftController.clearDatabases();
@@ -548,29 +546,34 @@ public class Gateway
         }
     }
 
-    public Response<Shift> debugAddTodayShift() throws Exception {
+    public void debugAddTodayShift() throws Exception {
         try{
             int branchId = 0;
             ShiftTime st = ShiftTime.DAY;
             Employee shiftManager = employeeController.getEmployee(1);
             Arrays.asList("Cashier");
             LocalDate date = LocalDate.now().plusDays(1);
-            LocalDateTime dt = LocalDateTime.parse(date.toString() + "T06:00:00");
-            HashMap<Integer, List<String>> workers = new HashMap<Integer, List<String>>(){{
+            LocalDateTime dt = LocalDateTime.parse(date + "T06:00:00");
+            HashMap<Integer, List<String>> workersDAY = new HashMap<Integer, List<String>>(){{
                 put(1, Arrays.asList("Cashier"));
                 put(2, Arrays.asList("WarehouseWorker"));
                 put(3, Arrays.asList("StockClerk"));
                 put(4, Arrays.asList("Driver"));
                 put(5, Arrays.asList("Branch0Manager"));
                 put(6, Arrays.asList("InventoryManager"));
-
             }};
-            return addShift(branchId, dt, shiftManager, workers, st);
+            HashMap<Integer, List<String>> workersNIGHT = new HashMap<Integer, List<String>>(){{
+                put(1, Arrays.asList("Cashier"));
+                put(2, Arrays.asList("WarehouseWorker"));
+                put(3, Arrays.asList("StockClerk"));
+                put(4, Arrays.asList("Driver"));
+            }};
+            for (LocalDateTime i = dt; i.isBefore(dt.plusDays(30)); i = i.plusDays(1)){
+                addShift(branchId, i, shiftManager, workersDAY, ShiftTime.DAY);
+                addShift(branchId, i, shiftManager, workersNIGHT, ShiftTime.NIGHT);
+            }
         }
-        catch (Exception e){
-            return Response.makeFailure(e.getMessage());
-        }
-
+        catch (Exception ignored){}
     }
 
     public Response<Shift> removeShift(@NotNull ShiftId shiftId){
