@@ -58,7 +58,7 @@ public class StoreProductDAO extends DalController {
     public StoreProduct UpdateStoreProduct(int productid, int storeid, int quantityinstore, int quantityinwarehouse, Date expdate, List<Location> locations) {
         String sql = "UPDATE StoreProducts SET quantityinstore=(?)," +
                 "quantityinwarehouse=(?),expdate=(?),locations=(?)" +
-                " WHERE productid=(?) and storeid=(?)";
+                " WHERE productid=(?) and storeid=(?) and expdate=(?)";
         try(Connection conn = this.makeConnection()) {
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -69,6 +69,7 @@ public class StoreProductDAO extends DalController {
             pstmt.setString(4, getLocationsByString(locations));
             pstmt.setInt(5,productid);
             pstmt.setInt(6,storeid);
+            pstmt.setString(7, String.format("%d/%d/%d",expdate.getDate(),expdate.getMonth()+1,expdate.getYear()+1900));
 
             pstmt.executeUpdate();
 

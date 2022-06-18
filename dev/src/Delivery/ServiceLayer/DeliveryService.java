@@ -44,7 +44,7 @@ public class DeliveryService {
         try {
             loadSties();
             loadTrucks();
-            //loadDeliveries();
+            loadDeliveries();
         }
         catch (Exception e){}
     }
@@ -315,9 +315,9 @@ public class DeliveryService {
     }
 
     //auto delivery creation
-    public Response addDelivery(DOrder order, Collection<LocalDate> days){
+    public Response addDelivery(DOrder order, Collection<LocalDate> days, String address){
         try{
-            deliveriesController.addDelivery(order, days, employeeMod);
+            deliveriesController.addDelivery(order, days, employeeMod, address);
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());

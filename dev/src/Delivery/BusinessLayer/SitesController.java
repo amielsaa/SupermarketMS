@@ -19,12 +19,12 @@ public class SitesController {
 
     public void load() throws Exception{
         nextID = 1;
-        addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
-        addSupplierWarehouse("Beer Sheva", 2, "054-0000002", "supplier2");
-        addBranch("Tiberias", 0,"054-0000003","branch1");
-        addBranch("Tel Aviv", 1,"054-0000004","branch2");
-        addBranch("Jerusalem", 1,"054-0000005","branch3");
-        addBranch("Dimona", 2,"054-0000006","branch4");
+        //addSupplierWarehouse("Haifa", 0, "054-0000001", "supplier1");
+        //addSupplierWarehouse("Beer Sheva", 2, "054-0000002", "supplier2");
+        //addBranch("Tiberias", 0,"054-0000003","branch1");
+        //addBranch("Tel Aviv", 1,"054-0000004","branch2");
+        //addBranch("Jerusalem", 1,"054-0000005","branch3");
+        //addBranch("Dimona", 2,"054-0000006","branch4");
     }
 
     private int getNextID(){

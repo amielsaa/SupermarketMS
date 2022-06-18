@@ -146,7 +146,7 @@ public class Delivery {
         String output= String.format("\t\t** Destination id: %d\n\t\t\t*** Items:\n",site);
         HashMap<Pair<String,String>,Pair<Double,Integer>> itemMap=destinationItems.get(site);
         for(Map.Entry pair:itemMap.entrySet()){
-            output=output.concat(String.format("\t\t\t\t**** Item name: %s,  Quantity: %d\n",((Pair<String, String>)pair.getKey()).getKey(), ((Pair<Integer, Integer>)pair.getValue()).getValue()));
+            output=output.concat(String.format("\t\t\t\t**** Item name: %s, Producer: %s,  Quantity: %d\n",((Pair<String, String>)pair.getKey()).getKey(),((Pair<String, String>)pair.getKey()).getValue(), ((Pair<Integer, Integer>)pair.getValue()).getValue()));
         }
         return output;
     }

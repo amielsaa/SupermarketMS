@@ -38,6 +38,38 @@ public class SIService {
     public Response<List<DSupplier>> getAllSuppliers() {
         return fSupplier.getAllSuppliers();
     }
+    public Response<String> addDeliveryToOrder(int bn,int orderId){
+        String s="";
+        Response<Set<LocalDate>> dates=fSupplier.getDatesForDelivery(bn);
+        if(dates.isSuccess()){
+        Response<DOrder> order=getOrder(bn,orderId);
+            if(order.isSuccess()){
+            }
+            Response<Boolean> check=fSupplier.checkIfHasDelivery(bn,orderId);
+            if(!check.getData()) {
+                Response<String> address=fSupplier.getSupplierAddress(bn);
+                Response delivery = gateway.getDeliveryService().getData().addDelivery(order.getData(), dates.getData(), address.getData());
+                if(delivery.isSuccess()) {
+                    fSupplier.setIfHasDeliveryToOrder(bn, orderId);
+                }
+                else{
+                    s= delivery.getMessage()+" on Order Id number "+orderId+" please alert The HR";
+                }
+            }
+            else{
+                s="this Order already has a delivery set Or Order Id doesnt Exists";
+                return Response.makeFailure(s);
+            }
+
+            }
+        else{
+            s=dates.getMessage();
+            return Response.makeFailure(s);
+        }
+        s="a new delivery is set on Order Id number "+orderId;
+        return Response.makeSuccess(s);
+
+    }
 
     public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean selfdelivery, String deliveryzone, String address) {
         int zone = 0;
@@ -58,7 +90,7 @@ public class SIService {
             Response<Set<LocalDate>> dates=fSupplier.getDatesForDelivery(business_num);
             Response<DOrder> madeorder=fSupplier.makeOrder(business_num, order);
             if(madeorder.isSuccess()){
-                Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData());
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData(),address.getData());
                 if(!delivery.isSuccess()){
                    return fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(),madeorder.getData().getOrder_Id());
                 }
@@ -226,7 +258,7 @@ public class SIService {
             for(DOrder i: orders.getData()){
                 Response<String> address=fSupplier.getSupplierAddress(i.getSupplier_BN());
                 Response<Set<LocalDate>> days=fSupplier.getDatesForDelivery(i.getSupplier_BN());
-                Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData());
+                Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData(),address.getData());
                 if(delivery.isSuccess()){
                     fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
                     actualOrders.add(i);
@@ -246,6 +278,7 @@ public class SIService {
     // DEIVERY - INVENTORY INTEGRATION
     public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
         return fInventory.ReceiveDelivery(delivery);
+
     }
 
     public Inventory.ServiceLayer.Response<Report> ReportPending() {
