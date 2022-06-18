@@ -4,9 +4,11 @@ import Delivery.DataAccessLayer.CreateClearTables;
 import Employee.ServiceLayer.Gateway;
 import Inventory.ServiceLayer.Service;
 import Suppliers.BusinessLayer.Order;
+import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.SupplierFacade;
 import Utilities.Response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -313,7 +315,7 @@ public class DeliveryService {
     }
 
     //auto delivery creation
-    public Response addDelivery(Order order, Collection<LocalDateTime> days){
+    public Response addDelivery(DOrder order, Collection<LocalDate> days){
         try{
             deliveriesController.addDelivery(order, days, employeeMod);
             return Response.makeSuccess(0);
@@ -470,7 +472,7 @@ public class DeliveryService {
     public Response completeDelivery(int deliveryId){
         try {
             //call invetory.additems here
-            deliveriesController.completeDelivery(deliveryId);
+            employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId));
             return Response.makeSuccess(0);
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());

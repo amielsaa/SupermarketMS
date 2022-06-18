@@ -5,7 +5,7 @@ import SupplierInventory.SIService;
 import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
-import Suppliers.ServiceLayer.Response;
+import Utilities.Response;
 import misc.Days;
 import misc.Pair;
 import org.junit.After;
@@ -168,8 +168,8 @@ class SupplierInventoryIntegrationTests {
     }
     @Test //10
     void MakeOrderMinQuantity(){
-        Response<List<DOrder>> dOrderResponse = siService.MakeOrderMinQuantity();
-        assertTrue(dOrderResponse.getData().isEmpty());
+        Response<Pair<String,List<DOrder>>> dOrderResponse = siService.MakeOrderMinQuantity();
+        assertTrue(dOrderResponse.getData().getFirst().isEmpty());
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PendingIdentityMap {
-    private Map<Pair<String,String>,Pair<Integer,Integer>> pendingMap;
+    private Map<Pair<String,String>,Pair<Double,Integer>> pendingMap;
     private boolean pulled_all_data;
 
     public PendingIdentityMap() {
@@ -15,12 +15,16 @@ public class PendingIdentityMap {
     }
 
 
-    public void addPending(Pair<String,String> productProducer, Pair<Integer,Integer> priceQuantity) {
+    public void addPending(Pair<String,String> productProducer, Pair<Double,Integer> priceQuantity) {
         pendingMap.put(productProducer,priceQuantity);
     }
 
     public boolean pendingExists(String name, String producer) {
         return pendingMap.keySet().stream().anyMatch((pair) -> pair.getFirst().equals(name) && pair.getSecond().equals(producer));
+    }
+
+    public void updateQuantity(String name, String producer, int quantity) {
+        pendingMap.forEach((key,value)-> {if(key.getFirst().equals(name) && key.getSecond().equals(producer)) value.setSecond(quantity); });
     }
 
     public boolean isPulled_all_data() {
@@ -31,12 +35,12 @@ public class PendingIdentityMap {
         this.pulled_all_data = pulled;
     }
 
-    public Map<Pair<String, String>, Pair<Integer, Integer>> getPendings() {
+    public Map<Pair<String, String>, Pair<Double, Integer>> getPendings() {
         return pendingMap;
     }
 
-    public Pair<Integer,Integer> getPendingValue(String name, String producer) {
-        for(Map.Entry<Pair<String, String>, Pair<Integer, Integer>> entry : pendingMap.entrySet()) {
+    public Pair<Double,Integer> getPendingValue(String name, String producer) {
+        for(Map.Entry<Pair<String, String>, Pair<Double, Integer>> entry : pendingMap.entrySet()) {
             if(entry.getKey().getFirst().equals(name) && entry.getKey().getSecond().equals(producer))
                 return entry.getValue();
         }

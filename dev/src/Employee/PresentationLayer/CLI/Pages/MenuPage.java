@@ -119,6 +119,7 @@ public class MenuPage extends OptionsMenuPage
 
     UserTerminal deliverySystemTerminal = new UserTerminal();
     SIPresentation si = new SIPresentation();
+    ResponsePage<Boolean> pgEditSelfWorkingHours = new EditSelfWorkingHours();
     @Override
     public Map<String, ResponsePage<Boolean>> getOptionsMap()
     {
@@ -126,8 +127,11 @@ public class MenuPage extends OptionsMenuPage
             put("Logout", pgEmptyFalse);
             if(g.canManageEmployees().getData()) {
                 put("Manage Employees", pgEmployeesMenu);
-            } else if(g.canViewEmployees().getData()) {
-                put("View Employees", pgViewEmployeesMenu);
+            } else {
+                put("Edit working hours", pgEditSelfWorkingHours);
+                if(g.canViewEmployees().getData()) {
+                    put("View Employees", pgViewEmployeesMenu);
+                }
             }
             if(g.canManageShift().getData()) {
                 put("Manage Shifts", pgShiftsMenu);
@@ -138,10 +142,10 @@ public class MenuPage extends OptionsMenuPage
                 put("View Qualifications", pgViewQualificationsMenu);
             }
 
-            if(g.canManageDeliveries().getData()) {
+            if(g.canViewDeliveries().getData()) {
                 put("Open Delivery System", deliverySystemTerminal);
             }
-            if(g.canManageInventory().getData()) {
+            if(g.canViewInventory().getData() && g.canViewSuppliers().getData()) {
                 put("Open Inventory System", si);
             }
         }};

@@ -9,10 +9,11 @@ import Suppliers.ServiceLayer.DummyObjects.DOrder;
 import Suppliers.ServiceLayer.DummyObjects.DQuantityAgreement;
 import Suppliers.ServiceLayer.DummyObjects.DRoutineOrder;
 import Suppliers.ServiceLayer.DummyObjects.DSupplier;
-import Suppliers.ServiceLayer.Response;
 import Suppliers.ServiceLayer.SupplierFacade;
+import Utilities.Response;
 import misc.Pair;
 
+import javax.swing.text.Utilities;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -39,8 +40,12 @@ public class SIService {
     }
 
     public Response<DSupplier> addSupplier(String name, int business_num, int bank_acc_num, String payment_details, Set<Integer> days, String contactName, String contactPhone, HashMap item_num_to_price, HashMap item_num_to_discount, boolean selfdelivery, String deliveryzone, String address) {
-        //TODO:YUVAL! MAKE THIS NOT 0
-        Utilities.Response a=gateway.getDeliveryService().getData().addSupplierWarehouse(address,0,contactPhone,contactName);
+        int zone = 0;
+        if (deliveryzone.equals("Center"))
+            zone = 1;
+        if (deliveryzone.equals("North"))
+            zone = 2;
+        Response a=gateway.getDeliveryService().getData().addSupplierWarehouse(address,zone,contactPhone,contactName);
         if(a.isSuccess())
         return fSupplier.addSupplier(name, business_num, bank_acc_num, payment_details, days, contactName, contactPhone, item_num_to_price, item_num_to_discount, selfdelivery, deliveryzone, address);
         else
@@ -53,13 +58,15 @@ public class SIService {
             Response<Set<LocalDate>> dates=fSupplier.getDatesForDelivery(business_num);
             Response<DOrder> madeorder=fSupplier.makeOrder(business_num, order);
             if(madeorder.isSuccess()){
-                //TODO:YUVAL! MAKE THIS COMPILE
                 Response delivery=gateway.getDeliveryService().getData().addDelivery(madeorder.getData(),dates.getData());
                 if(!delivery.isSuccess()){
-                   fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(),madeorder.getData().getOrder_Id());
+                   return fSupplier.setIfHasDeliveryToOrder(madeorder.getData().getSupplier_BN(),madeorder.getData().getOrder_Id());
                 }
+                return Response.makeFailure(delivery.getMessage());
             }
+            return madeorder;
         }
+        return address;
     }
 
     public Response<DSupplier> getSupplier(int businessNumber) {
@@ -211,28 +218,32 @@ public class SIService {
 
     //public Inventory.ServiceLayer.Response<String> stopTimer() {return fInventory.StopTimer();}
 
-    public Response<List<DOrder>> MakeOrderMinQuantity() {
+    public Response<Pair<String,List<DOrder>>> MakeOrderMinQuantity() {
         Response<List<DOrder>> orders= fSupplier.MakeOrderToSuppliers(fInventory.MakeOrderMinQuantity().getData());
         List<DOrder> actualOrders=new ArrayList<>();
+        String errors = "";
         if(orders.isSuccess()){
             for(DOrder i: orders.getData()){
                 Response<String> address=fSupplier.getSupplierAddress(i.getSupplier_BN());
                 Response<Set<LocalDate>> days=fSupplier.getDatesForDelivery(i.getSupplier_BN());
-                //TODO:YUVAL! MAKE THIS COMPILE
                 Response delivery=gateway.getDeliveryService().getData().addDelivery(i,days.getData());
                 if(delivery.isSuccess()){
                     fSupplier.setIfHasDeliveryToOrder(i.getSupplier_BN(),i.getOrder_Id());
                     actualOrders.add(i);
+                } else{
+                    errors+=delivery.getMessage()+" on order id number "+i.getOrder_Id()+"\n";
                 }
             }
+
         }
 
+        return Response.makeSuccess(new Pair(errors,actualOrders));
     }
 
 
 
     // DEIVERY - INVENTORY INTEGRATION
-    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Integer,Integer>> delivery) {
+    public Inventory.ServiceLayer.Response<String> ReceiveDelivery(Map<Pair<String,String>,Pair<Double,Integer>> delivery) {
         return fInventory.ReceiveDelivery(delivery);
     }
 
@@ -259,6 +270,7 @@ public class SIService {
         return fInventory.deleteAllData();
     }
 
-
-
+    public Gateway getGateway(){
+        return gateway;
+    }
 }

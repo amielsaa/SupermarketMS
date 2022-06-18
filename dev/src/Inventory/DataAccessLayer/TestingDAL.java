@@ -2,6 +2,7 @@ package Inventory.DataAccessLayer;
 
 import Inventory.BuisnessLayer.Objects.*;
 import Inventory.DataAccessLayer.DAO.CategoryDAO;
+import Inventory.DataAccessLayer.DAO.PendingDAO;
 import Inventory.DataAccessLayer.DAO.ProductDAO;
 import Inventory.DataAccessLayer.DAO.StoreProductDAO;
 
@@ -15,9 +16,8 @@ public class TestingDAL {
 
 
     public static void main(String[] args) {
-        //prodprint();
-        ProductDAO pdao = new ProductDAO("Products");
-        pdao.Update("id",1,"categories","SomeShit");
+        PendingDAO pdao = new PendingDAO("Pending");
+        pdao.InsertPending("Milk","Tnuva",10.50,10);
     }
 
     public static void prodselectid(){
