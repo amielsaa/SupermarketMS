@@ -119,6 +119,9 @@ public class SupplierFacade {
 }
 
 */
+public Response<Boolean> checkIfHasDelivery(int bn, int orderId) {
+ return sOrder.checkIfHasDelivery( bn,orderId);
+}
 
 
     //----------------------------------------------------------RoutineOrders-----------------------------------------------------------
@@ -189,4 +192,6 @@ public class SupplierFacade {
         sOrder.DeleteAll();
         sSupplier.DeleteAll();
     }
+
+
 }
