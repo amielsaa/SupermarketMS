@@ -11,7 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b1030c28-305c-4600-83f1-d9749d5121ce" name="Default Changelist" comment="deliveries and suppliers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SupplierInventory/SIService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Suppliers/PresentationLayer/PresentationMain.java" afterDir="false" />
     </list>
     <list id="04f15202-b0b4-49b5-a385-4c666fef885d" name="Changes by User" comment="Changes by User" />
     <option name="SHOW_DIALOG" value="false" />
@@ -239,13 +239,6 @@
       <workItem from="1654956444566" duration="12000" />
       <workItem from="1655468984956" duration="264000" />
       <workItem from="1655486736416" duration="5956000" />
-    </task>
-    <task id="LOCAL-00035" summary="minor fixes">
-      <created>1652119530887</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1652119530887</updated>
     </task>
     <task id="LOCAL-00036" summary="minor fixes">
       <created>1652119660675</created>
@@ -583,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655544472540</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="deliveries and suppliers">
+      <created>1655544621462</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1655544621463</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
