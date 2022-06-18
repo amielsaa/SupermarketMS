@@ -301,6 +301,7 @@ public class OrderController {
                 return true;
             }
             else{
+                orderItemsDAO.deleteAllOrderItemsFromOrder(orderId);
                 orderDAO.deleteOrder(bn,orderId);
                 return true;
             }
