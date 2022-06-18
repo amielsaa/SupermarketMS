@@ -474,7 +474,7 @@ public class DeliveryService {
             int bn = deliveriesController.getBn(deliveryId);
             int orderId = deliveriesController.getOrderId(deliveryId);
             employeeMod.getSIService().getData().ReceiveDelivery(deliveriesController.completeDelivery(deliveryId), bn, orderId);
-            return Response.makeSuccess(0);
+            return Response.makeSuccess("The delivery has been delivered successfully.");
         }catch (Exception e){
             return Response.makeFailure(e.getMessage());
         }

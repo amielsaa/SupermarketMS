@@ -139,7 +139,7 @@ public class DaysToDeliverDAO extends DalController{
             }
         }
         Collection<Integer> forcheck=selectAllDays(bn,orderId);
-        if (forcheck==null)
+        if (forcheck==null || forcheck.size()==0)
             return false;
         if(!BN_to_routineOrder.containsKey(bn))
             BN_to_routineOrder.put(bn,new ArrayList<>());
