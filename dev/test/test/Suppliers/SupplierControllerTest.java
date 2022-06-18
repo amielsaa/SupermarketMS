@@ -12,12 +12,12 @@ import java.util.zip.DataFormatException;
 
 import static org.junit.Assert.*;
 
-class SupplierControllerTest {
+public class SupplierControllerTest {
 
     SupplierController sController=new SupplierController();
 
     @Before
-    void setUp() throws Exception {
+    public void setUp() throws Exception {
         sController.DeleteAll();
         Pair milkTnuva=new Pair("Milk","Tnuva");
         HashMap<Pair<String,String>,Double> item_To_Price=new HashMap<>();
@@ -30,17 +30,17 @@ class SupplierControllerTest {
         Set<Integer> days=new HashSet<>();
         days.add(1);
         if(!sController.HasSupplier(123456789)) {
-       //     Supplier a=sController.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
+            Supplier a=sController.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true, "", "");
         }
 
     }
     @Test
-    void addSupplierToSuccess() {
+    public void addSupplierToSuccess() {
         assertTrue(sController.HasSupplier(123456789));
 
     }
     @Test
-    void addSupplierThatExists() {
+    public void addSupplierThatExists() {
         HashMap<Pair<String,String>,Double> forTest1=new HashMap<>();
 
         HashMap<Pair<String,String>,HashMap<Integer,Integer>> forTest3=new HashMap<>();
@@ -62,61 +62,61 @@ class SupplierControllerTest {
 
 
     @Test
-    void removeSupplierThatDoesntExists(){
+    public void removeSupplierThatDoesntExists(){
         assertThrows(IllegalArgumentException.class,()->sController.removeSupplier(123456788));
     }
 
 
     @Test
-    void addSupplierContact() throws DataFormatException {
+    public void addSupplierContact() throws DataFormatException {
         sController.addSupplierContact(123456789,"felix","1234");
         List<Contact> test=sController.getSupplier(123456789).getContacts();
         assertEquals("1234",test.get(1).getPhone_Num());
     }
 
     @Test
-    void removeOnlySupplierContactFail() throws DataFormatException {
+    public void removeOnlySupplierContactFail() throws DataFormatException {
         assertThrows(IllegalArgumentException.class,()->sController.removeSupplierContact(123456789,"0508639353"));
     }
     @Test
-    void removeSupplierContactThatDoesntExists() {
+    public void removeSupplierContactThatDoesntExists() {
         assertThrows(IllegalArgumentException.class,()->sController.removeSupplierContact(123456789,"050863935"));
 
     }
 
     @Test
-    void makeOrderMaxDiscount() {
+    public void makeOrderMaxDiscount() {
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,1000);
         HashMap<Pair<String,String>,Pair<Double,Double>> fixedOrder= sController.makeOrder(123456789,order);
-        assertEquals(800,fixedOrder.get(milk).getSecond().doubleValue());
+        assertTrue(800.0 == fixedOrder.get(milk).getSecond().doubleValue());
     }
     @Test
-    void makeOrderMiddleDiscount() {
+    public void makeOrderMiddleDiscount() {
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
         HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder= sController.makeOrder(123456789,order);
-        assertEquals(90,fixedOrder.get(milk).getSecond().doubleValue());
+        assertTrue(90.0 ==fixedOrder.get(milk).getSecond().doubleValue());
     }
     @Test
-    void makeOrderLowestDiscount() {
+    public void makeOrderLowestDiscount() {
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,20);
         HashMap<Pair<String, String>, Pair<Double, Double>> fixedOrder= sController.makeOrder(123456789,order);
-        assertEquals(19,fixedOrder.get(milk).getSecond().doubleValue());
+        assertTrue(19.0 == fixedOrder.get(milk).getSecond().doubleValue());
     }
     @Test
-    void makeOrderThatFails(){
+    public void makeOrderThatFails(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
 
         assertThrows(IllegalArgumentException.class,()-> sController.makeOrder(123456789,order));
 
     }
     @Test
-    void makeOrderThatFailsIlleagalNumbers(){
+    public void makeOrderThatFailsIlleagalNumbers(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Shtraus");
         order.put(milk,-1);

@@ -133,7 +133,7 @@ public Response<Boolean> checkIfHasDelivery(int bn, int orderId) {
         }
         return resWithHash;
     }
-    public Response<Boolean> OrderArrivedAndAccepted(int bn,int orderId){
+    public Response<String> OrderArrivedAndAccepted(int bn,int orderId){
         return sOrder.OrderArrivedAndAccepted(bn,orderId);
     }
 

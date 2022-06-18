@@ -81,7 +81,7 @@ public class SiteDAO extends DataAccessObject {
 
     public boolean Update(Site site) {
         int id = site.getId();
-        String sql = "UPDATE Sites SET address = (?), deliveryZone = (?), phoneName = (?), contactName = (?) WHERE id = (?)";
+        String sql = "UPDATE Sites SET address = (?), deliveryZone = (?), phoneNumber = (?), contactName = (?) WHERE id = (?)";
         try {
             Connection conn = this.makeConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -117,7 +117,7 @@ public class SiteDAO extends DataAccessObject {
 
     public Site getSite(String address){
         for (Site site : siteCache.values()) {
-            if (site.getAddress().equals(address))
+            if (site!=null && site.getAddress().equals(address))
                 return site;
         }
         String sql = "SELECT id FROM Sites WHERE address = (?)";

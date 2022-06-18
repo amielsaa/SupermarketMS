@@ -170,13 +170,20 @@ public class OrderService {
         cOrder.removeSupplier(bn);
     }
 
-    public Response<Boolean> OrderArrivedAndAccepted(int bn, int orderId) {
+    public Response<String> OrderArrivedAndAccepted(int bn, int orderId) {
         try {
             Boolean accepted = cOrder.OrderArrivedAndAccepted(bn, orderId);
-            return Response.makeSuccess(accepted);
+            if(accepted) {
+                Boolean isRoutine = cOrder.checkIfRoutineOrder(bn, orderId);
+                if(isRoutine){
+                    return Response.makeSuccess("Routine order number " + orderId + " has been reset. Please schedule new delivery.");
+                }
+                return Response.makeSuccess("Order number " + orderId + " has been delivered and deleted from the system.");
+            }
         } catch (Exception e) {
             return Response.makeFailure(e.getMessage());
         }
+        return Response.makeFailure("Problem with order accepting.");
     }
 
 

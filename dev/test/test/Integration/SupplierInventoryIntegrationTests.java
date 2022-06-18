@@ -18,7 +18,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-class SupplierInventoryIntegrationTests {
+public class SupplierInventoryIntegrationTests {
     Gateway gateway;
     SIService siService;
 
@@ -26,12 +26,14 @@ class SupplierInventoryIntegrationTests {
     Set<Integer> days=new HashSet<>();
 
     @Before
-    void setUp() {
+    public void setUp() {
         this.gateway = new Gateway();
         this.siService = gateway.getSIService().getData();
 
         siService.DeleteAll();
         siService.deleteAllData();
+        //siService.InsertData();
+
         demandedSupplies.put(new Pair<>("Milk", "Tnuva"), 100);
         Pair milkTnuva=new Pair("Milk","Tnuva");
         Pair applePerot=new Pair("Apple","Perot");
@@ -49,20 +51,19 @@ class SupplierInventoryIntegrationTests {
         item_Num_To_Quantity_To_Discount.get(applePerot).put(1000,20);
         days.add(1);
         days.add(2);
-        //TODO:
-        //siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true);
+        siService.addSupplier("ari",123456789,1,"check",days,"ari","0508639353",item_To_Price,item_Num_To_Quantity_To_Discount,true,"", "");
 
     }
 
     @After
-    void tearDown() {
+    public void tearDown() {
         Map<Pair<String, String>, Integer> demandedSupplies = new HashMap<Pair<String, String>, Integer>();
     }
 
 
     @Test
         //1
-    void makeOrderToSuppliers() {
+    public  void makeOrderToSuppliers() {
         //demandedSupplies.put(new Pair<>("milk", "Tnuva"), 100);
 
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
@@ -74,7 +75,7 @@ class SupplierInventoryIntegrationTests {
             assertTrue(false);
     }
     @Test //2
-    void makeOrderToSuppliersFail(){
+    public void makeOrderToSuppliersFail(){
         demandedSupplies.clear();
         demandedSupplies.put(new Pair<>("gun","Glock"), 5);
         Response<List<DOrder>> res  = siService.MakeOrderToSuppliers(demandedSupplies);
@@ -82,7 +83,7 @@ class SupplierInventoryIntegrationTests {
 
     }
     @Test //3
-    void makeRoutineOrder(){
+    public void makeRoutineOrder(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
@@ -92,7 +93,7 @@ class SupplierInventoryIntegrationTests {
         assertTrue(i.getData().getSupplier_BN()==123456789&&i.getData().getDays().contains(Days.sunday));
     }
     @Test //4
-    void makeRoutineOrderFail(){
+    public void makeRoutineOrderFail(){
         //cannot give a day that the supplier doesnt supply
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
@@ -104,7 +105,7 @@ class SupplierInventoryIntegrationTests {
     }
 
     @Test //5
-    void makeRoutineOrderUpdate(){
+    public void makeRoutineOrderUpdate(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
@@ -119,7 +120,7 @@ class SupplierInventoryIntegrationTests {
 
 
     @Test //6
-    void makeRoutineOrderAddFail(){
+    public void makeRoutineOrderAddFail(){
         //cannot order items which is not in the QA
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Shtraus");
@@ -131,7 +132,7 @@ class SupplierInventoryIntegrationTests {
     }
 
     @Test //7
-    void makeRoutineOrderAdd(){
+    public void makeRoutineOrderAdd(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
@@ -144,13 +145,13 @@ class SupplierInventoryIntegrationTests {
     }
 
     @Test //8
-    void getAllSuppliers(){
+    public void getAllSuppliers(){
         Response<List<DSupplier>> list=siService.getAllSuppliers();
         assertTrue(list.getData().size()==1);
 
     }
     @Test //9
-    void getAllRoutineOrders(){
+    public void getAllRoutineOrders(){
         HashMap<Pair<String,String>,Integer> order=new HashMap<>();
         Pair milk=new Pair("Milk","Tnuva");
         order.put(milk,100);
@@ -167,7 +168,7 @@ class SupplierInventoryIntegrationTests {
         assertTrue(routineOrders.getData().size()==2);
     }
     @Test //10
-    void MakeOrderMinQuantity(){
+    public void MakeOrderMinQuantity(){
         Response<Pair<String,List<DOrder>>> dOrderResponse = siService.MakeOrderMinQuantity();
         assertTrue(dOrderResponse.getData().getFirst().isEmpty());
     }

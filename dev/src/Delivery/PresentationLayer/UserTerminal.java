@@ -704,9 +704,11 @@ public class UserTerminal extends ResponsePage<Boolean> {
         return id;
     }
 
-    private boolean printCompleteDelivery(Response res) {
-        if (res.isSuccess())
+    private boolean printCompleteDelivery(Response<String> res) {
+        if (res.isSuccess()) {
+            print(res.getData());
             return true;
+        }
         print(res.getMessage());
         return false;
     }
